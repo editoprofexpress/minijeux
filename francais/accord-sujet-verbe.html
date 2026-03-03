@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Français – L'accord sujet-verbe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #7c3aed;
+      --subject-dark: #6d28d9;
+      --subject-light: #ede9fe;
+      --subject-mid: #c4b5fd;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #faf5ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 60%, #a855f7 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+    .back-link:hover { color: white; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; display: flex; flex-direction: column; }
+
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(124,58,237,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+    .rule-box p { font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    .q-type-badge { display: inline-block; background: var(--subject-light); color: var(--subject); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 100px; padding: 0.2rem 0.7rem; margin-bottom: 0.75rem; }
+    .q-text { font-size: 1.1rem; font-weight: 700; line-height: 1.5; margin-bottom: 0.5rem; }
+    .q-context { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.4; }
+    .phrase-display { font-size: 1.1rem; font-weight: 700; text-align: center; background: var(--subject-light); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; line-height: 1.8; font-style: italic; }
+    .blank { display: inline-block; min-width: 70px; border-bottom: 3px solid var(--subject); padding: 0 6px; color: var(--subject); font-style: normal; }
+
+    /* Options grid (2 colonnes pour les formes verbales courtes) */
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .options.single-col { grid-template-columns: 1fr; }
+    .option-btn { border: 2px solid var(--border); background: white; border-radius: 12px; padding: 0.75rem 0.9rem; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; text-align: center; transition: border-color .15s, background .15s; }
+    .option-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); color: var(--subject); }
+    .option-btn.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .option-btn.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    .option-btn:disabled { cursor: default; }
+
+    /* Fill */
+    .fill-input-wrap { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .fill-input { flex: 1; border: 2px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; font-family: inherit; font-size: 1rem; font-weight: 700; outline: none; transition: border-color .15s; }
+    .fill-input:focus { border-color: var(--subject); }
+    .fill-input.correct { border-color: var(--success); background: var(--success-light); }
+    .btn-check { padding: 0.75rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .btn-check:disabled { background: var(--border); cursor: default; }
+
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform:none; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; animation: fadeIn .3s ease; }
+    .btn-next:hover { background: var(--subject-dark); }
+
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .results-actions { display: flex; gap: 0.75rem; flex-direction: column; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-home { padding: 0.9rem; background: var(--subject-light); color: var(--subject); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; text-decoration: none; display: block; }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">📝 Français · CM1–CM2</div>
+  <h1>L'accord sujet-verbe</h1>
+  <p>Accorder correctement le verbe avec son sujet</p>
+</div>
+
+<div class="container">
+
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">📝</div>
+    <div class="intro-title">L'accord sujet-verbe</div>
+    <div class="intro-desc">Le verbe doit toujours s'accorder avec son sujet en nombre et en personne.</div>
+    <div class="rule-box">
+      <p>
+        <strong>Règle de base :</strong> Le verbe prend la marque du sujet.<br>
+        → Sujet singulier → verbe au singulier<br>
+        → Sujet pluriel → verbe au pluriel<br><br>
+        <strong>Pièges fréquents :</strong><br>
+        • Sujet éloigné du verbe : <em>Les livres <strong>que j'ai achetés</strong> sont intéressants.</em><br>
+        • Sujets coordonnés : <em>Paul et Marie <strong>arrivent</strong> demain.</em><br>
+        • Sujets inversés : <em>Où <strong>vont</strong> les enfants ?</em>
+      </p>
+    </div>
+    <!-- Ideogram prompt: "Cute cartoon illustration of a book with grammar rules about subject-verb agreement in French, colorful, educational, white background" -->
+    <button class="btn-start" onclick="game.start()">Commencer le quiz ▶</button>
+  </div>
+
+  <div class="card screen" id="screenQuestion">
+    <div id="questionContent"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <div class="results-actions">
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+        <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'Les enfants de ma voisine ___ dans la cour.',
+    context: 'Quel est le sujet du verbe ? Quel nombre ?',
+    options: ['joue', 'jouent'],
+    correct: 1,
+    explanation: 'Le sujet est <strong>"les enfants"</strong> (pluriel) → le verbe s\'accorde au pluriel : <em>"jouent"</em>. Le groupe "de ma voisine" est une expansion du nom, il ne modifie pas l\'accord.'
+  },
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'Mon frère et moi ___ souvent au parc.',
+    context: 'Il y a deux sujets coordonnés.',
+    options: ['vas', 'allons'],
+    correct: 1,
+    explanation: 'Deux sujets coordonnés = sujet pluriel. De plus, "moi" = 1ère personne → le verbe se met à la <strong>1ère personne du pluriel</strong> : <em>"allons"</em>.'
+  },
+  {
+    type: 'fill',
+    badge: 'Texte à trous',
+    sentence: 'Où ___ (aller) les élèves ce matin ?',
+    hint: 'Sujet inversé : le sujet est après le verbe.',
+    answer: 'vont',
+    explanation: 'Le sujet est <strong>"les élèves"</strong> (3ème pers. pluriel). Même si le sujet est après le verbe (sujet inversé), l\'accord ne change pas : <em>"Où <u>vont</u> les élèves ?"</em>'
+  },
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'C\'est moi qui ___ raison.',
+    context: 'Qui est le vrai sujet du verbe "avoir" ?',
+    options: ['a', 'ai'],
+    correct: 1,
+    explanation: 'Quand le pronom relatif <em>qui</em> a pour antécédent <strong>moi</strong>, le verbe se met à la <strong>1ère personne du singulier</strong> : <em>"C\'est moi qui <u>ai</u> raison."</em>'
+  },
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'La moitié des élèves ___ absent(s).',
+    context: '"La moitié" : singulier ou pluriel ?',
+    options: ['est', 'sont'],
+    correct: 0,
+    explanation: '<strong>"La moitié"</strong> est un nom singulier collectif → le verbe peut s\'accorder au singulier (usage courant) : <em>"La moitié des élèves <u>est</u> absente."</em>'
+  },
+  {
+    type: 'fill',
+    badge: 'Texte à trous',
+    sentence: 'Ni Paul ni Marie ne ___ (vouloir) venir.',
+    hint: 'Deux sujets liés par "ni...ni".',
+    answer: 'veulent',
+    explanation: 'Avec <strong>"ni...ni"</strong>, si les deux sujets sont au singulier, le verbe peut être au pluriel (usage courant) : <em>"Ni Paul ni Marie ne <u>veulent</u> venir."</em>'
+  },
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'Toi et lui ___ toujours ensemble.',
+    context: '"Toi" et "lui" sont deux pronoms sujets.',
+    options: ['travaille', 'travaillez'],
+    correct: 1,
+    explanation: '"Toi" = 2ème pers. | "lui" = 3ème pers. → Deux sujets de personnes différentes → on choisit la personne la plus haute : 2ème pluriel : <em>"travaillez"</em>.'
+  },
+  {
+    type: 'qcm2',
+    badge: 'Choisissez la bonne forme',
+    phrase: 'Les fleurs que ma mère a plantées ___ magnifiques.',
+    context: 'Quel est le sujet de "être" ?',
+    options: ['est', 'sont'],
+    correct: 1,
+    explanation: 'Le sujet du verbe "être" est <strong>"les fleurs"</strong> (pluriel, 3ème pers.) → <em>"les fleurs <u>sont</u> magnifiques"</em>. La proposition relative ne change pas l\'accord.'
+  }
+];
+
+const game = (() => {
+  let questions, currentIdx, score, answered;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS); currentIdx = 0; score = 0; answered = false;
+    document.getElementById('progressWrap').style.display = 'flex';
+    showQuestion();
+  }
+
+  function updateProgress() {
+    const pct = (currentIdx / questions.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = currentIdx + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[currentIdx];
+    const el = document.getElementById('questionContent');
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+
+    if (q.type === 'qcm2') {
+      el.innerHTML = `
+        <div class="q-type-badge">${q.badge}</div>
+        <div class="phrase-display">${q.phrase.replace('___', '<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</div>
+        ${q.context ? `<div class="q-context">💡 ${q.context}</div>` : ''}
+        <div class="options">
+          ${q.options.map((opt, i) => `
+            <button class="option-btn" onclick="game.answerQCM(${i})">${opt}</button>`).join('')}
+        </div>`;
+    } else if (q.type === 'fill') {
+      el.innerHTML = `
+        <div class="q-type-badge">${q.badge}</div>
+        <div class="q-text">Écrivez la bonne forme du verbe :</div>
+        <div class="phrase-display">${q.sentence.replace('___', '<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</div>
+        ${q.hint ? `<div class="q-context">💡 ${q.hint}</div>` : ''}
+        <div class="fill-input-wrap">
+          <input type="text" class="fill-input" id="fillInput" placeholder="Votre réponse…" autocomplete="off" autocorrect="off" spellcheck="false">
+          <button class="btn-check" id="btnCheck" onclick="game.answerFill()">Vérifier</button>
+        </div>`;
+      const inp = document.getElementById('fillInput');
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') game.answerFill(); });
+      setTimeout(() => inp.focus(), 100);
+    }
+    show('screenQuestion');
+  }
+
+  function showFeedback(isCorrect, explanation) {
+    answered = true;
+    const fb = document.getElementById('feedback');
+    const title = document.getElementById('feedbackTitle');
+    const text = document.getElementById('feedbackText');
+    if (isCorrect) {
+      score++;
+      const msgs = ['✅ Bravo !', '✅ Exact !', '✅ Très bien !', '✅ Parfait !'];
+      title.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      fb.className = 'feedback show correct-fb';
+    } else {
+      title.textContent = '❌ Attention à l\'accord !';
+      fb.className = 'feedback show wrong-fb';
+    }
+    text.innerHTML = explanation;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function answerQCM(idx) {
+    if (answered) return;
+    const q = questions[currentIdx];
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach(b => b.disabled = true);
+    btns[q.correct].classList.add('correct');
+    if (idx !== q.correct) btns[idx].classList.add('wrong');
+    showFeedback(idx === q.correct, q.explanation);
+  }
+
+  function answerFill() {
+    if (answered) return;
+    const inp = document.getElementById('fillInput');
+    const val = inp.value.trim().toLowerCase();
+    const q = questions[currentIdx];
+    const isCorrect = val === q.answer.toLowerCase();
+    inp.disabled = true; document.getElementById('btnCheck').disabled = true;
+    inp.value = q.answer; inp.classList.add('correct');
+    showFeedback(isCorrect, q.explanation);
+  }
+
+  function next() {
+    currentIdx++;
+    if (currentIdx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    updateProgress();
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !'; sub='Tu es champion(ne) de l\'accord !'; }
+    else if (pct >= .75) { emoji='🎉'; stars='⭐⭐⭐'; msg='Très bien !'; sub='Quelques révisions et tu seras parfait(e) !'; }
+    else if (pct >= .5) { emoji='👍'; stars='⭐⭐'; msg='Bien !'; sub='Continue tes révisions !'; }
+    else { emoji='📚'; stars='⭐'; msg='À réviser'; sub='Relis les règles et réessaie !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() {
+    show('screenIntro'); document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('progressFill').style.width = '0%';
+  }
+
+  return { start, answerQCM, answerFill, next, restart };
+})();
+</script>
+</body>
+</html>

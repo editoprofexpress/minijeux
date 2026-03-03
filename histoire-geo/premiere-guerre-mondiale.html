@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histoire – La Première Guerre mondiale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #92400e;
+      --subject-dark: #78350f;
+      --subject-light: #fef3c7;
+      --subject-mid: #fcd34d;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #451a03 0%, #92400e 60%, #b45309 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+    .back-link:hover { color: white; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; display: flex; flex-direction: column; }
+
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(146,64,14,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+    .rule-box p { font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    /* Timeline */
+    .timeline { position: relative; padding: 0.5rem 0 0.5rem 1.5rem; margin-bottom: 1.5rem; }
+    .timeline::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: var(--subject-mid); }
+    .tl-item { position: relative; margin-bottom: 0.75rem; padding-left: 0.75rem; }
+    .tl-item::before { content: ''; position: absolute; left: -1.25rem; top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; background: var(--subject); border: 2px solid white; box-shadow: 0 0 0 2px var(--subject); }
+    .tl-year { font-size: 0.75rem; font-weight: 800; color: var(--subject); text-transform: uppercase; }
+    .tl-event { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+
+    .q-type-badge { display: inline-block; background: var(--subject-light); color: var(--subject); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 100px; padding: 0.2rem 0.7rem; margin-bottom: 0.75rem; }
+    .q-text { font-size: 1.1rem; font-weight: 700; line-height: 1.5; margin-bottom: 0.5rem; }
+    .q-context { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.4; }
+    .q-image-placeholder { background: var(--subject-light); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1rem; color: var(--muted); font-size: 0.8rem; }
+
+    .options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .option-btn { border: 2px solid var(--border); background: white; border-radius: 12px; padding: 0.85rem 1rem; font-family: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; text-align: left; transition: border-color .15s, background .15s; display: flex; align-items: center; gap: 0.75rem; }
+    .option-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); }
+    .option-letter { width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: var(--muted); transition: all .15s; }
+    .option-btn:hover:not(:disabled) .option-letter { border-color: var(--subject); color: var(--subject); }
+    .option-btn.correct { border-color: var(--success); background: var(--success-light); }
+    .option-btn.correct .option-letter { background: var(--success); border-color: var(--success); color: white; }
+    .option-btn.wrong { border-color: var(--error); background: var(--error-light); }
+    .option-btn.wrong .option-letter { background: var(--error); border-color: var(--error); color: white; }
+    .option-btn:disabled { cursor: default; }
+
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform:none; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; animation: fadeIn .3s ease; }
+    .btn-next:hover { background: var(--subject-dark); }
+
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .results-actions { display: flex; gap: 0.75rem; flex-direction: column; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-home { padding: 0.9rem; background: var(--subject-light); color: var(--subject); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; text-decoration: none; display: block; }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🗺️ Histoire-Géographie · 3e</div>
+  <h1>La Première Guerre mondiale</h1>
+  <p>Causes, déroulement et bilan de la guerre de 1914–1918</p>
+</div>
+
+<div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🗺️</div>
+    <div class="intro-title">La Première Guerre mondiale</div>
+    <div class="intro-desc">Testez vos connaissances sur la Grande Guerre (1914–1918).</div>
+    <div class="rule-box">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-year">Juin 1914</div><div class="tl-event">Assassinat de l'archiduc François-Ferdinand à Sarajevo</div></div>
+        <div class="tl-item"><div class="tl-year">Août 1914</div><div class="tl-event">Déclarations de guerre — début du conflit</div></div>
+        <div class="tl-item"><div class="tl-year">1916</div><div class="tl-event">Batailles de Verdun et de la Somme</div></div>
+        <div class="tl-item"><div class="tl-year">1917</div><div class="tl-event">Entrée en guerre des États-Unis ; Révolution russe</div></div>
+        <div class="tl-item"><div class="tl-year">Nov. 1918</div><div class="tl-event">Armistice — fin des combats</div></div>
+        <div class="tl-item"><div class="tl-year">Juin 1919</div><div class="tl-event">Traité de Versailles</div></div>
+      </div>
+    </div>
+    <!-- Ideogram prompt: "Historical educational illustration of World War 1 with soldiers, poppies, barbed wire, and a globe showing Europe, vintage style, warm sepia tones, educational" -->
+    <button class="btn-start" onclick="game.start()">Commencer le quiz ▶</button>
+  </div>
+
+  <div class="card screen" id="screenQuestion">
+    <div id="questionContent"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <div class="results-actions">
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+        <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Quel événement déclenche directement la Première Guerre mondiale ?',
+    context: 'Juin 1914, ville de Sarajevo.',
+    options: [
+      'Le naufrage du Titanic en 1912',
+      'L\'assassinat de l\'archiduc François-Ferdinand d\'Autriche',
+      'La signature du traité de Versailles',
+      'La révolution bolchevique en Russie'
+    ],
+    correct: 1,
+    explanation: 'Le <strong>28 juin 1914</strong>, l\'assassinat de l\'archiduc <strong>François-Ferdinand</strong> d\'Autriche-Hongrie à Sarajevo (Bosnie) par Gavrilo Princip, nationaliste serbe, provoque une cascade de déclarations de guerre entre les alliances européennes.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Quels deux camps s\'affrontent durant la Première Guerre mondiale ?',
+    options: [
+      'L\'Entente (France, UK, Russie) vs les Empires centraux (Allemagne, Autriche-Hongrie)',
+      'La France et l\'Allemagne uniquement',
+      'Les États-Unis vs l\'Europe',
+      'L\'URSS vs les démocraties occidentales'
+    ],
+    correct: 0,
+    explanation: '<strong>L\'Entente</strong> : France, Royaume-Uni, Russie (+ Italie en 1915, États-Unis en 1917). <strong>Les Empires centraux</strong> : Allemagne, Autriche-Hongrie, Empire ottoman et Bulgarie.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Dates',
+    text: 'Quelle est la durée de la Première Guerre mondiale ?',
+    options: [
+      '2 ans (1914–1916)',
+      '4 ans (1914–1918)',
+      '6 ans (1914–1920)',
+      '5 ans (1914–1919)'
+    ],
+    correct: 1,
+    explanation: 'La Première Guerre mondiale dure <strong>4 ans</strong> : du <strong>4 août 1914</strong> (déclaration de guerre de la France) au <strong>11 novembre 1918</strong> (armistice). C\'est pourquoi on l\'appelle aussi la "Grande Guerre".'
+  },
+  {
+    type: 'qcm',
+    badge: 'Vocabulaire',
+    text: 'Comment appelle-t-on la forme de guerre caractéristique du front Ouest, avec des soldats retranchés dans des fossés ?',
+    options: [
+      'La guerre de mouvement',
+      'La guerre des tranchées',
+      'La guerre sous-marine',
+      'La guerre de siège'
+    ],
+    correct: 1,
+    explanation: '<strong>La guerre des tranchées</strong> (ou guerre de position) caractérise la Première Guerre mondiale à partir de fin 1914. Les soldats creusent des tranchées pour se protéger et la ligne de front se fige pendant des années.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Bilan',
+    text: 'Quel est le bilan humain approximatif de la Première Guerre mondiale ?',
+    options: [
+      'Environ 500 000 morts',
+      'Environ 5 millions de morts',
+      'Environ 10 millions de soldats morts',
+      'Environ 40 millions de morts au total'
+    ],
+    correct: 3,
+    explanation: 'La Première Guerre mondiale est dévastatrice : environ <strong>10 millions de soldats</strong> tués et <strong>7 millions de civils</strong> morts, soit environ <strong>17–20 millions de morts</strong>. En ajoutant les blessés et disparus, le bilan total dépasse 40 millions de victimes.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Traité de paix',
+    text: 'Quel traité met officiellement fin à la Première Guerre mondiale ?',
+    options: [
+      'Le traité de Paris (1814)',
+      'Le traité de Francfort (1871)',
+      'Le traité de Versailles (1919)',
+      'Le traité de Rome (1929)'
+    ],
+    correct: 2,
+    explanation: 'Le <strong>traité de Versailles</strong> est signé le <strong>28 juin 1919</strong> (exactement 5 ans après l\'assassinat de François-Ferdinand). Il impose à l\'Allemagne des réparations, des pertes territoriales et la "clause de culpabilité" (article 231).'
+  },
+  {
+    type: 'qcm',
+    badge: 'Société en guerre',
+    text: 'Comment appelle-t-on le soutien de la population civile et des partis politiques à l\'effort de guerre ?',
+    options: [
+      'La Résistance',
+      'L\'Union sacrée',
+      'La Mobilisation nationale',
+      'Le Front populaire'
+    ],
+    correct: 1,
+    explanation: '<strong>L\'Union sacrée</strong> est le terme utilisé en France pour désigner la trêve politique et sociale, où tous les partis (y compris les socialistes) s\'unissent pour défendre le pays. Ce concept est annoncé par le président Poincaré en août 1914.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Nouvelles armes',
+    text: 'Quelle nouvelle arme de destruction massive est utilisée pour la première fois lors de la Première Guerre mondiale ?',
+    options: [
+      'La bombe atomique',
+      'Le char d\'assaut et les gaz de combat',
+      'Les missiles balistiques',
+      'Les drones militaires'
+    ],
+    correct: 1,
+    explanation: 'La Première Guerre mondiale voit apparaître de nouvelles armes terribles : <strong>les gaz de combat</strong> (chlore, ypérite), utilisés dès 1915, et <strong>les chars d\'assaut</strong> (tanks), mis en œuvre par les Britanniques en 1916 à la Somme. L\'aviation militaire se développe également.'
+  }
+];
+
+const game = (() => {
+  let questions, currentIdx, score, answered;
+
+  function shuffle(arr) {
+    const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a;
+  }
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() { questions = shuffle(QUESTIONS); currentIdx = 0; score = 0; answered = false; document.getElementById('progressWrap').style.display = 'flex'; showQuestion(); }
+
+  function updateProgress() {
+    const pct = (currentIdx / questions.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = currentIdx + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false; updateProgress();
+    const q = questions[currentIdx];
+    const el = document.getElementById('questionContent');
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    const letters = ['A', 'B', 'C', 'D'];
+    el.innerHTML = `
+      <div class="q-type-badge">${q.badge}</div>
+      <div class="q-text">${q.text}</div>
+      ${q.context ? `<div class="q-context">📍 ${q.context}</div>` : ''}
+      <div class="options">
+        ${q.options.map((opt, i) => `
+          <button class="option-btn" onclick="game.answerQCM(${i})">
+            <span class="option-letter">${letters[i]}</span>${opt}
+          </button>`).join('')}
+      </div>`;
+    show('screenQuestion');
+  }
+
+  function showFeedback(isCorrect, explanation) {
+    answered = true;
+    const fb = document.getElementById('feedback');
+    const title = document.getElementById('feedbackTitle');
+    if (isCorrect) {
+      score++;
+      const msgs = ['✅ Exact !', '✅ Bravo !', '✅ Bien joué !', '✅ Parfait !'];
+      title.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      fb.className = 'feedback show correct-fb';
+    } else {
+      title.textContent = '❌ Pas tout à fait…';
+      fb.className = 'feedback show wrong-fb';
+    }
+    document.getElementById('feedbackText').innerHTML = explanation;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function answerQCM(idx) {
+    if (answered) return;
+    const q = questions[currentIdx];
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach(b => b.disabled = true);
+    btns[q.correct].classList.add('correct');
+    if (idx !== q.correct) btns[idx].classList.add('wrong');
+    showFeedback(idx === q.correct, q.explanation);
+  }
+
+  function next() { currentIdx++; if (currentIdx >= questions.length) showResults(); else showQuestion(); }
+
+  function showResults() {
+    updateProgress();
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !'; sub='Tu es incollable sur la Grande Guerre !'; }
+    else if (pct >= .75) { emoji='🎉'; stars='⭐⭐⭐'; msg='Excellent !'; sub='Très bonne maîtrise du sujet !'; }
+    else if (pct >= .5) { emoji='👍'; stars='⭐⭐'; msg='Bien !'; sub='Continue tes révisions !'; }
+    else { emoji='📚'; stars='⭐'; msg='À réviser'; sub='Relis le cours et réessaie !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; document.getElementById('progressFill').style.width = '0%'; }
+
+  return { start, answerQCM, next, restart };
+})();
+</script>
+</body>
+</html>

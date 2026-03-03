@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allemand – La négation : nicht et kein</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #b91c1c;
+      --subject-dark: #991b1b;
+      --subject-light: #fee2e2;
+      --subject-mid: #fca5a5;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fff8f8;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────── */
+    .top-bar {
+      width: 100%;
+      background: linear-gradient(135deg, var(--subject) 0%, #dc2626 60%, #ef4444 100%);
+      color: white;
+      padding: 1.25rem 1rem 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .top-bar::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: -5%; width: 110%; height: 40px;
+      background: var(--bg);
+      border-radius: 50% 50% 0 0;
+    }
+    .back-link {
+      position: absolute; top: 1rem; left: 1rem;
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      font-size: 0.85rem; font-weight: 700;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .back-link:hover { color: white; }
+    .subject-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 100px; padding: 0.25rem 0.8rem;
+      font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.75rem;
+    }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    /* ── CONTAINER ───────────────────────────────── */
+    .container {
+      width: 100%;
+      max-width: 680px;
+      padding: 2rem 1rem 3rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PROGRESS ────────────────────────────────── */
+    .progress-wrap {
+      margin-bottom: 1.5rem;
+      background: var(--card);
+      border-radius: 100px;
+      padding: 0.75rem 1.25rem;
+      box-shadow: 0 2px 12px rgba(185,28,28,0.08);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .progress-track {
+      flex: 1; height: 8px;
+      background: var(--subject-light);
+      border-radius: 100px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--subject);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+    /* ── CARD ────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── INTRO ───────────────────────────────────── */
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box {
+      background: var(--subject-light);
+      border-left: 4px solid var(--subject);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .rule-box p { font-size: 0.9rem; line-height: 1.7; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start {
+      width: 100%; padding: 1rem;
+      background: var(--subject); color: white;
+      border: none; border-radius: 12px;
+      font-family: inherit; font-size: 1.1rem; font-weight: 800;
+      cursor: pointer; transition: background .15s, transform .1s;
+    }
+    .btn-start:hover { background: var(--subject-dark); }
+    .btn-start:active { transform: scale(0.98); }
+
+    /* ── QUESTION ────────────────────────────────── */
+    .q-type-badge {
+      display: inline-block;
+      background: var(--subject-light);
+      color: var(--subject);
+      font-size: 0.72rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border-radius: 100px; padding: 0.2rem 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+    .q-text {
+      font-size: 1.15rem; font-weight: 700;
+      line-height: 1.5; margin-bottom: 0.5rem;
+    }
+    .q-context {
+      font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 1.5rem; line-height: 1.4;
+    }
+
+    /* QCM Options */
+    .options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .option-btn {
+      border: 2px solid var(--border); background: white;
+      border-radius: 12px; padding: 0.85rem 1rem;
+      font-family: inherit; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; text-align: left;
+      transition: border-color .15s, background .15s, transform .1s;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .option-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); }
+    .option-btn:active:not(:disabled) { transform: scale(0.99); }
+    .option-letter {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border-radius: 50%; border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 900; color: var(--muted);
+      transition: all .15s;
+    }
+    .option-btn:hover:not(:disabled) .option-letter {
+      border-color: var(--subject); color: var(--subject);
+    }
+    .option-btn.correct {
+      border-color: var(--success); background: var(--success-light);
+    }
+    .option-btn.correct .option-letter {
+      background: var(--success); border-color: var(--success); color: white;
+    }
+    .option-btn.wrong {
+      border-color: var(--error); background: var(--error-light);
+    }
+    .option-btn.wrong .option-letter {
+      background: var(--error); border-color: var(--error); color: white;
+    }
+    .option-btn:disabled { cursor: default; }
+
+    /* Fill in the blank */
+    .fill-sentence {
+      font-size: 1.2rem; font-weight: 700;
+      line-height: 2; text-align: center;
+      background: var(--subject-light);
+      border-radius: 12px; padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .fill-blank {
+      display: inline-block;
+      min-width: 100px;
+      border-bottom: 3px solid var(--subject);
+      padding: 0 8px;
+      position: relative;
+    }
+    .fill-input-wrap { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .fill-input {
+      flex: 1; border: 2px solid var(--border); border-radius: 10px;
+      padding: 0.75rem 1rem; font-family: inherit; font-size: 1rem; font-weight: 700;
+      outline: none; transition: border-color .15s;
+    }
+    .fill-input:focus { border-color: var(--subject); }
+    .fill-input.correct { border-color: var(--success); background: var(--success-light); }
+    .fill-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-check {
+      padding: 0.75rem 1.5rem;
+      background: var(--subject); color: white;
+      border: none; border-radius: 10px;
+      font-family: inherit; font-size: 0.9rem; font-weight: 800;
+      cursor: pointer; transition: background .15s;
+      white-space: nowrap;
+    }
+    .btn-check:hover { background: var(--subject-dark); }
+    .btn-check:disabled { background: var(--border); cursor: default; }
+    .hint-text { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── FEEDBACK ────────────────────────────────── */
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      display: none;
+    }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform:none; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+
+    /* ── NEXT BUTTON ─────────────────────────────── */
+    .btn-next {
+      margin-top: 1.25rem; width: 100%; padding: 0.9rem;
+      background: var(--subject); color: white;
+      border: none; border-radius: 12px;
+      font-family: inherit; font-size: 1rem; font-weight: 800;
+      cursor: pointer; transition: background .15s;
+      display: none;
+    }
+    .btn-next.show { display: block; animation: fadeIn .3s ease; }
+    .btn-next:hover { background: var(--subject-dark); }
+
+    /* ── RESULTS ─────────────────────────────────── */
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle {
+      display: inline-flex; flex-direction: column; align-items: center;
+      justify-content: center;
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct));
+      margin: 1rem auto;
+      position: relative;
+    }
+    .score-circle::before {
+      content: '';
+      position: absolute;
+      width: 95px; height: 95px;
+      background: white;
+      border-radius: 50%;
+    }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg {
+      font-size: 1.2rem; font-weight: 800;
+      margin: 0.75rem 0 0.5rem;
+    }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .results-actions { display: flex; gap: 0.75rem; flex-direction: column; }
+    .btn-retry {
+      padding: 0.9rem;
+      background: var(--subject); color: white;
+      border: none; border-radius: 12px;
+      font-family: inherit; font-size: 1rem; font-weight: 800;
+      cursor: pointer; transition: background .15s;
+    }
+    .btn-retry:hover { background: var(--subject-dark); }
+    .btn-home {
+      padding: 0.9rem;
+      background: var(--subject-light); color: var(--subject);
+      border: none; border-radius: 12px;
+      font-family: inherit; font-size: 1rem; font-weight: 800;
+      cursor: pointer; text-decoration: none;
+      display: block; transition: background .15s;
+    }
+    .btn-home:hover { background: var(--subject-mid); }
+
+    /* ── SCREENS ─────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🇩🇪 Allemand · 3e–6e</div>
+  <h1>La négation : nicht et kein</h1>
+  <p>Savoir quand utiliser <strong>nicht</strong> ou <strong>kein</strong></p>
+</div>
+
+<div class="container">
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+
+  <!-- INTRO -->
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🇩🇪</div>
+    <div class="intro-title">La négation allemande</div>
+    <div class="intro-desc">Deux façons de nier en allemand : <em>nicht</em> et <em>kein</em>. Sauras-tu choisir la bonne ?</div>
+    <div class="rule-box">
+      <p>
+        <strong>nicht</strong> → nie un <u>verbe</u>, un <u>adjectif</u> ou un <u>adverbe</u><br>
+        <em>Ich bin <strong>nicht</strong> müde.</em> (Je ne suis pas fatigué.)<br><br>
+        <strong>kein/keine</strong> → nie un <u>nom</u> (remplace <em>ein/eine</em> ou l'absence d'article)<br>
+        <em>Ich habe <strong>kein</strong> Auto.</em> (Je n'ai pas de voiture.)
+      </p>
+    </div>
+    <!-- Image placeholder – remplacer par une illustration Ideogram -->
+    <!-- Ideogram prompt: "Two cartoon characters speaking German, one says 'nicht' and one says 'kein', colorful educational illustration, white background, cute style" -->
+    <button class="btn-start" onclick="game.start()">Commencer le quiz ▶</button>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="card screen" id="screenQuestion">
+    <div id="questionContent"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub">Tu maîtrises la négation allemande.</div>
+      <div class="results-actions">
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+        <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Comment traduit-on "Je ne suis pas fatigué" ?',
+    context: 'La négation porte sur un adjectif attribut.',
+    options: [
+      'Ich bin kein müde.',
+      'Ich bin nicht müde.',
+      'Ich bin müde nicht.',
+      'Ich nicht bin müde.'
+    ],
+    correct: 1,
+    explanation: 'On utilise <strong>nicht</strong> pour nier un adjectif. La place de nicht est devant l\'adjectif : "Ich bin <u>nicht</u> müde."'
+  },
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Complétez : "Ich habe ___ Auto."',
+    context: '"Auto" est un nom neutre (das Auto).',
+    options: [
+      'nicht',
+      'keine',
+      'kein',
+      'keinen'
+    ],
+    correct: 2,
+    explanation: 'On utilise <strong>kein</strong> pour nier un nom neutre à l\'accusatif : <em>kein Auto</em> (pas de voiture). "nicht" ne s\'utilise pas devant un nom.'
+  },
+  {
+    type: 'fill',
+    badge: 'Texte à trous',
+    sentence: 'Das ist ___ mein Freund.',
+    hint: 'La négation porte sur l\'adjectif possessif.',
+    answer: 'nicht',
+    explanation: '<strong>nicht</strong> s\'utilise pour nier un possessif ou un attribut : "Das ist <u>nicht</u> mein Freund."'
+  },
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Comment dit-on "Elle n\'a pas de temps" ?',
+    context: '"Zeit" (le temps) est un nom féminin, utilisé sans article dans ce contexte.',
+    options: [
+      'Sie hat nicht Zeit.',
+      'Sie hat keine Zeit.',
+      'Sie hat kein Zeit.',
+      'Sie nicht hat Zeit.'
+    ],
+    correct: 1,
+    explanation: '<strong>keine</strong> est la forme féminine de <em>kein</em> (nominatif/accusatif). "Zeit" est féminin → <em>keine Zeit</em>.'
+  },
+  {
+    type: 'fill',
+    badge: 'Texte à trous',
+    sentence: 'Ich habe ___ Hunger.',
+    hint: '"Hunger" (la faim) est un nom masculin à l\'accusatif.',
+    answer: 'keinen',
+    explanation: '<strong>keinen</strong> est la forme masculine accusatif de <em>kein</em>. "Hunger" est masculin (der Hunger) → <em>keinen Hunger</em>.'
+  },
+  {
+    type: 'qcm',
+    badge: 'Vrai ou Faux',
+    text: 'La phrase "Er kommt nicht heute." est correcte.',
+    context: 'La négation porte sur l\'adverbe de temps "heute".',
+    options: [
+      '✅ Vrai, la phrase est correcte.',
+      '❌ Faux, il faudrait "Er kommt heute kein."',
+      '❌ Faux, il faudrait "Er kein kommt heute."',
+      '❌ Faux, il faudrait "Nicht er kommt heute."'
+    ],
+    correct: 0,
+    explanation: 'Correct ! <strong>nicht</strong> précède l\'adverbe "heute" qu\'il nie : "Er kommt <u>nicht</u> heute."'
+  },
+  {
+    type: 'fill',
+    badge: 'Texte à trous',
+    sentence: 'Wir haben ___ Haustiere.',
+    hint: '"Haustiere" (animaux de compagnie) est un nom pluriel.',
+    answer: 'keine',
+    explanation: 'Au pluriel, on utilise toujours <strong>keine</strong> pour nier un nom : "Wir haben <u>keine</u> Haustiere."'
+  },
+  {
+    type: 'qcm',
+    badge: 'Choix multiple',
+    text: 'Quelle phrase est correctement construite ?',
+    context: 'Trouvez la phrase allemande grammaticalement correcte.',
+    options: [
+      'Ich trinke nicht Kaffee.',
+      'Ich trinke kein Kaffee.',
+      'Ich trinke keinen Kaffee.',
+      'Ich kein trinke Kaffee.'
+    ],
+    correct: 2,
+    explanation: '"Kaffee" est masculin (der Kaffee). À l\'accusatif, "kein" devient <strong>keinen</strong> : "Ich trinke <u>keinen</u> Kaffee."'
+  }
+];
+
+const game = (() => {
+  let questions, currentIdx, score, answered;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS);
+    currentIdx = 0;
+    score = 0;
+    answered = false;
+    document.getElementById('progressWrap').style.display = 'flex';
+    showQuestion();
+  }
+
+  function updateProgress() {
+    const pct = (currentIdx / questions.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = currentIdx + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[currentIdx];
+    const el = document.getElementById('questionContent');
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+
+    if (q.type === 'qcm') {
+      const letters = ['A', 'B', 'C', 'D'];
+      el.innerHTML = `
+        <div class="q-type-badge">${q.badge}</div>
+        <div class="q-text">${q.text}</div>
+        ${q.context ? `<div class="q-context">💡 ${q.context}</div>` : ''}
+        <div class="options">
+          ${q.options.map((opt, i) => `
+            <button class="option-btn" onclick="game.answerQCM(${i})">
+              <span class="option-letter">${letters[i]}</span>
+              ${opt}
+            </button>
+          `).join('')}
+        </div>`;
+    } else if (q.type === 'fill') {
+      el.innerHTML = `
+        <div class="q-type-badge">${q.badge}</div>
+        <div class="q-text">Complétez la phrase :</div>
+        <div class="fill-sentence">${q.sentence.replace('___', '<span class="fill-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</div>
+        ${q.hint ? `<div class="q-context">💡 ${q.hint}</div>` : ''}
+        <div class="fill-input-wrap">
+          <input type="text" class="fill-input" id="fillInput" placeholder="Votre réponse…" autocomplete="off" autocorrect="off" spellcheck="false">
+          <button class="btn-check" id="btnCheck" onclick="game.answerFill()">Vérifier</button>
+        </div>`;
+      const inp = document.getElementById('fillInput');
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') game.answerFill(); });
+      setTimeout(() => inp.focus(), 100);
+    }
+    show('screenQuestion');
+  }
+
+  function showFeedback(isCorrect, explanation) {
+    answered = true;
+    const fb = document.getElementById('feedback');
+    const title = document.getElementById('feedbackTitle');
+    const text = document.getElementById('feedbackText');
+
+    if (isCorrect) {
+      score++;
+      fb.className = 'feedback show correct-fb';
+      title.textContent = '✅ Bonne réponse !';
+      const msgs = ['Parfait !', 'Bravo !', 'Excellent !', 'Super !', 'Très bien !'];
+      title.textContent = '✅ ' + msgs[Math.floor(Math.random() * msgs.length)];
+    } else {
+      fb.className = 'feedback show wrong-fb';
+      title.textContent = '❌ Pas tout à fait…';
+    }
+    text.innerHTML = explanation;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function answerQCM(idx) {
+    if (answered) return;
+    const q = questions[currentIdx];
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach(b => b.disabled = true);
+    btns[q.correct].classList.add('correct');
+    const isCorrect = idx === q.correct;
+    if (!isCorrect) btns[idx].classList.add('wrong');
+    showFeedback(isCorrect, q.explanation);
+  }
+
+  function answerFill() {
+    if (answered) return;
+    const inp = document.getElementById('fillInput');
+    const val = inp.value.trim().toLowerCase();
+    const q = questions[currentIdx];
+    const isCorrect = val === q.answer.toLowerCase();
+    inp.disabled = true;
+    document.getElementById('btnCheck').disabled = true;
+    inp.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) {
+      inp.value = q.answer;
+      inp.classList.remove('wrong');
+      inp.classList.add('correct');
+    }
+    showFeedback(isCorrect, q.explanation);
+  }
+
+  function next() {
+    currentIdx++;
+    if (currentIdx >= questions.length) {
+      showResults();
+    } else {
+      showQuestion();
+    }
+  }
+
+  function showResults() {
+    updateProgress();
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1)      { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !'; sub='Tu maîtrises la négation allemande !'; }
+    else if (pct >= .75) { emoji='🎉'; stars='⭐⭐⭐'; msg='Excellent !'; sub='Encore quelques révisions et tu seras parfait.'; }
+    else if (pct >= .5)  { emoji='👍'; stars='⭐⭐'; msg='Bien !'; sub='Tu es sur la bonne voie. Continue tes révisions !'; }
+    else                 { emoji='📚'; stars='⭐'; msg='À réviser'; sub='Relis la règle et réessaie – tu vas y arriver !'; }
+
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() {
+    show('screenIntro');
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('progressFill').style.width = '0%';
+  }
+
+  return { start, answerQCM, answerFill, next, restart };
+})();
+</script>
+
+</body>
+</html>

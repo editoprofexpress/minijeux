@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiniJeux Pédagogiques</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: #f0f4ff;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+      color: white;
+      padding: 3rem 1rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .header-content { position: relative; z-index: 1; }
+    .site-emoji { font-size: 3.5rem; display: block; margin-bottom: 0.5rem; }
+    header h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; }
+    header p { font-size: 1.1rem; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+
+    /* ─── MAIN ────────────────────────────────────────── */
+    main {
+      max-width: 1100px;
+      margin: -3rem auto 3rem;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    /* ─── FILTERS ─────────────────────────────────────── */
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .filter-btn {
+      border: none; background: #f1f5f9; color: #64748b;
+      border-radius: 100px; padding: 0.4rem 1rem;
+      font-family: inherit; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: all .15s;
+    }
+    .filter-btn:hover { background: #e2e8f0; color: #1e293b; }
+    .filter-btn.active { background: #4f46e5; color: white; }
+    .filter-label { color: #94a3b8; font-size: 0.85rem; font-weight: 700; align-self: center; }
+
+    /* ─── STATS BAR ───────────────────────────────────── */
+    .stats {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: white; border-radius: 12px; padding: 0.75rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .stat-card .stat-num { font-size: 1.5rem; font-weight: 900; color: #4f46e5; }
+    .stat-card .stat-label { font-size: 0.8rem; color: #64748b; font-weight: 600; }
+
+    /* ─── GRID ────────────────────────────────────────── */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* ─── GAME CARD ───────────────────────────────────── */
+    .game-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .card-header {
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: white;
+    }
+    .card-emoji { font-size: 2rem; }
+    .card-meta { flex: 1; }
+    .card-subject { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85; }
+    .card-level {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.72rem; font-weight: 700;
+      margin-top: 0.2rem;
+    }
+    .card-body { padding: 1rem 1.25rem; flex: 1; }
+    .card-title { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem; line-height: 1.3; }
+    .card-desc { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+    .card-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-info { font-size: 0.78rem; color: #94a3b8; font-weight: 600; }
+    .card-btn {
+      background: #4f46e5; color: white;
+      border: none; border-radius: 100px;
+      padding: 0.4rem 1rem; font-size: 0.82rem; font-weight: 700;
+      font-family: inherit; cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .card-btn:hover { background: #4338ca; }
+
+    /* Subject colors */
+    .subject-allemand { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+    .subject-anglais   { background: linear-gradient(135deg, #1d4ed8, #2563eb); }
+    .subject-espagnol  { background: linear-gradient(135deg, #b45309, #d97706); }
+    .subject-francais  { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+    .subject-maths     { background: linear-gradient(135deg, #0e7490, #0891b2); }
+    .subject-histoire  { background: linear-gradient(135deg, #92400e, #b45309); }
+    .subject-sciences  { background: linear-gradient(135deg, #166534, #16a34a); }
+    .subject-emc       { background: linear-gradient(135deg, #be185d, #db2777); }
+    .subject-physique  { background: linear-gradient(135deg, #1e40af, #1d4ed8); }
+    .subject-svt       { background: linear-gradient(135deg, #065f46, #059669); }
+    .subject-philo     { background: linear-gradient(135deg, #5b21b6, #7c3aed); }
+    .subject-ses       { background: linear-gradient(135deg, #9f1239, #be123c); }
+    .subject-snt       { background: linear-gradient(135deg, #0c4a6e, #0369a1); }
+
+    /* ─── SECTION TITLES ─────────────────────────────── */
+    .section-title {
+      font-size: 1.2rem; font-weight: 800;
+      color: #1e293b; margin: 2rem 0 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-line {
+      flex: 1; height: 2px;
+      background: linear-gradient(to right, #e2e8f0, transparent);
+    }
+
+    /* ─── EMPTY STATE ────────────────────────────────── */
+    .empty-state {
+      text-align: center; padding: 3rem;
+      color: #94a3b8; font-size: 1rem;
+      grid-column: 1 / -1;
+    }
+    .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem;
+      color: #94a3b8; font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .filters { gap: 0.4rem; }
+      .filter-btn { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <span class="site-emoji">🎓</span>
+    <h1>MiniJeux Pédagogiques</h1>
+    <p>Des jeux interactifs pour apprendre et réviser — du CP au Lycée</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- Stats -->
+  <div class="stats" id="stats">
+    <div class="stat-card">
+      <span class="stat-num" id="countGames">6</span>
+      <span class="stat-label">jeux disponibles</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">10+</span>
+      <span class="stat-label">matières</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">CP–Tle</span>
+      <span class="stat-label">niveaux</span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <span class="filter-label">Matière :</span>
+    <button class="filter-btn active" data-filter="all">Tout</button>
+    <button class="filter-btn" data-filter="allemand">🇩🇪 Allemand</button>
+    <button class="filter-btn" data-filter="anglais">🇬🇧 Anglais</button>
+    <button class="filter-btn" data-filter="espagnol">🇪🇸 Espagnol</button>
+    <button class="filter-btn" data-filter="francais">📚 Français</button>
+    <button class="filter-btn" data-filter="maths">➗ Maths</button>
+    <button class="filter-btn" data-filter="histoire">🗺️ Histoire-Géo</button>
+    <button class="filter-btn" data-filter="emc">⚖️ EMC</button>
+    <button class="filter-btn" data-filter="sciences">🔬 Sciences</button>
+  </div>
+
+  <!-- Games Grid -->
+  <div class="games-grid" id="gamesGrid">
+
+    <!-- Allemand -->
+    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="college">
+      <div class="card-header subject-allemand">
+        <span class="card-emoji">🇩🇪</span>
+        <div class="card-meta">
+          <div class="card-subject">Allemand</div>
+          <div class="card-level">3e – 6e</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">La négation : nicht et kein</div>
+        <div class="card-desc">Maîtrisez l'utilisation de <em>nicht</em> et <em>kein</em> pour former des phrases négatives en allemand.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Anglais -->
+    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="college">
+      <div class="card-header subject-anglais">
+        <span class="card-emoji">🇬🇧</span>
+        <div class="card-meta">
+          <div class="card-subject">Anglais</div>
+          <div class="card-level">3e – 5e</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Le présent simple</div>
+        <div class="card-desc">Formation et emploi du présent simple : affirmation, négation, questions avec DO/DOES.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Français -->
+    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="primaire">
+      <div class="card-header subject-francais">
+        <span class="card-emoji">📝</span>
+        <div class="card-meta">
+          <div class="card-subject">Français</div>
+          <div class="card-level">CM1 – CM2</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">L'accord sujet-verbe</div>
+        <div class="card-desc">Entraînez-vous à accorder le verbe avec son sujet, même quand ils sont séparés ou inversés.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Mathématiques -->
+    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="college">
+      <div class="card-header subject-maths">
+        <span class="card-emoji">➗</span>
+        <div class="card-meta">
+          <div class="card-subject">Mathématiques</div>
+          <div class="card-level">6e</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Les fractions</div>
+        <div class="card-desc">Numérateur, dénominateur, fractions équivalentes, comparer et simplifier des fractions.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~6 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Histoire-Géo -->
+    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="college">
+      <div class="card-header subject-histoire">
+        <span class="card-emoji">🗺️</span>
+        <div class="card-meta">
+          <div class="card-subject">Histoire-Géographie</div>
+          <div class="card-level">3e</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">La Première Guerre mondiale</div>
+        <div class="card-desc">Causes, grandes étapes, fronts et bilan de la guerre de 1914–1918.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~6 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- EMC -->
+    <a class="game-card" href="emc/les-emotions-cp.html" data-subject="emc" data-level="primaire">
+      <div class="card-header subject-emc">
+        <span class="card-emoji">💛</span>
+        <div class="card-meta">
+          <div class="card-subject">EMC</div>
+          <div class="card-level">CP</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Les émotions</div>
+        <div class="card-desc">Reconnaître et nommer ses émotions : joie, tristesse, colère, peur, surprise… et apprendre à les exprimer.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~4 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Coming soon note -->
+  <div class="section-title" style="margin-top:2.5rem;">
+    <span>🚧 En cours de création</span>
+    <div class="section-line"></div>
+  </div>
+  <p style="color:#94a3b8;font-size:0.9rem;margin-bottom:1.5rem;">
+    Plus de 800 jeux sont en cours de production pour couvrir toutes les notions du programme, du CP à la Terminale.
+  </p>
+
+</main>
+
+<footer>
+  Jeux pédagogiques · Tous droits réservés
+</footer>
+
+<script>
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.game-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const show = filter === 'all' || card.dataset.subject === filter;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('countGames').textContent = visible;
+    });
+  });
+</script>
+</body>
+</html>
