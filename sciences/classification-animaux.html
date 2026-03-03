@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sciences – Classer les animaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #059669; --subject-dark: #047857; --subject-light: #d1fae5;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --bg: #f0fdf4; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #047857, #059669, #10b981); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 760px; padding: 2rem 1rem 3rem; }
+
+    /* ── SCREENS ── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .card { background: white; border-radius: 18px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.75rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    /* ── STATS ── */
+    .stats-row { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .stat-pill { background: white; border-radius: 100px; padding: 0.5rem 1.25rem; font-weight: 800; font-size: 0.9rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); display: flex; align-items: center; gap: 0.4rem; }
+    .stat-pill span { color: var(--subject); font-size: 1.1rem; }
+
+    /* ── ANIMAL POOL ── */
+    .pool-label { text-align: center; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
+    .pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; min-height: 80px; margin-bottom: 1.75rem; }
+
+    /* ── ANIMAL CHIP ── */
+    .animal-chip {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: white; border: 2.5px solid var(--border);
+      border-radius: 100px; padding: 0.45rem 1rem;
+      font-size: 0.92rem; font-weight: 800;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      user-select: none;
+    }
+    .animal-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    .animal-chip.selected { border-color: var(--subject); box-shadow: 0 0 0 3px rgba(5,150,105,0.25); transform: translateY(-2px); }
+    .animal-chip .chip-emoji { font-size: 1.2rem; }
+
+    /* ── ZONES ── */
+    .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+    @media (max-width: 520px) { .zones { grid-template-columns: 1fr; } }
+
+    .zone {
+      background: white; border-radius: 16px;
+      border: 2.5px dashed var(--border);
+      padding: 1rem 0.75rem; text-align: center;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      min-height: 160px;
+    }
+    .zone:hover { border-color: var(--subject); background: var(--subject-light); }
+    .zone.highlight { border-color: var(--subject); border-style: solid; background: var(--subject-light); }
+    .zone-header { margin-bottom: 0.5rem; }
+    .zone-icon { font-size: 2rem; }
+    .zone-name { font-size: 0.85rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-top: 0.25rem; }
+    .zone-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 0.5rem; }
+
+    /* ── PLACED CHIP ── */
+    .placed-chip {
+      background: var(--subject-light); border: 2px solid var(--subject);
+      border-radius: 100px; padding: 0.3rem 0.7rem;
+      font-size: 0.78rem; font-weight: 800; color: var(--subject);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .placed-chip.wrong { background: var(--error-light); border-color: var(--error); color: var(--error); }
+
+    /* ── VALIDATE ── */
+    .btn-validate { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; opacity: 0.4; pointer-events: none; }
+    .btn-validate.ready { opacity: 1; pointer-events: all; }
+    .btn-validate.ready:hover { background: var(--subject-dark); }
+
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: #1e293b; color: white; padding: 0.75rem 1.5rem; border-radius: 100px; font-weight: 800; font-size: 0.9rem; opacity: 0; transition: opacity 0.25s, transform 0.25s; pointer-events: none; z-index: 999; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── WIN ── */
+    .win-screen { text-align: center; }
+    .win-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .win-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .win-sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .win-stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .win-stat { background: var(--subject-light); border-radius: 12px; padding: 0.75rem 1.25rem; font-weight: 800; }
+    .win-stat .num { font-size: 1.6rem; color: var(--subject); display: block; }
+    .win-stat .lbl { font-size: 0.75rem; color: var(--muted); }
+    .btn-retry { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-bottom: 0.75rem; }
+    .btn-home { display: block; padding: 0.9rem; background: var(--subject-light); color: var(--subject); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; }
+
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .shake { animation: shake 0.35s ease; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🔬 Sciences · CE2–CM2</div>
+  <h1>Classer les animaux 🐾</h1>
+  <p>Herbivores, Carnivores ou Omnivores ?</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🦁</div>
+    <div class="intro-title">Tri des animaux</div>
+    <div class="intro-desc">Classe chaque animal dans la bonne catégorie selon son régime alimentaire.</div>
+    <div class="rule-box">
+      🌿 <strong>Herbivore</strong> : mange uniquement des végétaux (herbe, feuilles, fruits…)<br>
+      🥩 <strong>Carnivore</strong> : mange uniquement d'autres animaux<br>
+      🍽️ <strong>Omnivore</strong> : mange à la fois des végétaux et des animaux<br><br>
+      👆 Sélectionne un animal, puis clique sur sa catégorie.
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screenGame">
+    <div class="stats-row">
+      <div class="stat-pill">✅ <span id="statPlaced">0</span> / <span id="statTotal">0</span> classés</div>
+      <div class="stat-pill">❌ <span id="statErrors">0</span> erreurs</div>
+    </div>
+
+    <div class="pool-label">🐾 Animaux à classer</div>
+    <div class="pool" id="pool"></div>
+
+    <div class="zones">
+      <div class="zone" id="zone-herbivore" onclick="game.placeInZone('herbivore')">
+        <div class="zone-header">
+          <div class="zone-icon">🌿</div>
+          <div class="zone-name">Herbivore</div>
+        </div>
+        <div class="zone-chips" id="chips-herbivore"></div>
+      </div>
+      <div class="zone" id="zone-carnivore" onclick="game.placeInZone('carnivore')">
+        <div class="zone-header">
+          <div class="zone-icon">🥩</div>
+          <div class="zone-name">Carnivore</div>
+        </div>
+        <div class="zone-chips" id="chips-carnivore"></div>
+      </div>
+      <div class="zone" id="zone-omnivore" onclick="game.placeInZone('omnivore')">
+        <div class="zone-header">
+          <div class="zone-icon">🍽️</div>
+          <div class="zone-name">Omnivore</div>
+        </div>
+        <div class="zone-chips" id="chips-omnivore"></div>
+      </div>
+    </div>
+
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()">Vérifier mes réponses ✓</button>
+  </div>
+
+  <!-- WIN -->
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Bravo, tout classé !</div>
+      <div class="win-sub">Tu as classé tous les animaux selon leur régime alimentaire.</div>
+      <div class="win-stats">
+        <div class="win-stat"><span class="num" id="winErrors">—</span><span class="lbl">erreurs</span></div>
+        <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
+      </div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
+      <a href="../index.html" class="btn-home">🏠 Accueil</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ANIMALS = [
+  { name: 'Lapin',    emoji: '🐰', type: 'herbivore' },
+  { name: 'Lion',     emoji: '🦁', type: 'carnivore' },
+  { name: 'Ours',     emoji: '🐻', type: 'omnivore'  },
+  { name: 'Vache',    emoji: '🐄', type: 'herbivore' },
+  { name: 'Requin',   emoji: '🦈', type: 'carnivore' },
+  { name: 'Cochon',   emoji: '🐷', type: 'omnivore'  },
+  { name: 'Cheval',   emoji: '🐴', type: 'herbivore' },
+  { name: 'Aigle',    emoji: '🦅', type: 'carnivore' },
+  { name: 'Poule',    emoji: '🐔', type: 'omnivore'  },
+  { name: 'Girafe',   emoji: '🦒', type: 'herbivore' },
+  { name: 'Loup',     emoji: '🐺', type: 'carnivore' },
+  { name: 'Singe',    emoji: '🐒', type: 'omnivore'  },
+];
+
+const game = (() => {
+  let selected = null;
+  let placed = {};   // { animalName: zone }
+  let errors = 0;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function showToast(msg, duration = 1800) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  function updateStats() {
+    document.getElementById('statPlaced').textContent = Object.keys(placed).length;
+    document.getElementById('statErrors').textContent = errors;
+    const btn = document.getElementById('btnValidate');
+    if (Object.keys(placed).length === ANIMALS.length) {
+      btn.classList.add('ready');
+    }
+  }
+
+  function renderPool() {
+    const pool = document.getElementById('pool');
+    pool.innerHTML = '';
+    const shuffled = shuffle(ANIMALS);
+    shuffled.forEach(animal => {
+      if (placed[animal.name] !== undefined) return; // already placed
+      const chip = document.createElement('div');
+      chip.className = 'animal-chip' + (selected && selected.name === animal.name ? ' selected' : '');
+      chip.dataset.name = animal.name;
+      chip.innerHTML = `<span class="chip-emoji">${animal.emoji}</span>${animal.name}`;
+      chip.addEventListener('click', () => selectAnimal(animal));
+      pool.appendChild(chip);
+    });
+  }
+
+  function selectAnimal(animal) {
+    selected = (selected && selected.name === animal.name) ? null : animal;
+    renderPool();
+    // highlight zones when something selected
+    document.querySelectorAll('.zone').forEach(z => {
+      z.classList.toggle('highlight', selected !== null);
+    });
+  }
+
+  function placeInZone(zone) {
+    if (!selected) { showToast('👆 Sélectionne d\'abord un animal !'); return; }
+
+    const animal = selected;
+    selected = null;
+
+    if (animal.type === zone) {
+      placed[animal.name] = zone;
+      // Add chip to zone
+      const chipContainer = document.getElementById('chips-' + zone);
+      const chip = document.createElement('div');
+      chip.className = 'placed-chip';
+      chip.innerHTML = `${animal.emoji} ${animal.name}`;
+      chipContainer.appendChild(chip);
+      showToast('✅ Correct !', 1000);
+    } else {
+      errors++;
+      // shake the zone
+      const zoneEl = document.getElementById('zone-' + zone);
+      zoneEl.classList.add('shake');
+      setTimeout(() => zoneEl.classList.remove('shake'), 400);
+      const zoneNames = { herbivore: 'Herbivore 🌿', carnivore: 'Carnivore 🥩', omnivore: 'Omnivore 🍽️' };
+      showToast(`❌ Non ! ${animal.name} est ${animal.type === 'herbivore' ? 'un Herbivore' : animal.type === 'carnivore' ? 'un Carnivore' : 'un Omnivore'}`, 2200);
+    }
+
+    document.querySelectorAll('.zone').forEach(z => z.classList.remove('highlight'));
+    renderPool();
+    updateStats();
+  }
+
+  function validate() {
+    if (Object.keys(placed).length < ANIMALS.length) return;
+    clearInterval(timerInterval);
+    let stars, emoji;
+    if (errors === 0)      { stars = '⭐⭐⭐'; emoji = '🏆'; }
+    else if (errors <= 3)  { stars = '⭐⭐'; emoji = '🎉'; }
+    else                   { stars = '⭐'; emoji = '👍'; }
+    document.getElementById('winErrors').textContent = errors;
+    document.getElementById('winStars').textContent = stars;
+    document.getElementById('winEmoji').textContent = emoji;
+    show('screenWin');
+  }
+
+  let timerInterval;
+
+  function start() {
+    selected = null;
+    placed = {};
+    errors = 0;
+    ['herbivore', 'carnivore', 'omnivore'].forEach(z => {
+      document.getElementById('chips-' + z).innerHTML = '';
+    });
+    document.getElementById('statTotal').textContent = ANIMALS.length;
+    document.getElementById('btnValidate').classList.remove('ready');
+    renderPool();
+    updateStats();
+    show('screenGame');
+  }
+
+  return { start, placeInZone, validate };
+})();
+</script>
+</body>
+</html>

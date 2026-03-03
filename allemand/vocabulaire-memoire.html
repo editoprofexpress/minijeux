@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allemand – Mémoire des mots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #b91c1c; --subject-dark: #991b1b; --subject-light: #fee2e2;
+      --success: #059669; --success-light: #d1fae5;
+      --bg: #fff8f8; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #991b1b, #b91c1c, #ef4444); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 720px; padding: 2rem 1rem 3rem; }
+
+    /* ── STATS ── */
+    .stats-row { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; }
+    .stat-pill { background: white; border-radius: 100px; padding: 0.5rem 1.25rem; font-weight: 800; font-size: 0.9rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); display: flex; align-items: center; gap: 0.4rem; }
+    .stat-pill span { color: var(--subject); font-size: 1.1rem; }
+
+    /* ── MEMORY GRID ── */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 400px) { .memory-grid { gap: 7px; } }
+
+    /* ── CARD FLIP ── */
+    .mem-card {
+      aspect-ratio: 3/4;
+      perspective: 900px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mem-card-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(.34,1.4,.64,1);
+      border-radius: 14px;
+    }
+    .mem-card.flipped .mem-card-inner,
+    .mem-card.matched .mem-card-inner { transform: rotateY(180deg); }
+
+    .mem-face {
+      position: absolute; inset: 0;
+      border-radius: 14px;
+      backface-visibility: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 0.5rem;
+    }
+    .mem-front {
+      background: linear-gradient(145deg, #dc2626, #b91c1c);
+      box-shadow: 0 4px 14px rgba(185,28,28,0.35);
+      font-size: clamp(1.5rem, 5vw, 2.2rem); color: white;
+    }
+    .mem-back {
+      background: white;
+      border: 2.5px solid var(--border);
+      transform: rotateY(180deg);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+    .mem-back .word-de { font-size: clamp(0.65rem, 2.5vw, 0.95rem); font-weight: 900; color: var(--subject); }
+    .mem-back .word-fr { font-size: clamp(0.55rem, 2vw, 0.78rem); font-weight: 700; color: var(--muted); margin-top: 2px; }
+    .mem-back .word-emoji { font-size: clamp(1.1rem, 4vw, 1.6rem); margin-bottom: 3px; }
+
+    .mem-card.matched .mem-back { background: var(--success-light); border-color: var(--success); }
+    .mem-card.matched .word-de { color: var(--success); }
+
+    .mem-card.no-match .mem-card-inner { animation: shake 0.4s ease; }
+    @keyframes shake { 0%,100%{transform:rotateY(180deg)} 25%{transform:rotateY(155deg)} 75%{transform:rotateY(205deg)} }
+
+    /* ── SCREENS ── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .card { background: white; border-radius: 18px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.75rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    /* ── WIN ── */
+    .win-screen { text-align: center; }
+    .win-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .win-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .win-sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .win-stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .win-stat { background: var(--subject-light); border-radius: 12px; padding: 0.75rem 1.25rem; font-weight: 800; }
+    .win-stat .num { font-size: 1.6rem; color: var(--subject); display: block; }
+    .win-stat .lbl { font-size: 0.75rem; color: var(--muted); }
+    .btn-retry { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-bottom: 0.75rem; }
+    .btn-home { display: block; padding: 0.9rem; background: var(--subject-light); color: var(--subject); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🇩🇪 Allemand · 3e–6e</div>
+  <h1>Mémoire des mots 🧠</h1>
+  <p>Retrouvez les paires français ↔ allemand</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🃏</div>
+    <div class="intro-title">Jeu de mémoire</div>
+    <div class="intro-desc">Retournez les cartes pour trouver les paires. Chaque mot français correspond à un mot allemand.</div>
+    <div class="rule-box">
+      🎯 <strong>Comment jouer :</strong> Cliquez sur une carte pour la retourner. Trouvez la carte qui lui correspond. Si les deux cartes forment une paire, elles restent visibles !<br><br>
+      🏆 Objectif : retrouver les <strong>8 paires</strong> en un minimum de tentatives.
+    </div>
+    <button class="btn-start" onclick="startGame()">Commencer ▶</button>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screenGame">
+    <div class="stats-row">
+      <div class="stat-pill">🔄 <span id="statAttempts">0</span> tentatives</div>
+      <div class="stat-pill">✅ <span id="statMatched">0</span> / 8 paires</div>
+      <div class="stat-pill">⏱ <span id="statTimer">0:00</span></div>
+    </div>
+    <div class="memory-grid" id="grid"></div>
+  </div>
+
+  <!-- WIN -->
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Bravo, tu as tout trouvé !</div>
+      <div class="win-sub">Tu as retrouvé les 8 paires de vocabulaire allemand !</div>
+      <div class="win-stats">
+        <div class="win-stat"><span class="num" id="winAttempts">—</span><span class="lbl">tentatives</span></div>
+        <div class="win-stat"><span class="num" id="winTime">—</span><span class="lbl">temps</span></div>
+        <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
+      </div>
+      <button class="btn-retry" onclick="startGame()">🔄 Rejouer</button>
+      <a href="../index.html" class="btn-home">🏠 Accueil</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PAIRS = [
+  { de: 'der Hund',   fr: 'le chien',   emoji: '🐕' },
+  { de: 'die Katze',  fr: 'le chat',    emoji: '🐈' },
+  { de: 'das Haus',   fr: 'la maison',  emoji: '🏠' },
+  { de: 'das Auto',   fr: 'la voiture', emoji: '🚗' },
+  { de: 'das Buch',   fr: 'le livre',   emoji: '📚' },
+  { de: 'das Wasser', fr: "l'eau",      emoji: '💧' },
+  { de: 'die Sonne',  fr: 'le soleil',  emoji: '☀️' },
+  { de: 'der Apfel',  fr: 'la pomme',   emoji: '🍎' },
+];
+
+let flipped = [], matched = [], attempts = 0, canClick = true;
+let timerInterval, startTime;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+  flipped = []; matched = []; attempts = 0; canClick = true;
+  clearInterval(timerInterval);
+  startTime = Date.now();
+  timerInterval = setInterval(updateTimer, 500);
+
+  // Build shuffled card array: each pair → 2 cards
+  const cards = [];
+  PAIRS.forEach((pair, pairIdx) => {
+    cards.push({ pairIdx, type: 'de', label: pair.de, sub: pair.fr, emoji: pair.emoji });
+    cards.push({ pairIdx, type: 'fr', label: pair.fr, sub: pair.de, emoji: pair.emoji });
+  });
+  const shuffled = shuffle(cards);
+
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  shuffled.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'mem-card';
+    el.dataset.pairIdx = card.pairIdx;
+    el.dataset.cardId = i;
+    el.innerHTML = `
+      <div class="mem-card-inner">
+        <div class="mem-face mem-front">🇩🇪</div>
+        <div class="mem-face mem-back">
+          <div class="word-emoji">${card.emoji}</div>
+          <div class="word-de">${card.label}</div>
+          <div class="word-fr">${card.sub}</div>
+        </div>
+      </div>`;
+    el.addEventListener('click', () => flipCard(el));
+    grid.appendChild(el);
+  });
+
+  document.getElementById('statAttempts').textContent = '0';
+  document.getElementById('statMatched').textContent = '0';
+  show('screenGame');
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const m = Math.floor(elapsed / 60), s = elapsed % 60;
+  document.getElementById('statTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function flipCard(el) {
+  if (!canClick) return;
+  if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
+  if (flipped.length >= 2) return;
+
+  el.classList.add('flipped');
+  flipped.push(el);
+
+  if (flipped.length === 2) {
+    attempts++;
+    document.getElementById('statAttempts').textContent = attempts;
+    canClick = false;
+    setTimeout(checkMatch, 700);
+  }
+}
+
+function checkMatch() {
+  const [a, b] = flipped;
+  if (a.dataset.pairIdx === b.dataset.pairIdx) {
+    a.classList.add('matched');
+    b.classList.add('matched');
+    a.classList.remove('flipped');
+    b.classList.remove('flipped');
+    matched.push(a.dataset.pairIdx);
+    document.getElementById('statMatched').textContent = matched.length;
+    flipped = [];
+    canClick = true;
+    if (matched.length === PAIRS.length) setTimeout(showWin, 400);
+  } else {
+    a.classList.add('no-match');
+    b.classList.add('no-match');
+    setTimeout(() => {
+      a.classList.remove('flipped', 'no-match');
+      b.classList.remove('flipped', 'no-match');
+      flipped = [];
+      canClick = true;
+    }, 900);
+  }
+}
+
+function showWin() {
+  clearInterval(timerInterval);
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const m = Math.floor(elapsed / 60), s = elapsed % 60;
+  const timeStr = `${m}:${s.toString().padStart(2, '0')}`;
+  const perfect = PAIRS.length; // minimum attempts
+  let stars, emoji;
+  if (attempts <= perfect + 2)      { stars = '⭐⭐⭐'; emoji = '🏆'; }
+  else if (attempts <= perfect + 6)  { stars = '⭐⭐'; emoji = '🎉'; }
+  else                               { stars = '⭐'; emoji = '👍'; }
+  document.getElementById('winAttempts').textContent = attempts;
+  document.getElementById('winTime').textContent = timeStr;
+  document.getElementById('winStars').textContent = stars;
+  document.getElementById('winEmoji').textContent = emoji;
+  show('screenWin');
+}
+</script>
+</body>
+</html>

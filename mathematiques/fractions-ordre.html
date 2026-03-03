@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths – Ordonner les fractions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #7c3aed; --subject-dark: #6d28d9; --subject-light: #ede9fe;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --bg: #faf5ff; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #6d28d9, #7c3aed, #a78bfa); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; }
+
+    /* ── SCREENS ── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .card { background: white; border-radius: 18px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.75rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    /* ── PROGRESS ── */
+    .progress-bar-wrap { background: var(--border); border-radius: 100px; height: 8px; margin-bottom: 1.5rem; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+
+    /* ── ROUND HEADER ── */
+    .round-header { text-align: center; margin-bottom: 1.25rem; }
+    .round-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .round-instruction { font-size: 1.1rem; font-weight: 900; color: var(--text); margin-top: 0.25rem; }
+
+    /* ── FRACTION DISPLAY ── */
+    .frac {
+      display: inline-flex; flex-direction: column; align-items: center;
+      line-height: 1; font-weight: 900;
+    }
+    .frac .num { border-bottom: 2.5px solid currentColor; padding-bottom: 2px; margin-bottom: 2px; }
+    .frac .den { }
+
+    /* ── SLOTS (answer line) ── */
+    .order-area { margin-bottom: 1.5rem; }
+    .slots-label { text-align: center; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.6rem; }
+    .slots-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; flex-wrap: wrap;
+    }
+    .slot {
+      width: 72px; height: 80px;
+      border: 2.5px dashed var(--border); border-radius: 14px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.95rem; font-weight: 900; color: var(--text);
+      cursor: pointer; transition: background 0.15s, border-color 0.15s;
+      position: relative; background: white;
+    }
+    .slot:empty::after { content: '?'; color: var(--border); font-size: 1.4rem; }
+    .slot.filled { border-style: solid; border-color: var(--subject); background: var(--subject-light); }
+    .slot.filled:hover { background: #ddd6fe; }
+    .slot.correct { border-color: var(--success); background: var(--success-light); }
+    .slot.wrong { border-color: var(--error); background: var(--error-light); }
+
+    .sep { font-size: 1.4rem; font-weight: 900; color: var(--muted); }
+
+    /* ── BANK ── */
+    .bank-label { text-align: center; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.6rem; }
+    .bank { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; min-height: 90px; margin-bottom: 1.5rem; }
+
+    .frac-chip {
+      width: 72px; height: 80px;
+      background: white; border: 2.5px solid var(--border);
+      border-radius: 14px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; cursor: pointer;
+      font-size: 1rem; font-weight: 900;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      user-select: none;
+    }
+    .frac-chip:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    .frac-chip.selected { border-color: var(--subject); box-shadow: 0 0 0 3px rgba(124,58,237,0.3); transform: translateY(-3px); }
+
+    /* ── FEEDBACK ── */
+    .feedback-box { border-radius: 12px; padding: 0.85rem 1.1rem; margin-bottom: 1.25rem; font-size: 0.9rem; font-weight: 700; display: none; }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct { background: var(--success-light); color: var(--success); border: 1.5px solid #a7f3d0; }
+    .feedback-box.wrong { background: var(--error-light); color: var(--error); border: 1.5px solid #fca5a5; }
+
+    /* ── BUTTONS ── */
+    .btn-check { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; opacity: 0.4; pointer-events: none; }
+    .btn-check.ready { opacity: 1; pointer-events: all; }
+    .btn-check.ready:hover { background: var(--subject-dark); }
+    .btn-next { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; margin-top: 0.75rem; }
+    .btn-next:hover { background: var(--subject-dark); }
+
+    /* ── WIN ── */
+    .win-screen { text-align: center; }
+    .win-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .win-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .win-sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .win-stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .win-stat { background: var(--subject-light); border-radius: 12px; padding: 0.75rem 1.25rem; font-weight: 800; }
+    .win-stat .num { font-size: 1.6rem; color: var(--subject); display: block; }
+    .win-stat .lbl { font-size: 0.75rem; color: var(--muted); }
+    .btn-retry { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-bottom: 0.75rem; }
+    .btn-home { display: block; padding: 0.9rem; background: var(--subject-light); color: var(--subject); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; }
+
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .shake { animation: shake 0.35s ease; }
+    @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.1)} 100%{transform:scale(1)} }
+    .pop { animation: pop 0.3s ease; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🔢 Maths · CM1–5e</div>
+  <h1>Ordonner les fractions 📊</h1>
+  <p>Du plus petit au plus grand</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">½</div>
+    <div class="intro-title">Ordonner les fractions</div>
+    <div class="intro-desc">Place les fractions dans le bon ordre, du plus petit au plus grand.</div>
+    <div class="rule-box">
+      📌 <strong>Comment jouer :</strong><br>
+      1. Clique sur une fraction dans la banque<br>
+      2. Clique sur une case pour la placer<br>
+      3. Clique sur une case occupée pour reprendre la fraction<br><br>
+      💡 <strong>Astuce :</strong> Convertis les fractions avec le même dénominateur pour les comparer !
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screenGame">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="round-header">
+        <div class="round-label">Niveau <span id="roundNum">1</span> / <span id="roundTotal">5</span></div>
+        <div class="round-instruction">Ordonne ces fractions du ⬅️ plus petit au plus grand ➡️</div>
+      </div>
+
+      <div class="order-area">
+        <div class="slots-label">Ton ordre (de gauche à droite)</div>
+        <div class="slots-row" id="slotsRow"></div>
+      </div>
+
+      <div class="bank-label">Fractions à placer</div>
+      <div class="bank" id="bank"></div>
+
+      <div class="feedback-box" id="feedbackBox"></div>
+
+      <button class="btn-check" id="btnCheck" onclick="game.check()">Vérifier ✓</button>
+      <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    </div>
+  </div>
+
+  <!-- WIN -->
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Excellent travail !</div>
+      <div class="win-sub">Tu as maîtrisé l'ordre des fractions !</div>
+      <div class="win-stats">
+        <div class="win-stat"><span class="num" id="winScore">—</span><span class="lbl">bonnes réponses</span></div>
+        <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
+      </div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
+      <a href="../index.html" class="btn-home">🏠 Accueil</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Each round: an array of fractions to order (ascending)
+// value = decimal value for comparison
+const ROUNDS = [
+  {
+    fractions: [
+      { num: 1, den: 4, value: 0.25 },
+      { num: 1, den: 2, value: 0.5  },
+      { num: 3, den: 4, value: 0.75 },
+    ]
+  },
+  {
+    fractions: [
+      { num: 1, den: 3, value: 1/3 },
+      { num: 2, den: 3, value: 2/3 },
+      { num: 1, den: 6, value: 1/6 },
+      { num: 5, den: 6, value: 5/6 },
+    ]
+  },
+  {
+    fractions: [
+      { num: 3, den: 8, value: 3/8 },
+      { num: 1, den: 2, value: 0.5  },
+      { num: 1, den: 4, value: 0.25 },
+      { num: 7, den: 8, value: 7/8 },
+    ]
+  },
+  {
+    fractions: [
+      { num: 2, den: 5, value: 0.4  },
+      { num: 3, den: 10, value: 0.3 },
+      { num: 7, den: 10, value: 0.7 },
+      { num: 1, den: 5, value: 0.2  },
+    ]
+  },
+  {
+    fractions: [
+      { num: 5, den: 12, value: 5/12  },
+      { num: 1, den: 3,  value: 1/3   },
+      { num: 3, den: 4,  value: 0.75  },
+      { num: 1, den: 6,  value: 1/6   },
+      { num: 2, den: 3,  value: 2/3   },
+    ]
+  },
+];
+
+const game = (() => {
+  let currentRound = 0;
+  let score = 0;
+  let selectedChip = null;  // { frac, chipEl }
+  let slots = [];           // array of frac|null per slot position
+  let bankFracs = [];       // fracs still in bank
+  let answered = false;
+
+  function fracHTML(f, size = '1rem') {
+    return `<span class="frac" style="font-size:${size}"><span class="num">${f.num}</span><span class="den">${f.den}</span></span>`;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderBank() {
+    const bank = document.getElementById('bank');
+    bank.innerHTML = '';
+    bankFracs.forEach(f => {
+      const chip = document.createElement('div');
+      chip.className = 'frac-chip' + (selectedChip && selectedChip.frac === f ? ' selected' : '');
+      chip.innerHTML = fracHTML(f, '1.1rem');
+      chip.addEventListener('click', () => selectChip(f, chip));
+      bank.appendChild(chip);
+    });
+  }
+
+  function renderSlots() {
+    const row = document.getElementById('slotsRow');
+    row.innerHTML = '';
+    const round = ROUNDS[currentRound];
+    const count = round.fractions.length;
+
+    for (let i = 0; i < count; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'slot';
+      const f = slots[i];
+      if (f) {
+        slot.classList.add('filled');
+        slot.innerHTML = fracHTML(f, '1rem');
+        slot.addEventListener('click', () => removeFromSlot(i));
+      } else {
+        slot.addEventListener('click', () => placeInSlot(i));
+      }
+      row.appendChild(slot);
+
+      if (i < count - 1) {
+        const sep = document.createElement('span');
+        sep.className = 'sep';
+        sep.textContent = '<';
+        row.appendChild(sep);
+      }
+    }
+
+    // update validate button
+    const allFilled = slots.every(s => s !== null);
+    const btn = document.getElementById('btnCheck');
+    btn.classList.toggle('ready', allFilled && !answered);
+  }
+
+  function selectChip(f, chipEl) {
+    if (answered) return;
+    selectedChip = (selectedChip && selectedChip.frac === f) ? null : { frac: f, chipEl };
+    renderBank();
+    // If a slot is empty, auto-place in first empty slot
+  }
+
+  function placeInSlot(i) {
+    if (answered) return;
+    if (!selectedChip) return;
+    if (slots[i] !== null) return; // slot taken
+    slots[i] = selectedChip.frac;
+    bankFracs = bankFracs.filter(f => f !== selectedChip.frac);
+    selectedChip = null;
+    renderBank();
+    renderSlots();
+  }
+
+  function removeFromSlot(i) {
+    if (answered) return;
+    const f = slots[i];
+    if (!f) return;
+    slots[i] = null;
+    bankFracs.push(f);
+    selectedChip = null;
+    renderBank();
+    renderSlots();
+  }
+
+  function check() {
+    if (answered) return;
+    const round = ROUNDS[currentRound];
+    const sorted = [...round.fractions].sort((a, b) => a.value - b.value);
+    const correct = slots.every((f, i) => f && f.value === sorted[i].value);
+
+    answered = true;
+    document.getElementById('btnCheck').style.display = 'none';
+    document.getElementById('btnNext').style.display = 'block';
+
+    const fb = document.getElementById('feedbackBox');
+    const slotsEls = document.querySelectorAll('#slotsRow .slot');
+
+    if (correct) {
+      score++;
+      fb.className = 'feedback-box show correct';
+      fb.textContent = '✅ Parfait ! Tu as bien ordonné les fractions.';
+      let si = 0;
+      slotsEls.forEach(el => {
+        if (el.classList.contains('filled')) {
+          el.classList.add('correct');
+          si++;
+        }
+      });
+    } else {
+      fb.className = 'feedback-box show wrong';
+      const correctOrder = sorted.map(f => `${f.num}/${f.den}`).join(' < ');
+      fb.innerHTML = `❌ Pas tout à fait. Le bon ordre est : <strong>${correctOrder}</strong>`;
+      // mark slots
+      let si = 0;
+      slotsEls.forEach(el => {
+        if (el.classList.contains('filled')) {
+          const f = slots[si];
+          el.classList.add(f && f.value === sorted[si].value ? 'correct' : 'wrong');
+          si++;
+        }
+      });
+    }
+
+    renderSlots();
+  }
+
+  function next() {
+    currentRound++;
+    if (currentRound >= ROUNDS.length) {
+      showWin();
+    } else {
+      loadRound();
+    }
+  }
+
+  function loadRound() {
+    answered = false;
+    selectedChip = null;
+    const round = ROUNDS[currentRound];
+    slots = new Array(round.fractions.length).fill(null);
+    bankFracs = shuffle(round.fractions);
+
+    document.getElementById('roundNum').textContent = currentRound + 1;
+    document.getElementById('roundTotal').textContent = ROUNDS.length;
+    document.getElementById('progressBar').style.width = (currentRound / ROUNDS.length * 100) + '%';
+    document.getElementById('feedbackBox').className = 'feedback-box';
+    document.getElementById('btnCheck').style.display = '';
+    document.getElementById('btnCheck').classList.remove('ready');
+    document.getElementById('btnNext').style.display = 'none';
+
+    renderBank();
+    renderSlots();
+    show('screenGame');
+  }
+
+  function showWin() {
+    document.getElementById('progressBar').style.width = '100%';
+    let stars, emoji;
+    if (score === ROUNDS.length)        { stars = '⭐⭐⭐'; emoji = '🏆'; }
+    else if (score >= ROUNDS.length - 1) { stars = '⭐⭐'; emoji = '🎉'; }
+    else                                 { stars = '⭐'; emoji = '👍'; }
+    document.getElementById('winScore').textContent = `${score} / ${ROUNDS.length}`;
+    document.getElementById('winStars').textContent = stars;
+    document.getElementById('winEmoji').textContent = emoji;
+    show('screenWin');
+  }
+
+  function start() {
+    currentRound = 0;
+    score = 0;
+    loadRound();
+  }
+
+  return { start, check, next };
+})();
+</script>
+</body>
+</html>
