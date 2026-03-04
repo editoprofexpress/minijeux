@@ -46,9 +46,12 @@
     /* ── SVG MAP ── */
     #europeMap {
       width: 100%;
-      max-height: 380px;
+      height: auto;
       display: block;
       cursor: pointer;
+    }
+    @media (max-width: 400px) {
+      .map-question { font-size: 0.9rem; }
     }
     .country { fill: #e2e8f0; stroke: white; stroke-width: 1.5; transition: fill .2s; cursor: pointer; }
     .country:hover { fill: var(--subject-mid); }
