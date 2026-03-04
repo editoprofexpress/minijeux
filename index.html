@@ -170,6 +170,16 @@
     }
     .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
 
+    /* ─── TYPE BADGE ─────────────────────────────────── */
+    .type-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.22);
+      border-radius: 100px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.68rem; font-weight: 700;
+      margin-top: 0.25rem; margin-left: 0.25rem;
+    }
+
     /* ─── FOOTER ──────────────────────────────────────── */
     footer {
       text-align: center; padding: 2rem;
@@ -197,7 +207,7 @@
   <!-- Stats -->
   <div class="stats" id="stats">
     <div class="stat-card">
-      <span class="stat-num" id="countGames">6</span>
+      <span class="stat-num" id="countGames">12</span>
       <span class="stat-label">jeux disponibles</span>
     </div>
     <div class="stat-card">
@@ -227,13 +237,14 @@
   <!-- Games Grid -->
   <div class="games-grid" id="gamesGrid">
 
-    <!-- Allemand -->
+    <!-- Allemand – Negation QCM -->
     <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="college">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🇩🇪</span>
         <div class="card-meta">
           <div class="card-subject">Allemand</div>
           <div class="card-level">3e – 6e</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -246,13 +257,34 @@
       </div>
     </a>
 
-    <!-- Anglais -->
+    <!-- Allemand – Mémoire -->
+    <a class="game-card" href="allemand/vocabulaire-memoire.html" data-subject="allemand" data-level="college">
+      <div class="card-header subject-allemand">
+        <span class="card-emoji">🧠</span>
+        <div class="card-meta">
+          <div class="card-subject">Allemand</div>
+          <div class="card-level">3e – 6e</div>
+          <span class="type-badge">🃏 Mémoire</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Mémoire des mots</div>
+        <div class="card-desc">Retrouvez les paires français ↔ allemand en retournant les cartes. Timer et compteur de tentatives.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~4 min · 8 paires</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Anglais – QCM -->
     <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="college">
       <div class="card-header subject-anglais">
         <span class="card-emoji">🇬🇧</span>
         <div class="card-meta">
           <div class="card-subject">Anglais</div>
           <div class="card-level">3e – 5e</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -265,13 +297,34 @@
       </div>
     </a>
 
-    <!-- Français -->
+    <!-- Anglais – Tri glisser -->
+    <a class="game-card" href="anglais/verbes-tri-glisser.html" data-subject="anglais" data-level="college">
+      <div class="card-header subject-anglais">
+        <span class="card-emoji">📋</span>
+        <div class="card-meta">
+          <div class="card-subject">Anglais</div>
+          <div class="card-level">4e – 3e</div>
+          <span class="type-badge">🔀 Tri</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Verbes réguliers et irréguliers</div>
+        <div class="card-desc">Classez les verbes anglais en deux catégories : Regular ou Irregular, et découvrez leur prétérit.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 10 verbes</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Français – Accord QCM -->
     <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="primaire">
       <div class="card-header subject-francais">
         <span class="card-emoji">📝</span>
         <div class="card-meta">
           <div class="card-subject">Français</div>
           <div class="card-level">CM1 – CM2</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -284,13 +337,34 @@
       </div>
     </a>
 
-    <!-- Mathématiques -->
+    <!-- Français – Puzzle de phrases -->
+    <a class="game-card" href="francais/phrase-puzzle.html" data-subject="francais" data-level="primaire">
+      <div class="card-header subject-francais">
+        <span class="card-emoji">🔤</span>
+        <div class="card-meta">
+          <div class="card-subject">Français</div>
+          <div class="card-level">CM1 – 6e</div>
+          <span class="type-badge">🧩 Puzzle</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Puzzle de phrases</div>
+        <div class="card-desc">Remettez les mots dans le bon ordre pour reconstituer des phrases correctes. Cliquez sur les mots pour les placer.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~6 min · 6 phrases</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Mathématiques – Fractions QCM -->
     <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="college">
       <div class="card-header subject-maths">
         <span class="card-emoji">➗</span>
         <div class="card-meta">
           <div class="card-subject">Mathématiques</div>
           <div class="card-level">6e</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -303,13 +377,34 @@
       </div>
     </a>
 
-    <!-- Histoire-Géo -->
+    <!-- Mathématiques – Ordre fractions -->
+    <a class="game-card" href="mathematiques/fractions-ordre.html" data-subject="maths" data-level="primaire">
+      <div class="card-header subject-maths">
+        <span class="card-emoji">📊</span>
+        <div class="card-meta">
+          <div class="card-subject">Mathématiques</div>
+          <div class="card-level">CM1 – 5e</div>
+          <span class="type-badge">↕️ Classement</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Ordonner les fractions</div>
+        <div class="card-desc">Placez les fractions dans le bon ordre, du plus petit au plus grand. 5 niveaux de difficulté croissante.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~6 min · 5 niveaux</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Histoire-Géo – QCM -->
     <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="college">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🗺️</span>
         <div class="card-meta">
           <div class="card-subject">Histoire-Géographie</div>
           <div class="card-level">3e</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -322,6 +417,26 @@
       </div>
     </a>
 
+    <!-- Histoire-Géo – Carte interactive -->
+    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="college">
+      <div class="card-header subject-histoire">
+        <span class="card-emoji">🌍</span>
+        <div class="card-meta">
+          <div class="card-subject">Histoire-Géographie</div>
+          <div class="card-level">4e – 5e</div>
+          <span class="type-badge">🗺️ Carte</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Carte interactive de l'Europe</div>
+        <div class="card-desc">Localisez les pays européens en cliquant sur la carte. Capitales, pays et repères géographiques.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 10 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
     <!-- EMC -->
     <a class="game-card" href="emc/les-emotions-cp.html" data-subject="emc" data-level="primaire">
       <div class="card-header subject-emc">
@@ -329,6 +444,7 @@
         <div class="card-meta">
           <div class="card-subject">EMC</div>
           <div class="card-level">CP</div>
+          <span class="type-badge">❓ Quiz</span>
         </div>
       </div>
       <div class="card-body">
@@ -337,6 +453,26 @@
       </div>
       <div class="card-footer">
         <span class="card-info">⏱ ~4 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Sciences – Classification animaux -->
+    <a class="game-card" href="sciences/classification-animaux.html" data-subject="sciences" data-level="primaire">
+      <div class="card-header subject-sciences">
+        <span class="card-emoji">🐾</span>
+        <div class="card-meta">
+          <div class="card-subject">Sciences</div>
+          <div class="card-level">CE2 – CM2</div>
+          <span class="type-badge">🔀 Tri</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Classer les animaux</div>
+        <div class="card-desc">Classez 12 animaux selon leur régime alimentaire : Herbivore, Carnivore ou Omnivore.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~4 min · 12 animaux</span>
         <span class="card-btn">Jouer →</span>
       </div>
     </a>
