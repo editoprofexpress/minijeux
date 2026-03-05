@@ -97,7 +97,6 @@ Chaque fichier jeu doit respecter ce squelette :
 </head>
 <body>
   <header>
-    <a href="../index.html">← Accueil</a>
     <h1>NOTION_EXACTE</h1>
     <p class="subtitle">MATIERE — NIVEAU</p>
   </header>

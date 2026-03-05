@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e, 6e">
+  <meta name="matiere" content="Allemand">
+  <meta name="type" content="construction">
+  <title>La phrase interrogative — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #dc2626;
+      --subject-dark: #b91c1c;
+      --subject-light: #fee2e2;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fff5f5;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 60%, #fca5a5 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.25rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    /* Construction game */
+    .progress-wrap { margin-bottom: 1.25rem; background: var(--card); border-radius: 100px; padding: 0.6rem 1rem; box-shadow: 0 2px 8px rgba(220,38,38,0.08); display: flex; align-items: center; gap: 0.75rem; }
+    .progress-track { flex: 1; height: 7px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.8rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .q-instruction { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .q-hint { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.25rem; font-style: italic; }
+    /* Drop zone */
+    .drop-zone { min-height: 52px; border: 2.5px dashed var(--border); border-radius: 12px; padding: 0.6rem 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-bottom: 1rem; transition: border-color .15s; }
+    .drop-zone.over { border-color: var(--subject); background: var(--subject-light); }
+    .drop-zone.correct { border-color: #059669; background: var(--success-light); }
+    .drop-zone.wrong { border-color: var(--error); background: var(--error-light); }
+    /* Word bank */
+    .bank-label { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.5rem; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; min-height: 44px; }
+    .word-token { background: white; border: 2px solid var(--subject-light); border-radius: 8px; padding: 0.4rem 0.85rem; font-size: 0.9rem; font-weight: 800; cursor: grab; transition: all .15s; user-select: none; color: var(--subject-dark); }
+    .word-token:hover { border-color: var(--subject); background: var(--subject-light); }
+    .word-token.dragging { opacity: 0.4; }
+    .word-token.in-zone { background: var(--subject); color: white; border-color: var(--subject); cursor: pointer; }
+    .correct-sentence { background: var(--success-light); border: 2px solid #059669; border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.88rem; color: #065f46; margin-bottom: 0.5rem; display: none; }
+    .correct-sentence.show { display: block; }
+    .feedback { padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 0.75rem; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid #059669; color: #065f46; font-weight: 700; }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); color: #991b1b; font-weight: 700; }
+    .btn-check { width: 100%; padding: 0.85rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+    .btn-check:disabled { background: var(--border); cursor: default; }
+    .btn-next { width: 100%; padding: 0.85rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; display: none; margin-top: 0.5rem; }
+    .btn-next.show { display: block; }
+    .results { text-align: center; padding: 0.5rem 0; }
+    .results-emoji { font-size: 3.5rem; margin-bottom: 0.5rem; }
+    .score-big { font-size: 2.5rem; font-weight: 900; color: var(--subject); }
+    .score-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 1rem; }
+    .result-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇩🇪 Allemand</div>
+  <h1>La phrase interrogative</h1>
+  <p>Allemand — 3e / 4e / 5e / 6e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🏗️</div>
+    <div class="intro-title">Construire la phrase interrogative</div>
+    <div class="intro-desc">Remets les mots dans le bon ordre pour former des questions correctes en allemand.</div>
+    <div class="rule-box">
+      <strong>Rappel — Les W-Fragen :</strong><br>
+      Mot interrogatif <strong>→ verbe conjugué → sujet → reste</strong><br>
+      <em>Wo <strong>wohnst</strong> du ? (Où habites-tu ?)</em><br><br>
+      <strong>Question totale (Ja/Nein) :</strong><br>
+      Verbe conjugué <strong>→ sujet → reste</strong><br>
+      <em><strong>Wohnst</strong> du in Berlin ? (Habites-tu à Berlin ?)</em>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">1 / 7</span>
+    </div>
+    <div class="q-num" id="qNum">Phrase 1 / 7</div>
+    <div class="q-instruction" id="qInstruction"></div>
+    <div class="q-hint" id="qHint"></div>
+    <div class="bank-label">Mots disponibles :</div>
+    <div class="word-bank" id="wordBank"></div>
+    <div class="bank-label">Ta phrase :</div>
+    <div class="drop-zone" id="dropZone"></div>
+    <div class="correct-sentence" id="correctSentence"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-check" id="btnCheck" onclick="game.check()">Vérifier ✓</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Phrase suivante →</button>
+    <div class="results" id="resultsDiv" style="display:none">
+      <div class="results-emoji" id="resultsEmoji">🏆</div>
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-sub">bonne(s) réponse(s) sur 7</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const QUESTIONS = [
+  { instruction: 'Formule la question : "Où habites-tu ?"', hint: 'W-Frage : Wo → verbe → sujet', words: ['Wo', 'du', 'wohnst', '?'], answer: ['Wo', 'wohnst', 'du', '?'], translation: 'Où habites-tu ?' },
+  { instruction: 'Formule la question : "Comment t\'appelles-tu ?"', hint: 'W-Frage : Wie → verbe → sujet', words: ['du', 'Wie', 'heißt', '?'], answer: ['Wie', 'heißt', 'du', '?'], translation: 'Comment t\'appelles-tu ?' },
+  { instruction: 'Formule la question : "Quel âge as-tu ?"', hint: 'W-Frage : Wie alt → verbe → sujet', words: ['alt', 'du', 'Wie', 'bist', '?'], answer: ['Wie', 'alt', 'bist', 'du', '?'], translation: 'Quel âge as-tu ?' },
+  { instruction: 'Formule la question : "D\'où viens-tu ?"', hint: 'W-Frage : Woher → verbe → sujet', words: ['du', 'kommst', 'Woher', '?'], answer: ['Woher', 'kommst', 'du', '?'], translation: 'D\'où viens-tu ?' },
+  { instruction: 'Formule la question : "Qu\'est-ce que tu fais ?" (totale)', hint: 'W-Frage : Was → verbe → sujet', words: ['Was', 'du', 'machst', '?'], answer: ['Was', 'machst', 'du', '?'], translation: 'Qu\'est-ce que tu fais ?' },
+  { instruction: 'Question totale : "Parles-tu allemand ?"', hint: 'Ja/Nein : verbe → sujet → reste', words: ['Deutsch', 'du', 'sprichst', '?'], answer: ['Sprichst', 'du', 'Deutsch', '?'], words_override: ['Sprichst', 'du', 'Deutsch', '?'], translation: 'Parles-tu allemand ?' },
+  { instruction: 'Formule la question : "Qu\'est-ce que tu aimes ?"', hint: 'W-Frage : Was → verbe → sujet', words: ['gern', 'du', 'Was', 'hast', '?'], answer: ['Was', 'hast', 'du', 'gern', '?'], translation: 'Qu\'est-ce que tu aimes ?' },
+];
+
+const game = (() => {
+  let questions, idx, score, dragEl;
+
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    questions = [...QUESTIONS]; idx = 0; score = 0;
+    document.getElementById('resultsDiv').style.display = 'none';
+    show('screenGame');
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[idx];
+    document.getElementById('qNum').textContent = 'Phrase ' + (idx + 1) + ' / ' + questions.length;
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = (idx + 1) + ' / ' + questions.length;
+    document.getElementById('qInstruction').textContent = '📝 ' + q.instruction;
+    document.getElementById('qHint').textContent = '💡 ' + q.hint;
+    const words = shuffle([...(q.words_override || q.words)]);
+    const bank = document.getElementById('wordBank');
+    bank.innerHTML = '';
+    words.forEach((w, i) => {
+      const tok = document.createElement('div');
+      tok.className = 'word-token';
+      tok.textContent = w;
+      tok.dataset.word = w;
+      tok.dataset.idx = i;
+      tok.addEventListener('click', () => moveToZone(tok));
+      tok.draggable = true;
+      tok.addEventListener('dragstart', () => { dragEl = tok; tok.classList.add('dragging'); });
+      tok.addEventListener('dragend', () => tok.classList.remove('dragging'));
+      bank.appendChild(tok);
+    });
+    const zone = document.getElementById('dropZone');
+    zone.innerHTML = '';
+    zone.className = 'drop-zone';
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); if (dragEl) moveToZone(dragEl); });
+    document.getElementById('correctSentence').className = 'correct-sentence';
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnCheck').disabled = false;
+    document.getElementById('btnNext').className = 'btn-next';
+  }
+
+  function moveToZone(tok) {
+    if (tok.classList.contains('in-zone')) {
+      // Return to bank
+      tok.classList.remove('in-zone');
+      document.getElementById('wordBank').appendChild(tok);
+    } else {
+      tok.classList.add('in-zone');
+      document.getElementById('dropZone').appendChild(tok);
+    }
+  }
+
+  function check() {
+    const q = questions[idx];
+    const zoneWords = [...document.getElementById('dropZone').querySelectorAll('.word-token')].map(t => t.dataset.word);
+    const correct = JSON.stringify(zoneWords) === JSON.stringify(q.answer);
+    const zone = document.getElementById('dropZone');
+    const fb = document.getElementById('feedback');
+    const cs = document.getElementById('correctSentence');
+    zone.className = 'drop-zone ' + (correct ? 'correct' : 'wrong');
+    if (correct) {
+      score++;
+      fb.textContent = '✅ Parfait ! ' + q.answer.join(' ') + ' (' + q.translation + ')';
+      fb.className = 'feedback show correct-fb';
+    } else {
+      fb.textContent = '❌ Pas tout à fait.';
+      fb.className = 'feedback show wrong-fb';
+      cs.textContent = '✅ Réponse correcte : ' + q.answer.join(' ') + ' (' + q.translation + ')';
+      cs.className = 'correct-sentence show';
+    }
+    document.querySelectorAll('.word-token').forEach(t => { t.draggable = false; t.style.cursor = 'default'; });
+    document.getElementById('btnCheck').disabled = true;
+    document.getElementById('btnNext').className = 'btn-next show';
+    document.getElementById('btnNext').textContent = idx === questions.length - 1 ? 'Voir les résultats →' : 'Phrase suivante →';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    document.getElementById('btnCheck').style.display = 'none';
+    document.getElementById('btnNext').className = 'btn-next';
+    const pct = score / questions.length;
+    document.getElementById('resultsEmoji').textContent = pct === 1 ? '🏆' : pct >= .7 ? '🎉' : '📚';
+    document.getElementById('scoreBig').textContent = score;
+    document.getElementById('resultMsg').textContent = pct === 1 ? 'Parfait ! Tu maîtrises les questions en allemand !' : pct >= .7 ? 'Très bien !' : 'Relis les règles des W-Fragen et réessaie !';
+    document.getElementById('resultsDiv').style.display = 'block';
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('btnCheck').style.display = ''; }
+
+  return { start, check, next, restart };
+})();
+</script>
+</body>
+</html>

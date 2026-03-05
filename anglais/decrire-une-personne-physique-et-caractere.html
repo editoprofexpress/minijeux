@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e">
+  <meta name="matiere" content="Anglais">
+  <meta name="type" content="flashcard">
+  <title>Décrire une personne (physique et caractère) — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #0284c7;
+      --subject-dark: #0369a1;
+      --subject-light: #e0f2fe;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #075985 0%, #0284c7 60%, #38bdf8 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 640px; padding: 2rem 1rem 3rem; flex: 1; display: flex; flex-direction: column; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    /* Flashcard */
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.6rem 1rem; box-shadow: 0 2px 8px rgba(2,132,199,0.08); display: flex; align-items: center; gap: 0.75rem; }
+    .progress-track { flex: 1; height: 7px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.8rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .flashcard-wrap { perspective: 800px; margin-bottom: 1.5rem; cursor: pointer; }
+    .flashcard { width: 100%; min-height: 200px; position: relative; transform-style: preserve-3d; transition: transform 0.5s ease; border-radius: var(--radius); }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .fc-face { position: absolute; width: 100%; min-height: 200px; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .fc-front { background: var(--subject); color: white; }
+    .fc-back { background: white; border: 3px solid var(--subject-light); transform: rotateY(180deg); }
+    .fc-label { font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; margin-bottom: 0.75rem; }
+    .fc-front .fc-label { color: rgba(255,255,255,0.8); }
+    .fc-back .fc-label { color: var(--muted); }
+    .fc-word { font-size: 2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .fc-front .fc-word { color: white; }
+    .fc-back .fc-word { color: var(--subject-dark); }
+    .fc-example { font-size: 0.85rem; font-style: italic; opacity: 0.85; line-height: 1.5; }
+    .fc-front .fc-example { color: rgba(255,255,255,0.9); }
+    .fc-hint { font-size: 0.75rem; margin-top: 1rem; opacity: 0.6; }
+    .fc-category { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.15rem 0.6rem; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .fc-back .fc-category { background: var(--subject-light); color: var(--subject-dark); }
+    .action-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+    .action-btn { border: none; border-radius: 12px; padding: 0.75rem; font-family: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .btn-know { background: var(--success-light); color: var(--success); }
+    .btn-skip { background: #f1f5f9; color: var(--muted); }
+    .btn-again { background: var(--error-light); color: var(--error); }
+    .action-btn:hover { opacity: 0.85; }
+    .stats-bar { display: flex; gap: 0.75rem; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+    .stat { display: flex; align-items: center; gap: 0.3rem; }
+    .results { text-align: center; }
+    .score-big { font-size: 2.5rem; font-weight: 900; color: var(--subject); margin-bottom: 0.25rem; }
+    .score-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .result-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇬🇧 Anglais</div>
+  <h1>Décrire une personne (physique et caractère)</h1>
+  <p>Anglais — 3e / 4e / 5e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">📖</div>
+    <div class="intro-title">Flashcards — Description</div>
+    <div class="intro-desc">Chaque carte montre un mot anglais. Clique pour révéler la traduction et un exemple. Indique si tu l'as su ou pas.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">1 / 16</span>
+    </div>
+    <div class="flashcard-wrap" onclick="game.flip()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-face fc-front">
+          <div class="fc-category" id="fcCategory"></div>
+          <div class="fc-label">Mot anglais</div>
+          <div class="fc-word" id="fcWord"></div>
+          <div class="fc-example" id="fcExampleEn"></div>
+          <div class="fc-hint">👆 Cliquer pour révéler</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-category" id="fcCategoryBack" style="background:var(--subject-light);color:var(--subject-dark)"></div>
+          <div class="fc-label">Traduction</div>
+          <div class="fc-word" id="fcTranslation"></div>
+          <div class="fc-example" id="fcExampleFr"></div>
+        </div>
+      </div>
+    </div>
+    <div class="action-btns" id="actionBtns" style="display:none">
+      <button class="action-btn btn-again" onclick="game.respond('again')">❌<span>À revoir</span></button>
+      <button class="action-btn btn-skip" onclick="game.respond('skip')">➡️<span>Passer</span></button>
+      <button class="action-btn btn-know" onclick="game.respond('know')">✅<span>Je savais</span></button>
+    </div>
+    <div class="stats-bar" id="statsBar">
+      <div class="stat"><span style="color:var(--success)">✅</span><span id="statKnow">0</span></div>
+      <div class="stat"><span style="color:var(--error)">❌</span><span id="statAgain">0</span></div>
+    </div>
+  </div>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div style="font-size:3.5rem;margin-bottom:.5rem" id="resultsEmoji">🎉</div>
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-sub">mots sus / <span id="scoreTotal"></span></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+<script>
+const CARDS = [
+  { word: 'tall', translation: 'grand(e)', category: '📏 Physique', exEn: '"He is very tall — almost 2 metres!"', exFr: '"Il est très grand — presque 2 mètres !"' },
+  { word: 'short', translation: 'petit(e)', category: '📏 Physique', exEn: '"She is quite short for her age."', exFr: '"Elle est assez petite pour son âge."' },
+  { word: 'slim', translation: 'mince', category: '📏 Physique', exEn: '"He has a slim figure."', exFr: '"Il a une silhouette mince."' },
+  { word: 'curly hair', translation: 'cheveux bouclés', category: '💇 Physique', exEn: '"She has curly red hair."', exFr: '"Elle a les cheveux bouclés et roux."' },
+  { word: 'straight hair', translation: 'cheveux lisses', category: '💇 Physique', exEn: '"He has short straight hair."', exFr: '"Il a les cheveux courts et lisses."' },
+  { word: 'kind', translation: 'gentil(le), aimable', category: '🌟 Caractère', exEn: '"She is really kind — always helping others."', exFr: '"Elle est vraiment gentille — elle aide toujours les autres."' },
+  { word: 'clever', translation: 'intelligent(e)', category: '🌟 Caractère', exEn: '"He is clever — he got top marks."', exFr: '"Il est intelligent — il a eu les meilleures notes."' },
+  { word: 'shy', translation: 'timide', category: '🌟 Caractère', exEn: '"She is quite shy at first, but very friendly."', exFr: '"Elle est assez timide au début, mais très amicale."' },
+  { word: 'confident', translation: 'sûr(e) de soi, confiant(e)', category: '🌟 Caractère', exEn: '"He is confident in front of an audience."', exFr: '"Il est sûr de lui devant un public."' },
+  { word: 'hard-working', translation: 'travailleur/travailleuse', category: '🌟 Caractère', exEn: '"She is hard-working and always does her homework."', exFr: '"Elle est travailleuse et fait toujours ses devoirs."' },
+  { word: 'lazy', translation: 'paresseux/paresseuse', category: '🌟 Caractère', exEn: '"He is lazy — he never studies."', exFr: '"Il est paresseux — il ne travaille jamais."' },
+  { word: 'funny', translation: 'drôle, amusant(e)', category: '🌟 Caractère', exEn: '"My best friend is so funny — she makes me laugh."', exFr: '"Ma meilleure amie est très drôle — elle me fait rire."' },
+  { word: 'friendly', translation: 'sympathique, chaleureux', category: '🌟 Caractère', exEn: '"He is very friendly with everyone."', exFr: '"Il est très sympathique avec tout le monde."' },
+  { word: 'blue eyes', translation: 'les yeux bleus', category: '👁️ Physique', exEn: '"She has bright blue eyes."', exFr: '"Elle a des yeux bleus vifs."' },
+  { word: 'freckles', translation: 'des taches de rousseur', category: '😊 Physique', exEn: '"He has freckles on his nose."', exFr: '"Il a des taches de rousseur sur le nez."' },
+  { word: 'in his/her thirties', translation: 'la trentaine', category: '🎂 Âge', exEn: '"She is in her thirties — maybe 35."', exFr: '"Elle est la trentaine — peut-être 35 ans."' },
+];
+
+const game = (() => {
+  let cards, idx, knowCount, againCount, flipped;
+
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    cards = shuffle([...CARDS]); idx = 0; knowCount = 0; againCount = 0;
+    document.getElementById('statKnow').textContent = '0';
+    document.getElementById('statAgain').textContent = '0';
+    show('screenGame');
+    showCard();
+  }
+
+  function showCard() {
+    flipped = false;
+    const c = cards[idx];
+    document.getElementById('flashcard').classList.remove('flipped');
+    document.getElementById('fcCategory').textContent = c.category;
+    document.getElementById('fcCategoryBack').textContent = c.category;
+    document.getElementById('fcWord').textContent = c.word;
+    document.getElementById('fcExampleEn').textContent = c.exEn;
+    document.getElementById('fcTranslation').textContent = c.translation;
+    document.getElementById('fcExampleFr').textContent = c.exFr;
+    document.getElementById('progressFill').style.width = (idx / cards.length * 100) + '%';
+    document.getElementById('progressText').textContent = (idx + 1) + ' / ' + cards.length;
+    document.getElementById('actionBtns').style.display = 'none';
+  }
+
+  function flip() {
+    if (flipped) return;
+    flipped = true;
+    document.getElementById('flashcard').classList.add('flipped');
+    setTimeout(() => { document.getElementById('actionBtns').style.display = 'grid'; }, 300);
+  }
+
+  function respond(type) {
+    if (type === 'know') { knowCount++; document.getElementById('statKnow').textContent = knowCount; }
+    else if (type === 'again') { againCount++; document.getElementById('statAgain').textContent = againCount; }
+    idx++;
+    if (idx >= cards.length) showResults(); else showCard();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    const pct = knowCount / cards.length;
+    document.getElementById('resultsEmoji').textContent = pct >= .8 ? '🏆' : pct >= .5 ? '🎉' : '📚';
+    document.getElementById('scoreBig').textContent = knowCount;
+    document.getElementById('scoreTotal').textContent = cards.length;
+    document.getElementById('resultMsg').textContent = pct >= .8 ? 'Excellent vocabulaire !' : pct >= .5 ? 'Bien ! Continue à réviser.' : 'Entraîne-toi encore avec ces cartes !';
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, flip, respond, restart };
+})();
+</script>
+</body>
+</html>
