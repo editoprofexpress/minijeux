@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e">
+  <meta name="matiere" content="Anglais">
+  <meta name="type" content="pendu">
+  <title>Vocabulaire du corps humain — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #0284c7;
+      --subject-dark: #0369a1;
+      --subject-light: #e0f2fe;
+      --subject-mid: #7dd3fc;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #075985 0%, #0284c7 60%, #38bdf8 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 620px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Hangman game */
+    .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .word-count { font-size: 0.85rem; font-weight: 800; color: var(--muted); }
+    .lives-display { display: flex; gap: 4px; }
+    .heart { font-size: 1.2rem; transition: all .2s; }
+    .heart.lost { filter: grayscale(1); opacity: 0.35; }
+    /* Gallows SVG */
+    .gallows-wrap { display: flex; justify-content: center; margin-bottom: 1rem; }
+    .gallows-svg { width: 180px; height: 160px; }
+    /* Hint */
+    .hint-box { background: var(--subject-light); border-radius: 10px; padding: 0.65rem 1rem; margin-bottom: 1rem; font-size: 0.88rem; font-weight: 700; color: var(--subject-dark); text-align: center; }
+    /* Word display */
+    .word-display { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
+    .letter-box { width: 36px; height: 44px; border-bottom: 3px solid var(--subject); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 900; text-transform: uppercase; }
+    .letter-box.space { border-bottom: none; width: 20px; }
+    /* Keyboard */
+    .keyboard { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 1rem; }
+    .key-btn { width: 36px; height: 40px; border: 2.5px solid var(--subject-light); border-radius: 8px; background: white; font-family: inherit; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: all .1s; color: var(--text); }
+    .key-btn:hover:not(:disabled) { background: var(--subject-light); border-color: var(--subject); }
+    .key-btn.hit { background: var(--success-light); border-color: var(--success); color: var(--success); cursor: default; }
+    .key-btn.miss { background: var(--error-light); border-color: var(--error); color: var(--error); cursor: default; }
+    /* Result */
+    .result-banner { border-radius: 12px; padding: 1rem 1.25rem; text-align: center; display: none; margin-bottom: 1rem; }
+    .result-banner.show { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .result-banner.win { background: var(--success-light); border: 2px solid var(--success); }
+    .result-banner.lose { background: var(--error-light); border: 2px solid var(--error); }
+    .result-banner .r-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .result-banner .r-sub { font-size: 0.88rem; color: var(--muted); }
+    .result-banner.win .r-title { color: var(--success); }
+    .result-banner.lose .r-title { color: var(--error); }
+    .btn-next { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    /* Score screen */
+    .score-final { text-align: center; padding: 1rem 0; }
+    .score-big { font-size: 3rem; font-weight: 900; color: var(--subject); }
+    .score-lbl { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .score-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇬🇧 Anglais</div>
+  <h1>Vocabulaire du corps humain</h1>
+  <p>Anglais — 5e / 6e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🫀</div>
+    <div class="intro-title">Le pendu — Corps humain</div>
+    <div class="intro-desc">Retrouve les mots de vocabulaire du corps humain en anglais. Tu as 6 erreurs maximum par mot. Un indice en français t'est donné !</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="game-header">
+      <span class="word-count" id="wordCount">Mot 1 / 10</span>
+      <div class="lives-display" id="livesDisplay"></div>
+    </div>
+    <div class="gallows-wrap">
+      <svg class="gallows-svg" viewBox="0 0 180 160" id="gallowsSvg">
+        <!-- Gallows structure (always visible) -->
+        <line x1="20" y1="155" x2="160" y2="155" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="50" y1="155" x2="50" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="50" y1="10" x2="120" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="120" y1="10" x2="120" y2="30" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <!-- Hanged man parts (hidden by default) -->
+        <circle id="hm-head" cx="120" cy="42" r="12" fill="none" stroke="#ef4444" stroke-width="3" display="none"/>
+        <line id="hm-body" x1="120" y1="54" x2="120" y2="100" stroke="#ef4444" stroke-width="3" stroke-linecap="round" display="none"/>
+        <line id="hm-arm1" x1="120" y1="65" x2="98" y2="85" stroke="#ef4444" stroke-width="3" stroke-linecap="round" display="none"/>
+        <line id="hm-arm2" x1="120" y1="65" x2="142" y2="85" stroke="#ef4444" stroke-width="3" stroke-linecap="round" display="none"/>
+        <line id="hm-leg1" x1="120" y1="100" x2="100" y2="128" stroke="#ef4444" stroke-width="3" stroke-linecap="round" display="none"/>
+        <line id="hm-leg2" x1="120" y1="100" x2="140" y2="128" stroke="#ef4444" stroke-width="3" stroke-linecap="round" display="none"/>
+      </svg>
+    </div>
+    <div class="hint-box" id="hintBox"></div>
+    <div class="word-display" id="wordDisplay"></div>
+    <div class="keyboard" id="keyboard"></div>
+    <div class="result-banner" id="resultBanner">
+      <div class="r-title" id="resultTitle"></div>
+      <div class="r-sub" id="resultSub"></div>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.nextWord()">Mot suivant →</button>
+  </div>
+  <div class="card screen" id="screenEnd">
+    <div class="score-final">
+      <div class="score-big" id="finalScore"></div>
+      <div class="score-lbl" id="finalLbl"></div>
+      <div class="score-msg" id="finalMsg"></div>
+      <button class="btn-start" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const WORDS = [
+  { word: 'HEAD', hint: 'Tête' },
+  { word: 'SHOULDER', hint: 'Épaule' },
+  { word: 'ELBOW', hint: 'Coude' },
+  { word: 'WRIST', hint: 'Poignet' },
+  { word: 'KNEE', hint: 'Genou' },
+  { word: 'ANKLE', hint: 'Cheville' },
+  { word: 'STOMACH', hint: 'Estomac / Ventre' },
+  { word: 'THUMB', hint: 'Pouce' },
+  { word: 'FINGER', hint: 'Doigt' },
+  { word: 'CHEST', hint: 'Poitrine / Torse' }
+];
+
+const BODY_PARTS = ['hm-head', 'hm-body', 'hm-arm1', 'hm-arm2', 'hm-leg1', 'hm-leg2'];
+const MAX_ERRORS = 6;
+
+const game = (() => {
+  let words, wIdx, currentWord, guessed, errors, won, totalWon;
+
+  function shuffle(arr) { const a = [...arr]; for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    words = shuffle([...WORDS]);
+    wIdx = 0; totalWon = 0;
+    loadWord();
+    show('screenGame');
+  }
+
+  function loadWord() {
+    won = false;
+    errors = 0;
+    guessed = new Set();
+    currentWord = words[wIdx].word;
+    document.getElementById('wordCount').textContent = 'Mot ' + (wIdx + 1) + ' / ' + words.length;
+    document.getElementById('hintBox').textContent = '🇫🇷 Indice : ' + words[wIdx].hint;
+    renderLives();
+    renderGallows();
+    renderWord();
+    renderKeyboard();
+    document.getElementById('resultBanner').className = 'result-banner';
+    document.getElementById('btnNext').className = 'btn-next';
+  }
+
+  function renderLives() {
+    const div = document.getElementById('livesDisplay');
+    div.innerHTML = '';
+    for (let i = 0; i < MAX_ERRORS; i++) {
+      const sp = document.createElement('span');
+      sp.className = 'heart' + (i < errors ? ' lost' : '');
+      sp.textContent = '❤️';
+      div.appendChild(sp);
+    }
+  }
+
+  function renderGallows() {
+    BODY_PARTS.forEach((id, i) => {
+      document.getElementById(id).setAttribute('display', i < errors ? 'block' : 'none');
+    });
+  }
+
+  function renderWord() {
+    const div = document.getElementById('wordDisplay');
+    div.innerHTML = '';
+    currentWord.split('').forEach(ch => {
+      const box = document.createElement('div');
+      if (ch === ' ') {
+        box.className = 'letter-box space';
+      } else {
+        box.className = 'letter-box';
+        box.textContent = guessed.has(ch) ? ch : '';
+      }
+      div.appendChild(box);
+    });
+  }
+
+  function renderKeyboard() {
+    const kb = document.getElementById('keyboard');
+    kb.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch => {
+      const btn = document.createElement('button');
+      btn.className = 'key-btn' + (guessed.has(ch) ? (currentWord.includes(ch) ? ' hit' : ' miss') : '');
+      btn.textContent = ch;
+      btn.disabled = guessed.has(ch) || won || errors >= MAX_ERRORS;
+      btn.addEventListener('click', () => guess(ch));
+      kb.appendChild(btn);
+    });
+  }
+
+  function guess(ch) {
+    if (guessed.has(ch) || won || errors >= MAX_ERRORS) return;
+    guessed.add(ch);
+    if (!currentWord.includes(ch)) {
+      errors++;
+      renderGallows();
+      renderLives();
+    }
+    renderWord();
+    renderKeyboard();
+    // Check win
+    const allRevealed = currentWord.split('').filter(c => c !== ' ').every(c => guessed.has(c));
+    if (allRevealed) {
+      won = true; totalWon++;
+      showResult(true);
+    } else if (errors >= MAX_ERRORS) {
+      showResult(false);
+    }
+  }
+
+  function showResult(win) {
+    const banner = document.getElementById('resultBanner');
+    document.getElementById('resultTitle').textContent = win ? '🎉 Bravo !' : '💀 Raté...';
+    document.getElementById('resultSub').textContent = win ? 'Tu as trouvé ' + currentWord + ' !' : 'Le mot était : ' + currentWord;
+    banner.className = 'result-banner show ' + (win ? 'win' : 'lose');
+    const btn = document.getElementById('btnNext');
+    btn.className = 'btn-next show';
+    btn.textContent = wIdx + 1 < words.length ? 'Mot suivant →' : 'Voir mon score →';
+    document.querySelectorAll('.key-btn').forEach(b => b.disabled = true);
+  }
+
+  function nextWord() {
+    wIdx++;
+    if (wIdx >= words.length) {
+      showEnd();
+    } else {
+      loadWord();
+    }
+  }
+
+  function showEnd() {
+    document.getElementById('finalScore').textContent = totalWon + ' / ' + words.length;
+    document.getElementById('finalLbl').textContent = 'mot' + (totalWon > 1 ? 's' : '') + ' trouvé' + (totalWon > 1 ? 's' : '');
+    const pct = totalWon / words.length;
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu connais tout le vocabulaire du corps !';
+    else if (pct >= .7) msg = '🎉 Très bien ! Continue à réviser le vocabulaire.';
+    else msg = '📚 Relis ton vocabulaire du corps humain en anglais !';
+    document.getElementById('finalMsg').textContent = msg;
+    show('screenEnd');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, nextWord, restart };
+})();
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('screenGame').classList.contains('active')) return;
+  const ch = e.key.toUpperCase();
+  if (/^[A-Z]$/.test(ch)) {
+    const btn = [...document.querySelectorAll('.key-btn')].find(b => b.textContent === ch && !b.disabled);
+    if (btn) btn.click();
+  }
+});
+</script>
+</body>
+</html>

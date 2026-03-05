@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="ce2, cm1, cm2, 6e">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="calcul">
+  <title>La multiplication — tables et calcul mental — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #7c3aed;
+      --subject-dark: #6d28d9;
+      --subject-light: #ede9fe;
+      --subject-mid: #c4b5fd;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f5f3ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 60%, #a78bfa 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1rem, 3.2vw, 1.6rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 560px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1rem; }
+    /* Difficulty selector */
+    .diff-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.5rem; }
+    .diff-btn { padding: 0.75rem 0.5rem; border: 2.5px solid var(--border); border-radius: 12px; background: white; font-family: inherit; font-size: 0.85rem; font-weight: 800; cursor: pointer; text-align: center; transition: all .15s; }
+    .diff-btn.active { border-color: var(--subject); background: var(--subject-light); color: var(--subject-dark); }
+    .diff-btn:hover { border-color: var(--subject-mid); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Game */
+    .top-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .progress-label { font-size: 0.85rem; font-weight: 800; color: var(--muted); }
+    .timer-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    .timer-chip.urgent { background: var(--error-light); color: var(--error); }
+    /* Operation display */
+    .op-display { text-align: center; background: var(--subject-light); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; }
+    .op-text { font-size: 3rem; font-weight: 900; color: var(--subject-dark); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .op-sub { font-size: 0.88rem; color: var(--muted); font-weight: 700; }
+    /* Answer input */
+    .answer-row { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+    .answer-input { flex: 1; border: 2.5px solid var(--border); border-radius: 12px; padding: 0.9rem 1rem; font-family: inherit; font-size: 1.4rem; font-weight: 900; text-align: center; outline: none; transition: border-color .15s; }
+    .answer-input:focus { border-color: var(--subject); }
+    .answer-input.correct { border-color: var(--success); background: var(--success-light); }
+    .answer-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-ok { padding: 0.9rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .btn-ok:hover { background: var(--subject-dark); }
+    /* Feedback */
+    .feedback-row { min-height: 36px; text-align: center; font-size: 0.95rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .feedback-row.ok { color: var(--success); }
+    .feedback-row.ko { color: var(--error); }
+    /* Streak */
+    .streak-row { text-align: center; font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+    /* Results */
+    .results-section { text-align: center; padding: 1rem 0; }
+    .result-big { font-size: 2.8rem; font-weight: 900; color: var(--subject); }
+    .result-lbl { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1rem 0; }
+    .stat-box { background: var(--subject-light); border-radius: 12px; padding: 0.75rem; }
+    .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--subject-dark); }
+    .stat-lbl { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+    .result-msg { font-size: 1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">✖️ Mathématiques</div>
+  <h1>La multiplication — tables et calcul mental</h1>
+  <p>Mathématiques — CE2 / CM1 / CM2 / 6e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">✖️</div>
+    <div class="intro-title">Calcul mental — Tables</div>
+    <div class="intro-desc">20 opérations de multiplication à calculer mentalement le plus vite possible. Choisis ta difficulté :</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="diff1" onclick="game.setDiff(1, this)">⭐ Tables 2–5<br><small>Débutant</small></button>
+      <button class="diff-btn" id="diff2" onclick="game.setDiff(2, this)">⭐⭐ Tables 6–9<br><small>Intermédiaire</small></button>
+      <button class="diff-btn" id="diff3" onclick="game.setDiff(3, this)">⭐⭐⭐ Tables 2–12<br><small>Expert</small></button>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="top-info">
+      <span class="progress-label" id="progressLabel">1 / 20</span>
+      <span class="timer-chip" id="timerChip">⏱ 0s</span>
+    </div>
+    <div class="op-display">
+      <div class="op-text" id="opText"></div>
+      <div class="op-sub">Combien font ces deux nombres multipliés ?</div>
+    </div>
+    <div class="answer-row">
+      <input class="answer-input" id="answerInput" type="number" min="0" max="999" placeholder="?" autocomplete="off">
+      <button class="btn-ok" onclick="game.submitAnswer()">OK</button>
+    </div>
+    <div class="feedback-row" id="feedbackRow"></div>
+    <div class="streak-row" id="streakRow"></div>
+  </div>
+  <div class="card screen" id="screenEnd">
+    <div class="results-section">
+      <div class="result-big" id="resultBig"></div>
+      <div class="result-lbl" id="resultLbl"></div>
+      <div class="result-stats">
+        <div class="stat-box">
+          <div class="stat-val" id="statCorrect"></div>
+          <div class="stat-lbl">bonnes réponses</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statTime"></div>
+          <div class="stat-lbl">secondes</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statStreak"></div>
+          <div class="stat-lbl">max. enchaîné</div>
+        </div>
+      </div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-start" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const TOTAL = 20;
+
+const game = (() => {
+  let diff = 1, qIdx, correct, ops, a, b, startTime, elapsed, timerInterval, streak, maxStreak, answered;
+
+  function setDiff(d, btn) {
+    diff = d;
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function genOps() {
+    const result = [];
+    const range = diff === 1 ? [2,5] : diff === 2 ? [6,9] : [2,12];
+    for (let i = 0; i < TOTAL; i++) {
+      const x = range[0] + Math.floor(Math.random() * (range[1] - range[0] + 1));
+      const y = 1 + Math.floor(Math.random() * 10);
+      result.push({ a: x, b: y, ans: x * y });
+    }
+    return result;
+  }
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    qIdx = 0; correct = 0; streak = 0; maxStreak = 0; answered = false;
+    ops = genOps();
+    startTime = Date.now();
+    elapsed = 0;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const chip = document.getElementById('timerChip');
+      chip.textContent = '⏱ ' + elapsed + 's';
+      chip.className = 'timer-chip' + (elapsed > 60 ? ' urgent' : '');
+    }, 500);
+    loadQuestion();
+    show('screenGame');
+  }
+
+  function loadQuestion() {
+    answered = false;
+    const op = ops[qIdx];
+    a = op.a; b = op.b;
+    document.getElementById('opText').textContent = a + ' × ' + b + ' = ?';
+    document.getElementById('progressLabel').textContent = (qIdx + 1) + ' / ' + TOTAL;
+    const inp = document.getElementById('answerInput');
+    inp.value = '';
+    inp.className = 'answer-input';
+    inp.disabled = false;
+    inp.focus();
+    document.getElementById('feedbackRow').textContent = '';
+    document.getElementById('feedbackRow').className = 'feedback-row';
+    updateStreak();
+  }
+
+  function updateStreak() {
+    document.getElementById('streakRow').textContent = streak > 1 ? '🔥 ' + streak + ' bonnes réponses d\'affilée !' : '';
+  }
+
+  function submitAnswer() {
+    if (answered) return;
+    const inp = document.getElementById('answerInput');
+    const val = parseInt(inp.value);
+    const op = ops[qIdx];
+    if (isNaN(val)) { inp.focus(); return; }
+    answered = true;
+    const ok = val === op.ans;
+    if (ok) { correct++; streak++; maxStreak = Math.max(maxStreak, streak); }
+    else { streak = 0; }
+    inp.className = 'answer-input ' + (ok ? 'correct' : 'wrong');
+    inp.disabled = true;
+    const fb = document.getElementById('feedbackRow');
+    fb.textContent = ok ? '✅ ' + a + ' × ' + b + ' = ' + op.ans : '❌ La bonne réponse était ' + op.ans;
+    fb.className = 'feedback-row ' + (ok ? 'ok' : 'ko');
+    updateStreak();
+    qIdx++;
+    if (qIdx >= TOTAL) {
+      clearInterval(timerInterval);
+      elapsed = Math.floor((Date.now() - startTime) / 1000);
+      setTimeout(showEnd, 700);
+    } else {
+      setTimeout(loadQuestion, ok ? 400 : 900);
+    }
+  }
+
+  function showEnd() {
+    const pct = correct / TOTAL;
+    document.getElementById('resultBig').textContent = correct + ' / ' + TOTAL;
+    document.getElementById('resultLbl').textContent = 'bonne' + (correct > 1 ? 's' : '') + ' réponse' + (correct > 1 ? 's' : '');
+    document.getElementById('statCorrect').textContent = correct;
+    document.getElementById('statTime').textContent = elapsed;
+    document.getElementById('statStreak').textContent = maxStreak;
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tables de multiplication parfaitement maîtrisées !';
+    else if (pct >= .8) msg = '🎉 Excellent ! Tu connais bien tes tables !';
+    else if (pct >= .6) msg = '👍 Bien ! Continue à t\'entraîner pour aller plus vite.';
+    else msg = '📚 Révise tes tables et recommence !';
+    document.getElementById('resultMsg').textContent = msg;
+    show('screenEnd');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { setDiff, start, submitAnswer, restart };
+})();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('screenGame').classList.contains('active')) {
+    game.submitAnswer();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="cm1, cm2, 6e">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="devinette">
+  <title>Les figures géométriques — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #0891b2;
+      --subject-dark: #0e7490;
+      --subject-light: #cffafe;
+      --subject-mid: #67e8f9;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #ecfeff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #164e63 0%, #0891b2 60%, #22d3ee 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 620px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Game */
+    .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .score-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    .figure-display { background: var(--subject-light); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+    .figure-svg { width: 140px; height: 140px; margin: 0 auto 1rem; display: block; }
+    .clues-list { list-style: none; text-align: left; }
+    .clue-item { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--subject-dark); opacity: 0; transition: opacity .4s; }
+    .clue-item.visible { opacity: 1; }
+    .clue-item::before { content: '💡'; flex-shrink: 0; }
+    .btn-next-clue { width: 100%; padding: 0.65rem; background: var(--subject-light); color: var(--subject-dark); border: 2px dashed var(--subject); border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-bottom: 1rem; transition: background .15s; }
+    .btn-next-clue:hover { background: var(--subject-mid); }
+    .btn-next-clue:disabled { opacity: 0.4; cursor: default; }
+    .answer-input { width: 100%; border: 2.5px solid var(--border); border-radius: 12px; padding: 0.8rem 1rem; font-family: inherit; font-size: 1rem; font-weight: 700; outline: none; margin-bottom: 0.75rem; transition: border-color .15s; }
+    .answer-input:focus { border-color: var(--subject); }
+    .answer-input.correct { border-color: var(--success); background: var(--success-light); }
+    .answer-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-validate { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-validate:hover { background: var(--subject-dark); }
+    .answer-feedback { margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.9rem; font-weight: 700; display: none; }
+    .answer-feedback.show { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .answer-feedback.ok { background: var(--success-light); color: var(--success); }
+    .answer-feedback.ko { background: var(--error-light); color: var(--error); }
+    .btn-next { margin-top: 0.75rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    /* Final */
+    .final-score { text-align: center; padding: 1.5rem 0; }
+    .final-big { font-size: 3rem; font-weight: 900; color: var(--subject); }
+    .final-label { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.75rem; }
+    .final-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📐 Mathématiques</div>
+  <h1>Les figures géométriques</h1>
+  <p>Mathématiques — CM1 / CM2 / 6e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">📐</div>
+    <div class="intro-title">Devine la figure !</div>
+    <div class="intro-desc">Des indices te seront révélés un par un. Devine la figure géométrique le plus tôt possible — moins tu utilises d'indices, mieux c'est !</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-row">
+      <span id="figureCounter" style="font-size:0.85rem;font-weight:800;color:var(--muted);">Figure 1 / 8</span>
+      <span class="score-chip" id="scoreChip">0 pts</span>
+    </div>
+    <div class="figure-display">
+      <svg class="figure-svg" id="figureSvg" viewBox="0 0 140 140"></svg>
+      <ul class="clues-list" id="cluesList"></ul>
+    </div>
+    <button class="btn-next-clue" id="btnNextClue" onclick="game.nextClue()">💡 Indice suivant</button>
+    <input class="answer-input" id="answerInput" type="text" placeholder="Tape le nom de la figure…" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="btn-validate" onclick="game.validate()">Valider ✓</button>
+    <div class="answer-feedback" id="answerFeedback"></div>
+    <button class="btn-next" id="btnNext" onclick="game.nextFigure()">Figure suivante →</button>
+  </div>
+  <div class="card screen" id="screenEnd">
+    <div class="final-score">
+      <div class="final-big" id="finalBig"></div>
+      <div class="final-label">points sur 40</div>
+      <div class="final-msg" id="finalMsg"></div>
+      <button class="btn-start" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const FIGURES = [
+  {
+    name: 'carré', accept: ['carré', 'carre', 'square'],
+    clues: ['J\'ai 4 côtés égaux.', 'Tous mes angles sont droits (90°).', 'J\'ai 4 axes de symétrie.', 'Mes diagonales sont égales et se coupent perpendiculairement.'],
+    draw: svg => { svg.innerHTML = '<rect x="20" y="20" width="100" height="100" fill="#cffafe" stroke="#0891b2" stroke-width="4" rx="2"/>'; }
+  },
+  {
+    name: 'triangle équilatéral', accept: ['triangle équilatéral', 'triangle equilateral', 'triangle'],
+    clues: ['J\'ai 3 côtés.', 'Mes 3 côtés sont égaux.', 'Mes 3 angles sont égaux à 60°.', 'J\'ai 3 axes de symétrie.'],
+    draw: svg => { svg.innerHTML = '<polygon points="70,10 130,130 10,130" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  },
+  {
+    name: 'cercle', accept: ['cercle', 'disque', 'circle'],
+    clues: ['Tous mes points sont à égale distance du centre.', 'Je n\'ai aucun angle.', 'J\'ai une infinité d\'axes de symétrie.', 'Mon périmètre s\'appelle la circonférence.'],
+    draw: svg => { svg.innerHTML = '<circle cx="70" cy="70" r="60" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  },
+  {
+    name: 'rectangle', accept: ['rectangle'],
+    clues: ['J\'ai 4 côtés.', 'Tous mes angles sont droits (90°).', 'Mes côtés opposés sont égaux.', 'J\'ai 2 axes de symétrie.'],
+    draw: svg => { svg.innerHTML = '<rect x="10" y="30" width="120" height="80" fill="#cffafe" stroke="#0891b2" stroke-width="4" rx="2"/>'; }
+  },
+  {
+    name: 'losange', accept: ['losange'],
+    clues: ['J\'ai 4 côtés égaux.', 'Mes angles opposés sont égaux.', 'Mes diagonales se coupent perpendiculairement.', 'Je ressemble à un diamant.'],
+    draw: svg => { svg.innerHTML = '<polygon points="70,10 130,70 70,130 10,70" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  },
+  {
+    name: 'pentagone', accept: ['pentagone', 'pentagon'],
+    clues: ['J\'ai 5 côtés.', 'J\'ai 5 angles.', 'Régulier, je ressemble à un bouclier.', 'Mes 5 côtés sont égaux.'],
+    draw: svg => { svg.innerHTML = '<polygon points="70,8 128,51 105,118 35,118 12,51" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  },
+  {
+    name: 'hexagone', accept: ['hexagone', 'hexagon'],
+    clues: ['J\'ai 6 côtés.', 'On me retrouve dans les alvéoles d\'une ruche.', 'Mes 6 angles valent 120° (si régulier).', 'Je peux paver un plan sans laisser d\'espace.'],
+    draw: svg => { svg.innerHTML = '<polygon points="70,6 127,38 127,102 70,134 13,102 13,38" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  },
+  {
+    name: 'trapèze', accept: ['trapèze', 'trapeze'],
+    clues: ['J\'ai 4 côtés.', 'Exactement une paire de côtés est parallèle.', 'Je ne suis ni un rectangle ni un parallélogramme.', 'Mes deux bases ont des longueurs différentes.'],
+    draw: svg => { svg.innerHTML = '<polygon points="30,110 110,110 90,30 50,30" fill="#cffafe" stroke="#0891b2" stroke-width="4"/>'; }
+  }
+];
+
+const game = (() => {
+  let figures, fIdx, clueIdx, totalScore, answered;
+
+  function normalize(s) { return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z ]/g, ''); }
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function shuffle(arr) { const a = [...arr]; for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+  function start() {
+    figures = shuffle([...FIGURES]);
+    fIdx = 0; clueIdx = 0; totalScore = 0; answered = false;
+    loadFigure();
+    show('screenGame');
+  }
+
+  function loadFigure() {
+    const f = figures[fIdx];
+    document.getElementById('figureCounter').textContent = 'Figure ' + (fIdx + 1) + ' / ' + figures.length;
+    document.getElementById('scoreChip').textContent = totalScore + ' pts';
+    answered = false;
+    clueIdx = 0;
+    const svg = document.getElementById('figureSvg');
+    svg.innerHTML = '';
+    f.draw(svg);
+    const list = document.getElementById('cluesList');
+    list.innerHTML = '';
+    f.clues.forEach((c, i) => {
+      const li = document.createElement('li');
+      li.className = 'clue-item';
+      li.textContent = c;
+      list.appendChild(li);
+    });
+    // Show first clue
+    list.children[0].classList.add('visible');
+    clueIdx = 1;
+    document.getElementById('btnNextClue').disabled = clueIdx >= f.clues.length;
+    document.getElementById('answerInput').value = '';
+    document.getElementById('answerInput').className = 'answer-input';
+    document.getElementById('answerInput').disabled = false;
+    document.getElementById('answerFeedback').className = 'answer-feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    document.getElementById('answerInput').focus();
+  }
+
+  function nextClue() {
+    const f = figures[fIdx];
+    if (clueIdx >= f.clues.length) return;
+    document.getElementById('cluesList').children[clueIdx].classList.add('visible');
+    clueIdx++;
+    document.getElementById('btnNextClue').disabled = clueIdx >= f.clues.length;
+  }
+
+  function validate() {
+    if (answered) return;
+    const f = figures[fIdx];
+    const val = normalize(document.getElementById('answerInput').value);
+    const ok = f.accept.some(a => normalize(a) === val || val.includes(normalize(a)) || normalize(a).includes(val));
+    answered = true;
+    const input = document.getElementById('answerInput');
+    input.className = 'answer-input ' + (ok ? 'correct' : 'wrong');
+    input.disabled = true;
+    document.getElementById('btnNextClue').disabled = true;
+    const pts = ok ? Math.max(5 - clueIdx + 1, 1) * 2 : 0; // max 5pts × 2 = 10, decreasing with clues used
+    const capped = Math.min(pts, 5);
+    if (ok) totalScore += capped;
+    const fb = document.getElementById('answerFeedback');
+    fb.textContent = ok
+      ? '✅ Bravo ! C\'est bien ' + f.name + ' ! (' + capped + ' point' + (capped > 1 ? 's' : '') + ')'
+      : '❌ C\'était : ' + f.name + '.';
+    fb.className = 'answer-feedback show ' + (ok ? 'ok' : 'ko');
+    document.getElementById('btnNext').className = 'btn-next show';
+    document.getElementById('btnNext').textContent = fIdx + 1 < figures.length ? 'Figure suivante →' : 'Voir mon score →';
+    document.getElementById('scoreChip').textContent = totalScore + ' pts';
+  }
+
+  function nextFigure() {
+    fIdx++;
+    if (fIdx >= figures.length) {
+      showEnd();
+    } else {
+      loadFigure();
+    }
+  }
+
+  function showEnd() {
+    document.getElementById('finalBig').textContent = totalScore;
+    let msg;
+    if (totalScore >= 35) msg = '🏆 Excellent ! Tu es incollable sur les figures géométriques !';
+    else if (totalScore >= 20) msg = '🎉 Bien joué ! Continue à réviser pour atteindre le maximum.';
+    else msg = '📐 Relis ton cours sur les figures et réessaie !';
+    document.getElementById('finalMsg').textContent = msg;
+    show('screenEnd');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, nextClue, validate, nextFigure, restart };
+})();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('screenGame').classList.contains('active')) {
+    if (!document.getElementById('answerInput').disabled) game.validate();
+  }
+});
+</script>
+</body>
+</html>
