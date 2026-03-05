@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e">
+  <meta name="matiere" content="SVT">
+  <meta name="type" content="schema">
+  <title>Le système digestif — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #16a34a;
+      --subject-dark: #15803d;
+      --subject-light: #dcfce7;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f0fdf4;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #14532d 0%, #16a34a 60%, #4ade80 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Schema game */
+    .progress-wrap { margin-bottom: 1.25rem; background: var(--card); border-radius: 100px; padding: 0.6rem 1rem; box-shadow: 0 2px 8px rgba(22,163,74,0.08); display: flex; align-items: center; gap: 0.75rem; }
+    .progress-track { flex: 1; height: 7px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.8rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .schema-wrap { position: relative; margin-bottom: 1.5rem; }
+    /* SVG digestive system placeholder */
+    .schema-svg { width: 100%; display: block; border-radius: 12px; border: 2px solid var(--border); }
+    /* Numbered dots on SVG */
+    .hotspot { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: var(--subject); color: white; font-size: 0.8rem; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; transform: translate(-50%, -50%); transition: transform .15s, box-shadow .15s; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .hotspot:hover { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .hotspot.answered { background: var(--success); }
+    .hotspot.active { background: #f59e0b; box-shadow: 0 0 0 4px rgba(245,158,11,0.3); }
+    .question-area { background: var(--subject-light); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
+    .q-prompt { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; }
+    .q-prompt strong { color: var(--subject-dark); }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .opt-btn { border: 2px solid var(--border); background: white; border-radius: 10px; padding: 0.65rem 0.75rem; font-family: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer; text-align: left; transition: all .15s; }
+    .opt-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); color: var(--subject-dark); }
+    .opt-btn.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .opt-btn.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    .opt-btn:disabled { cursor: default; }
+    .feedback { padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.5rem; display: none; }
+    .feedback.show { display: block; }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); font-weight: 700; color: var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); font-weight: 700; color: var(--error); }
+    .btn-next { width: 100%; padding: 0.85rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; display: none; margin-top: 0.5rem; }
+    .btn-next.show { display: block; }
+    .results { text-align: center; padding: 1rem 0; }
+    .results-emoji { font-size: 3.5rem; margin-bottom: 0.5rem; }
+    .score-big { font-size: 2.5rem; font-weight: 900; color: var(--subject); }
+    .score-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+    .result-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🔬 SVT</div>
+  <h1>Le système digestif</h1>
+  <p>SVT — 5e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔬</div>
+    <div class="intro-title">Légender le système digestif</div>
+    <div class="intro-desc">Clique sur chaque numéro du schéma et identifie l'organe correspondant parmi les propositions.</div>
+    <!-- Ideogram: "Human digestive system anatomical diagram, numbered organs 1 to 8 with arrows, flat design illustration, pastel colors, white background, no text labels, educational style for middle school" -->
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0 / 8</span>
+    </div>
+    <div class="card">
+      <div class="schema-wrap" id="schemaWrap">
+        <!-- SVG placeholder du système digestif -->
+        <svg class="schema-svg" viewBox="0 0 340 480" xmlns="http://www.w3.org/2000/svg">
+          <rect width="340" height="480" fill="#f8fafc" rx="10"/>
+          <!-- Corps simplifié -->
+          <ellipse cx="170" cy="60" rx="55" ry="50" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+          <!-- Bouche -->
+          <path d="M140 85 Q170 100 200 85" stroke="#92400e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Œsophage -->
+          <rect x="163" y="108" width="14" height="55" rx="7" fill="#fbcfe8" stroke="#ec4899" stroke-width="1.5"/>
+          <!-- Estomac -->
+          <ellipse cx="155" cy="195" rx="38" ry="28" fill="#fca5a5" stroke="#ef4444" stroke-width="2" transform="rotate(-10 155 195)"/>
+          <!-- Foie -->
+          <ellipse cx="210" cy="185" rx="28" ry="18" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <!-- Pancréas -->
+          <ellipse cx="185" cy="225" rx="22" ry="10" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.5"/>
+          <!-- Intestin grêle (spirale simplifiée) -->
+          <path d="M145 230 Q120 255 130 280 Q140 305 160 300 Q180 295 185 275 Q190 255 175 250 Q160 248 155 265 Q152 278 162 282" fill="none" stroke="#86efac" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Gros intestin -->
+          <path d="M170 300 Q200 310 215 290 Q230 270 225 245 Q222 230 210 225" fill="none" stroke="#6ee7b7" stroke-width="10" stroke-linecap="round"/>
+          <path d="M170 300 Q165 340 160 370 Q155 400 165 415" fill="none" stroke="#6ee7b7" stroke-width="10" stroke-linecap="round"/>
+          <!-- Rectum/anus -->
+          <ellipse cx="168" cy="430" rx="12" ry="8" fill="#a3e635" stroke="#65a30d" stroke-width="1.5"/>
+          <!-- Points numérotés -->
+          <circle cx="170" cy="62" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="170" y="67" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">1</text>
+          <circle cx="170" cy="130" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="170" y="135" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">2</text>
+          <circle cx="148" cy="195" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="148" y="200" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">3</text>
+          <circle cx="212" cy="182" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="212" y="187" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">4</text>
+          <circle cx="186" cy="224" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="186" y="229" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">5</text>
+          <circle cx="152" cy="268" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="152" y="273" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">6</text>
+          <circle cx="218" cy="268" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="218" y="273" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">7</text>
+          <circle cx="168" cy="428" r="13" fill="#1e293b" opacity="0.85"/>
+          <text x="168" y="433" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">8</text>
+        </svg>
+      </div>
+      <div class="question-area" id="questionArea">
+        <div class="q-prompt" id="qPrompt">Clique sur un numéro du schéma pour commencer.</div>
+        <div class="options" id="optionsDiv" style="display:none"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="btn-next" id="btnNext" onclick="game.nextQuestion()">Organe suivant →</button>
+      </div>
+      <div class="results" id="resultsDiv" style="display:none">
+        <div class="results-emoji" id="resultsEmoji">🏆</div>
+        <div class="score-big" id="scoreBig"></div>
+        <div class="score-sub">bonne(s) réponse(s) sur 8</div>
+        <div class="result-msg" id="resultMsg"></div>
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const ORGANS = [
+  { num: 1, label: 'La bouche', options: ['La bouche', 'Le pharynx', 'Les glandes salivaires', 'Le larynx'], correct: 0, expl: 'La digestion commence dans la bouche : mastication et salive débutent la transformation des aliments.' },
+  { num: 2, label: 'L\'œsophage', options: ['L\'œsophage', 'La trachée', 'L\'aorte', 'Le pylore'], correct: 0, expl: 'L\'œsophage est le tube qui conduit les aliments de la bouche vers l\'estomac par des mouvements péristaltiques.' },
+  { num: 3, label: 'L\'estomac', options: ['L\'estomac', 'La vésicule biliaire', 'Le duodénum', 'Le côlon'], correct: 0, expl: 'L\'estomac broie les aliments et les mélange aux sucs gastriques (acides) pour former le chyme.' },
+  { num: 4, label: 'Le foie', options: ['Le foie', 'Le rein droit', 'Le poumon droit', 'La rate'], correct: 0, expl: 'Le foie produit la bile stockée dans la vésicule biliaire, qui aide à digérer les graisses dans le duodénum.' },
+  { num: 5, label: 'Le pancréas', options: ['Le pancréas', 'La rate', 'Le rein gauche', 'L\'appendice'], correct: 0, expl: 'Le pancréas produit des enzymes digestives et l\'insuline. Ses sucs sont déversés dans le duodénum.' },
+  { num: 6, label: 'L\'intestin grêle', options: ['L\'intestin grêle', 'Le gros intestin', 'Le jéjunum seul', 'L\'iléon seul'], correct: 0, expl: 'L\'intestin grêle (6–7 m) est le lieu principal d\'absorption des nutriments grâce à ses villosités.' },
+  { num: 7, label: 'Le gros intestin (côlon)', options: ['Le gros intestin (côlon)', 'L\'intestin grêle', 'Le caecum seul', 'Le rectum'], correct: 0, expl: 'Le gros intestin réabsorbe l\'eau et concentre les déchets non digestibles pour former les matières fécales.' },
+  { num: 8, label: 'L\'anus', options: ['L\'anus', 'Le rectum', 'La valve iléo-cæcale', 'Le duodénum'], correct: 0, expl: 'L\'anus est l\'orifice par lequel les matières fécales sont évacuées à l\'extérieur du corps.' }
+];
+
+const game = (() => {
+  let order, currentIdx, score, answered;
+
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    order = shuffle([...Array(ORGANS.length).keys()]);
+    currentIdx = 0; score = 0;
+    document.getElementById('resultsDiv').style.display = 'none';
+    document.getElementById('questionArea').style.display = 'block';
+    show('screenGame');
+    showQuestion();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (currentIdx / ORGANS.length * 100) + '%';
+    document.getElementById('progressText').textContent = currentIdx + ' / ' + ORGANS.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const organ = ORGANS[order[currentIdx]];
+    const shuffledOpts = shuffle(organ.options.map((o, i) => ({ text: o, isCorrect: i === organ.correct })));
+    document.getElementById('qPrompt').innerHTML = `<strong>Organe n°${organ.num}</strong> : Quel est cet organe ?`;
+    const opts = document.getElementById('optionsDiv');
+    opts.style.display = 'grid';
+    opts.innerHTML = shuffledOpts.map((o, i) => `<button class="opt-btn" id="opt_${i}" onclick="game.answer(${i}, ${o.isCorrect})">${o.text}</button>`).join('');
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('btnNext').className = 'btn-next';
+  }
+
+  function answer(idx, isCorrect) {
+    if (answered) return;
+    answered = true;
+    const organ = ORGANS[order[currentIdx]];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    document.getElementById('opt_' + idx).className = 'opt-btn ' + (isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) {
+      document.querySelectorAll('.opt-btn').forEach((b, i) => { if (b.textContent === organ.label) b.className = 'opt-btn correct'; });
+    }
+    const fb = document.getElementById('feedback');
+    fb.textContent = (isCorrect ? '✅ ' : '❌ ') + organ.expl;
+    fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+    if (isCorrect) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+    document.getElementById('btnNext').textContent = currentIdx === ORGANS.length - 1 ? 'Voir les résultats →' : 'Organe suivant →';
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx >= ORGANS.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = ORGANS.length + ' / ' + ORGANS.length;
+    document.getElementById('optionsDiv').style.display = 'none';
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    const pct = score / ORGANS.length;
+    document.getElementById('resultsEmoji').textContent = pct === 1 ? '🏆' : pct >= .75 ? '🎉' : pct >= .5 ? '👍' : '📚';
+    document.getElementById('scoreBig').textContent = score + ' / ' + ORGANS.length;
+    document.getElementById('resultMsg').textContent = pct === 1 ? 'Parfait ! Tu connais ton système digestif !' : pct >= .75 ? 'Très bien !' : pct >= .5 ? 'Bien, continue !' : 'Relis ton cours sur la digestion !';
+    document.getElementById('resultsDiv').style.display = 'block';
+    document.getElementById('questionArea').style.display = 'none';
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, answer, nextQuestion, restart };
+})();
+</script>
+</body>
+</html>
