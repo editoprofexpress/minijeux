@@ -95,17 +95,18 @@
   </div>
 </div>
 <script>
+// Grille 11×10 — chaque mot occupe une zone distincte, aucun chevauchement
 const WORDS_DATA = [
-  { word: 'MADRE',   meaning: 'la mère',        dir: 'H', row: 1, col: 0 },
-  { word: 'PADRE',   meaning: 'le père',         dir: 'H', row: 3, col: 2 },
-  { word: 'HERMANO', meaning: 'le frère',         dir: 'H', row: 5, col: 1 },
-  { word: 'HERMANA', meaning: 'la sœur',          dir: 'H', row: 7, col: 0 },
-  { word: 'ABUELO',  meaning: 'le grand-père',    dir: 'V', row: 0, col: 8 },
-  { word: 'ABUELA',  meaning: 'la grand-mère',    dir: 'V', row: 0, col: 2 },
-  { word: 'HIJO',    meaning: 'le fils',          dir: 'V', row: 2, col: 6 },
-  { word: 'HIJA',    meaning: 'la fille',         dir: 'H', row: 9, col: 3 },
-  { word: 'TIO',     meaning: 'l\'oncle',         dir: 'V', row: 0, col: 0 },
-  { word: 'TIA',     meaning: 'la tante',         dir: 'H', row: 0, col: 4 },
+  { word: 'MADRE',   meaning: 'la mère',        dir: 'H', row: 0, col: 0 },
+  { word: 'PADRE',   meaning: 'le père',         dir: 'H', row: 1, col: 2 },
+  { word: 'TIA',     meaning: 'la tante',        dir: 'H', row: 2, col: 5 },
+  { word: 'TIO',     meaning: 'l\'oncle',        dir: 'V', row: 3, col: 9 },
+  { word: 'HIJO',    meaning: 'le fils',         dir: 'H', row: 4, col: 0 },
+  { word: 'HIJA',    meaning: 'la fille',        dir: 'H', row: 5, col: 5 },
+  { word: 'ABUELO',  meaning: 'le grand-père',   dir: 'H', row: 6, col: 0 },
+  { word: 'ABUELA',  meaning: 'la grand-mère',   dir: 'H', row: 7, col: 3 },
+  { word: 'HERMANA', meaning: 'la sœur',         dir: 'H', row: 8, col: 0 },
+  { word: 'HERMANO', meaning: 'le frère',        dir: 'H', row: 9, col: 1 },
 ];
 
 const ROWS = 11, COLS = 10;

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e">
+  <meta name="matiere" content="Physique-Chimie">
+  <meta name="type" content="simulation">
+  <title>Le circuit électrique simple — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #d97706;
+      --subject-dark: #b45309;
+      --subject-light: #fef3c7;
+      --subject-mid: #fcd34d;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #78350f 0%, #d97706 60%, #fbbf24 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Simulation */
+    .sim-section { margin-bottom: 1.5rem; }
+    .sim-title { font-size: 1rem; font-weight: 900; color: var(--subject-dark); margin-bottom: 1rem; }
+    /* Circuit SVG */
+    .circuit-wrap { background: #fafafa; border: 2px solid var(--border); border-radius: 14px; padding: 1rem; margin-bottom: 1.25rem; text-align: center; }
+    .circuit-svg { width: 100%; max-width: 500px; height: auto; }
+    /* Controls */
+    .controls { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .ctrl-btn { flex: 1; min-width: 120px; padding: 0.75rem 1rem; border: 2.5px solid var(--border); border-radius: 12px; background: white; font-family: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: all .15s; }
+    .ctrl-btn:hover { border-color: var(--subject); background: var(--subject-light); }
+    .ctrl-btn.active { border-color: var(--subject); background: var(--subject-light); color: var(--subject-dark); }
+    .ctrl-btn.danger { border-color: var(--error); }
+    .ctrl-btn.danger:hover { background: var(--error-light); }
+    /* Status */
+    .status-box { background: var(--subject-light); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.9rem; font-weight: 700; color: var(--subject-dark); line-height: 1.6; }
+    .status-box.on { background: var(--success-light); color: var(--success); }
+    .status-box.off { background: var(--error-light); color: var(--error); }
+    /* Quiz section */
+    .quiz-section { border-top: 2px solid var(--border); padding-top: 1.25rem; }
+    .quiz-title { font-size: 0.9rem; font-weight: 900; color: var(--subject-dark); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .q-item { margin-bottom: 1rem; }
+    .q-text { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .q-choices { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .q-btn { padding: 0.5rem 0.9rem; border: 2px solid var(--border); border-radius: 8px; background: white; font-family: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all .1s; }
+    .q-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); }
+    .q-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+    .q-btn.wrong { background: var(--error-light); border-color: var(--error); color: var(--error); }
+    .q-expl { font-size: 0.8rem; color: var(--muted); font-weight: 700; margin-top: 0.4rem; display: none; }
+    .q-expl.show { display: block; }
+    .btn-score { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 0.75rem; }
+    .result-bar { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; text-align: center; display: none; }
+    .result-bar.show { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .result-bar.perfect { background: var(--success-light); border: 2px solid var(--success); color: var(--success); }
+    .result-bar.partial { background: var(--subject-light); border: 2px solid var(--subject-mid); color: var(--subject-dark); }
+    .result-score { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.3rem; }
+    .result-msg { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .btn-retry { padding: 0.6rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">⚡ Physique-Chimie</div>
+  <h1>Le circuit électrique simple</h1>
+  <p>Physique-Chimie — 5e / 6e</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">💡</div>
+    <div class="intro-title">Simulation de circuit</div>
+    <div class="intro-desc">Manipule un circuit électrique virtuel : ouvre/ferme l'interrupteur, ajoute des composants, observe ce qui se passe. Puis réponds aux questions !</div>
+    <button class="btn-start" onclick="sim.init()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="sim-section">
+      <div class="sim-title">⚡ Circuit interactif</div>
+      <div class="circuit-wrap">
+        <svg class="circuit-svg" id="circuitSvg" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="status-box" id="statusBox">🔌 Circuit ouvert — la lampe ne s'allume pas.</div>
+      <div class="controls">
+        <button class="ctrl-btn" id="btnSwitch" onclick="sim.toggleSwitch()">🔀 Fermer l'interrupteur</button>
+        <button class="ctrl-btn" id="btnBreak" onclick="sim.toggleBreak()">✂️ Couper un fil</button>
+        <button class="ctrl-btn" id="btnReset" onclick="sim.reset()">🔄 Réinitialiser</button>
+      </div>
+    </div>
+    <div class="quiz-section">
+      <div class="quiz-title">📋 Questions sur le circuit</div>
+      <div id="quizList"></div>
+      <button class="btn-score" onclick="sim.checkAll()">Vérifier mes réponses ✓</button>
+      <div class="result-bar" id="resultBar">
+        <div class="result-score" id="resultScore"></div>
+        <div class="result-msg" id="resultMsg"></div>
+        <button class="btn-retry" onclick="sim.restart()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const QUIZ = [
+  { text: 'Pour que la lampe s\'allume, le circuit doit être :', choices: ['ouvert', 'fermé', 'coupé', 'n\'importe lequel'], answer: 1, expl: 'Circuit fermé = le courant peut circuler en boucle. Circuit ouvert = le courant ne peut pas passer.' },
+  { text: 'Quel composant permet d\'ouvrir ou fermer le circuit ?', choices: ['La lampe', 'La pile', 'L\'interrupteur', 'Les fils'], answer: 2, expl: 'L\'interrupteur contrôle le passage du courant : ouvert = circuit coupé, fermé = circuit fermé.' },
+  { text: 'Dans un circuit en série, si on retire la lampe :', choices: ['L\'autre lampe reste allumée', 'Toutes les lampes s\'éteignent', 'La pile s\'arrête', 'Rien ne change'], answer: 1, expl: 'En série, les composants sont sur un seul chemin. Si un élément est retiré, le circuit est ouvert partout.' },
+  { text: 'La pile dans un circuit sert à :', choices: ['Allumer directement la lampe', 'Fournir de l\'énergie électrique', 'Protéger les fils', 'Mesurer le courant'], answer: 1, expl: 'La pile est le générateur : elle fournit l\'énergie électrique qui fait circuler le courant.' },
+  { text: 'Le sens conventionnel du courant va :', choices: ['De la borne − vers la borne + à l\'extérieur', 'De la borne + vers la borne − à l\'extérieur', 'Dans les deux sens', 'Le courant ne se déplace pas'], answer: 1, expl: 'Convention : le courant circule du + vers le − à l\'extérieur de la pile (sens conventionnel).' }
+];
+
+const sim = (() => {
+  let switchClosed, wireBroken;
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function init() {
+    switchClosed = false; wireBroken = false;
+    buildQuiz();
+    draw();
+    show('screenGame');
+  }
+
+  function buildQuiz() {
+    const list = document.getElementById('quizList');
+    list.innerHTML = '';
+    QUIZ.forEach((q, qi) => {
+      const div = document.createElement('div');
+      div.className = 'q-item';
+      div.innerHTML = '<div class="q-text">' + (qi + 1) + '. ' + q.text + '</div>';
+      const choicesDiv = document.createElement('div');
+      choicesDiv.className = 'q-choices';
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement('button');
+        btn.className = 'q-btn';
+        btn.textContent = c;
+        btn.dataset.qi = qi;
+        btn.dataset.ci = ci;
+        btn.addEventListener('click', () => selectQ(qi, ci, btn, choicesDiv));
+        choicesDiv.appendChild(btn);
+      });
+      div.appendChild(choicesDiv);
+      const expl = document.createElement('div');
+      expl.className = 'q-expl';
+      expl.id = 'expl_' + qi;
+      div.appendChild(expl);
+      list.appendChild(div);
+    });
+  }
+
+  function selectQ(qi, ci, btn, choicesDiv) {
+    choicesDiv.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active-choice'));
+    btn.dataset.selected = ci;
+    choicesDiv.querySelectorAll('.q-btn').forEach(b => b.style.fontWeight = '700');
+    btn.style.background = '#ede9fe';
+    btn.style.borderColor = '#7c3aed';
+  }
+
+  function checkAll() {
+    let correct = 0;
+    QUIZ.forEach((q, qi) => {
+      const choicesDiv = document.querySelector('[data-qi="' + qi + '"]')?.closest('.q-choices') || document.querySelectorAll('.q-choices')[qi];
+      const btns = choicesDiv ? choicesDiv.querySelectorAll('.q-btn') : [];
+      let selected = -1;
+      btns.forEach((b, ci) => {
+        if (b.style.background === 'rgb(237, 233, 254)') selected = ci;
+      });
+      btns.forEach(b => b.disabled = true);
+      if (selected === q.answer) { correct++; btns[selected] && (btns[selected].className = 'q-btn correct'); }
+      else {
+        if (selected >= 0) btns[selected] && (btns[selected].className = 'q-btn wrong');
+        btns[q.answer] && (btns[q.answer].className = 'q-btn correct');
+      }
+      const expl = document.getElementById('expl_' + qi);
+      if (expl) { expl.textContent = q.expl; expl.className = 'q-expl show'; }
+    });
+    const pct = correct / QUIZ.length;
+    document.getElementById('resultScore').textContent = correct + ' / ' + QUIZ.length;
+    document.getElementById('resultMsg').textContent = pct === 1 ? '🏆 Parfait !' : pct >= .6 ? '🎉 Bien joué !' : '📚 Relis ton cours sur les circuits !';
+    document.getElementById('resultBar').className = 'result-bar show ' + (pct === 1 ? 'perfect' : 'partial');
+    document.querySelector('.btn-score').disabled = true;
+  }
+
+  function draw() {
+    const svg = document.getElementById('circuitSvg');
+    const on = switchClosed && !wireBroken;
+    const wire = on ? '#f59e0b' : '#94a3b8';
+    const lampColor = on ? '#fbbf24' : '#e2e8f0';
+    const lampGlow = on ? 'drop-shadow(0 0 8px #fbbf24)' : 'none';
+
+    svg.innerHTML = `
+      <!-- Background -->
+      <rect width="500" height="300" fill="#fafafa" rx="10"/>
+      <!-- Wires -->
+      <!-- Top wire left -->
+      <line x1="80" y1="80" x2="200" y2="80" stroke="${wire}" stroke-width="4" stroke-linecap="round"/>
+      <!-- Top wire right -->
+      <line x1="300" y1="80" x2="420" y2="80" stroke="${wire}" stroke-width="4" stroke-linecap="round"/>
+      <!-- Right wire -->
+      <line x1="420" y1="80" x2="420" y2="220" stroke="${wire}" stroke-width="4" stroke-linecap="round"/>
+      <!-- Bottom wire right -->
+      <line x1="420" y1="220" x2="300" y2="220" stroke="${wireBroken ? '#ef4444' : wire}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${wireBroken ? '8,6' : '0'}"/>
+      <!-- Bottom wire left -->
+      <line x1="200" y1="220" x2="80" y2="220" stroke="${wire}" stroke-width="4" stroke-linecap="round"/>
+      <!-- Left wire -->
+      <line x1="80" y1="80" x2="80" y2="220" stroke="${wire}" stroke-width="4" stroke-linecap="round"/>
+
+      <!-- PILE (left side) -->
+      <rect x="60" y="130" width="40" height="60" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5"/>
+      <line x1="75" y1="140" x2="105" y2="140" stroke="#64748b" stroke-width="2"/>
+      <line x1="70" y1="150" x2="110" y2="150" stroke="#64748b" stroke-width="3"/>
+      <line x1="75" y1="160" x2="105" y2="160" stroke="#64748b" stroke-width="2"/>
+      <line x1="70" y1="170" x2="110" y2="170" stroke="#64748b" stroke-width="3"/>
+      <text x="80" y="205" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#64748b">PILE</text>
+      <text x="65" y="132" font-family="sans-serif" font-size="14" font-weight="bold" fill="#059669">+</text>
+      <text x="65" y="190" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ef4444">−</text>
+
+      <!-- LAMPE (top center) -->
+      <circle cx="250" cy="80" r="22" fill="${lampColor}" stroke="#94a3b8" stroke-width="2.5" style="filter:${lampGlow}"/>
+      <text cx="250" cy="80" x="250" y="86" text-anchor="middle" font-family="sans-serif" font-size="20">${on ? '💡' : '⚫'}</text>
+      <text x="250" y="118" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#64748b">LAMPE</text>
+
+      <!-- INTERRUPTEUR (top right) -->
+      <circle cx="370" cy="80" r="8" fill="white" stroke="#64748b" stroke-width="2"/>
+      <circle cx="410" cy="80" r="8" fill="white" stroke="#64748b" stroke-width="2"/>
+      ${switchClosed
+        ? '<line x1="370" y1="80" x2="410" y2="80" stroke="#f59e0b" stroke-width="4"/>'
+        : '<line x1="370" y1="80" x2="400" y2="60" stroke="#94a3b8" stroke-width="3"/>'
+      }
+      <text x="390" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">INTERRUPTEUR</text>
+      <text x="390" y="120" text-anchor="middle" font-family="sans-serif" font-size="10" fill="${switchClosed ? '#059669' : '#ef4444'}" font-weight="bold">${switchClosed ? '(fermé)' : '(ouvert)'}</text>
+
+      <!-- Break indicator -->
+      ${wireBroken ? '<text x="350" y="240" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ef4444" font-weight="bold">✂️ FIL COUPÉ</text>' : ''}
+
+      <!-- Current flow arrows (only when on) -->
+      ${on ? `
+        <polygon points="160,73 175,80 160,87" fill="#fbbf24" opacity="0.8"/>
+        <polygon points="413,140 420,155 427,140" fill="#fbbf24" opacity="0.8"/>
+        <polygon points="340,227 325,220 340,213" fill="#fbbf24" opacity="0.8"/>
+        <polygon points="77,170 80,155 83,170" fill="#fbbf24" opacity="0.8"/>
+      ` : ''}
+    `;
+
+    const status = document.getElementById('statusBox');
+    if (wireBroken) { status.textContent = '✂️ Fil coupé — le circuit est ouvert, la lampe ne s\'allume pas.'; status.className = 'status-box off'; }
+    else if (switchClosed) { status.textContent = '✅ Circuit fermé — le courant circule, la lampe s\'allume !'; status.className = 'status-box on'; }
+    else { status.textContent = '🔌 Circuit ouvert — ferme l\'interrupteur pour allumer la lampe.'; status.className = 'status-box'; }
+
+    const btn = document.getElementById('btnSwitch');
+    btn.textContent = switchClosed ? '🔓 Ouvrir l\'interrupteur' : '🔀 Fermer l\'interrupteur';
+    btn.className = 'ctrl-btn' + (switchClosed ? ' active' : '');
+  }
+
+  function toggleSwitch() { switchClosed = !switchClosed; draw(); }
+  function toggleBreak() { wireBroken = !wireBroken; draw(); }
+  function reset() { switchClosed = false; wireBroken = false; draw(); }
+  function restart() { show('screenIntro'); }
+
+  return { init, toggleSwitch, toggleBreak, reset, checkAll, restart };
+})();
+</script>
+</body>
+</html>
