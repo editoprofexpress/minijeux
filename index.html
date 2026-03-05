@@ -223,22 +223,41 @@
   <!-- Filters -->
   <div class="filters">
     <span class="filter-label">Matière :</span>
-    <button class="filter-btn active" data-filter="all">Tout</button>
-    <button class="filter-btn" data-filter="allemand">🇩🇪 Allemand</button>
-    <button class="filter-btn" data-filter="anglais">🇬🇧 Anglais</button>
-    <button class="filter-btn" data-filter="espagnol">🇪🇸 Espagnol</button>
-    <button class="filter-btn" data-filter="francais">📚 Français</button>
-    <button class="filter-btn" data-filter="maths">➗ Maths</button>
-    <button class="filter-btn" data-filter="histoire">🗺️ Histoire-Géo</button>
-    <button class="filter-btn" data-filter="emc">⚖️ EMC</button>
-    <button class="filter-btn" data-filter="sciences">🔬 Sciences</button>
+    <button class="filter-btn active" data-group="subject" data-filter="all">Tout</button>
+    <button class="filter-btn" data-group="subject" data-filter="allemand">🇩🇪 Allemand</button>
+    <button class="filter-btn" data-group="subject" data-filter="anglais">🇬🇧 Anglais</button>
+    <button class="filter-btn" data-group="subject" data-filter="espagnol">🇪🇸 Espagnol</button>
+    <button class="filter-btn" data-group="subject" data-filter="francais">📚 Français</button>
+    <button class="filter-btn" data-group="subject" data-filter="maths">➗ Maths</button>
+    <button class="filter-btn" data-group="subject" data-filter="histoire">🗺️ Histoire-Géo</button>
+    <button class="filter-btn" data-group="subject" data-filter="emc">⚖️ EMC</button>
+    <button class="filter-btn" data-group="subject" data-filter="sciences">🔬 Sciences</button>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">Niveau :</span>
+    <button class="filter-btn active" data-group="level" data-filter="all">Tous</button>
+    <button class="filter-btn" data-group="level" data-filter="primaire">🏫 Primaire</button>
+    <button class="filter-btn" data-group="level" data-filter="college">🏫 Collège</button>
+    <button class="filter-btn" data-group="level" data-filter="lycee">🎓 Lycée</button>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">Type :</span>
+    <button class="filter-btn active" data-group="type" data-filter="all">Tous</button>
+    <button class="filter-btn" data-group="type" data-filter="quiz">❓ Quiz</button>
+    <button class="filter-btn" data-group="type" data-filter="memoire">🃏 Mémoire</button>
+    <button class="filter-btn" data-group="type" data-filter="tri">🔀 Tri</button>
+    <button class="filter-btn" data-group="type" data-filter="puzzle">🧩 Puzzle</button>
+    <button class="filter-btn" data-group="type" data-filter="carte">🗺️ Carte</button>
+    <button class="filter-btn" data-group="type" data-filter="classement">↕️ Classement</button>
   </div>
 
   <!-- Games Grid -->
   <div class="games-grid" id="gamesGrid">
 
     <!-- Allemand – Negation QCM -->
-    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="college">
+    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="college" data-type="quiz">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🇩🇪</span>
         <div class="card-meta">
@@ -258,7 +277,7 @@
     </a>
 
     <!-- Allemand – Mémoire -->
-    <a class="game-card" href="allemand/vocabulaire-memoire.html" data-subject="allemand" data-level="college">
+    <a class="game-card" href="allemand/memoire-des-mots.html" data-subject="allemand" data-level="college" data-type="memoire">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🧠</span>
         <div class="card-meta">
@@ -278,7 +297,7 @@
     </a>
 
     <!-- Anglais – QCM -->
-    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="college">
+    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="college" data-type="quiz">
       <div class="card-header subject-anglais">
         <span class="card-emoji">🇬🇧</span>
         <div class="card-meta">
@@ -297,8 +316,8 @@
       </div>
     </a>
 
-    <!-- Anglais – Tri glisser -->
-    <a class="game-card" href="anglais/verbes-tri-glisser.html" data-subject="anglais" data-level="college">
+    <!-- Anglais – Tri -->
+    <a class="game-card" href="anglais/verbes-reguliers-irreguliers.html" data-subject="anglais" data-level="college" data-type="tri">
       <div class="card-header subject-anglais">
         <span class="card-emoji">📋</span>
         <div class="card-meta">
@@ -318,7 +337,7 @@
     </a>
 
     <!-- Français – Accord QCM -->
-    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="primaire">
+    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="primaire" data-type="quiz">
       <div class="card-header subject-francais">
         <span class="card-emoji">📝</span>
         <div class="card-meta">
@@ -338,7 +357,7 @@
     </a>
 
     <!-- Français – Puzzle de phrases -->
-    <a class="game-card" href="francais/phrase-puzzle.html" data-subject="francais" data-level="primaire">
+    <a class="game-card" href="francais/puzzle-de-phrases.html" data-subject="francais" data-level="primaire" data-type="puzzle">
       <div class="card-header subject-francais">
         <span class="card-emoji">🔤</span>
         <div class="card-meta">
@@ -358,7 +377,7 @@
     </a>
 
     <!-- Mathématiques – Fractions QCM -->
-    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="college">
+    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="college" data-type="quiz">
       <div class="card-header subject-maths">
         <span class="card-emoji">➗</span>
         <div class="card-meta">
@@ -377,8 +396,8 @@
       </div>
     </a>
 
-    <!-- Mathématiques – Ordre fractions -->
-    <a class="game-card" href="mathematiques/fractions-ordre.html" data-subject="maths" data-level="primaire">
+    <!-- Mathématiques – Ordonner fractions -->
+    <a class="game-card" href="mathematiques/ordonner-les-fractions.html" data-subject="maths" data-level="primaire" data-type="classement">
       <div class="card-header subject-maths">
         <span class="card-emoji">📊</span>
         <div class="card-meta">
@@ -398,7 +417,7 @@
     </a>
 
     <!-- Histoire-Géo – QCM -->
-    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="college">
+    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="college" data-type="quiz">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🗺️</span>
         <div class="card-meta">
@@ -418,7 +437,7 @@
     </a>
 
     <!-- Histoire-Géo – Carte interactive -->
-    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="college">
+    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="college" data-type="carte">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🌍</span>
         <div class="card-meta">
@@ -438,7 +457,7 @@
     </a>
 
     <!-- EMC -->
-    <a class="game-card" href="emc/les-emotions-cp.html" data-subject="emc" data-level="primaire">
+    <a class="game-card" href="emc/les-emotions.html" data-subject="emc" data-level="primaire" data-type="quiz">
       <div class="card-header subject-emc">
         <span class="card-emoji">💛</span>
         <div class="card-meta">
@@ -457,8 +476,8 @@
       </div>
     </a>
 
-    <!-- Sciences – Classification animaux -->
-    <a class="game-card" href="sciences/classification-animaux.html" data-subject="sciences" data-level="primaire">
+    <!-- Sciences – Classer animaux -->
+    <a class="game-card" href="sciences/classer-les-animaux.html" data-subject="sciences" data-level="primaire" data-type="tri">
       <div class="card-header subject-sciences">
         <span class="card-emoji">🐾</span>
         <div class="card-meta">
@@ -495,24 +514,36 @@
 </footer>
 
 <script>
-  // Filter functionality
   const filterBtns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.game-card');
 
+  // Active filters per group
+  const active = { subject: 'all', level: 'all', type: 'all' };
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      const group = btn.dataset.group;
       const filter = btn.dataset.filter;
-      let visible = 0;
-      cards.forEach(card => {
-        const show = filter === 'all' || card.dataset.subject === filter;
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      document.getElementById('countGames').textContent = visible;
+      active[group] = filter;
+      // Update active class within the same group
+      document.querySelectorAll(`.filter-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
     });
   });
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const matchSubject = active.subject === 'all' || card.dataset.subject === active.subject;
+      const matchLevel   = active.level   === 'all' || card.dataset.level   === active.level;
+      const matchType    = active.type    === 'all' || card.dataset.type    === active.type;
+      const show = matchSubject && matchLevel && matchType;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('countGames').textContent = visible;
+  }
 </script>
 </body>
 </html>
