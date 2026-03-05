@@ -1,7 +1,7 @@
 Niveau;Matiere;Notion;Type_jeu;Fichier_html;Statut
 3e, 4e, 5e, 6e;Allemand;La negation dans la phrase (nicht / kein);lacunes;allemand/negation-nicht-kein.html;fait
 3e, 4e, 5e, 6e;Allemand;La phrase a la voix passive;lacunes;allemand/la-phrase-a-la-voix-passive.html;à faire
-3e, 4e, 5e, 6e;Allemand;La phrase interrogative;construction;allemand/la-phrase-interrogative.html;à faire
+3e, 4e, 5e, 6e;Allemand;La phrase interrogative;construction;allemand/la-phrase-interrogative.html;fait
 3e, 4e, 5e, 6e;Allemand;La phrase subordonnee;lacunes;allemand/la-phrase-subordonnee.html;à faire
 3e, 4e, 5e, 6e;Allemand;La phrase subordonnee relative;lacunes;allemand/la-phrase-subordonnee-relative.html;à faire
 3e, 4e, 5e, 6e;Allemand;La ponctuation;quiz;allemand/la-ponctuation.html;à faire
@@ -146,7 +146,7 @@ Lycee;Allemand;L'imperatif;conjugaison;allemand/l-imperatif.html;à faire
 3e, 4e, 5e;Anglais;Les structures causatives (make/let/have someone do);lacunes;anglais/les-structures-causatives-make-let-have-someone-do.html;à faire
 3e, 4e, 5e;Anglais;Argumenter (firstly, then, finally...);construction;anglais/argumenter-firstly-then-finally.html;à faire
 3e, 4e, 5e;Anglais;Exprimer son opinion;construction;anglais/exprimer-son-opinion.html;à faire
-3e, 4e, 5e;Anglais;Decrire une personne (physique et caractere);flashcard;anglais/decrire-une-personne-physique-et-caractere.html;à faire
+3e, 4e, 5e;Anglais;Decrire une personne (physique et caractere);flashcard;anglais/decrire-une-personne-physique-et-caractere.html;fait
 3e, 4e, 5e;Anglais;Parler de ses activites et loisirs;flashcard;anglais/parler-de-ses-activites-et-loisirs.html;à faire
 6e;Anglais;L'Afrique anglophone;quiz;anglais/l-afrique-anglophone.html;à faire
 6e;Anglais;L'Amerique du Nord;quiz;anglais/l-amerique-du-nord.html;à faire
@@ -534,7 +534,7 @@ Lycee;Espagnol;Le subjonctif imparfait et le plus-que-parfait;conjugaison;espagn
 5e;Francais;La comedie au XVIIe siecle;quiz;francais/la-comedie-au-xviie-siecle.html;à faire
 6e;Francais;Decouvrir un recueil poetique;quiz;francais/decouvrir-un-recueil-poetique.html;à faire
 6e;Francais;La poesie en vers libres;quiz;francais/la-poesie-en-vers-libres.html;à faire
-6e;Francais;Les figures de style;quiz;francais/les-figures-de-style.html;à faire
+6e;Francais;Les figures de style;mots-croises;francais/les-figures-de-style.html;fait
 6e;Francais;Les poemes traditionnels;quiz;francais/les-poemes-traditionnels.html;à faire
 6e;Francais;La comedie et la farce;quiz;francais/la-comedie-et-la-farce.html;à faire
 6e;Francais;La ruse et le renard chez La Fontaine;quiz;francais/la-ruse-et-le-renard-chez-la-fontaine.html;à faire
@@ -2123,3 +2123,5 @@ Terminale;Specialite SI;Modeles de connaissance;quiz;si/modeles-de-connaissance.
 Terminale;Specialite SI;Programmation et algorithmes;quiz;si/programmation-et-algorithmes.html;à faire
 Terminale;Specialite SI;Resolution des equations;calcul;si/resolution-des-equations.html;à faire
 Terminale;Specialite SI;Systemes asservis et correction;quiz;si/systemes-asservis-et-correction.html;à faire
+5e;SVT;Le systeme digestif;schema;svt/le-systeme-digestif.html;fait
+3e, 4e, 5e, 6e;Espagnol;La famille;mots-meles;espagnol/la-famille.html;fait
