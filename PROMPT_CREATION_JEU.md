@@ -32,11 +32,13 @@ Colonnes :
 
 ### Slug de fichier
 
-Le slug est généré depuis le champ **Notion** :
+Le slug est généré depuis le champ **Notion** en entier — ne jamais abréger :
 1. Supprimer les accents (NFD + strip Mn)
 2. Mettre en minuscules
 3. Remplacer toute séquence de caractères non alphanumériques par `-`
 4. Supprimer les `-` en début et fin
+
+⚠️ **Utiliser le titre complet** : `la-negation-dans-la-phrase-nicht-kein.html` et non `negation-nicht-kein.html`.
 
 Exemples :
 | Notion | Slug → Fichier_html |
@@ -217,6 +219,62 @@ git add FICHIER_HTML index.html notions.csv
 git commit -m "feat: ajouter jeu NOTION (TYPE_JEU, MATIERE, NIVEAU)"
 git push -u origin claude/NOM_BRANCHE
 ```
+
+---
+
+## Étape 7 — Images : placeholder et prompt Ideogram
+
+### Quand utiliser des images ?
+
+Certains types de jeux **nécessitent** une illustration ou un schéma :
+
+| Type | Utilisation |
+|------|-------------|
+| `schema` | Schéma anatomique/scientifique à légender |
+| `identification` | Illustration zonée cliquable |
+| `qcm-image` | Image fournie comme contexte visuel de la question |
+| `carte` | Carte géographique SVG ou image |
+
+Les autres types peuvent aussi avoir une illustration décorative sur l'écran d'intro.
+
+### Convention : placeholder SVG inline
+
+Ne jamais laisser un `<img>` avec un lien cassé. Utiliser un **placeholder SVG inline** :
+
+```html
+<!-- Ideogram: "PROMPT_EN_ANGLAIS, educational illustration, flat design, white background, no text" -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" style="width:100%;border-radius:12px;display:block;">
+  <rect width="400" height="300" fill="#f1f5f9" rx="12"/>
+  <text x="200" y="140" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#94a3b8">📷 Illustration à générer</text>
+  <text x="200" y="165" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cbd5e1">DESCRIPTION_COURTE</text>
+</svg>
+```
+
+Quand l'image réelle est générée avec Ideogram, remplacer le bloc SVG par :
+
+```html
+<img src="../images/NOM_FICHIER.webp" alt="DESCRIPTION" style="width:100%;border-radius:12px;display:block;">
+```
+
+### Dossier images
+
+Les images réelles se placent dans `images/` à la racine (dossier créé lors du premier besoin) :
+```
+images/schema-systeme-digestif.webp
+images/carte-europe-vierge.webp
+images/cellule-animale.webp
+```
+
+### Format du prompt Ideogram
+
+```
+SUJET, educational diagram, flat design illustration, vibrant colors, white background, no text labels, clean style, suitable for students aged X
+```
+
+Exemples :
+- Schéma digestif : `"Human digestive system, educational diagram, flat design, colorful organs, white background, no text, for middle school"`
+- Carte vierge : `"Outline map of Europe, minimal style, soft colors, no text, white background, educational"`
+- Cellule animale : `"Animal cell cross-section, flat design illustration, colorful organelles, white background, no text labels, educational"`
 
 ---
 
