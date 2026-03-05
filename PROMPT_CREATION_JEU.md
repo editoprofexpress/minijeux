@@ -124,13 +124,17 @@ Après avoir créé le fichier jeu, ajouter une carte dans `index.html`.
 
 ### Valeurs `data-level`
 
-Convertir la colonne **Niveau** en valeurs space-separated :
+Convertir la colonne **Niveau** en valeurs space-separated. Chaque niveau est **unitaire** — jamais de valeur groupée comme `lycee` ou `college`.
 
 | Niveau CSV | data-level |
 |------------|------------|
 | CP | `cp` |
-| CE1, CE2 | `ce1-ce2` |
-| CM1, CM2 | `cm1-cm2` |
+| CE1 | `ce1` |
+| CE2 | `ce2` |
+| CE1, CE2 | `ce1 ce2` |
+| CM1 | `cm1` |
+| CM2 | `cm2` |
+| CM1, CM2 | `cm1 cm2` |
 | 6e | `6e` |
 | 5e | `5e` |
 | 4e | `4e` |
@@ -138,9 +142,17 @@ Convertir la colonne **Niveau** en valeurs space-separated :
 | Seconde | `seconde` |
 | Premiere | `premiere` |
 | Terminale | `terminale` |
-| Lycee | `lycee` |
+| Lycee | `seconde premiere terminale` |
+| 3e, 4e, 5e, 6e | `3e 4e 5e 6e` |
 
-Plusieurs niveaux : `data-level="3e 4e 5e 6e"` (espace-séparé, pas de virgule).
+Règle : si le CSV indique un groupe (ex. `Lycee`, `3e, 4e, 5e, 6e`), décomposer en niveaux unitaires espace-séparés.
+
+Exemples :
+- `Niveau = Lycee` → `data-level="seconde premiere terminale"`
+- `Niveau = CE1, CE2` → `data-level="ce1 ce2"`
+- `Niveau = CM1, CM2` → `data-level="cm1 cm2"`
+- `Niveau = 3e, 4e` → `data-level="3e 4e"`
+- `Niveau = Seconde` → `data-level="seconde"`
 
 ### Valeurs `data-subject`
 
