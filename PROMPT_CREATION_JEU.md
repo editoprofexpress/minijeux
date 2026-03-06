@@ -98,7 +98,7 @@ Chaque fichier jeu doit respecter ce squelette :
 <body>
   <header>
     <h1>NOTION_EXACTE</h1>
-    <p class="subtitle">MATIERE — NIVEAU</p>
+    <p>CONSIGNE_COURTE</p>
   </header>
   <main>
     <!-- Contenu du jeu -->
@@ -112,6 +112,7 @@ Chaque fichier jeu doit respecter ce squelette :
 
 **Règles :**
 - `<h1>` = valeur exacte de la colonne **Notion** du CSV (copier-coller)
+- `<p>` sous le `<h1>` = **une consigne courte** décrivant l'action à faire (ex : "Complète les phrases", "Associe chaque terme à sa définition"). ⚠️ Ne jamais mettre la matière ou le niveau ici — la matière est déjà dans le badge, le niveau n'est pas affiché.
 - `<meta name="niveau">` = valeur de la colonne **Niveau** (ex : `6e` ou `3e, 4e, 5e, 6e`)
 - `<meta name="matiere">` = valeur de la colonne **Matiere**
 - `<meta name="type">` = slug du type (colonne **Type_jeu**, voir `GAME_TYPES.md`)
@@ -297,10 +298,11 @@ Crée un jeu éducatif autonome pour la notion suivante, extraite de notions.csv
 Contraintes techniques :
 1. Fichier HTML autonome, CSS et JS inline, aucune dépendance externe.
 2. Le <h1> doit être exactement : "NOTION_EXACTE"
-3. Les <meta> obligatoires : niveau="NIVEAU", matiere="MATIERE", type="TYPE_JEU"
-4. Design cohérent avec les jeux existants (voir un fichier existant pour le style).
-5. Le jeu doit être fonctionnel et pédagogiquement pertinent pour le niveau indiqué.
-6. Créer le dossier si nécessaire.
+3. Le <p> sous le <h1> dans le top-bar = une consigne courte (ex: "Complète les phrases", "Associe chaque terme à sa définition"). Ne jamais mettre la matière ou le niveau à cet endroit.
+4. Les <meta> obligatoires : niveau="NIVEAU", matiere="MATIERE", type="TYPE_JEU"
+5. Design cohérent avec les jeux existants (voir un fichier existant pour le style).
+6. Le jeu doit être fonctionnel et pédagogiquement pertinent pour le niveau indiqué.
+7. Créer le dossier si nécessaire.
 
 Ensuite :
 - Ajouter une carte dans index.html (data-subject="DATA_SUBJECT", data-level="DATA_LEVEL", data-type="TYPE_JEU")
