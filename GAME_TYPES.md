@@ -1,6 +1,6 @@
 # Types de jeux — Référentiel
 
-Ce fichier définit les 25 types de jeux utilisés dans le projet.
+Ce fichier définit les 27 types de jeux utilisés dans le projet.
 Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 - la colonne `Type_jeu` du fichier `notions.csv`
 - l'attribut `data-type` de la carte dans `index.html`
@@ -8,7 +8,7 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 
 ---
 
-## Les 25 types
+## Les 27 types
 
 | # | Slug | Nom affiché | Emoji | Description courte | Fichier exemple |
 |---|------|-------------|-------|--------------------|--------------------|
@@ -37,6 +37,8 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 | 23 | `dictee` | Dictée interactive | 🎙️ | Écrire un mot ou une phrase d'après une consigne textuelle ou audio. | `francais/les-homophones-grammaticaux.html` |
 | 24 | `qcm-image` | QCM illustré | 🖼️ | QCM avec support visuel : graphique, image, carte, schéma fourni comme contexte. | `physique-chimie/les-etats-de-la-matiere.html` |
 | 25 | `simulation` | Simulation interactive | ⚗️ | Expérience ou situation simulée à manipuler (circuit électrique, équilibre de bilan…). | `physique-chimie/le-circuit-electrique-simple.html` |
+| 26 | `escape-game` | Escape game | 🔐 | Série de 4 mini-défis enchaînés (mécaniques variées), chacun révèle un chiffre d'un code final à déverrouiller. Idéal pour les révisions de chapitre. | `histoire-geo/la-seconde-guerre-mondiale-escape-game.html` |
+| 27 | `dialogue` | Dialogue interactif | 💬 | Simulation d'une conversation : le joueur choisit parmi 3 répliques. Seule la formulation correcte fait progresser l'échange. Idéal pour les langues vivantes. | `anglais/se-presenter-dialogue-interactif.html` |
 
 ---
 
@@ -64,11 +66,12 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 | Notion de philosophie / SES | `flashcard` → `quiz` |
 | Valeur citoyenne (EMC) | `vrai-faux` → `quiz` → `tri` |
 | Informatique / algo | `quiz` → `puzzle` |
+| Révision de chapitre (toutes matières) | `escape-game` → `quiz` |
+| Expression orale simulée (LV) | `dialogue` → `lacunes` → `conjugaison` |
 
 ---
 
 ## Correspondance data-type → filtre index.html
 
 Tous les slugs ci-dessus sont utilisables comme valeur de `data-type` sur les cartes.
-Le filtre "Type" de `index.html` affiche les 25 types (tous ont un bouton de filtre).
-Tous les slugs sont utilisables comme valeur de `data-type` sur les cartes.
+Le filtre "Type" de `index.html` affiche les 27 types (tous ont un bouton de filtre).

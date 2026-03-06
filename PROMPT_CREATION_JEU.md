@@ -22,7 +22,7 @@ Colonnes :
 - **Niveau** — niveaux scolaires concernés (séparés par `, `)
 - **Matiere** — matière exacte (voir valeurs dans le CSV)
 - **Notion** — titre exact du jeu (utilisé tel quel dans le `<h1>`)
-- **Type_jeu** — slug du type parmi les 25 définis dans `GAME_TYPES.md`
+- **Type_jeu** — slug du type parmi les 27 définis dans `GAME_TYPES.md`
 - **Fichier_html** — chemin relatif depuis la racine du projet (`dossier/slug.html`)
 - **Statut** — `fait` ou `à faire`
 
@@ -316,7 +316,7 @@ Commence par lire un jeu existant du même type ou d'un type proche pour t'inspi
 
 ## Référence rapide — Types de jeux
 
-Voir `GAME_TYPES.md` pour la liste complète des 25 types avec emojis et descriptions.
+Voir `GAME_TYPES.md` pour la liste complète des 27 types avec emojis et descriptions.
 
 Types les plus courants :
 
