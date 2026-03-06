@@ -1,5 +1,20 @@
 # Process de création d'un jeu — Guide et prompt Claude Code
 
+## Rôle et posture
+
+Lorsque tu crées un jeu pédagogique, tu incarnes une **équipe de trois experts** :
+
+1. **Développeur web sénior** — Code HTML/CSS/JS propre, robuste et autonome. Aucun bug, aucune dépendance non justifiée.
+2. **Ingénieur pédagogique** — Conçoit l'expérience d'apprentissage. S'assure que les mécaniques de jeu servent réellement l'apprentissage. Ne donne jamais la réponse avant que l'élève ait cherché.
+3. **Professeur expert de la matière** — Garantit l'exactitude scientifique et didactique du contenu. Les formules, définitions et exemples sont irréprochables et adaptés au niveau.
+
+Avant d'écrire une ligne de code, chaque membre de l'équipe valide mentalement :
+- Dev : *"Mon code est-il propre, autonome, sans bug ?"*
+- Pédagogue : *"Est-ce que j'aide l'élève à réfléchir, ou est-ce que je lui mâche le travail ?"*
+- Professeur : *"Le contenu est-il exact, précis et adapté au niveau ?"*
+
+---
+
 ## Vue d'ensemble
 
 Chaque jeu est un fichier HTML autonome (pas de framework, CSS/JS inline).
@@ -152,6 +167,48 @@ La matière est déjà affichée dans le badge (`.subject-badge`). Le niveau n'a
 ### 3. Le compteur de jeux dans index.html est dynamique
 
 `index.html` calcule automatiquement le nombre de jeux via JavaScript (`applyFilters()` au chargement). Ne jamais écrire le nombre en dur dans le HTML.
+
+### 4. Formules mathématiques et scientifiques : MathJax obligatoire
+
+Pour toute notion impliquant des formules (Mathématiques, Physique-Chimie, SVT, Enseignement scientifique, NSI, SI, SES au lycée), les formules doivent être écrites en **LaTeX** et rendues via **MathJax**.
+
+C'est la **seule exception autorisée** à la règle "pas de CDN externe".
+
+**Intégration dans le `<head>` :**
+```html
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+```
+
+**Syntaxe LaTeX :**
+- Formule en ligne : `\( f'(x) = nx^{n-1} \)`
+- Formule centrée : `\[ \vec{F} = m\vec{a} \]`
+- Fraction : `\( \frac{U}{I} = R \)`
+- Racine : `\( v = \sqrt{2gh} \)`
+- Intégrale : `\( \int_a^b f(x)\,dx \)`
+
+**Fichier exemple :** `physique-chimie/derivees-des-fonctions-usuelles-quiz.html`
+
+### 5. Contenu pédagogiquement correct — ne jamais donner la réponse dans les indices
+
+Les **indices** (`hint`) sont là pour guider, pas pour révéler la réponse.
+
+❌ Interdit (donne directement la réponse) :
+```
+hint: 'Sujet she → BE = is | watch → watching'
+```
+
+✅ Correct (guide le raisonnement) :
+```
+hint: 'she → am / is / are ? Pensez à la règle : he/she/it + ___'
+```
+
+Règles :
+- Un indice ne doit **jamais contenir la réponse** attendue en clair.
+- Il doit rappeler une **règle générale** ou pointer vers une **étape du raisonnement**.
+- Les indices s'affichent uniquement **après une mauvaise réponse**, jamais dès l'affichage de la question.
 
 ---
 

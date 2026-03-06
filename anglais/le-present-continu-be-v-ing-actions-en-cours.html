@@ -145,14 +145,14 @@
 </div>
 <script>
 const QUESTIONS = [
-  { before: 'She', after: '(watch) a film right now.', answer: 'is watching', hint: 'Sujet she → BE = is | watch → watching' },
-  { before: 'They', after: '(play) football in the garden at the moment.', answer: 'are playing', hint: 'Sujet they → BE = are | play → playing' },
-  { before: 'I', after: '(study) for my exams this week.', answer: 'am studying', hint: 'Sujet I → BE = am | study → studying (y → ying)' },
-  { before: 'He', after: '(run) very fast today!', answer: 'is running', hint: 'Sujet he → BE = is | run → running (consonne doublée)' },
-  { before: 'My parents', after: '(cook) dinner right now.', answer: 'are cooking', hint: 'Sujet my parents → BE = are | cook → cooking' },
-  { before: 'We', after: 'are not (eat) pizza tonight.', answer: 'eating', hint: 'Forme négative déjà donnée. Écrire seulement le V-ing de eat' },
-  { before: 'It', after: '(not / rain) today. The sun is out!', answer: 'is not raining', hint: 'Sujet it → BE = is | négation : is not | rain → raining', alts: ["isn't raining"] },
-  { before: 'What are you', after: '(listen) to?', answer: 'listening', hint: 'are you already given. Écrire seulement le V-ing de listen' }
+  { before: 'She', after: '(watch) a film right now.', answer: 'is watching', hint: 'she → am / is / are ? Pensez : he/she/it + ___' },
+  { before: 'They', after: '(play) football in the garden at the moment.', answer: 'are playing', hint: 'they → am / is / are ? Pensez au pluriel.' },
+  { before: 'I', after: '(study) for my exams this week.', answer: 'am studying', hint: 'I → am / is / are ? Attention : study se termine par -y précédé d'une consonne.' },
+  { before: 'He', after: '(run) very fast today!', answer: 'is running', hint: 'run : voyelle courte + consonne finale → que fait-on avant -ing ?' },
+  { before: 'My parents', after: '(cook) dinner right now.', answer: 'are cooking', hint: 'my parents = pluriel → am / is / are ?' },
+  { before: 'We', after: 'are not (eat) pizza tonight.', answer: 'eating', hint: '"are not" est déjà écrit. Mettez seulement le verbe eat à la forme -ing.' },
+  { before: 'It', after: '(not / rain) today. The sun is out!', answer: 'is not raining', hint: 'it → quelle forme de BE ? Puis ajoutez not et rain au -ing.', alts: ["isn't raining"] },
+  { before: 'What are you', after: '(listen) to?', answer: 'listening', hint: '"are you" est déjà là. Mettez seulement listen à la forme -ing.' }
 ];
 
 const game = (() => {
@@ -179,7 +179,7 @@ const game = (() => {
     document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
     document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
     document.getElementById('sentenceDisplay').innerHTML = '<strong>' + q.before + '</strong> <span style="color:var(--subject)">[…]</span> <em>' + q.after + '</em>';
-    document.getElementById('hintText').textContent = '💡 ' + q.hint;
+    document.getElementById('hintText').textContent = '';
     const inp = document.getElementById('fillInput');
     inp.value = ''; inp.disabled = false; inp.className = 'fill-input';
     document.getElementById('btnCheck').disabled = false;
@@ -199,7 +199,10 @@ const game = (() => {
     inp.disabled = true;
     document.getElementById('btnCheck').disabled = true;
     inp.className = 'fill-input ' + (correct ? 'correct' : 'wrong');
-    if (!correct) inp.value = q.answer;
+    if (!correct) {
+      inp.value = q.answer;
+      document.getElementById('hintText').textContent = '💡 ' + q.hint;
+    }
     const fb = document.getElementById('feedback');
     document.getElementById('feedbackTitle').textContent = correct ? '✅ Parfait !' : '❌ Pas tout à fait…';
     document.getElementById('feedbackText').textContent = 'Bonne réponse : ' + q.before + ' ' + q.answer + ' ' + q.after;

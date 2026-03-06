@@ -347,7 +347,7 @@ const game = (() => {
         <div class="q-type-badge">${q.badge}</div>
         <div class="q-text">Complétez la phrase :</div>
         <div class="sentence-display">${q.sentence.replace('___', '<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</div>
-        ${q.hint ? `<div class="q-context">💡 ${q.hint}</div>` : ''}
+        <div id="hintContainer"></div>
         <div class="fill-input-wrap">
           <input type="text" class="fill-input" id="fillInput" placeholder="Votre réponse…" autocomplete="off" autocorrect="off" spellcheck="false">
           <button class="btn-check" id="btnCheck" onclick="game.answerFill()">Vérifier</button>
@@ -397,8 +397,12 @@ const game = (() => {
     const isCorrect = val === correct || alts.includes(val);
     inp.disabled = true;
     document.getElementById('btnCheck').disabled = true;
-    inp.value = q.answer;
-    inp.classList.add('correct');
+    inp.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) {
+      setTimeout(() => { inp.classList.remove('wrong'); inp.classList.add('correct'); inp.value = q.answer; }, 1000);
+      const hintEl = document.getElementById('hintContainer');
+      if (hintEl && q.hint) hintEl.innerHTML = '<div class="q-context">💡 ' + q.hint + '</div>';
+    }
     showFeedback(isCorrect, q.explanation);
   }
 
