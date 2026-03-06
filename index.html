@@ -219,16 +219,8 @@
   <!-- Stats -->
   <div class="stats" id="stats">
     <div class="stat-card">
-      <span class="stat-num" id="countGames">12</span>
+      <span class="stat-num" id="countGames">…</span>
       <span class="stat-label">jeux disponibles</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num">20+</span>
-      <span class="stat-label">matières</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num">CP–Tle</span>
-      <span class="stat-label">niveaux</span>
     </div>
   </div>
 
@@ -1007,6 +999,9 @@
     });
     document.getElementById('countGames').textContent = visible;
   }
+
+  // Init : comptage réel dès le chargement
+  applyFilters();
 </script>
 </body>
 </html>
