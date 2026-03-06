@@ -120,6 +120,41 @@ Chaque fichier jeu doit respecter ce squelette :
 
 ---
 
+## ⛔ Règles absolues — à ne jamais enfreindre
+
+Ces points ont été identifiés comme des erreurs récurrentes. Chaque jeu produit doit les respecter sans exception.
+
+### 1. Pas de lien vers index.html dans les jeux
+
+Les jeux sont diffusés de façon **autonome**, sans accès à la page d'administration `index.html`. Il est **interdit** d'ajouter :
+- un lien `<a href="../index.html">` ou similaire
+- un bouton "Retour aux jeux", "Retour à l'accueil" ou équivalent
+- tout CSS `.back-link` associé
+
+En fin de jeu (écran de résultat), proposer uniquement **Rejouer** (recharger la page) ou **rien du tout**.
+
+### 2. Le `<p>` sous le `<h1>` = consigne d'action, jamais matière/niveau
+
+✅ Correct :
+```
+<h1>Les figures géométriques</h1>
+<p>Devine la figure géométrique d'après les indices</p>
+```
+
+❌ Interdit :
+```
+<h1>Les figures géométriques</h1>
+<p>Mathématiques — CM1 / CM2 / 6e</p>
+```
+
+La matière est déjà affichée dans le badge (`.subject-badge`). Le niveau n'a pas à apparaître dans le jeu.
+
+### 3. Le compteur de jeux dans index.html est dynamique
+
+`index.html` calcule automatiquement le nombre de jeux via JavaScript (`applyFilters()` au chargement). Ne jamais écrire le nombre en dur dans le HTML.
+
+---
+
 ## Étape 4 — Valeurs data-* pour la carte index.html
 
 Après avoir créé le fichier jeu, ajouter une carte dans `index.html`.
