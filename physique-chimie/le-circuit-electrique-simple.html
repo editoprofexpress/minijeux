@@ -170,11 +170,16 @@ const sim = (() => {
   }
 
   function selectQ(qi, ci, btn, choicesDiv) {
-    choicesDiv.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active-choice'));
-    btn.dataset.selected = ci;
-    choicesDiv.querySelectorAll('.q-btn').forEach(b => b.style.fontWeight = '700');
-    btn.style.background = '#ede9fe';
-    btn.style.borderColor = '#7c3aed';
+    // Toggle: cliquer à nouveau sur la réponse sélectionnée la désélectionne
+    const alreadySelected = btn.style.background === 'rgb(237, 233, 254)';
+    choicesDiv.querySelectorAll('.q-btn').forEach(b => {
+      b.style.background = '';
+      b.style.borderColor = '';
+    });
+    if (!alreadySelected) {
+      btn.style.background = '#ede9fe';
+      btn.style.borderColor = '#7c3aed';
+    }
   }
 
   function checkAll() {
@@ -247,7 +252,7 @@ const sim = (() => {
       <circle cx="400" cy="80" r="7" fill="white" stroke="#64748b" stroke-width="2"/>
       ${switchClosed
         ? '<line x1="340" y1="80" x2="400" y2="80" stroke="#f59e0b" stroke-width="4"/>'
-        : '<line x1="340" y1="80" x2="388" y2="56" stroke="#94a3b8" stroke-width="3"/>'
+        : '<line x1="340" y1="80" x2="358" y2="60" stroke="#94a3b8" stroke-width="3"/>'
       }
       <text x="370" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">INTERRUPTEUR</text>
       <text x="370" y="120" text-anchor="middle" font-family="sans-serif" font-size="10" fill="${switchClosed ? '#059669' : '#ef4444'}" font-weight="bold">${switchClosed ? '(fermé)' : '(ouvert)'}</text>

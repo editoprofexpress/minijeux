@@ -433,6 +433,7 @@ Types les plus courants :
 | `flashcard` | Flashcards | Notions, vocabulaire recto/verso |
 | `calcul` | Calcul mental | Maths : opérations, fractions |
 | `chronologie` | Frise chronologique | Événements historiques |
+| `code-secret` | Code secret | Révisions de chapitre : 4 mini-défis enchaînés, chaque bonne réponse révèle un chiffre du code final |
 | `carte` | Carte interactive | Géographie, repères spatiaux |
 | `schema` | Légender un schéma | SVT, physique, anatomie |
 | `conjugaison` | Conjugaison | Formes verbales, tableaux |
