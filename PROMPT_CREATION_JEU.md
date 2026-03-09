@@ -29,8 +29,8 @@ Ouvrir `notions.csv` et chercher une ligne avec `Statut = à faire`.
 **Structure du CSV :**
 ```
 Niveau;Matiere;Notion;Type_jeu;Fichier_html;Statut
-3e, 4e, 5e, 6e;Allemand;La negation dans la phrase (nicht / kein);lacunes;allemand/negation-nicht-kein.html;fait
-6e;Francais;L'accord sujet-verbe;lacunes;francais/l-accord-sujet-verbe.html;à faire
+3e, 4e, 5e, 6e;Allemand;La negation dans la phrase (nicht / kein);trous;allemand/negation-nicht-kein.html;fait
+6e;Francais;L'accord sujet-verbe;trous;francais/l-accord-sujet-verbe.html;à faire
 ```
 
 Colonnes :
@@ -308,7 +308,7 @@ Exemples :
 Après avoir créé et testé le jeu, passer la ligne dans le CSV de `à faire` à `fait` :
 
 ```
-6e;Francais;L'accord sujet-verbe;lacunes;francais/l-accord-sujet-verbe.html;fait
+6e;Francais;L'accord sujet-verbe;trous;francais/l-accord-sujet-verbe.html;fait
 ```
 
 ---
@@ -424,7 +424,7 @@ Types les plus courants :
 | Slug | Nom | Usage typique |
 |------|-----|---------------|
 | `quiz` | Quiz (QCM) | Règles, culture générale, sciences |
-| `lacunes` | Texte à trous | Grammaire, conjugaison, formules |
+| `trous` | Texte à trous | Grammaire, conjugaison, formules |
 | `vrai-faux` | Vrai ou Faux | Définitions, règles, affirmations |
 | `memory` | Memory | Vocabulaire (FR↔langue étrangère) |
 | `association` | Associer | Terme ↔ définition |

@@ -14,7 +14,7 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 |---|------|-------------|-------|--------------------|--------------------|
 | 1 | `quiz` | Quiz (QCM) | ❓ | 4 propositions, une seule bonne réponse. Format universel. | `allemand/negation-nicht-kein.html` |
 | 2 | `vrai-faux` | Vrai ou Faux | ✅ | Affirmer ou infirmer une proposition. Rapide, idéal pour les règles et définitions. | `emc/respecter-autrui.html` |
-| 3 | `lacunes` | Texte à trous | ✏️ | Compléter des blancs dans une phrase ou un texte. Adapté aux règles de grammaire et syntaxe. | `anglais/le-present-continu-be-v-ing-actions-en-cours.html` |
+| 3 | `trous` | Texte à trous | ✏️ | Compléter des blancs dans une phrase ou un texte. Adapté aux règles de grammaire et syntaxe. | `anglais/le-present-continu-be-v-ing-actions-en-cours.html` |
 | 4 | `conjugaison` | Conjugaison | 🔤 | Compléter une table de conjugaison ou saisir la forme verbale correcte. | `anglais/be-au-preterit-was-were.html` |
 | 5 | `association` | Associer | 🔗 | Relier par des traits un terme à sa définition / traduction / image. | `anglais/les-connecteurs-logiques-essentiels.html` |
 | 6 | `memory` | Memory | 🃏 | Retourner des cartes pour trouver des paires (FR↔langue, terme↔définition…). | `allemand/memoire-des-mots.html` |
@@ -48,8 +48,8 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 
 | Catégorie de notion | Types recommandés (dans l'ordre) |
 |---|---|
-| Règle de grammaire / syntaxe | `lacunes` → `quiz` → `vrai-faux` |
-| Conjugaison / formes verbales | `conjugaison` → `lacunes` |
+| Règle de grammaire / syntaxe | `trous` → `quiz` → `vrai-faux` |
+| Conjugaison / formes verbales | `conjugaison` → `trous` |
 | Vocabulaire thématique | `memory` → `association` → `mots-meles` |
 | Thème culturel / civilisation | `quiz` → `flashcard` |
 | Compétence orale / écrite | `quiz` → `construction` |
@@ -67,7 +67,7 @@ Chaque jeu produit doit utiliser **exactement** un des slugs ci-dessous dans :
 | Valeur citoyenne (EMC) | `vrai-faux` → `quiz` → `tri` |
 | Informatique / algo | `quiz` → `puzzle` |
 | Révision de chapitre (toutes matières) | `escape-game` → `quiz` |
-| Expression orale simulée (LV) | `dialogue` → `lacunes` → `conjugaison` |
+| Expression orale simulée (LV) | `dialogue` → `trous` → `conjugaison` |
 
 ---
 
