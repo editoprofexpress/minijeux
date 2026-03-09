@@ -162,7 +162,16 @@ En fin de jeu (écran de résultat), proposer uniquement **Rejouer** (recharger 
 <p>Mathématiques — CM1 / CM2 / 6e</p>
 ```
 
-La matière est déjà affichée dans le badge (`.subject-badge`). Le niveau n'a pas à apparaître dans le jeu.
+La matière est déjà affichée dans le badge (`.subject-badge`). Le niveau n'a **jamais** à apparaître dans le jeu — ni dans la `<p>` de consigne, ni dans le `.subject-badge`, ni ailleurs dans le `top-bar`.
+
+Le `.subject-badge` = **matière seulement** (avec emoji), jamais le niveau :
+```html
+✅ <div class="subject-badge">⚗️ Physique-Chimie</div>
+❌ <div class="subject-badge">⚗️ Physique-Chimie · Terminale</div>
+❌ <div class="subject-badge">Physique-Chimie · 3e</div>
+```
+
+> Raison : une même notion peut concerner plusieurs niveaux. Afficher le niveau serait restrictif et inexact.
 
 ### 3. Le compteur de jeux dans index.html est dynamique
 
