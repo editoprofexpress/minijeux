@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e, 6e">
+  <meta name="matiere" content="Espagnol">
+  <meta name="type" content="trous">
+  <title>Les pronoms personnels sujets en espagnol — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #d97706;
+      --subject-dark: #92400e;
+      --subject-light: #fef3c7;
+      --subject-mid: #fcd34d;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #78350f 0%, #b45309 60%, #fbbf24 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(217,119,6,0.1); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.25rem; }
+    .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: var(--subject-light); color: var(--subject-dark); padding: 0.5rem 0.75rem; font-weight: 800; text-align: left; }
+    td { padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .sentence-display { font-size: 1.1rem; font-weight: 700; background: var(--subject-light); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.5rem; line-height: 1.8; }
+    .hint-text { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; font-style: italic; min-height: 1.2em; }
+    .fill-input-wrap { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .fill-input { flex: 1; border: 2px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; font-family: inherit; font-size: 1rem; font-weight: 700; outline: none; transition: border-color .15s; }
+    .fill-input:focus { border-color: var(--subject); }
+    .fill-input.correct { border-color: var(--success); background: var(--success-light); }
+    .fill-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-check { padding: 0.75rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .btn-check:disabled { background: var(--border); cursor: default; }
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇪🇸 Espagnol</div>
+  <h1>Les pronoms personnels sujets</h1>
+  <p>Complète les phrases avec le bon pronom sujet espagnol</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🗣️</div>
+    <div class="intro-title">Pronoms sujets en espagnol</div>
+    <div class="intro-desc">En espagnol, le pronom sujet est souvent omis car la terminaison du verbe suffit. Mais il faut savoir les reconnaître et les utiliser pour insister.</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Pronom</th><th>Traduction</th><th>Exemple</th></tr>
+        <tr><td><strong>yo</strong></td><td>je</td><td>Yo hablo español.</td></tr>
+        <tr><td><strong>tú</strong></td><td>tu</td><td>Tú eres simpático.</td></tr>
+        <tr><td><strong>él / ella / usted</strong></td><td>il / elle / vous (formel)</td><td>Él trabaja mucho.</td></tr>
+        <tr><td><strong>nosotros / nosotras</strong></td><td>nous</td><td>Nosotros vivimos aquí.</td></tr>
+        <tr><td><strong>vosotros / vosotras</strong></td><td>vous</td><td>Vosotros coméis bien.</td></tr>
+        <tr><td><strong>ellos / ellas / ustedes</strong></td><td>ils / elles / vous (formel pl.)</td><td>Ellas estudian mucho.</td></tr>
+      </table>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="progress-wrap screen" id="progressWrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">1 / 10</span>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="q-num" id="qNum">Question 1 / 10</div>
+    <div class="sentence-display" id="sentenceDisplay"></div>
+    <div class="hint-text" id="hintText"></div>
+    <div class="fill-input-wrap">
+      <input class="fill-input" id="fillInput" type="text" placeholder="Pronom sujet…" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter') game.check()">
+      <button class="btn-check" id="btnCheck" onclick="game.check()">Vérifier</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackBody"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum"></span>
+          <span class="score-total" id="scoreTot"></span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg"></div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const QUESTIONS = [
+  {
+    before: '', blank: 'Yo', after: ' hablo español todos los días.',
+    correct: ['yo'],
+    translation: 'Je parle espagnol tous les jours.',
+    hint: 'Ce pronom correspond à la 1re personne du singulier.',
+    explanation: '"Yo" signifie "je". On l\'utilise pour insister : c\'est <em>moi</em> qui parle.'
+  },
+  {
+    before: '¿', blank: 'Tú', after: ' hablas inglés también?',
+    correct: ['tú', 'tu'],
+    translation: 'Tu parles aussi anglais ?',
+    hint: 'Ce pronom s\'adresse à une seule personne de façon familière.',
+    explanation: '"Tú" signifie "tu" — noter l\'accent pour le distinguer de l\'article "tu" (ton/ta).'
+  },
+  {
+    before: '', blank: 'Él', after: ' es mi profesor de matemáticas.',
+    correct: ['él', 'el'],
+    translation: 'Il est mon professeur de mathématiques.',
+    hint: 'Ce pronom correspond à la 3e personne du singulier masculin.',
+    explanation: '"Él" (avec accent) signifie "il". Sans accent, "el" est un article défini.'
+  },
+  {
+    before: '', blank: 'Ella', after: ' vive en Madrid.',
+    correct: ['ella'],
+    translation: 'Elle habite à Madrid.',
+    hint: 'Ce pronom correspond à la 3e personne du singulier féminin.',
+    explanation: '"Ella" signifie "elle".'
+  },
+  {
+    before: '', blank: 'Nosotros', after: ' estudiamos mucho para el examen.',
+    correct: ['nosotros'],
+    translation: 'Nous étudions beaucoup pour l\'examen.',
+    hint: 'Ce pronom correspond à la 1re personne du pluriel (groupe masculin ou mixte).',
+    explanation: '"Nosotros" signifie "nous" (forme masculine ou mixte). "Nosotras" pour un groupe féminin.'
+  },
+  {
+    before: '¿', blank: 'Vosotros', after: ' coméis paella los domingos?',
+    correct: ['vosotros'],
+    translation: 'Vous mangez de la paella le dimanche ?',
+    hint: 'Ce pronom s\'adresse à un groupe de personnes de façon familière (en Espagne).',
+    explanation: '"Vosotros" signifie "vous" (pluriel familier, utilisé en Espagne). En Amérique latine, on dit "ustedes".'
+  },
+  {
+    before: '', blank: 'Ellos', after: ' juegan al fútbol en el parque.',
+    correct: ['ellos'],
+    translation: 'Ils jouent au football dans le parc.',
+    hint: 'Ce pronom correspond à la 3e personne du pluriel masculin ou mixte.',
+    explanation: '"Ellos" signifie "ils" (masculin ou groupe mixte). "Ellas" pour un groupe féminin.'
+  },
+  {
+    before: '', blank: 'Usted', after: ' es muy amable, señora.',
+    correct: ['usted'],
+    translation: 'Vous êtes très aimable, madame.',
+    hint: 'Ce pronom correspond au vouvoiement (forme de politesse singulière).',
+    explanation: '"Usted" (souvent abrégé "Ud.") est la forme de politesse singulière, traduite par "vous" en français.'
+  },
+  {
+    before: '', blank: 'Ellas', after: ' son las mejores amigas del mundo.',
+    correct: ['ellas'],
+    translation: 'Elles sont les meilleures amies du monde.',
+    hint: 'Ce pronom correspond à la 3e personne du pluriel féminin uniquement.',
+    explanation: '"Ellas" signifie "elles" — groupe exclusivement féminin.'
+  },
+  {
+    before: '', blank: 'Ustedes', after: ' tienen que llegar a las ocho.',
+    correct: ['ustedes'],
+    translation: 'Vous devez arriver à huit heures.',
+    hint: 'Ce pronom est la forme de politesse plurielle, aussi utilisée en Amérique latine à la place de "vosotros".',
+    explanation: '"Ustedes" (souvent abrégé "Uds.") est la forme de politesse plurielle, ou simplement le "vous" pluriel en Amérique latine.'
+  }
+];
+
+const game = (() => {
+  let qi = 0, score = 0, questions = [];
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle([...QUESTIONS]);
+    qi = 0; score = 0;
+    show('progressWrap');
+    show('screenGame');
+    // show both
+    document.getElementById('progressWrap').classList.add('active');
+    document.getElementById('screenGame').classList.add('active');
+    render();
+  }
+
+  function render() {
+    const q = questions[qi];
+    document.getElementById('qNum').textContent = 'Question ' + (qi + 1) + ' / ' + questions.length;
+    document.getElementById('progressText').textContent = (qi + 1) + ' / ' + questions.length;
+    document.getElementById('progressFill').style.width = (qi / questions.length * 100) + '%';
+
+    // Build sentence with blank shown as ___
+    document.getElementById('sentenceDisplay').innerHTML =
+      (q.before || '') + '<span style="background:#fff;border-radius:6px;padding:0 0.5rem;border:2px dashed var(--subject-mid);color:var(--subject-dark);font-weight:900">___</span>' + q.after +
+      '<br><span style="font-size:0.82rem;color:var(--muted);font-weight:600;font-style:italic">→ ' + q.translation + '</span>';
+
+    document.getElementById('hintText').textContent = '';
+    const input = document.getElementById('fillInput');
+    input.value = '';
+    input.className = 'fill-input';
+    input.disabled = false;
+    document.getElementById('btnCheck').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    input.focus();
+  }
+
+  function normalise(s) { return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
+  function check() {
+    const q = questions[qi];
+    const input = document.getElementById('fillInput');
+    const val = input.value.trim();
+    if (!val) return;
+
+    input.disabled = true;
+    document.getElementById('btnCheck').disabled = true;
+
+    const correct = q.correct.some(c => normalise(val) === normalise(c));
+    const feedbackEl = document.getElementById('feedback');
+    const titleEl = document.getElementById('feedbackTitle');
+    const bodyEl = document.getElementById('feedbackBody');
+
+    if (correct) {
+      input.className = 'fill-input correct';
+      feedbackEl.className = 'feedback correct-fb show';
+      titleEl.textContent = '✅ Correct !';
+      bodyEl.innerHTML = q.explanation;
+      score++;
+    } else {
+      input.className = 'fill-input wrong';
+      feedbackEl.className = 'feedback wrong-fb show';
+      titleEl.textContent = '❌ Pas tout à fait…';
+      bodyEl.innerHTML = 'La bonne réponse était <strong>' + q.correct[0] + '</strong>. ' + q.explanation;
+      // Show hint only on wrong
+      document.getElementById('hintText').textContent = '💡 ' + q.hint;
+    }
+
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() {
+    qi++;
+    if (qi >= questions.length) {
+      showResults();
+    } else {
+      render();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('progressWrap').classList.remove('active');
+    show('screenResults');
+    const pct = Math.round(score / questions.length * 100);
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreTot').textContent = '/ ' + questions.length;
+    document.getElementById('scoreCircle').style.setProperty('--pct', pct + '%');
+    const msgs = [
+      [9, ['🏆', 'Excellent !', 'Tu maîtrises les pronoms personnels sujets espagnols !']],
+      [7, ['🎉', 'Très bien !', 'Encore quelques pronoms à consolider.']],
+      [5, ['👍', 'Bien !', 'Continue à t\'entraîner sur les pronoms formels.']],
+      [0, ['📖', 'Continue à t\'entraîner !', 'Relis le tableau des pronoms et réessaie.']]
+    ];
+    const [emoji, msg, sub] = msgs.find(([min]) => score >= min)[1];
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, check, next, restart };
+})();
+</script>
+</body>
+</html>
