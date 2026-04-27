@@ -92,6 +92,7 @@
       color: inherit;
       display: flex;
       flex-direction: column;
+      cursor: pointer;
     }
     .game-card:hover {
       transform: translateY(-4px);
@@ -135,6 +136,14 @@
       transition: background .15s;
     }
     .card-btn:hover { background: #4338ca; }
+    .card-download {
+      background: #ede9fe; color: #6d28d9;
+      border-radius: 100px; padding: 0.4rem 0.75rem;
+      font-size: 0.82rem; font-weight: 700;
+      text-decoration: none; transition: background .15s;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    .card-download:hover { background: #ddd6fe; }
 
     /* Subject colors */
     .subject-allemand { background: linear-gradient(135deg, #b91c1c, #dc2626); }
@@ -240,16 +249,20 @@
     <div style="width:100%;height:1px;background:#f1f5f9;margin:.25rem 0;"></div>
     <span class="filter-label">Niveau :</span>
     <button class="filter-btn active" data-group="level" data-filter="all">Tous niveaux</button>
-    <button class="filter-btn" data-group="level" data-filter="primaire">🎒 Primaire</button>
-    <button class="filter-btn" data-group="level" data-filter="college">📓 Collège</button>
-    <button class="filter-btn" data-group="level" data-filter="lycee">🎓 Lycée</button>
+    <button class="filter-btn" data-group="level" data-filter="cp">CP</button>
+    <button class="filter-btn" data-group="level" data-filter="cm">CM1–CM2</button>
+    <button class="filter-btn" data-group="level" data-filter="6e">6e</button>
+    <button class="filter-btn" data-group="level" data-filter="5e">5e</button>
+    <button class="filter-btn" data-group="level" data-filter="4e">4e</button>
+    <button class="filter-btn" data-group="level" data-filter="3e">3e</button>
+    <button class="filter-btn" data-group="level" data-filter="terminale">Terminale</button>
   </div>
 
   <!-- Games Grid -->
   <div class="games-grid" id="gamesGrid">
 
     <!-- Allemand – Negation QCM -->
-    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="quiz">
+    <div class="game-card" onclick="location.href='allemand/negation-nicht-kein.html'" data-href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="quiz">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🇩🇪</span>
         <div class="card-meta">
@@ -266,10 +279,10 @@
         <span class="card-info">⏱ ~5 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Allemand – Mémoire -->
-    <a class="game-card" href="allemand/memoire-des-mots.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="memory">
+    <div class="game-card" onclick="location.href='allemand/memoire-des-mots.html'" data-href="allemand/memoire-des-mots.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="memory">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🧠</span>
         <div class="card-meta">
@@ -286,10 +299,10 @@
         <span class="card-info">⏱ ~4 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Anglais – QCM -->
-    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="3e 4e 5e" data-type="quiz">
+    <div class="game-card" onclick="location.href='anglais/present-simple.html'" data-href="anglais/present-simple.html" data-subject="anglais" data-level="3e 4e 5e" data-type="quiz">
       <div class="card-header subject-anglais">
         <span class="card-emoji">🇬🇧</span>
         <div class="card-meta">
@@ -306,10 +319,10 @@
         <span class="card-info">⏱ ~5 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Anglais – Tri -->
-    <a class="game-card" href="anglais/verbes-reguliers-irreguliers.html" data-subject="anglais" data-level="3e 4e" data-type="tri">
+    <div class="game-card" onclick="location.href='anglais/verbes-reguliers-irreguliers.html'" data-href="anglais/verbes-reguliers-irreguliers.html" data-subject="anglais" data-level="3e 4e" data-type="tri">
       <div class="card-header subject-anglais">
         <span class="card-emoji">📋</span>
         <div class="card-meta">
@@ -326,10 +339,10 @@
         <span class="card-info">⏱ ~5 min · 10 verbes</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Français – Accord QCM -->
-    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="cm1 cm2" data-type="quiz">
+    <div class="game-card" onclick="location.href='francais/accord-sujet-verbe.html'" data-href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="cm1 cm2" data-type="quiz">
       <div class="card-header subject-francais">
         <span class="card-emoji">📝</span>
         <div class="card-meta">
@@ -346,10 +359,10 @@
         <span class="card-info">⏱ ~5 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Français – Puzzle de phrases -->
-    <a class="game-card" href="francais/puzzle-de-phrases.html" data-subject="francais" data-level="cm1 cm2 6e" data-type="puzzle">
+    <div class="game-card" onclick="location.href='francais/puzzle-de-phrases.html'" data-href="francais/puzzle-de-phrases.html" data-subject="francais" data-level="cm1 cm2 6e" data-type="puzzle">
       <div class="card-header subject-francais">
         <span class="card-emoji">🔤</span>
         <div class="card-meta">
@@ -366,10 +379,10 @@
         <span class="card-info">⏱ ~6 min · 6 phrases</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Mathématiques – Fractions QCM -->
-    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="6e" data-type="quiz">
+    <div class="game-card" onclick="location.href='mathematiques/fractions.html'" data-href="mathematiques/fractions.html" data-subject="maths" data-level="6e" data-type="quiz">
       <div class="card-header subject-maths">
         <span class="card-emoji">➗</span>
         <div class="card-meta">
@@ -386,10 +399,10 @@
         <span class="card-info">⏱ ~6 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Mathématiques – Ordonner fractions -->
-    <a class="game-card" href="mathematiques/ordonner-les-fractions.html" data-subject="maths" data-level="cm1 cm2 6e 5e" data-type="classement">
+    <div class="game-card" onclick="location.href='mathematiques/ordonner-les-fractions.html'" data-href="mathematiques/ordonner-les-fractions.html" data-subject="maths" data-level="cm1 cm2 6e 5e" data-type="classement">
       <div class="card-header subject-maths">
         <span class="card-emoji">📊</span>
         <div class="card-meta">
@@ -406,10 +419,10 @@
         <span class="card-info">⏱ ~6 min · 5 niveaux</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Histoire-Géo – QCM -->
-    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="3e" data-type="quiz">
+    <div class="game-card" onclick="location.href='histoire-geo/premiere-guerre-mondiale.html'" data-href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="3e" data-type="quiz">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🗺️</span>
         <div class="card-meta">
@@ -426,10 +439,10 @@
         <span class="card-info">⏱ ~6 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Histoire-Géo – Carte interactive -->
-    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="4e 5e" data-type="carte">
+    <div class="game-card" onclick="location.href='histoire-geo/europe-carte-interactive.html'" data-href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="4e 5e" data-type="carte">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🌍</span>
         <div class="card-meta">
@@ -446,10 +459,10 @@
         <span class="card-info">⏱ ~5 min · 10 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- EMC -->
-    <a class="game-card" href="emc/les-emotions.html" data-subject="emc" data-level="cp" data-type="quiz">
+    <div class="game-card" onclick="location.href='emc/les-emotions.html'" data-href="emc/les-emotions.html" data-subject="emc" data-level="cp" data-type="quiz">
       <div class="card-header subject-emc">
         <span class="card-emoji">💛</span>
         <div class="card-meta">
@@ -466,10 +479,10 @@
         <span class="card-info">⏱ ~4 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Conscience -->
-    <a class="game-card" href="philosophie/la-conscience.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-conscience.html'" data-href="philosophie/la-conscience.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">💭</span>
         <div class="card-meta">
@@ -486,10 +499,10 @@
         <span class="card-info">⏱ ~8 min · 6 citations</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Liberté -->
-    <a class="game-card" href="philosophie/la-liberte.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-liberte.html'" data-href="philosophie/la-liberte.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🗽</span>
         <div class="card-meta">
@@ -506,10 +519,10 @@
         <span class="card-info">⏱ ~7 min · 12 thèses</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – Le Bonheur -->
-    <a class="game-card" href="philosophie/le-bonheur.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/le-bonheur.html'" data-href="philosophie/le-bonheur.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">😊</span>
         <div class="card-meta">
@@ -526,10 +539,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – L'Art -->
-    <a class="game-card" href="philosophie/l-art.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/l-art.html'" data-href="philosophie/l-art.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🎨</span>
         <div class="card-meta">
@@ -546,10 +559,10 @@
         <span class="card-info">⏱ ~7 min · 5 citations</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – L'Inconscient -->
-    <a class="game-card" href="philosophie/l-inconscient.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/l-inconscient.html'" data-href="philosophie/l-inconscient.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🌙</span>
         <div class="card-meta">
@@ -566,10 +579,10 @@
         <span class="card-info">⏱ ~7 min · 5 citations</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – Le Devoir -->
-    <a class="game-card" href="philosophie/le-devoir.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/le-devoir.html'" data-href="philosophie/le-devoir.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">⚖️</span>
         <div class="card-meta">
@@ -586,10 +599,10 @@
         <span class="card-info">⏱ ~7 min · 5 citations</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Raison -->
-    <a class="game-card" href="philosophie/la-raison.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-raison.html'" data-href="philosophie/la-raison.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🔭</span>
         <div class="card-meta">
@@ -606,10 +619,10 @@
         <span class="card-info">⏱ ~6 min · 9 thèses</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Justice -->
-    <a class="game-card" href="philosophie/justice.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/justice.html'" data-href="philosophie/justice.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🏛️</span>
         <div class="card-meta">
@@ -626,10 +639,10 @@
         <span class="card-info">⏱ ~7 min · 12 situations</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Science -->
-    <a class="game-card" href="philosophie/la-science.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-science.html'" data-href="philosophie/la-science.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🔬</span>
         <div class="card-meta">
@@ -646,10 +659,10 @@
         <span class="card-info">⏱ ~6 min · 12 disciplines</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Technique -->
-    <a class="game-card" href="philosophie/la-technique.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-technique.html'" data-href="philosophie/la-technique.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">⚙️</span>
         <div class="card-meta">
@@ -666,10 +679,10 @@
         <span class="card-info">⏱ ~7 min · 12 thèses</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Vérité -->
-    <a class="game-card" href="philosophie/la-verite.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-verite.html'" data-href="philosophie/la-verite.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🔍</span>
         <div class="card-meta">
@@ -686,10 +699,10 @@
         <span class="card-info">⏱ ~7 min · 12 thèses</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – L'État -->
-    <a class="game-card" href="philosophie/l-etat.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/l-etat.html'" data-href="philosophie/l-etat.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🏛️</span>
         <div class="card-meta">
@@ -706,10 +719,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Religion -->
-    <a class="game-card" href="philosophie/la-religion.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-religion.html'" data-href="philosophie/la-religion.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">✝️</span>
         <div class="card-meta">
@@ -726,10 +739,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – Le Travail -->
-    <a class="game-card" href="philosophie/le-travail.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/le-travail.html'" data-href="philosophie/le-travail.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">⚒️</span>
         <div class="card-meta">
@@ -746,10 +759,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – Le Temps -->
-    <a class="game-card" href="philosophie/le-temps.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/le-temps.html'" data-href="philosophie/le-temps.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">⏳</span>
         <div class="card-meta">
@@ -766,10 +779,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – La Nature -->
-    <a class="game-card" href="philosophie/la-nature.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/la-nature.html'" data-href="philosophie/la-nature.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">🌿</span>
         <div class="card-meta">
@@ -786,10 +799,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Philosophie – Le Langage -->
-    <a class="game-card" href="philosophie/le-langage.html" data-subject="philosophie" data-level="terminale">
+    <div class="game-card" onclick="location.href='philosophie/le-langage.html'" data-href="philosophie/le-langage.html" data-subject="philosophie" data-level="terminale">
       <div class="card-header subject-philo">
         <span class="card-emoji">💬</span>
         <div class="card-meta">
@@ -806,10 +819,10 @@
         <span class="card-info">⏱ ~5 min · 8 paires</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Sciences – Classification animaux -->
-    <a class="game-card" href="sciences/classification-animaux.html" data-subject="sciences" data-level="primaire">
+    <div class="game-card" onclick="location.href='sciences/classification-animaux.html'" data-href="sciences/classification-animaux.html" data-subject="sciences" data-level="primaire">
       <div class="card-header subject-sciences">
         <span class="card-emoji">🐾</span>
         <div class="card-meta">
@@ -826,10 +839,10 @@
         <span class="card-info">⏱ ~4 min · 12 animaux</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
 
-    <a class="game-card" href="histoire-geo/la-seconde-guerre-mondiale-code-secret.html" data-subject="histoire-geo" data-level="3e" data-type="code-secret">
+    <div class="game-card" onclick="location.href='histoire-geo/la-seconde-guerre-mondiale-code-secret.html'" data-href="histoire-geo/la-seconde-guerre-mondiale-code-secret.html" data-subject="histoire-geo" data-level="3e" data-type="code-secret">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🔐</span>
         <div class="card-meta">
@@ -846,9 +859,9 @@
         <span class="card-info">⏱ ~8 min · 4 salles</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
-    <a class="game-card" href="anglais/se-presenter-dialogue-interactif.html" data-subject="anglais" data-level="6e" data-type="dialogue">
+    <div class="game-card" onclick="location.href='anglais/se-presenter-dialogue-interactif.html'" data-href="anglais/se-presenter-dialogue-interactif.html" data-subject="anglais" data-level="6e" data-type="dialogue">
       <div class="card-header subject-anglais">
         <span class="card-emoji">💬</span>
         <div class="card-meta">
@@ -865,9 +878,9 @@
         <span class="card-info">⏱ ~5 min · 5 échanges</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
-    <a class="game-card" href="physique-chimie/les-lois-de-newton-mecanique-quiz.html" data-subject="physique-chimie" data-level="terminale" data-type="quiz">
+    <div class="game-card" onclick="location.href='physique-chimie/les-lois-de-newton-mecanique-quiz.html'" data-href="physique-chimie/les-lois-de-newton-mecanique-quiz.html" data-subject="physique-chimie" data-level="terminale" data-type="quiz">
       <div class="card-header subject-physique">
         <span class="card-emoji">🍎</span>
         <div class="card-meta">
@@ -884,10 +897,10 @@
         <span class="card-info">⏱ ~6 min · 8 questions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Français – Synonymes, antonymes et homonymes -->
-    <a class="game-card" href="francais/synonymes-antonymes-et-homonymes.html" data-subject="francais" data-level="4e" data-type="association">
+    <div class="game-card" onclick="location.href='francais/synonymes-antonymes-et-homonymes.html'" data-href="francais/synonymes-antonymes-et-homonymes.html" data-subject="francais" data-level="4e" data-type="association">
       <div class="card-header subject-francais">
         <span class="card-emoji">🔤</span>
         <div class="card-meta">
@@ -904,10 +917,10 @@
         <span class="card-info">⏱ ~5 min · 3 manches</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- SVT – Le fonctionnement du cerveau -->
-    <a class="game-card" href="svt/le-fonctionnement-du-cerveau.html" data-subject="svt" data-level="4e" data-type="schema">
+    <div class="game-card" onclick="location.href='svt/le-fonctionnement-du-cerveau.html'" data-href="svt/le-fonctionnement-du-cerveau.html" data-subject="svt" data-level="4e" data-type="schema">
       <div class="card-header subject-svt">
         <span class="card-emoji">🧠</span>
         <div class="card-meta">
@@ -924,10 +937,10 @@
         <span class="card-info">⏱ ~5 min · 7 régions</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
     <!-- Espagnol – Pronoms personnels sujets -->
-    <a class="game-card" href="espagnol/les-pronoms-personnels-sujets.html" data-subject="espagnol" data-level="3e 4e 5e 6e" data-type="trous">
+    <div class="game-card" onclick="location.href='espagnol/les-pronoms-personnels-sujets.html'" data-href="espagnol/les-pronoms-personnels-sujets.html" data-subject="espagnol" data-level="3e 4e 5e 6e" data-type="trous">
       <div class="card-header subject-espagnol">
         <span class="card-emoji">🇪🇸</span>
         <div class="card-meta">
@@ -944,7 +957,7 @@
         <span class="card-info">⏱ ~4 min · 10 phrases</span>
         <span class="card-btn">Jouer →</span>
       </div>
-    </a>
+    </div>
 
   </div>
 
@@ -1003,9 +1016,7 @@
   });
 
   const levelGroups = {
-    primaire: ['cp', 'ce1', 'ce2', 'cm1', 'cm2', 'primaire'],
-    college:  ['6e', '5e', '4e', '3e'],
-    lycee:    ['terminale', 'premiere', 'seconde', '2de', '1re'],
+    cm: ['cm1', 'cm2', 'primaire'],
   };
 
   function applyFilters() {
@@ -1032,6 +1043,20 @@
 
   // Init : comptage réel dès le chargement
   applyFilters();
+
+  // Inject download buttons
+  document.querySelectorAll('.game-card[data-href]').forEach(card => {
+    const footer = card.querySelector('.card-footer');
+    if (!footer) return;
+    const dl = document.createElement('a');
+    dl.href = card.dataset.href;
+    dl.setAttribute('download', '');
+    dl.className = 'card-download';
+    dl.title = 'Télécharger le fichier HTML';
+    dl.innerHTML = '⬇ HTML';
+    dl.addEventListener('click', e => e.stopPropagation());
+    footer.insertBefore(dl, footer.querySelector('.card-btn'));
+  });
 </script>
 </body>
 </html>
