@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philosophie – Le Devoir : Puzzle de citations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#6d28d9;--subject-dark:#5b21b6;--subject-light:#ede9fe;--subject-mid:#c4b5fd;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#faf5ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#4c1d95,#6d28d9,#8b5cf6);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .back-link{position:absolute;top:1rem;left:1rem;color:rgba(255,255,255,0.8);text-decoration:none;font-size:.85rem;font-weight:700}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
+    .top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:700px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
+    .progress-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+    .progress-track{flex:1;height:8px;background:var(--subject-light);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .4s}
+    .progress-label{font-size:.82rem;font-weight:800;color:var(--muted);white-space:nowrap}
+    .philosopher-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--subject-light);border-radius:100px;padding:.3rem .9rem;font-size:.8rem;font-weight:800;color:var(--subject);margin-bottom:1rem}
+    .context-line{font-size:.82rem;color:var(--muted);font-style:italic;margin-bottom:1.25rem;line-height:1.5}
+    .slot-area{min-height:64px;border:2.5px dashed var(--subject-mid);border-radius:14px;padding:.75rem;margin-bottom:1.25rem;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;background:white}
+    .slot-area:empty::after{content:'Clique sur les mots pour reconstituer la citation…';color:var(--border);font-size:.85rem;font-style:italic}
+    .word-tile{background:white;border:2px solid var(--subject-mid);border-radius:8px;padding:.4rem .75rem;font-size:.9rem;font-weight:700;cursor:pointer;transition:transform .15s,border-color .15s,background .15s;user-select:none}
+    .word-tile:hover{border-color:var(--subject);background:var(--subject-light);transform:translateY(-2px)}
+    .word-tile.in-slot{background:var(--subject-light);border-color:var(--subject);color:var(--subject)}
+    .action-row{display:flex;gap:.75rem}
+    .btn-check{flex:1;padding:.85rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;opacity:.4;pointer-events:none}
+    .btn-check.ready{opacity:1;pointer-events:all}.btn-check.ready:hover{background:var(--subject-dark)}
+    .btn-reset{padding:.85rem 1.1rem;background:var(--subject-light);color:var(--subject);border:none;border-radius:12px;font-family:inherit;font-size:.9rem;font-weight:800;cursor:pointer}
+    .feedback{margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;display:none;line-height:1.6}
+    .feedback.show{display:block}
+    .feedback.correct{background:var(--success-light);border-left:4px solid var(--success);color:#065f46}
+    .feedback.wrong{background:var(--error-light);border-left:4px solid var(--error);color:#991b1b}
+    .feedback .correct-citation{font-family:'Lora',serif;font-style:italic;display:block;margin-top:.5rem;font-size:.88rem}
+    .feedback .meaning{margin-top:.5rem;font-size:.85rem;color:var(--muted);border-top:1px solid rgba(0,0,0,.07);padding-top:.5rem}
+    .btn-next{margin-top:1rem;width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .win-stats{display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}
+    .win-stat{background:var(--subject-light);border-radius:12px;padding:.75rem 1.25rem;font-weight:800}
+    .win-stat .num{font-size:1.6rem;color:var(--subject);display:block}.win-stat .lbl{font-size:.75rem;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:.75rem}
+    .btn-home{display:block;padding:.9rem;background:var(--subject-light);color:var(--subject);text-decoration:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;text-align:center}
+    @keyframes shakeRow{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}.shake{animation:shakeRow .35s ease}
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🧠 Philosophie · Terminale</div>
+  <h1>Le Devoir</h1>
+  <p>Reconstitue les grandes formules morales</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">⚖️</div>
+    <div class="intro-title">Puzzle de citations</div>
+    <div class="intro-desc">Reconstitue des citations de Kant, Pascal, Nietzsche et Aristote sur le devoir, la morale et l'obligation.</div>
+    <div class="rule-box">👆 <strong>Comment jouer :</strong><br>Clique sur les mots dans le bon ordre pour reconstituer la citation exacte.<br><br>💡 <strong>Focus Kant :</strong> L'impératif catégorique est la formule centrale — apprends-la par cœur, elle revient à l'examen !</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="screen" id="screenGame">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">1 / 5</div>
+    </div>
+    <div class="card">
+      <div class="philosopher-tag" id="philoTag"></div>
+      <div class="context-line" id="contextLine"></div>
+      <div class="slot-area" id="slotArea"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem" id="wordBank"></div>
+      <div class="action-row">
+        <button class="btn-check" id="btnCheck" onclick="game.check()">Vérifier ✓</button>
+        <button class="btn-reset" onclick="game.reset()">↺ Effacer</button>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn-next" id="btnNext" onclick="game.next()">Citation suivante →</button>
+    </div>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Excellent, moraliste !</div>
+      <div class="win-sub">Tu maîtrises les grandes formules sur le devoir et la morale.</div>
+      <div class="win-stats">
+        <div class="win-stat"><span class="num" id="winScore">—</span><span class="lbl">citations réussies</span></div>
+        <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
+      </div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
+      <a href="../index.html" class="btn-home">🏠 Accueil</a>
+    </div>
+  </div>
+</div>
+<script>
+const CITATIONS=[
+  {philosopher:'Emmanuel Kant',emoji:'📜',context:'1ère formulation de l\'impératif catégorique — principe universel du devoir moral (<em>Fondements de la métaphysique des mœurs</em>, 1785)',words:['Agis','uniquement','d\'après','la','maxime','qui','fait','que','tu','puisses','vouloir','en','même','temps','qu\'elle','devienne','une','loi','universelle.'],meaning:'L\'impératif catégorique est la loi morale absolue : un acte est moral si sa maxime peut être universalisée sans contradiction. Il ne dépend d\'aucun intérêt ou désir personnel.'},
+  {philosopher:'Emmanuel Kant',emoji:'🌌',context:'Les deux sources d\'émerveillement moral et cosmologique (<em>Critique de la raison pratique</em>, 1788 — texte de la stèle funèbre de Kant)',words:['Deux','choses','remplissent','l\'âme','d\'admiration','et','de','vénération',':','le','ciel','étoilé','au-dessus','de','moi','et','la','loi','morale','en','moi.'],meaning:'Kant place la loi morale au même rang que les lois cosmiques : elle est aussi nécessaire et universelle que la physique newtonienne, mais elle vient de l\'intérieur de la raison pratique.'},
+  {philosopher:'Blaise Pascal',emoji:'💧',context:'La justice sans force est impuissante face à l\'injustice (<em>Pensées</em>, fragment 103)',words:['La','justice','sans','la','force','est','impuissante',';','la','force','sans','la','justice','est','tyrannique.'],meaning:'Pascal montre la tension entre le droit (ce qui devrait être) et la force (ce qui est). La légitimité seule ne suffit pas ; la justice doit aussi avoir les moyens de s\'imposer.'},
+  {philosopher:'Aristote',emoji:'🏺',context:'Le devoir comme juste milieu entre excès et défaut — définition de la vertu (<em>Éthique à Nicomaque</em>, IVe s. av. J.-C.)',words:['La','vertu','est','un','état','qui','nous','rend','capables','d\'accomplir','notre','fonction','propre','de','la','meilleure','façon.'],meaning:'Pour Aristote, la vertu (et donc le devoir moral) n\'est pas une règle abstraite mais une disposition habituelle à agir selon le juste milieu, conforme à notre nature rationnelle.'},
+  {philosopher:'Nietzsche',emoji:'🔨',context:'Renversement des valeurs morales traditionnelles — critique de la morale du ressentiment (<em>Par-delà le bien et le mal</em>, 1886)',words:['La','morale','est','l\'instinct','du','troupeau','dans','l\'individu.'],meaning:'Nietzsche critique la morale universelle comme une invention des faibles pour contraindre les forts. Le "devoir" serait une illusion collective, une façon pour la masse de brider l\'individu supérieur.'},
+];
+const game=(()=>{
+  let idx=0,score=0,slotWords=[],bankWords=[],answered=false,order=[];
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function renderBank(){const bank=document.getElementById('wordBank');bank.innerHTML='';bankWords.forEach((w,bi)=>{const t=document.createElement('span');t.className='word-tile';t.textContent=w;t.addEventListener('click',()=>moveToSlot(bi));bank.appendChild(t)})}
+  function renderSlot(){const area=document.getElementById('slotArea');area.innerHTML='';slotWords.forEach((w,si)=>{const t=document.createElement('span');t.className='word-tile in-slot';t.textContent=w;t.addEventListener('click',()=>moveToBank(si));area.appendChild(t)});document.getElementById('btnCheck').classList.toggle('ready',slotWords.length===CITATIONS[order[idx]].words.length&&!answered)}
+  function moveToSlot(bi){if(answered)return;slotWords.push(bankWords[bi]);bankWords.splice(bi,1);renderBank();renderSlot()}
+  function moveToBank(si){if(answered)return;bankWords.push(slotWords[si]);slotWords.splice(si,1);renderBank();renderSlot()}
+  function check(){const c=CITATIONS[order[idx]];const ok=slotWords.join(' ')===c.words.join(' ');answered=true;document.getElementById('btnCheck').classList.remove('ready');document.getElementById('btnNext').style.display='block';const fb=document.getElementById('feedback');if(ok){score++;fb.className='feedback show correct';fb.innerHTML=`✅ <strong>Exact !</strong><span class="meaning">${c.meaning}</span>`}else{fb.className='feedback show wrong';fb.innerHTML=`❌ <strong>Pas tout à fait.</strong><span class="correct-citation">« ${c.words.join(' ')} »</span><span class="meaning">${c.meaning}</span>`;document.getElementById('slotArea').classList.add('shake');setTimeout(()=>document.getElementById('slotArea').classList.remove('shake'),400)}fb.style.display='block'}
+  function next(){idx++;if(idx>=CITATIONS.length){showWin();return}loadCitation()}
+  function loadCitation(){answered=false;const c=CITATIONS[order[idx]];slotWords=[];bankWords=shuffle([...c.words]);document.getElementById('philoTag').innerHTML=`${c.emoji} ${c.philosopher}`;document.getElementById('contextLine').innerHTML=c.context;document.getElementById('progressFill').style.width=(idx/CITATIONS.length*100)+'%';document.getElementById('progressLabel').textContent=`${idx+1} / ${CITATIONS.length}`;document.getElementById('feedback').className='feedback';document.getElementById('feedback').style.display='none';document.getElementById('btnNext').style.display='none';document.getElementById('btnCheck').classList.remove('ready');renderBank();renderSlot();show('screenGame')}
+  function showWin(){document.getElementById('progressFill').style.width='100%';let stars,emoji;if(score===CITATIONS.length){stars='⭐⭐⭐';emoji='🏆'}else if(score>=CITATIONS.length-2){stars='⭐⭐';emoji='🎉'}else{stars='⭐';emoji='👍'}document.getElementById('winScore').textContent=`${score} / ${CITATIONS.length}`;document.getElementById('winStars').textContent=stars;document.getElementById('winEmoji').textContent=emoji;show('screenWin')}
+  function start(){idx=0;score=0;order=shuffle([...Array(CITATIONS.length).keys()]);loadCitation()}
+  function reset(){if(answered)return;const c=CITATIONS[order[idx]];bankWords=shuffle([...c.words]);slotWords=[];renderBank();renderSlot()}
+  return{start,check,next,reset};
+})();
+</script>
+</body>
+</html>
