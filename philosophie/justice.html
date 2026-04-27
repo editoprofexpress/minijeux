@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philosophie – La Justice : Tri des théories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#6d28d9;--subject-dark:#5b21b6;--subject-light:#ede9fe;--subject-mid:#c4b5fd;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#faf5ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--z1:#1d4ed8;--z1l:#dbeafe;--z2:#059669;--z2l:#d1fae5;--z3:#b45309;--z3l:#fef3c7}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#4c1d95,#6d28d9,#8b5cf6);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .back-link{position:absolute;top:1rem;left:1rem;color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem;font-weight:700}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
+    .top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:780px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .doctrine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
+    @media(max-width:520px){.doctrine-grid{grid-template-columns:1fr}}
+    .doctrine-box{border-radius:12px;padding:.85rem 1rem}
+    .doctrine-box.z1{background:var(--z1l);border-left:4px solid var(--z1)}.doctrine-box.z2{background:var(--z2l);border-left:4px solid var(--z2)}.doctrine-box.z3{background:var(--z3l);border-left:4px solid var(--z3)}
+    .doctrine-name{font-size:.85rem;font-weight:900;margin-bottom:.3rem}
+    .doctrine-box.z1 .doctrine-name{color:var(--z1)}.doctrine-box.z2 .doctrine-name{color:var(--z2)}.doctrine-box.z3 .doctrine-name{color:var(--z3)}
+    .doctrine-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .stats-row{display:flex;gap:.75rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}
+    .stat-pill{background:white;border-radius:100px;padding:.45rem 1rem;font-weight:800;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.07);display:flex;align-items:center;gap:.35rem}
+    .pool-label{text-align:center;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.6rem}
+    .pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;margin-bottom:1.75rem}
+    .these-chip{background:white;border:2.5px solid var(--border);border-radius:10px;padding:.5rem .9rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;box-shadow:0 2px 6px rgba(0,0,0,.06);max-width:340px;text-align:center;user-select:none;line-height:1.4}
+    .these-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}.these-chip.selected{border-color:var(--subject);box-shadow:0 0 0 3px rgba(109,40,217,.25);transform:translateY(-2px)}
+    .zones{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+    @media(max-width:520px){.zones{grid-template-columns:1fr}}
+    .zone{border-radius:14px;padding:.75rem;cursor:pointer;transition:box-shadow .2s,transform .2s;min-height:110px}
+    .zone.z1-zone{background:var(--z1l);border:2.5px dashed var(--z1)}.zone.z2-zone{background:var(--z2l);border:2.5px dashed var(--z2)}.zone.z3-zone{background:var(--z3l);border:2.5px dashed var(--z3)}
+    .zone:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1)}.zone.highlight{box-shadow:0 0 0 3px rgba(109,40,217,.3)}
+    .zone-title{font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+    .zone.z1-zone .zone-title{color:var(--z1)}.zone.z2-zone .zone-title{color:var(--z2)}.zone.z3-zone .zone-title{color:var(--z3)}
+    .zone-chips{display:flex;flex-wrap:wrap;gap:5px}
+    .placed-chip{border-radius:8px;padding:.28rem .6rem;font-size:.72rem;font-weight:700;line-height:1.3}
+    .z1-zone .placed-chip{background:rgba(29,78,216,.1);color:var(--z1)}.z2-zone .placed-chip{background:rgba(5,150,105,.1);color:var(--z2)}.z3-zone .placed-chip{background:rgba(180,83,9,.1);color:var(--z3)}
+    .btn-validate{width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;opacity:.4;pointer-events:none}
+    .btn-validate.ready{opacity:1;pointer-events:all}.btn-validate.ready:hover{background:var(--subject-dark)}
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:white;padding:.7rem 1.4rem;border-radius:100px;font-weight:800;font-size:.88rem;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .win-stats{display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}.win-stat{background:var(--subject-light);border-radius:12px;padding:.75rem 1.25rem;font-weight:800}.win-stat .num{font-size:1.6rem;color:var(--subject);display:block}.win-stat .lbl{font-size:.75rem;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:.75rem}
+    .btn-home{display:block;padding:.9rem;background:var(--subject-light);color:var(--subject);text-decoration:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;text-align:center}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}80%{transform:translateX(7px)}}.shake{animation:shake .35s ease}
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../index.html" class="back-link">← Accueil</a>
+  <div class="subject-badge">🧠 Philosophie · Terminale</div>
+  <h1>La Justice</h1>
+  <p>Justice distributive, commutative ou correctrice ?</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">⚖️</div>
+    <div class="intro-title">Tri des conceptions de la justice</div>
+    <div class="intro-desc">Classe chaque principe ou situation dans la bonne conception de la justice.</div>
+    <div class="doctrine-grid">
+      <div class="doctrine-box z1"><div class="doctrine-name">🏛️ Distributive</div><div class="doctrine-desc">Répartition des biens, des droits et des charges selon un principe d'équité ou d'égalité. <em>(Aristote, Rawls)</em></div></div>
+      <div class="doctrine-box z2"><div class="doctrine-name">🤝 Commutative</div><div class="doctrine-desc">Équité dans les échanges et les contrats entre individus : chacun reçoit l'équivalent de ce qu'il donne. <em>(Droit civil)</em></div></div>
+      <div class="doctrine-box z3"><div class="doctrine-name">⚖️ Correctrice</div><div class="doctrine-desc">Réparation d'un tort commis, punition proportionnelle à la faute. Rétablir l'équilibre rompu. <em>(Droit pénal)</em></div></div>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="screen" id="screenGame">
+    <div class="stats-row"><div class="stat-pill">✅ <span id="statPlaced">0</span> / <span id="statTotal">0</span></div><div class="stat-pill">❌ <span id="statErrors">0</span> erreur(s)</div></div>
+    <div class="pool-label">⚖️ Situations et principes à classer</div>
+    <div class="pool" id="pool"></div>
+    <div class="zones">
+      <div class="zone z1-zone" id="zone-distributive" onclick="game.place('distributive')"><div class="zone-title">🏛️ Distributive</div><div class="zone-chips" id="chips-distributive"></div></div>
+      <div class="zone z2-zone" id="zone-commutative" onclick="game.place('commutative')"><div class="zone-title">🤝 Commutative</div><div class="zone-chips" id="chips-commutative"></div></div>
+      <div class="zone z3-zone" id="zone-correctrice" onclick="game.place('correctrice')"><div class="zone-title">⚖️ Correctrice</div><div class="zone-chips" id="chips-correctrice"></div></div>
+    </div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()">Vérifier mes classements ✓</button>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen"><div class="win-emoji" id="winEmoji">🏆</div><div class="win-title">Justice rendue !</div><div class="win-sub">Tu distingues parfaitement les trois conceptions de la justice.</div>
+    <div class="win-stats"><div class="win-stat"><span class="num" id="winErrors">—</span><span class="lbl">erreurs</span></div><div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div></div>
+    <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button><a href="../index.html" class="btn-home">🏠 Accueil</a></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const THESES=[
+  {text:'L\'État impose un impôt progressif : les riches paient proportionnellement plus.',type:'distributive'},
+  {text:'La discrimination positive à l\'université pour les étudiants défavorisés. — Rawls',type:'distributive'},
+  {text:'"À chacun selon ses besoins, de chacun selon ses capacités." — Marx',type:'distributive'},
+  {text:'Le "voile d\'ignorance" de Rawls pour définir une société équitable.',type:'distributive'},
+  {text:'Un vendeur rembourse un client pour un produit défectueux.',type:'commutative'},
+  {text:'Un salarié reçoit un salaire en échange de son travail.',type:'commutative'},
+  {text:'Deux commerçants signent un contrat d\'échange à prix convenu.',type:'commutative'},
+  {text:'La règle "donnant-donnant" dans les échanges commerciaux.',type:'commutative'},
+  {text:'Un tribunal condamne un criminel à une peine proportionnelle à son acte.',type:'correctrice'},
+  {text:'La victime d\'un accident obtient des dommages et intérêts.',type:'correctrice'},
+  {text:'L\'emprisonnement comme réparation à la société du tort causé.',type:'correctrice'},
+  {text:'"L\'œil pour l\'œil" — peine équivalente au préjudice subi. — Talion',type:'correctrice'},
+];
+const game=(()=>{
+  let selected=null,placed={},errors=0;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function showToast(msg,d=2000){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
+  function updateStats(){document.getElementById('statPlaced').textContent=Object.keys(placed).length;document.getElementById('statErrors').textContent=errors;document.getElementById('btnValidate').classList.toggle('ready',Object.keys(placed).length===THESES.length)}
+  function renderPool(){const pool=document.getElementById('pool');pool.innerHTML='';shuffle(THESES).forEach(th=>{if(placed[th.text]!==undefined)return;const chip=document.createElement('div');chip.className='these-chip'+(selected&&selected.text===th.text?' selected':'');chip.textContent=th.text;chip.addEventListener('click',()=>{selected=(selected&&selected.text===th.text)?null:th;renderPool();document.querySelectorAll('.zone').forEach(z=>z.classList.toggle('highlight',selected!==null))});pool.appendChild(chip)})}
+  function place(zone){if(!selected){showToast('👆 Sélectionne d\'abord un élément !');return}const th=selected;selected=null;document.querySelectorAll('.zone').forEach(z=>z.classList.remove('highlight'));if(th.type===zone){placed[th.text]=zone;const c=document.createElement('div');c.className='placed-chip';c.textContent=th.text.length>50?th.text.slice(0,47)+'…':th.text;document.getElementById('chips-'+zone).appendChild(c);showToast('✅ Correct !',1000)}else{errors++;const zEl=document.getElementById('zone-'+zone);zEl.classList.add('shake');setTimeout(()=>zEl.classList.remove('shake'),400);const labels={distributive:'Justice distributive 🏛️',commutative:'Justice commutative 🤝',correctrice:'Justice correctrice ⚖️'};showToast(`❌ Non — ${labels[th.type]}`,2500)}renderPool();updateStats()}
+  function validate(){if(Object.keys(placed).length<THESES.length)return;let stars,emoji;if(errors===0){stars='⭐⭐⭐';emoji='🏆'}else if(errors<=3){stars='⭐⭐';emoji='🎉'}else{stars='⭐';emoji='👍'}document.getElementById('winErrors').textContent=errors;document.getElementById('winStars').textContent=stars;document.getElementById('winEmoji').textContent=emoji;show('screenWin')}
+  function start(){selected=null;placed={};errors=0;['distributive','commutative','correctrice'].forEach(z=>{document.getElementById('chips-'+z).innerHTML=''});document.getElementById('statTotal').textContent=THESES.length;document.getElementById('btnValidate').classList.remove('ready');renderPool();updateStats();show('screenGame')}
+  return{start,place,validate};
+})();
+</script>
+</body>
+</html>
