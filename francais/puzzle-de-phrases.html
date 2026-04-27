@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Français – Construis la phrase</title>
+  <title>Français – Puzzle de phrases</title>
+  <meta name="niveau" content="CM1-6e">
+  <meta name="matiere" content="Français">
+  <meta name="type" content="puzzle">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -17,7 +20,6 @@
     body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
     .top-bar { width: 100%; background: linear-gradient(135deg, #5b21b6, #7c3aed, #a855f7); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
     .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
-    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
     .subject-badge { display: inline-flex; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
     .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
     .top-bar p { font-size: 0.9rem; opacity: 0.85; }
@@ -119,8 +121,7 @@
 <body>
 
 <div class="top-bar">
-  <a href="../index.html" class="back-link">← Accueil</a>
-  <div class="subject-badge">📝 Français · CM1–CM2</div>
+  <div class="subject-badge">📝 Français</div>
   <h1>Construis la phrase 🧩</h1>
   <p>Remettez les mots dans le bon ordre</p>
 </div>
@@ -180,7 +181,6 @@
       <div class="results-msg" id="resultsMsg">Excellent !</div>
       <div class="results-sub" id="resultsSub"></div>
       <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
-      <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
     </div>
   </div>
 

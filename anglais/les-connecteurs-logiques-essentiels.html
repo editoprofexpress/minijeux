@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e">
+  <meta name="matiere" content="Anglais">
+  <meta name="type" content="association">
+  <title>Les connecteurs logiques essentiels — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #2563eb;
+      --subject-dark: #1d4ed8;
+      --subject-light: #dbeafe;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #eff6ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #3b82f6 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Association game */
+    .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .score-badge { background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.85rem; font-weight: 800; }
+    .pairs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .col-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: 0 0.25rem 0.4rem; }
+    .item-btn { border: 2.5px solid var(--border); background: white; border-radius: 12px; padding: 0.75rem 1rem; font-family: inherit; font-size: 0.92rem; font-weight: 800; cursor: pointer; text-align: left; transition: all .15s; min-height: 52px; display: flex; align-items: center; }
+    .item-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); color: var(--subject-dark); }
+    .item-btn.selected { border-color: var(--subject); background: var(--subject-light); color: var(--subject-dark); box-shadow: 0 0 0 3px rgba(2,132,199,0.2); }
+    .item-btn.matched { border-color: var(--success); background: var(--success-light); color: var(--success); cursor: default; }
+    .item-btn.wrong-flash { border-color: var(--error); background: var(--error-light); color: var(--error); animation: flash .4s ease; }
+    @keyframes flash { 0%,100% { transform: translateX(0); } 25%,75% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }
+    .item-btn:disabled { cursor: default; }
+    .congrats { text-align: center; padding: 1.5rem 0 0.5rem; animation: slideUp .4s ease; }
+    .congrats-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .congrats-msg { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.4rem; }
+    .congrats-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇬🇧 Anglais</div>
+  <h1>Les connecteurs logiques essentiels</h1>
+  <p>Associe chaque connecteur logique à son sens</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔗</div>
+    <div class="intro-title">Les connecteurs logiques</div>
+    <div class="intro-desc">Associe chaque connecteur anglais à sa fonction logique. Clique sur un connecteur, puis sur sa définition.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="game-header">
+      <span style="font-weight:900;font-size:1rem;">Relie les paires 🔗</span>
+      <span class="score-badge" id="scoreBadge">0 / 8 paires</span>
+    </div>
+    <div class="pairs-grid">
+      <div>
+        <div class="col-label">Connecteur anglais</div>
+        <div id="leftCol"></div>
+      </div>
+      <div>
+        <div class="col-label">Fonction / sens</div>
+        <div id="rightCol"></div>
+      </div>
+    </div>
+    <div class="congrats" id="congrats" style="display:none">
+      <div class="congrats-emoji">🏆</div>
+      <div class="congrats-msg">Bravo, toutes les paires trouvées !</div>
+      <div class="congrats-sub">Tu connais les connecteurs logiques en anglais.</div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+const PAIRS = [
+  { left: 'however', right: 'cependant / contraste' },
+  { left: 'therefore', right: 'donc / conséquence' },
+  { left: 'moreover', right: 'de plus / ajout' },
+  { left: 'although', right: 'bien que / concession' },
+  { left: 'for example', right: 'par exemple / illustration' },
+  { left: 'firstly', right: 'premièrement / ordre' },
+  { left: 'because', right: 'parce que / cause' },
+  { left: 'finally', right: 'enfin / conclusion' }
+];
+
+const game = (() => {
+  let selected = null, matched = 0;
+
+  function shuffle(arr) {
+    const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a;
+  }
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    selected = null; matched = 0;
+    document.getElementById('congrats').style.display = 'none';
+    document.getElementById('scoreBadge').textContent = '0 / ' + PAIRS.length + ' paires';
+    const lefts = shuffle(PAIRS.map((p, i) => ({ text: p.left, id: i, side: 'left' })));
+    const rights = shuffle(PAIRS.map((p, i) => ({ text: p.right, id: i, side: 'right' })));
+    const leftCol = document.getElementById('leftCol');
+    const rightCol = document.getElementById('rightCol');
+    leftCol.innerHTML = '';
+    rightCol.innerHTML = '';
+    lefts.forEach(item => { leftCol.innerHTML += `<button class="item-btn" id="left_${item.id}" onclick="game.select('left', ${item.id})">${item.text}</button>`; });
+    rights.forEach(item => { rightCol.innerHTML += `<button class="item-btn" id="right_${item.id}" onclick="game.select('right', ${item.id})">${item.text}</button>`; });
+    show('screenGame');
+  }
+
+  function select(side, id) {
+    const btn = document.getElementById(side + '_' + id);
+    if (btn.classList.contains('matched')) return;
+
+    if (!selected) {
+      if (btn.classList.contains('selected')) { btn.classList.remove('selected'); return; }
+      document.querySelectorAll('.item-btn.selected').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selected = { side, id };
+      return;
+    }
+
+    if (selected.side === side) {
+      document.querySelectorAll('.item-btn.selected').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selected = { side, id };
+      return;
+    }
+
+    const leftId = side === 'right' ? selected.id : id;
+    const rightId = side === 'right' ? id : selected.id;
+    const isCorrect = leftId === rightId;
+
+    if (isCorrect) {
+      document.getElementById('left_' + leftId).className = 'item-btn matched';
+      document.getElementById('right_' + rightId).className = 'item-btn matched';
+      document.getElementById('left_' + leftId).disabled = true;
+      document.getElementById('right_' + rightId).disabled = true;
+      matched++;
+      document.getElementById('scoreBadge').textContent = matched + ' / ' + PAIRS.length + ' paires';
+      selected = null;
+      if (matched === PAIRS.length) setTimeout(() => { document.getElementById('congrats').style.display = 'block'; }, 400);
+    } else {
+      const wrongBtn = document.getElementById(side + '_' + id);
+      wrongBtn.classList.add('wrong-flash');
+      setTimeout(() => { wrongBtn.classList.remove('wrong-flash'); }, 450);
+      document.querySelectorAll('.item-btn.selected').forEach(b => b.classList.remove('selected'));
+      selected = null;
+    }
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, select, restart };
+})();
+</script>
+</body>
+</html>

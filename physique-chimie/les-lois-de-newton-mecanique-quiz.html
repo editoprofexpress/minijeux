@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="Terminale">
+  <meta name="matiere" content="Physique-Chimie">
+  <meta name="type" content="quiz">
+  <title>Les lois de Newton — Mécaniques — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- MathJax pour le rendu des formules LaTeX -->
+  <script>
+    MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, options: { skipHtmlTags: ['script','noscript','style','textarea'] } };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+  <style>
+    :root {
+      --subject: #0891b2;
+      --subject-dark: #0e7490;
+      --subject-light: #cffafe;
+      --subject-mid: #67e8f9;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #ecfeff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .top-bar { width: 100%; background: linear-gradient(135deg, #164e63 0%, #0891b2 60%, #22d3ee 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.2rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(8,145,178,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* INTRO */
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .formula-preview { background: var(--subject-light); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: center; }
+    .formula-preview p { font-size: 0.85rem; color: var(--subject-dark); font-weight: 700; margin-bottom: 0.5rem; }
+    .formula-row { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 0.75rem; font-size: 1rem; font-weight: 700; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+
+    /* QUESTION */
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .q-text { font-size: 1rem; font-weight: 700; line-height: 1.6; margin-bottom: 1.25rem; color: var(--text); }
+    .q-formula { background: #f8fafc; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; text-align: center; font-size: 1.1rem; border-left: 4px solid var(--subject); }
+    .options { display: grid; gap: 0.6rem; }
+    .opt { width: 100%; text-align: left; padding: 0.85rem 1.1rem; border-radius: 12px; border: 2px solid var(--border); background: white; font-family: inherit; font-size: 0.95rem; font-weight: 700; color: var(--text); cursor: pointer; transition: all .15s; }
+    .opt:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); }
+    .opt.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .opt.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    .opt:disabled { cursor: default; }
+
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .feedback.ok { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.ko { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.92rem; margin-bottom: 0.4rem; }
+    .feedback.ok .feedback-title { color: var(--success); }
+    .feedback.ko .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.87rem; line-height: 1.6; }
+
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    .btn-next:hover { background: var(--subject-dark); }
+
+    /* RESULTS */
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 1rem; display: block; }
+    .score-circle { display: inline-flex; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0deg, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 0 auto 1rem; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.5rem 0 0.3rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; width: 100%; }
+    .btn-retry:hover { background: var(--subject-dark); }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="subject-badge">⚗️ Physique-Chimie</div>
+  <h1>Les lois de Newton — Mécanique</h1>
+  <p>Identifie la bonne loi, la bonne formule ou le bon raisonnement</p>
+</div>
+
+<div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+
+  <!-- INTRO -->
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🍎</div>
+    <div class="intro-title">Mécanique newtonienne</div>
+    <div class="intro-desc">8 questions sur les trois lois de Newton, les grandeurs vectorielles et les applications en cinématique.</div>
+    <div class="formula-preview">
+      <p>Les trois lois à connaître :</p>
+      <div class="formula-row">
+        <span>\( \sum \vec{F} = \vec{0} \)</span>
+        <span>\( \sum \vec{F} = m\vec{a} \)</span>
+        <span>\( \vec{F}_{A/B} = -\vec{F}_{B/A} \)</span>
+      </div>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Question 1 / 8</div>
+    <div class="q-text" id="qText"></div>
+    <div class="q-formula" id="qFormula" style="display:none"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="fbTitle"></div>
+      <p id="fbText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="rEmoji">🏆</div>
+      <span class="stars" id="rStars">⭐⭐⭐</span>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total" id="scoreTotal">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="rMsg"></div>
+      <div class="results-sub" id="rSub"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    text: "Quelle est la deuxième loi de Newton (principe fondamental de la dynamique) ?",
+    formula: null,
+    options: [
+      { text: "\\( \\sum \\vec{F} = m\\vec{a} \\)", correct: true,  expl: "Oui ! La résultante des forces est égale à la masse multipliée par l'accélération." },
+      { text: "\\( \\sum \\vec{F} = m\\vec{v} \\)", correct: false, expl: "Non. La 2e loi fait intervenir l'accélération \\(\\vec{a}\\), pas la vitesse \\(\\vec{v}\\)." },
+      { text: "\\( \\sum \\vec{F} = \\vec{0} \\)", correct: false, expl: "Non. C'est la condition d'équilibre (1re loi de Newton), pas le principe fondamental." },
+      { text: "\\( \\vec{F} = \\frac{\\Delta \\vec{p}}{\\Delta t} \\)", correct: false, expl: "C'est une formulation équivalente valable si la masse est constante, mais la formulation classique au lycée est \\(\\sum \\vec{F} = m\\vec{a}\\)." },
+    ]
+  },
+  {
+    text: "Un objet de masse \\( m = 4\\,\\text{kg} \\) est soumis à une force résultante \\( F = 12\\,\\text{N} \\). Quelle est son accélération ?",
+    formula: "\\[ a = \\frac{F}{m} \\]",
+    options: [
+      { text: "\\( a = 48\\,\\text{m·s}^{-2} \\)", correct: false, expl: "Erreur : il faut diviser F par m, pas les multiplier. \\( a = F/m = 12/4 \\)." },
+      { text: "\\( a = 3\\,\\text{m·s}^{-2} \\)", correct: true,  expl: "Correct ! \\( a = F/m = 12/4 = 3\\,\\text{m·s}^{-2} \\)." },
+      { text: "\\( a = 8\\,\\text{m·s}^{-2} \\)", correct: false, expl: "Non. \\( a = 12/4 = 3 \\), pas 8." },
+      { text: "\\( a = 0.33\\,\\text{m·s}^{-2} \\)", correct: false, expl: "Non. \\( a = 12/4 = 3 \\). Vous avez inversé numérateur et dénominateur." },
+    ]
+  },
+  {
+    text: "Selon la première loi de Newton (principe d'inertie), un objet en mouvement rectiligne uniforme…",
+    formula: null,
+    options: [
+      { text: "a nécessairement une force motrice non nulle.", correct: false, expl: "Non. Le principe d'inertie dit qu'un MRU ne nécessite pas de force : \\( \\sum \\vec{F} = \\vec{0} \\)." },
+      { text: "est en équilibre : la résultante des forces est nulle.", correct: true,  expl: "Exact ! MRU ⟺ \\( \\sum \\vec{F} = \\vec{0} \\) (ou objet au repos)." },
+      { text: "décélère à cause des frottements, même en l'absence de force.", correct: false, expl: "Non. En l'absence de forces, il conserve son mouvement indéfiniment (principe d'inertie)." },
+      { text: "a une accélération constante non nulle.", correct: false, expl: "Non. Un MRU implique \\(\\vec{a} = \\vec{0}\\), donc \\( \\sum \\vec{F} = \\vec{0} \\)." },
+    ]
+  },
+  {
+    text: "Quelle est l'expression du poids \\( P \\) d'un objet de masse \\( m \\) dans un champ de pesanteur \\( g \\) ?",
+    formula: null,
+    options: [
+      { text: "\\( P = \\dfrac{m}{g} \\)", correct: false, expl: "Non. On divise la masse par \\(g\\) : ça donnerait des unités incorrectes." },
+      { text: "\\( P = m + g \\)", correct: false, expl: "Le poids est un produit, pas une somme." },
+      { text: "\\( P = mg \\)", correct: true,  expl: "Correct ! \\( P = mg \\) avec \\(g \\approx 9{,}81\\,\\text{m·s}^{-2}\\) sur Terre." },
+      { text: "\\( P = m^2 g \\)", correct: false, expl: "Non. La relation est linéaire en \\(m\\) : \\( P = mg \\)." },
+    ]
+  },
+  {
+    text: "Deux corps A et B interagissent. La force exercée par A sur B vaut \\( \\vec{F}_{A/B} = 6\\,\\text{N} \\) vers la droite. Quelle est la force exercée par B sur A ?",
+    formula: "\\[ \\vec{F}_{A/B} = -\\vec{F}_{B/A} \\]",
+    options: [
+      { text: "\\( 6\\,\\text{N} \\) vers la droite.", correct: false, expl: "Non. Les forces d'interaction sont opposées (3e loi de Newton)." },
+      { text: "\\( 6\\,\\text{N} \\) vers la gauche.", correct: true,  expl: "Exact ! \\( \\vec{F}_{B/A} = -\\vec{F}_{A/B} \\) : même norme, direction opposée." },
+      { text: "\\( 3\\,\\text{N} \\) vers la gauche.", correct: false, expl: "Non. Les normes sont égales (pas divisées par 2) : \\( |\\vec{F}_{B/A}| = |\\vec{F}_{A/B}| = 6\\,\\text{N} \\)." },
+      { text: "\\( 0\\,\\text{N} \\) (le corps A n'est pas influencé).", correct: false, expl: "Non. C'est la 3e loi de Newton : toute action entraîne une réaction égale et opposée." },
+    ]
+  },
+  {
+    text: "Un objet de masse \\( m = 2\\,\\text{kg} \\) est posé sur une table. La table exerce une réaction \\( R \\). En situation d'équilibre, quelle relation est vérifiée ?",
+    formula: null,
+    options: [
+      { text: "\\( R = 2P \\)", correct: false, expl: "Non. En équilibre, la résultante est nulle, donc \\( R = P \\)." },
+      { text: "\\( R + P = 0 \\) (en notation vectorielle)", correct: true,  expl: "Oui ! \\( \\vec{R} + \\vec{P} = \\vec{0} \\), soit \\( R = P = mg \\approx 19{,}6\\,\\text{N} \\)." },
+      { text: "\\( R = 0 \\)", correct: false, expl: "Non. Si \\( R = 0 \\), l'objet serait en chute libre (aucun appui)." },
+      { text: "\\( R = P/2 \\)", correct: false, expl: "Non. L'équilibre impose \\( R = P \\) en norme." },
+    ]
+  },
+  {
+    text: "Un véhicule de masse \\( m = 1500\\,\\text{kg} \\) freine avec une décélération \\( a = -4\\,\\text{m·s}^{-2} \\). Quelle est la force de freinage ?",
+    formula: "\\[ F = ma \\]",
+    options: [
+      { text: "\\( F = +6000\\,\\text{N} \\)", correct: false, expl: "Non. La décélération est négative, donc la force est \\( F = 1500 \\times (-4) = -6000\\,\\text{N} \\)." },
+      { text: "\\( F = -375\\,\\text{N} \\)", correct: false, expl: "Non. \\( F = ma = 1500 \\times (-4) = -6000\\,\\text{N} \\)." },
+      { text: "\\( F = -6000\\,\\text{N} \\)", correct: true,  expl: "Correct ! \\( F = ma = 1500 \\times (-4) = -6000\\,\\text{N} \\). Le signe négatif indique le sens opposé au mouvement." },
+      { text: "\\( F = -1504\\,\\text{N} \\)", correct: false, expl: "Non. Il faut multiplier la masse par l'accélération : \\( F = 1500 \\times (-4) \\)." },
+    ]
+  },
+  {
+    text: "Quelle grandeur est un vecteur parmi les suivantes ?",
+    formula: null,
+    options: [
+      { text: "La masse \\( m \\)", correct: false, expl: "Non. La masse est un scalaire (nombre positif sans direction)." },
+      { text: "La température \\( T \\)", correct: false, expl: "Non. La température est un scalaire." },
+      { text: "La durée \\( t \\)", correct: false, expl: "Non. Le temps est un scalaire." },
+      { text: "L'accélération \\( \\vec{a} \\)", correct: true,  expl: "Oui ! L'accélération \\(\\vec{a}\\) est un vecteur : elle a une norme, une direction et un sens. Comme \\(\\vec{F}\\), \\(\\vec{v}\\) et \\(\\vec{p}\\)." },
+    ]
+  },
+];
+
+const game = (() => {
+  let questions, idx, score;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS);
+    idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotal').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[idx];
+    document.getElementById('qNum').textContent = 'Question ' + (idx + 1) + ' / ' + questions.length;
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+
+    const qText = document.getElementById('qText');
+    qText.innerHTML = q.text;
+
+    const qFormula = document.getElementById('qFormula');
+    if (q.formula) {
+      qFormula.innerHTML = q.formula;
+      qFormula.style.display = 'block';
+    } else {
+      qFormula.style.display = 'none';
+    }
+
+    // Shuffle options
+    const shuffled = shuffle(q.options);
+    const optDiv = document.getElementById('options');
+    optDiv.innerHTML = '';
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerHTML = opt.text;
+      btn.onclick = () => answer(btn, opt, shuffled);
+      optDiv.appendChild(btn);
+    });
+
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+
+    // Re-render MathJax for dynamic content
+    if (window.MathJax) MathJax.typesetPromise([document.getElementById('screenQuestion')]);
+  }
+
+  function answer(btn, opt, allOpts) {
+    document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+    btn.classList.add(opt.correct ? 'correct' : 'wrong');
+    if (!opt.correct) {
+      // Highlight the correct answer
+      document.querySelectorAll('.opt').forEach((b, i) => {
+        if (allOpts[i].correct) b.classList.add('correct');
+      });
+    }
+    if (opt.correct) score++;
+
+    const fb = document.getElementById('feedback');
+    document.getElementById('fbTitle').textContent = opt.correct ? '✅ Exact !' : '❌ Pas tout à fait…';
+    document.getElementById('fbText').innerHTML = opt.expl;
+    fb.className = 'feedback show ' + (opt.correct ? 'ok' : 'ko');
+    document.getElementById('btnNext').className = 'btn-next show';
+
+    // Re-render MathJax for feedback
+    if (window.MathJax) MathJax.typesetPromise([fb]);
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults();
+    else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, stars, msg, sub;
+    if (pct === 1)      { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !';       sub='Vous maîtrisez les lois de Newton.'; }
+    else if (pct >= .75){ emoji='🎉'; stars='⭐⭐⭐'; msg='Très bien !';     sub='Quelques points à consolider, mais vous êtes sur la bonne voie.'; }
+    else if (pct >= .5) { emoji='👍'; stars='⭐⭐';   msg='Bien !';          sub='Relisez le cours sur les vecteurs forces et les trois lois.'; }
+    else                { emoji='📚'; stars='⭐';     msg='À retravailler'; sub='Reprenez le cours de mécanique newtonienne depuis le début.'; }
+    document.getElementById('rEmoji').textContent = emoji;
+    document.getElementById('rStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('rMsg').textContent = msg;
+    document.getElementById('rSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() {
+    show('screenIntro');
+    document.getElementById('progressWrap').style.display = 'none';
+  }
+
+  return { start, next, restart };
+})();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const btnNext = document.getElementById('btnNext');
+    if (btnNext.classList.contains('show')) game.next();
+  }
+});
+</script>
+</body>
+</html>

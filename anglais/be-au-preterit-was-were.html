@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e">
+  <meta name="matiere" content="Anglais">
+  <meta name="type" content="conjugaison">
+  <title>BE au prétérit (was / were) — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #2563eb;
+      --subject-dark: #1d4ed8;
+      --subject-light: #dbeafe;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #eff6ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #3b82f6 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); margin-bottom: 1rem; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.25rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Table */
+    .section-title { font-size: 1rem; font-weight: 900; margin-bottom: 1rem; color: var(--subject-dark); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    th { background: var(--subject-light); color: var(--subject-dark); font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.6rem 0.75rem; text-align: left; }
+    td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: middle; font-weight: 700; font-size: 0.95rem; }
+    tr:last-child td { border-bottom: none; }
+    .conj-input { width: 100%; border: 2px solid var(--border); border-radius: 8px; padding: 0.4rem 0.75rem; font-family: inherit; font-size: 0.9rem; font-weight: 700; outline: none; transition: border-color .15s; }
+    .conj-input:focus { border-color: var(--subject); }
+    .conj-input.correct { border-color: var(--success); background: var(--success-light); }
+    .conj-input.wrong { border-color: var(--error); background: var(--error-light); }
+    /* Sentences */
+    .sentence-item { margin-bottom: 1rem; }
+    .sentence-text { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.7; }
+    .blank { display: inline-block; min-width: 60px; border-bottom: 3px solid var(--subject); padding: 0 6px; }
+    .sent-input { border: 2px solid var(--border); border-radius: 8px; padding: 0.35rem 0.7rem; font-family: inherit; font-size: 0.9rem; font-weight: 700; outline: none; width: 110px; transition: border-color .15s; }
+    .sent-input:focus { border-color: var(--subject); }
+    .sent-input.correct { border-color: var(--success); background: var(--success-light); }
+    .sent-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-verify { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 0.5rem; }
+    .btn-verify:hover { background: var(--subject-dark); }
+    .btn-verify:disabled { background: var(--border); cursor: default; }
+    .results-block { background: var(--subject-light); border-radius: 14px; padding: 1.5rem; text-align: center; display: none; }
+    .results-block.show { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .score-big { font-size: 2.5rem; font-weight: 900; color: var(--subject); }
+    .score-label { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .result-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+    .btn-retry { padding: 0.75rem 2rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇬🇧 Anglais</div>
+  <h1>BE au prétérit (was / were)</h1>
+  <p>Conjugue be au prétérit : was ou were ?</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔤</div>
+    <div class="intro-title">BE au prétérit</div>
+    <div class="intro-desc">Complète le tableau de conjugaison, puis les phrases d'application.</div>
+    <div style="background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:0.88rem;line-height:1.8;">
+      <strong style="color:var(--subject-dark);">Rappel :</strong> BE au prétérit a deux formes :<br>
+      → <strong>was</strong> : I / he / she / it<br>
+      → <strong>were</strong> : you / we / they<br>
+      Négatif : <strong>was not</strong> (wasn't) / <strong>were not</strong> (weren't)
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="screen" id="screenGame">
+    <div class="card">
+      <div class="section-title">📋 Partie 1 — Tableau de conjugaison</div>
+      <table id="conjTable">
+        <thead>
+          <tr><th>Pronom</th><th>Affirmatif</th><th>Négatif</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="section-title">📝 Partie 2 — Phrases d'application</div>
+      <div id="sentenceList"></div>
+      <button class="btn-verify" id="btnVerify" onclick="game.verify()">Vérifier toutes les réponses ✓</button>
+    </div>
+    <div class="results-block" id="resultsBlock">
+      <div class="score-big" id="scoreDisplay"></div>
+      <div class="score-label" id="scoreLabelDisplay"></div>
+      <div class="result-msg" id="resultMsgDisplay"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+const TABLE_DATA = [
+  { pronoun: 'I', affirm: 'was', neg: 'was not' },
+  { pronoun: 'you', affirm: 'were', neg: 'were not' },
+  { pronoun: 'he / she / it', affirm: 'was', neg: 'was not' },
+  { pronoun: 'we', affirm: 'were', neg: 'were not' },
+  { pronoun: 'you (pl.)', affirm: 'were', neg: 'were not' },
+  { pronoun: 'they', affirm: 'were', neg: 'were not' }
+];
+
+const SENTENCES = [
+  { before: 'Yesterday, it', blank: '(be)', after: 'very sunny.', answers: ['was'] },
+  { before: 'We', blank: '(be / not)', after: 'at school last Monday.', answers: ['were not', "weren't"] },
+  { before: 'You', blank: '(be)', after: 'right, I apologise.', answers: ['were'] },
+  { before: '', blank: '(be)', after: 'she at the party last night?', answers: ['was'] },
+  { before: 'They', blank: '(be)', after: 'very tired after the match.', answers: ['were'] }
+];
+
+const game = (() => {
+  function buildTable() {
+    const tbody = document.querySelector('#conjTable tbody');
+    tbody.innerHTML = '';
+    TABLE_DATA.forEach((row, i) => {
+      tbody.innerHTML += `<tr>
+        <td><strong>${row.pronoun}</strong></td>
+        <td><input class="conj-input" id="aff_${i}" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="…"></td>
+        <td><input class="conj-input" id="neg_${i}" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="…"></td>
+      </tr>`;
+    });
+  }
+
+  function buildSentences() {
+    const list = document.getElementById('sentenceList');
+    list.innerHTML = '';
+    SENTENCES.forEach((s, i) => {
+      list.innerHTML += `<div class="sentence-item">
+        <div class="sentence-text">${s.before} <input class="sent-input" id="sent_${i}" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="${s.blank}"> ${s.after}</div>
+      </div>`;
+    });
+  }
+
+  function normalize(s) { return s.trim().toLowerCase().replace(/'/g, "'").replace(/'/g, "'"); }
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() { buildTable(); buildSentences(); show('screenGame'); }
+
+  function verify() {
+    let total = 0, correct = 0;
+    TABLE_DATA.forEach((row, i) => {
+      const affInput = document.getElementById('aff_' + i);
+      const negInput = document.getElementById('neg_' + i);
+      total += 2;
+      const affOk = normalize(affInput.value) === normalize(row.affirm);
+      const negOk = normalize(negInput.value) === normalize(row.neg) || normalize(negInput.value) === normalize(row.neg.replace(' not', "n't"));
+      affInput.className = 'conj-input ' + (affOk ? 'correct' : 'wrong');
+      negInput.className = 'conj-input ' + (negOk ? 'correct' : 'wrong');
+      if (!affOk) affInput.value = row.affirm;
+      if (!negOk) negInput.value = row.neg;
+      affInput.disabled = true; negInput.disabled = true;
+      if (affOk) correct++;
+      if (negOk) correct++;
+    });
+    SENTENCES.forEach((s, i) => {
+      const inp = document.getElementById('sent_' + i);
+      total++;
+      const ok = s.answers.some(a => normalize(inp.value) === normalize(a));
+      inp.className = 'sent-input ' + (ok ? 'correct' : 'wrong');
+      if (!ok) inp.value = s.answers[0];
+      inp.disabled = true;
+      if (ok) correct++;
+    });
+    document.getElementById('btnVerify').disabled = true;
+    const pct = correct / total;
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu maîtrises was / were !';
+    else if (pct >= .75) msg = '🎉 Très bien !';
+    else if (pct >= .5) msg = '👍 Bien, continue !';
+    else msg = '📚 Relis le tableau et réessaie.';
+    document.getElementById('scoreDisplay').textContent = correct + ' / ' + total;
+    document.getElementById('scoreLabelDisplay').textContent = 'bonne' + (correct > 1 ? 's' : '') + ' réponse' + (correct > 1 ? 's' : '');
+    document.getElementById('resultMsgDisplay').textContent = msg;
+    document.getElementById('resultsBlock').className = 'results-block show';
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, verify, restart };
+})();
+</script>
+</body>
+</html>

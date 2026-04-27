@@ -150,6 +150,12 @@
     .subject-philo     { background: linear-gradient(135deg, #5b21b6, #7c3aed); }
     .subject-ses       { background: linear-gradient(135deg, #9f1239, #be123c); }
     .subject-snt       { background: linear-gradient(135deg, #0c4a6e, #0369a1); }
+    .subject-nsi       { background: linear-gradient(135deg, #064e3b, #065f46); }
+    .subject-si        { background: linear-gradient(135deg, #78350f, #92400e); }
+    .subject-hggsp     { background: linear-gradient(135deg, #1e3a5f, #1e40af); }
+    .subject-hlp       { background: linear-gradient(135deg, #4a044e, #7e22ce); }
+    .subject-ens-scient{ background: linear-gradient(135deg, #14532d, #15803d); }
+    .subject-qm        { background: linear-gradient(135deg, #0f4c81, #0369a1); }
 
     /* ─── SECTION TITLES ─────────────────────────────── */
     .section-title {
@@ -186,9 +192,15 @@
       color: #94a3b8; font-size: 0.85rem;
     }
 
+    .filter-sep {
+      color: #cbd5e1; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 0 0.2rem; white-space: nowrap; align-self: center;
+    }
     @media (max-width: 600px) {
-      .filters { gap: 0.4rem; }
-      .filter-btn { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+      .filters { gap: 0.35rem; }
+      .filter-btn { font-size: 0.75rem; padding: 0.3rem 0.65rem; }
+      .filter-sep { display: none; }
     }
   </style>
 </head>
@@ -209,14 +221,6 @@
     <div class="stat-card">
       <span class="stat-num" id="countGames">15</span>
       <span class="stat-label">jeux disponibles</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num">10+</span>
-      <span class="stat-label">matières</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-num">CP–Tle</span>
-      <span class="stat-label">niveaux</span>
     </div>
   </div>
 
@@ -239,7 +243,7 @@
   <div class="games-grid" id="gamesGrid">
 
     <!-- Allemand – Negation QCM -->
-    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="college">
+    <a class="game-card" href="allemand/negation-nicht-kein.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="quiz">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🇩🇪</span>
         <div class="card-meta">
@@ -259,13 +263,13 @@
     </a>
 
     <!-- Allemand – Mémoire -->
-    <a class="game-card" href="allemand/vocabulaire-memoire.html" data-subject="allemand" data-level="college">
+    <a class="game-card" href="allemand/memoire-des-mots.html" data-subject="allemand" data-level="3e 4e 5e 6e" data-type="memory">
       <div class="card-header subject-allemand">
         <span class="card-emoji">🧠</span>
         <div class="card-meta">
           <div class="card-subject">Allemand</div>
           <div class="card-level">3e – 6e</div>
-          <span class="type-badge">🃏 Mémoire</span>
+          <span class="type-badge">🃏 Memory</span>
         </div>
       </div>
       <div class="card-body">
@@ -279,7 +283,7 @@
     </a>
 
     <!-- Anglais – QCM -->
-    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="college">
+    <a class="game-card" href="anglais/present-simple.html" data-subject="anglais" data-level="3e 4e 5e" data-type="quiz">
       <div class="card-header subject-anglais">
         <span class="card-emoji">🇬🇧</span>
         <div class="card-meta">
@@ -298,8 +302,8 @@
       </div>
     </a>
 
-    <!-- Anglais – Tri glisser -->
-    <a class="game-card" href="anglais/verbes-tri-glisser.html" data-subject="anglais" data-level="college">
+    <!-- Anglais – Tri -->
+    <a class="game-card" href="anglais/verbes-reguliers-irreguliers.html" data-subject="anglais" data-level="3e 4e" data-type="tri">
       <div class="card-header subject-anglais">
         <span class="card-emoji">📋</span>
         <div class="card-meta">
@@ -319,7 +323,7 @@
     </a>
 
     <!-- Français – Accord QCM -->
-    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="primaire">
+    <a class="game-card" href="francais/accord-sujet-verbe.html" data-subject="francais" data-level="cm1 cm2" data-type="quiz">
       <div class="card-header subject-francais">
         <span class="card-emoji">📝</span>
         <div class="card-meta">
@@ -339,7 +343,7 @@
     </a>
 
     <!-- Français – Puzzle de phrases -->
-    <a class="game-card" href="francais/phrase-puzzle.html" data-subject="francais" data-level="primaire">
+    <a class="game-card" href="francais/puzzle-de-phrases.html" data-subject="francais" data-level="cm1 cm2 6e" data-type="puzzle">
       <div class="card-header subject-francais">
         <span class="card-emoji">🔤</span>
         <div class="card-meta">
@@ -359,7 +363,7 @@
     </a>
 
     <!-- Mathématiques – Fractions QCM -->
-    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="college">
+    <a class="game-card" href="mathematiques/fractions.html" data-subject="maths" data-level="6e" data-type="quiz">
       <div class="card-header subject-maths">
         <span class="card-emoji">➗</span>
         <div class="card-meta">
@@ -378,8 +382,8 @@
       </div>
     </a>
 
-    <!-- Mathématiques – Ordre fractions -->
-    <a class="game-card" href="mathematiques/fractions-ordre.html" data-subject="maths" data-level="primaire">
+    <!-- Mathématiques – Ordonner fractions -->
+    <a class="game-card" href="mathematiques/ordonner-les-fractions.html" data-subject="maths" data-level="cm1 cm2 6e 5e" data-type="classement">
       <div class="card-header subject-maths">
         <span class="card-emoji">📊</span>
         <div class="card-meta">
@@ -399,7 +403,7 @@
     </a>
 
     <!-- Histoire-Géo – QCM -->
-    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="college">
+    <a class="game-card" href="histoire-geo/premiere-guerre-mondiale.html" data-subject="histoire" data-level="3e" data-type="quiz">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🗺️</span>
         <div class="card-meta">
@@ -419,7 +423,7 @@
     </a>
 
     <!-- Histoire-Géo – Carte interactive -->
-    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="college">
+    <a class="game-card" href="histoire-geo/europe-carte-interactive.html" data-subject="histoire" data-level="4e 5e" data-type="carte">
       <div class="card-header subject-histoire">
         <span class="card-emoji">🌍</span>
         <div class="card-meta">
@@ -439,7 +443,7 @@
     </a>
 
     <!-- EMC -->
-    <a class="game-card" href="emc/les-emotions-cp.html" data-subject="emc" data-level="primaire">
+    <a class="game-card" href="emc/les-emotions.html" data-subject="emc" data-level="cp" data-type="quiz">
       <div class="card-header subject-emc">
         <span class="card-emoji">💛</span>
         <div class="card-meta">
@@ -524,7 +528,7 @@
         <span class="card-emoji">🐾</span>
         <div class="card-meta">
           <div class="card-subject">Sciences</div>
-          <div class="card-level">CE2 – CM2</div>
+          <div class="card-level">CE1 – CM2</div>
           <span class="type-badge">🔀 Tri</span>
         </div>
       </div>
@@ -534,6 +538,124 @@
       </div>
       <div class="card-footer">
         <span class="card-info">⏱ ~4 min · 12 animaux</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+
+    <a class="game-card" href="histoire-geo/la-seconde-guerre-mondiale-code-secret.html" data-subject="histoire-geo" data-level="3e" data-type="code-secret">
+      <div class="card-header subject-histoire">
+        <span class="card-emoji">🔐</span>
+        <div class="card-meta">
+          <div class="card-subject">Histoire-Géo</div>
+          <div class="card-level">3e</div>
+          <span class="type-badge">🔑 Code secret</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">La Seconde Guerre mondiale</div>
+        <div class="card-desc">4 salles, 4 énigmes (QCM, chronologie, vrai/faux, texte à trous) pour déverrouiller le code secret 1944.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~8 min · 4 salles</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <a class="game-card" href="anglais/se-presenter-dialogue-interactif.html" data-subject="anglais" data-level="6e" data-type="dialogue">
+      <div class="card-header subject-anglais">
+        <span class="card-emoji">💬</span>
+        <div class="card-meta">
+          <div class="card-subject">Anglais</div>
+          <div class="card-level">6e</div>
+          <span class="type-badge">💬 Dialogue</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Se présenter</div>
+        <div class="card-desc">Simulez une vraie conversation : choisissez la bonne réplique à chaque échange pour vous présenter en anglais.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 5 échanges</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <a class="game-card" href="physique-chimie/les-lois-de-newton-mecanique-quiz.html" data-subject="physique-chimie" data-level="terminale" data-type="quiz">
+      <div class="card-header subject-physique">
+        <span class="card-emoji">🍎</span>
+        <div class="card-meta">
+          <div class="card-subject">Physique-Chimie</div>
+          <div class="card-level">Terminale</div>
+          <span class="type-badge">❓ Quiz</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Les lois de Newton — Mécanique</div>
+        <div class="card-desc">8 questions sur les trois lois de Newton, les vecteurs forces et les applications en cinématique. Formules en LaTeX.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~6 min · 8 questions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Français – Synonymes, antonymes et homonymes -->
+    <a class="game-card" href="francais/synonymes-antonymes-et-homonymes.html" data-subject="francais" data-level="4e" data-type="association">
+      <div class="card-header subject-francais">
+        <span class="card-emoji">🔤</span>
+        <div class="card-meta">
+          <div class="card-subject">Français</div>
+          <div class="card-level">4e</div>
+          <span class="type-badge">🔗 Association</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Synonymes, antonymes et homonymes</div>
+        <div class="card-desc">3 manches pour associer les mots selon leurs relations : sens proche, sens contraire, ou même prononciation.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 3 manches</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- SVT – Le fonctionnement du cerveau -->
+    <a class="game-card" href="svt/le-fonctionnement-du-cerveau.html" data-subject="svt" data-level="4e" data-type="schema">
+      <div class="card-header subject-svt">
+        <span class="card-emoji">🧠</span>
+        <div class="card-meta">
+          <div class="card-subject">SVT</div>
+          <div class="card-level">4e</div>
+          <span class="type-badge">🔬 Schéma</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Le fonctionnement du cerveau</div>
+        <div class="card-desc">Identifie les 7 grandes régions cérébrales sur un schéma du cerveau en vue latérale.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~5 min · 7 régions</span>
+        <span class="card-btn">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- Espagnol – Pronoms personnels sujets -->
+    <a class="game-card" href="espagnol/les-pronoms-personnels-sujets.html" data-subject="espagnol" data-level="3e 4e 5e 6e" data-type="trous">
+      <div class="card-header subject-espagnol">
+        <span class="card-emoji">🇪🇸</span>
+        <div class="card-meta">
+          <div class="card-subject">Espagnol</div>
+          <div class="card-level">3e – 6e</div>
+          <span class="type-badge">✏️ Texte à trous</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Les pronoms personnels sujets</div>
+        <div class="card-desc">10 phrases à compléter avec le bon pronom sujet : yo, tú, él, nosotros, vosotros, ellos, usted…</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-info">⏱ ~4 min · 10 phrases</span>
         <span class="card-btn">Jouer →</span>
       </div>
     </a>
@@ -556,24 +678,65 @@
 </footer>
 
 <script>
-  // Filter functionality
   const filterBtns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.game-card');
 
+  // subject & type: single-select; level: multi-select (Set)
+  const active = { subject: 'all', levels: new Set(), type: 'all' };
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      const group = btn.dataset.group;
       const filter = btn.dataset.filter;
-      let visible = 0;
-      cards.forEach(card => {
-        const show = filter === 'all' || card.dataset.subject === filter;
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      document.getElementById('countGames').textContent = visible;
+
+      if (group === 'level') {
+        if (filter === 'all') {
+          active.levels.clear();
+          document.querySelectorAll('.filter-btn[data-group="level"]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        } else {
+          document.querySelector('.filter-btn[data-group="level"][data-filter="all"]').classList.remove('active');
+          if (active.levels.has(filter)) {
+            active.levels.delete(filter);
+            btn.classList.remove('active');
+          } else {
+            active.levels.add(filter);
+            btn.classList.add('active');
+          }
+          if (active.levels.size === 0) {
+            document.querySelector('.filter-btn[data-group="level"][data-filter="all"]').classList.add('active');
+          }
+        }
+      } else {
+        active[group] = filter;
+        document.querySelectorAll(`.filter-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      applyFilters();
     });
   });
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const matchSubject = active.subject === 'all' || card.dataset.subject === active.subject;
+      const matchType    = active.type    === 'all' || card.dataset.type    === active.type;
+      let matchLevel;
+      if (active.levels.size === 0) {
+        matchLevel = true;
+      } else {
+        const cardLevels = (card.dataset.level || '').split(' ');
+        matchLevel = cardLevels.some(l => active.levels.has(l));
+      }
+      const show = matchSubject && matchLevel && matchType;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('countGames').textContent = visible;
+  }
+
+  // Init : comptage réel dès le chargement
+  applyFilters();
 </script>
 </body>
 </html>

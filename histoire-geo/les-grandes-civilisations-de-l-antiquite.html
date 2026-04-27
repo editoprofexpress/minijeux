@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e">
+  <meta name="matiere" content="Histoire-Géographie">
+  <meta name="type" content="correspondance">
+  <title>Les grandes civilisations de l'Antiquité — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #b45309;
+      --subject-dark: #92400e;
+      --subject-light: #fef3c7;
+      --subject-mid: #fcd34d;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #78350f 0%, #b45309 60%, #f59e0b 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1rem, 3.2vw, 1.6rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 720px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Correspondence game */
+    .instructions { background: var(--subject-light); border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 1.25rem; font-size: 0.88rem; font-weight: 700; color: var(--subject-dark); line-height: 1.6; }
+    .score-row { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+    .score-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    /* Two columns layout */
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    @media (max-width: 480px) { .columns { grid-template-columns: 1fr; } }
+    .col-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.6rem; }
+    .item-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .item-card { padding: 0.75rem 1rem; border: 2.5px solid var(--border); border-radius: 12px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all .15s; background: white; line-height: 1.4; }
+    .item-card.selected { border-color: var(--subject); background: var(--subject-light); }
+    .item-card.matched { border-color: var(--success); background: var(--success-light); cursor: default; color: var(--success); }
+    .item-card.wrong { border-color: var(--error); background: var(--error-light); animation: shake .3s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+    .item-card.disabled { opacity: 0.4; cursor: default; }
+    .btn-verify { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-verify:hover { background: var(--subject-dark); }
+    .result-bar { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; text-align: center; }
+    .result-bar.show { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .result-bar.perfect { background: var(--success-light); border: 2px solid var(--success); }
+    .result-bar.partial { background: var(--subject-light); border: 2px solid var(--subject-mid); }
+    .result-bar .result-score { font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .result-bar.perfect .result-score { color: var(--success); }
+    .result-bar.partial .result-score { color: var(--subject-dark); }
+    .result-bar p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .btn-retry { padding: 0.6rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🏛️ Histoire-Géo</div>
+  <h1>Les grandes civilisations de l'Antiquité</h1>
+  <p>Associe chaque civilisation à ses réalisations</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🏛️</div>
+    <div class="intro-title">Correspondances</div>
+    <div class="intro-desc">Associe chaque civilisation antique à l'une de ses caractéristiques ou réalisations majeures. Clique sur une civilisation, puis sur la caractéristique correspondante.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="instructions">🎯 Clique sur un élément à gauche, puis sur son correspondant à droite. Les paires validées restent en vert.</div>
+    <div class="score-row">
+      <span class="score-chip" id="matchCount">0 / 8 paires</span>
+    </div>
+    <div class="columns">
+      <div>
+        <div class="col-title">Civilisation</div>
+        <div class="item-list" id="leftList"></div>
+      </div>
+      <div>
+        <div class="col-title">Caractéristique</div>
+        <div class="item-list" id="rightList"></div>
+      </div>
+    </div>
+    <div class="result-bar" id="resultBar">
+      <div class="result-score" id="resultScore"></div>
+      <p id="resultText"></p>
+      <button class="btn-retry" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+const PAIRS = [
+  { left: 'Égypte ancienne', right: 'Construction des pyramides et momification' },
+  { left: 'Grèce antique', right: 'Invention de la démocratie et des Jeux olympiques' },
+  { left: 'Rome antique', right: 'République puis Empire, droit romain, gladiateurs' },
+  { left: 'Mésopotamie', right: 'Invention de l\'écriture cunéiforme et du Code d\'Hammurabi' },
+  { left: 'Chine impériale', right: 'Grande Muraille et invention du papier' },
+  { left: 'Civilisation maya', right: 'Calendrier solaire et cités dans la forêt tropicale' },
+  { left: 'Phénicie', right: 'Alphabet et commerce maritime en Méditerranée' },
+  { left: 'Perse achéménide', right: 'Premier grand Empire : de l\'Égypte à l\'Inde' }
+];
+
+const game = (() => {
+  let selectedLeft, matched, leftItems, rightItems;
+
+  function shuffle(arr) { const a = [...arr]; for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    selectedLeft = null;
+    matched = 0;
+    leftItems = [...PAIRS].map((p, i) => ({ ...p, idx: i }));
+    rightItems = shuffle([...PAIRS].map((p, i) => ({ ...p, idx: i })));
+    document.getElementById('resultBar').className = 'result-bar';
+    render();
+    show('screenGame');
+  }
+
+  function render() {
+    const ll = document.getElementById('leftList');
+    const rl = document.getElementById('rightList');
+    ll.innerHTML = '';
+    rl.innerHTML = '';
+    leftItems.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item-card' + (item.done ? ' matched' : '') + (selectedLeft && selectedLeft.idx === item.idx ? ' selected' : '');
+      div.textContent = item.left;
+      if (!item.done) div.addEventListener('click', () => clickLeft(item));
+      ll.appendChild(div);
+    });
+    rightItems.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item-card' + (item.done ? ' matched' : '');
+      div.textContent = item.right;
+      if (!item.done) div.addEventListener('click', () => clickRight(div, item));
+      rl.appendChild(div);
+    });
+    document.getElementById('matchCount').textContent = matched + ' / ' + PAIRS.length + ' paires';
+  }
+
+  function clickLeft(item) {
+    if (item.done) return;
+    selectedLeft = item;
+    render();
+  }
+
+  function clickRight(div, item) {
+    if (!selectedLeft || item.done) return;
+    if (selectedLeft.idx === item.idx) {
+      // Match!
+      selectedLeft.done = true;
+      item.done = true;
+      matched++;
+      selectedLeft = null;
+      render();
+      if (matched === PAIRS.length) {
+        setTimeout(showResult, 400);
+      }
+    } else {
+      // Wrong
+      div.classList.add('wrong');
+      const leftDiv = document.getElementById('leftList').querySelectorAll('.item-card')[leftItems.indexOf(selectedLeft)];
+      if (leftDiv) { leftDiv.classList.remove('selected'); leftDiv.classList.add('wrong'); }
+      setTimeout(() => {
+        selectedLeft = null;
+        render();
+      }, 500);
+    }
+  }
+
+  function showResult() {
+    const rb = document.getElementById('resultBar');
+    document.getElementById('resultScore').textContent = matched + ' / ' + PAIRS.length + ' paires trouvées';
+    document.getElementById('resultText').textContent = '🏆 Félicitations ! Tu as correctement associé toutes les civilisations !';
+    rb.className = 'result-bar show perfect';
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, restart };
+})();
+</script>
+</body>
+</html>

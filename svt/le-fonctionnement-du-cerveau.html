@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="4e">
+  <meta name="matiere" content="SVT">
+  <meta name="type" content="schema">
+  <title>Le fonctionnement du cerveau — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #059669;
+      --subject-dark: #065f46;
+      --subject-light: #d1fae5;
+      --subject-mid: #6ee7b7;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f0fdf4;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #34d399 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 720px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* SVG diagram */
+    .brain-wrapper { position: relative; width: 100%; max-width: 540px; margin: 0 auto 1.5rem; }
+    .brain-svg { width: 100%; height: auto; display: block; }
+    /* Hotspot number labels */
+    .hotspot { cursor: pointer; }
+    .hotspot circle.bg { transition: r .15s; }
+    .hotspot:hover circle.bg { r: 16; }
+    .hotspot.correct circle.bg { fill: #059669; }
+    .hotspot.wrong circle.bg { fill: #dc2626; }
+    /* QCM */
+    .qcm-panel { background: var(--subject-light); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.25rem; display: none; animation: fadeIn .2s ease; }
+    .qcm-panel.show { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .qcm-question { font-size: 1rem; font-weight: 800; color: var(--subject-dark); margin-bottom: 0.9rem; }
+    .qcm-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .qcm-btn { padding: 0.7rem 1rem; border: 2.5px solid var(--subject-mid); border-radius: 10px; background: white; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all .15s; text-align: left; }
+    .qcm-btn:hover:not(:disabled) { background: var(--subject-light); border-color: var(--subject); }
+    .qcm-btn.correct-ans { background: var(--success-light); border-color: var(--success); color: var(--success); }
+    .qcm-btn.wrong-ans { background: var(--error-light); border-color: var(--error); color: var(--error); }
+    .qcm-btn:disabled { cursor: default; }
+    .feedback { margin-top: 0.75rem; font-size: 0.88rem; font-weight: 700; line-height: 1.5; display: none; }
+    .feedback.show { display: block; }
+    .feedback.ok { color: var(--success); }
+    .feedback.ko { color: var(--error); }
+    /* Progress */
+    .progress-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .progress-label { font-size: 0.85rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .progress-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width .3s; }
+    /* Score */
+    .score-card { background: var(--subject-light); border-radius: 14px; padding: 1.5rem; text-align: center; margin-top: 1rem; display: none; }
+    .score-card.show { display: block; animation: fadeIn .3s ease; }
+    .score-big { font-size: 2.8rem; font-weight: 900; color: var(--subject); }
+    .score-label { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .score-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+    .btn-retry { padding: 0.75rem 2rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    /* Instruction tip */
+    .tip { background: white; border: 2px dashed var(--subject-mid); border-radius: 12px; padding: 0.7rem 1rem; font-size: 0.85rem; color: var(--muted); text-align: center; margin-bottom: 1.25rem; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🧬 SVT</div>
+  <h1>Le fonctionnement du cerveau</h1>
+  <p>Identifie les grandes régions cérébrales sur le schéma</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🧠</div>
+    <div class="intro-title">Légender le cerveau</div>
+    <div class="intro-desc">Clique sur un numéro dans le schéma pour identifier la région cérébrale correspondante. Pour chaque numéro, choisis la bonne réponse parmi les propositions.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-row">
+      <span class="progress-label" id="progressLabel">0 / 7</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="tip" id="tipEl">👆 Clique sur un numéro dans le schéma</div>
+    <div class="brain-wrapper">
+      <!-- Brain SVG: lateral (sagittal) view of the brain, simplified -->
+      <svg class="brain-svg" viewBox="0 0 540 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="540" height="360" fill="#f8fffe" rx="12"/>
+        <!-- Brain stem (tronc cérébral) -->
+        <ellipse cx="390" cy="290" rx="38" ry="50" fill="#c3e6cb" stroke="#81c784" stroke-width="2"/>
+        <!-- Cerebellum (cervelet) -->
+        <ellipse cx="430" cy="270" rx="68" ry="55" fill="#a5d6a7" stroke="#66bb6a" stroke-width="2"/>
+        <!-- Cervelet texture lines -->
+        <path d="M 385 255 Q 430 248 475 255" stroke="#66bb6a" stroke-width="1.2" fill="none"/>
+        <path d="M 380 267 Q 430 258 478 267" stroke="#66bb6a" stroke-width="1.2" fill="none"/>
+        <path d="M 382 279 Q 430 269 476 279" stroke="#66bb6a" stroke-width="1.2" fill="none"/>
+        <path d="M 386 291 Q 432 281 475 291" stroke="#66bb6a" stroke-width="1.2" fill="none"/>
+        <!-- Main cerebral cortex (grande masse) -->
+        <path d="M 90 230
+                 Q 70 180 80 130
+                 Q 90 80 140 55
+                 Q 190 28 250 25
+                 Q 330 22 380 60
+                 Q 415 90 420 135
+                 Q 428 175 410 215
+                 Q 395 240 380 255
+                 Q 350 260 310 260
+                 Q 270 262 240 260
+                 Q 180 258 140 250
+                 Q 110 245 90 230 Z"
+              fill="#b2dfdb" stroke="#4db6ac" stroke-width="2.5"/>
+        <!-- Cortical folds (gyri/sulci) -->
+        <path d="M 140 55 Q 150 90 145 120" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 250 25 Q 248 60 240 90" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 340 30 Q 345 65 340 100" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 100 160 Q 140 145 180 155" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 180 155 Q 220 140 260 150" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 260 150 Q 310 135 355 145" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 105 200 Q 145 185 190 195" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <path d="M 190 195 Q 240 180 290 190" stroke="#4db6ac" stroke-width="1.5" fill="none"/>
+        <!-- Hypothalamus / centre area -->
+        <ellipse cx="260" cy="230" rx="30" ry="18" fill="#ffe0b2" stroke="#ffb74d" stroke-width="1.5"/>
+        <!-- Lobe labels zones (invisible, just structural) -->
+        <!-- Frontal lobe zone (before central sulcus) -->
+        <ellipse cx="175" cy="130" rx="65" ry="55" fill="rgba(129,199,132,0.25)" stroke="none"/>
+        <!-- Parietal lobe zone -->
+        <ellipse cx="295" cy="100" rx="65" ry="50" fill="rgba(100,181,246,0.25)" stroke="none"/>
+        <!-- Occipital lobe zone -->
+        <ellipse cx="390" cy="120" rx="40" ry="45" fill="rgba(206,147,216,0.25)" stroke="none"/>
+        <!-- Temporal lobe zone -->
+        <ellipse cx="200" cy="220" rx="60" ry="30" fill="rgba(255,205,210,0.25)" stroke="none"/>
+
+        <!-- HOTSPOTS (numbered labels) -->
+        <!-- 1: Lobe frontal (175, 95) -->
+        <g class="hotspot" id="hs_0" onclick="game.clickHotspot(0)">
+          <circle class="bg" cx="175" cy="90" r="13" fill="#059669"/>
+          <text x="175" y="95" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">1</text>
+          <line x1="175" y1="103" x2="175" y2="118" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 2: Lobe pariétal (300, 65) -->
+        <g class="hotspot" id="hs_1" onclick="game.clickHotspot(1)">
+          <circle class="bg" cx="300" cy="60" r="13" fill="#059669"/>
+          <text x="300" y="65" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">2</text>
+          <line x1="300" y1="73" x2="300" y2="90" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 3: Lobe occipital (395, 85) -->
+        <g class="hotspot" id="hs_2" onclick="game.clickHotspot(2)">
+          <circle class="bg" cx="400" cy="80" r="13" fill="#059669"/>
+          <text x="400" y="85" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">3</text>
+          <line x1="400" y1="93" x2="397" y2="108" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 4: Lobe temporal (155, 220) -->
+        <g class="hotspot" id="hs_3" onclick="game.clickHotspot(3)">
+          <circle class="bg" cx="120" cy="220" r="13" fill="#059669"/>
+          <text x="120" y="225" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">4</text>
+          <line x1="133" y1="220" x2="150" y2="218" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 5: Cervelet (430, 295) -->
+        <g class="hotspot" id="hs_4" onclick="game.clickHotspot(4)">
+          <circle class="bg" cx="430" cy="230" r="13" fill="#059669"/>
+          <text x="430" y="235" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">5</text>
+          <line x1="430" y1="243" x2="428" y2="258" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 6: Tronc cérébral (380, 310) -->
+        <g class="hotspot" id="hs_5" onclick="game.clickHotspot(5)">
+          <circle class="bg" cx="350" cy="320" r="13" fill="#059669"/>
+          <text x="350" y="325" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">6</text>
+          <line x1="363" y1="318" x2="376" y2="305" stroke="#059669" stroke-width="1.5"/>
+        </g>
+        <!-- 7: Hypothalamus / Zone sous-corticale (265, 255) -->
+        <g class="hotspot" id="hs_6" onclick="game.clickHotspot(6)">
+          <circle class="bg" cx="215" cy="255" r="13" fill="#059669"/>
+          <text x="215" y="260" text-anchor="middle" font-size="13" font-weight="900" fill="white" font-family="Nunito, sans-serif">7</text>
+          <line x1="228" y1="252" x2="242" y2="240" stroke="#059669" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+    <!-- QCM panel -->
+    <div class="qcm-panel" id="qcmPanel">
+      <div class="qcm-question" id="qcmQuestion"></div>
+      <div class="qcm-choices" id="qcmChoices"></div>
+      <div class="feedback" id="qcmFeedback"></div>
+    </div>
+    <!-- Score card -->
+    <div class="score-card" id="scoreCard">
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-label">questions correctes</div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+const REGIONS = [
+  {
+    id: 0,
+    question: 'Région n°1 — zone antérieure du cerveau',
+    correct: 'Lobe frontal',
+    choices: ['Lobe frontal', 'Lobe pariétal', 'Lobe temporal', 'Cervelet'],
+    hint: 'Ce lobe est impliqué dans la prise de décision, le langage et les mouvements volontaires.'
+  },
+  {
+    id: 1,
+    question: 'Région n°2 — zone supérieure médiane',
+    correct: 'Lobe pariétal',
+    choices: ['Lobe occipital', 'Lobe pariétal', 'Tronc cérébral', 'Lobe frontal'],
+    hint: 'Ce lobe traite les informations sensorielles (toucher, position du corps).'
+  },
+  {
+    id: 2,
+    question: 'Région n°3 — zone postérieure',
+    correct: 'Lobe occipital',
+    choices: ['Lobe temporal', 'Lobe pariétal', 'Lobe occipital', 'Cervelet'],
+    hint: 'Ce lobe est principalement dédié au traitement de la vision.'
+  },
+  {
+    id: 3,
+    question: 'Région n°4 — zone latérale basse',
+    correct: 'Lobe temporal',
+    choices: ['Lobe frontal', 'Lobe temporal', 'Hypothalamus', 'Lobe occipital'],
+    hint: 'Ce lobe traite les sons et participe à la mémoire et à la compréhension du langage.'
+  },
+  {
+    id: 4,
+    question: 'Région n°5 — structure postérieure sous le cortex',
+    correct: 'Cervelet',
+    choices: ['Tronc cérébral', 'Lobe occipital', 'Cervelet', 'Hypothalamus'],
+    hint: 'Cette structure coordonne les mouvements fins et l\'équilibre.'
+  },
+  {
+    id: 5,
+    question: 'Région n°6 — prolongement inférieur reliant le cerveau à la moelle',
+    correct: 'Tronc cérébral',
+    choices: ['Cervelet', 'Hypothalamus', 'Lobe temporal', 'Tronc cérébral'],
+    hint: 'Cette structure contrôle les fonctions vitales automatiques (respiration, rythme cardiaque).'
+  },
+  {
+    id: 6,
+    question: 'Région n°7 — zone sous-corticale centrale',
+    correct: 'Hypothalamus',
+    choices: ['Tronc cérébral', 'Hypothalamus', 'Lobe frontal', 'Cervelet'],
+    hint: 'Cette région régule la faim, la soif, la température et les hormones.'
+  }
+];
+
+const game = (() => {
+  let answered = new Set();
+  let score = 0;
+  let activeHotspot = null;
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    answered.clear();
+    score = 0;
+    activeHotspot = null;
+    REGIONS.forEach(r => {
+      const hs = document.getElementById('hs_' + r.id);
+      hs.className = 'hotspot';
+      hs.querySelector('circle').setAttribute('fill', '#059669');
+    });
+    document.getElementById('qcmPanel').className = 'qcm-panel';
+    document.getElementById('scoreCard').className = 'score-card';
+    document.getElementById('progressLabel').textContent = '0 / ' + REGIONS.length;
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('tipEl').textContent = '👆 Clique sur un numéro dans le schéma';
+    show('screenGame');
+  }
+
+  function clickHotspot(id) {
+    const region = REGIONS.find(r => r.id === id);
+    if (!region) return;
+    if (answered.has(id)) return;
+
+    activeHotspot = id;
+    document.querySelectorAll('.hotspot').forEach(h => {
+      const c = h.querySelector('circle');
+      if (h.id === 'hs_' + id) {
+        c.setAttribute('fill', '#f59e0b');
+      } else if (!answered.has(parseInt(h.id.split('_')[1]))) {
+        c.setAttribute('fill', '#059669');
+      }
+    });
+
+    document.getElementById('tipEl').textContent = '';
+    const panel = document.getElementById('qcmPanel');
+    panel.className = 'qcm-panel show';
+    document.getElementById('qcmQuestion').textContent = region.question;
+    document.getElementById('qcmFeedback').className = 'feedback';
+    document.getElementById('qcmFeedback').textContent = '';
+
+    const shuffled = [...region.choices].sort(() => Math.random() - 0.5);
+    const choicesEl = document.getElementById('qcmChoices');
+    choicesEl.innerHTML = '';
+    shuffled.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.className = 'qcm-btn';
+      btn.textContent = choice;
+      btn.onclick = () => answer(id, choice, btn, choicesEl);
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  function answer(id, choice, btn, choicesEl) {
+    const region = REGIONS.find(r => r.id === id);
+    choicesEl.querySelectorAll('.qcm-btn').forEach(b => b.disabled = true);
+    const feedbackEl = document.getElementById('qcmFeedback');
+    const hs = document.getElementById('hs_' + id);
+
+    if (choice === region.correct) {
+      btn.className = 'qcm-btn correct-ans';
+      hs.className = 'hotspot correct';
+      hs.querySelector('circle').setAttribute('fill', '#059669');
+      feedbackEl.className = 'feedback ok show';
+      feedbackEl.textContent = '✅ ' + region.correct + ' — ' + region.hint;
+      score++;
+    } else {
+      btn.className = 'qcm-btn wrong-ans';
+      // Show correct answer
+      choicesEl.querySelectorAll('.qcm-btn').forEach(b => {
+        if (b.textContent === region.correct) b.className = 'qcm-btn correct-ans';
+      });
+      hs.className = 'hotspot wrong';
+      hs.querySelector('circle').setAttribute('fill', '#dc2626');
+      feedbackEl.className = 'feedback ko show';
+      feedbackEl.textContent = '❌ C\'était : ' + region.correct + ' — ' + region.hint;
+    }
+
+    answered.add(id);
+    const pct = Math.round((answered.size / REGIONS.length) * 100);
+    document.getElementById('progressLabel').textContent = answered.size + ' / ' + REGIONS.length;
+    document.getElementById('progressFill').style.width = pct + '%';
+
+    if (answered.size === REGIONS.length) {
+      setTimeout(showScore, 800);
+    } else {
+      document.getElementById('tipEl').textContent = '👆 Continue : clique sur un autre numéro';
+    }
+  }
+
+  function showScore() {
+    document.getElementById('qcmPanel').className = 'qcm-panel';
+    const sc = document.getElementById('scoreCard');
+    sc.className = 'score-card show';
+    document.getElementById('scoreBig').textContent = score + ' / ' + REGIONS.length;
+    const msgs = [
+      [7, 'Excellent ! Tu maîtrises parfaitement les régions cérébrales.'],
+      [5, 'Bien ! Révise les régions que tu as manquées.'],
+      [3, 'Continue tes révisions, tu progresseras !'],
+      [0, 'Relis ton cours sur les régions du cerveau, puis réessaie.']
+    ];
+    document.getElementById('scoreMsg').textContent = msgs.find(([min]) => score >= min)[1];
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, clickHotspot, restart };
+})();
+</script>
+</body>
+</html>

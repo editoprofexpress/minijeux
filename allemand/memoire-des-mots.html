@@ -4,20 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allemand – Mémoire des mots</title>
+  <meta name="niveau" content="3e-6e">
+  <meta name="matiere" content="Allemand">
+  <meta name="type" content="memoire">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --subject: #b91c1c; --subject-dark: #991b1b; --subject-light: #fee2e2;
+      --subject: #dc2626; --subject-dark: #b91c1c; --subject-light: #fee2e2;
       --success: #059669; --success-light: #d1fae5;
-      --bg: #fff8f8; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --bg: #fff5f5; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
-    .top-bar { width: 100%; background: linear-gradient(135deg, #991b1b, #b91c1c, #ef4444); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 60%, #ef4444 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
     .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
-    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
     .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
     .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
     .top-bar p { font-size: 0.9rem; opacity: 0.85; }
@@ -112,8 +114,7 @@
 <body>
 
 <div class="top-bar">
-  <a href="../index.html" class="back-link">← Accueil</a>
-  <div class="subject-badge">🇩🇪 Allemand · 3e–6e</div>
+  <div class="subject-badge">🇩🇪 Allemand</div>
   <h1>Mémoire des mots 🧠</h1>
   <p>Retrouvez les paires français ↔ allemand</p>
 </div>
@@ -154,7 +155,6 @@
         <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
       </div>
       <button class="btn-retry" onclick="startGame()">🔄 Rejouer</button>
-      <a href="../index.html" class="btn-home">🏠 Accueil</a>
     </div>
   </div>
 

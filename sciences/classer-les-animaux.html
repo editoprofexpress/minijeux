@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sciences – Classer les animaux</title>
+  <meta name="niveau" content="CE2-CM2">
+  <meta name="matiere" content="Sciences">
+  <meta name="type" content="tri">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -18,7 +21,6 @@
 
     .top-bar { width: 100%; background: linear-gradient(135deg, #047857, #059669, #10b981); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
     .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
-    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
     .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
     .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
     .top-bar p { font-size: 0.9rem; opacity: 0.85; }
@@ -115,8 +117,7 @@
 <body>
 
 <div class="top-bar">
-  <a href="../index.html" class="back-link">← Accueil</a>
-  <div class="subject-badge">🔬 Sciences · CE2–CM2</div>
+  <div class="subject-badge">🔬 Sciences</div>
   <h1>Classer les animaux 🐾</h1>
   <p>Herbivores, Carnivores ou Omnivores ?</p>
 </div>
@@ -185,7 +186,6 @@
         <div class="win-stat"><span class="num" id="winStars">⭐⭐⭐</span><span class="lbl">résultat</span></div>
       </div>
       <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
-      <a href="../index.html" class="btn-home">🏠 Accueil</a>
     </div>
   </div>
 

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="cm1, cm2, 6e, 5e">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="completion">
+  <title>Les suites numériques et les patterns — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #0891b2;
+      --subject-dark: #0e7490;
+      --subject-light: #cffafe;
+      --subject-mid: #67e8f9;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #ecfeff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #164e63 0%, #0891b2 60%, #22d3ee 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1rem, 3.2vw, 1.6rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 660px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Game */
+    .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .progress-bar-wrap { flex: 1; margin: 0 0.75rem; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width .3s; }
+    .score-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    /* Suite display */
+    .suite-card { background: var(--subject-light); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .suite-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
+    .suite-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 0.75rem; }
+    .num-box { min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: white; border: 2.5px solid var(--subject-mid); border-radius: 10px; font-size: 1.1rem; font-weight: 900; color: var(--subject-dark); }
+    .num-box.blank { background: transparent; border-color: transparent; }
+    .arrow { color: var(--muted); font-size: 1.2rem; font-weight: 900; }
+    .blank-input { width: 52px; height: 44px; border: 2.5px solid var(--subject); border-radius: 10px; background: white; font-family: inherit; font-size: 1.1rem; font-weight: 900; text-align: center; outline: none; color: var(--subject-dark); transition: border-color .15s; }
+    .blank-input:focus { border-color: var(--subject-dark); }
+    .blank-input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .blank-input.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    .suite-hint { font-size: 0.8rem; color: var(--muted); font-weight: 700; font-style: italic; display: none; }
+    .btn-verify { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-verify:hover { background: var(--subject-dark); }
+    .feedback-section { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; text-align: center; }
+    .feedback-section.show { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .feedback-section.perfect { background: var(--success-light); border: 2px solid var(--success); }
+    .feedback-section.partial { background: var(--subject-light); border: 2px solid var(--subject-mid); }
+    .fb-score { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.3rem; }
+    .feedback-section.perfect .fb-score { color: var(--success); }
+    .feedback-section.partial .fb-score { color: var(--subject-dark); }
+    .fb-msg { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .btn-retry { padding: 0.6rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🔢 Mathématiques</div>
+  <h1>Les suites numériques et les patterns</h1>
+  <p>Trouve le nombre manquant pour compléter chaque suite</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔢</div>
+    <div class="intro-title">Complète les suites !</div>
+    <div class="intro-desc">Observe chaque suite de nombres, trouve la règle et complète les cases vides. Addition, soustraction, multiplication, ou autre pattern…</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-row">
+      <span style="font-size:0.85rem;font-weight:800;color:var(--muted);" id="progressLabel">0 / 8</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="score-chip" id="scoreChip">0 pts</span>
+    </div>
+    <div id="suiteList"></div>
+    <button class="btn-verify" onclick="game.verify()">Vérifier les suites ✓</button>
+    <div class="feedback-section" id="feedbackSection">
+      <div class="fb-score" id="fbScore"></div>
+      <div class="fb-msg" id="fbMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+const SUITES = [
+  { sequence: [2, 4, 6, null, 10, null], rule: '+2', hint: 'Observez l\'écart entre les termes consécutifs' },
+  { sequence: [1, 3, 6, 10, null, 21], rule: '+2, +3, +4, …', hint: 'Les écarts entre termes ne sont pas constants — regardez leur progression' },
+  { sequence: [100, 90, null, 70, 60, null], rule: '−10', hint: 'Les termes diminuent — de combien à chaque fois ?' },
+  { sequence: [3, 6, 12, null, 48, null], rule: '×2', hint: 'Les termes ne s\'additionnent pas — cherchez une opération de multiplication' },
+  { sequence: [1, 1, 2, 3, 5, null, 13], rule: 'suite de Fibonacci', hint: 'Suite célèbre découverte au Moyen Âge — essayez d\'additionner deux termes consécutifs' },
+  { sequence: [5, 10, 15, null, 25, null], rule: '+5', hint: 'Observez l\'écart régulier entre chaque terme' },
+  { sequence: [1, 4, 9, 16, null, 36], rule: 'carrés', hint: 'Les termes ne sont pas en progression arithmétique — cherchez une puissance' },
+  { sequence: [64, 32, null, 8, null, 2], rule: '÷2', hint: 'Les termes diminuent — cherchez une opération de division constante' }
+];
+
+const game = (() => {
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    document.getElementById('feedbackSection').className = 'feedback-section';
+    document.getElementById('scoreChip').textContent = '0 pts';
+    render();
+    show('screenGame');
+  }
+
+  function render() {
+    const list = document.getElementById('suiteList');
+    list.innerHTML = '';
+    let answered = 0;
+    SUITES.forEach((s, si) => {
+      const allAnswered = s.sequence.every(v => v !== null);
+      if (allAnswered) answered++;
+      const div = document.createElement('div');
+      div.className = 'suite-card suite-item';
+      div.dataset.suite = si;
+      div.innerHTML = '<div class="suite-label">Suite ' + (si + 1) + ' / ' + SUITES.length + '</div>';
+      const row = document.createElement('div');
+      row.className = 'suite-row';
+      s.sequence.forEach((val, vi) => {
+        if (vi > 0) {
+          const arr = document.createElement('span');
+          arr.className = 'arrow';
+          arr.textContent = '→';
+          row.appendChild(arr);
+        }
+        if (val !== null) {
+          const box = document.createElement('div');
+          box.className = 'num-box';
+          box.textContent = val;
+          row.appendChild(box);
+        } else {
+          const inp = document.createElement('input');
+          inp.className = 'blank-input';
+          inp.type = 'number';
+          inp.id = 'inp_' + si + '_' + vi;
+          inp.autocomplete = 'off';
+          row.appendChild(inp);
+        }
+      });
+      div.appendChild(row);
+      const hint = document.createElement('div');
+      hint.className = 'suite-hint';
+      hint.textContent = '💡 Indice : ' + s.hint;
+      div.appendChild(hint);
+      list.appendChild(div);
+    });
+    const pct = answered / SUITES.length;
+    document.getElementById('progressLabel').textContent = answered + ' / ' + SUITES.length;
+    document.getElementById('progressFill').style.width = pct * 100 + '%';
+  }
+
+  function verify() {
+    let totalBlanks = 0, correct = 0;
+    SUITES.forEach((s, si) => {
+      s.sequence.forEach((val, vi) => {
+        if (val !== null) return;
+        totalBlanks++;
+        const inp = document.getElementById('inp_' + si + '_' + vi);
+        if (!inp) return;
+        // Compute expected value
+        const expected = getExpected(s, vi);
+        const ok = parseInt(inp.value) === expected;
+        inp.className = 'blank-input ' + (ok ? 'correct' : 'wrong');
+        if (!ok) inp.value = expected;
+        inp.disabled = true;
+        if (ok) correct++;
+      });
+      // Show hint if this suite had any wrong answer
+      const suiteEl = document.querySelector('.suite-item[data-suite="' + si + '"]');
+      if (suiteEl) {
+        const anyWrong = [...suiteEl.querySelectorAll('.blank-input.wrong')].length > 0;
+        if (anyWrong) {
+          const hintEl = suiteEl.querySelector('.suite-hint');
+          if (hintEl) hintEl.style.display = 'block';
+        }
+      }
+    });
+    const pct = correct / totalBlanks;
+    document.getElementById('scoreChip').textContent = correct + ' / ' + totalBlanks + ' pts';
+    document.getElementById('fbScore').textContent = correct + ' / ' + totalBlanks + ' cases correctes';
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu maîtrises les suites numériques !';
+    else if (pct >= .75) msg = '🎉 Très bien ! Quelques erreurs à corriger.';
+    else msg = '📚 Relis les définitions des suites et réessaie !';
+    document.getElementById('fbMsg').textContent = msg;
+    const fb = document.getElementById('feedbackSection');
+    fb.className = 'feedback-section show ' + (pct === 1 ? 'perfect' : 'partial');
+    document.querySelector('.btn-verify').disabled = true;
+  }
+
+  function getExpected(s, targetIdx) {
+    // Build full sequence by interpolation/extrapolation
+    const seq = [...s.sequence];
+    // Simple approach: just return the correct answer based on the rule
+    // We use a lookup by computing from known values
+    // Find all non-null values and their indices
+    const known = seq.map((v, i) => v !== null ? { i, v } : null).filter(Boolean);
+    if (known.length < 2) return 0;
+    // Try arithmetic progression
+    const diffs = [];
+    for (let k = 1; k < known.length; k++) {
+      diffs.push((known[k].v - known[k-1].v) / (known[k].i - known[k-1].i));
+    }
+    const allSameDiff = diffs.every(d => Math.abs(d - diffs[0]) < 0.01);
+    if (allSameDiff) {
+      return known[0].v + diffs[0] * (targetIdx - known[0].i);
+    }
+    // Try geometric progression
+    const ratios = [];
+    for (let k = 1; k < known.length; k++) {
+      ratios.push(Math.pow(known[k].v / known[k-1].v, 1 / (known[k].i - known[k-1].i)));
+    }
+    const allSameRatio = ratios.every(r => Math.abs(r - ratios[0]) < 0.01);
+    if (allSameRatio) {
+      return Math.round(known[0].v * Math.pow(ratios[0], targetIdx - known[0].i));
+    }
+    // Fibonacci-like: each = sum of two previous
+    if (known.length >= 2) {
+      const full = new Array(seq.length).fill(null);
+      known.forEach(k => full[k.i] = k.v);
+      // forward pass
+      for (let i = 2; i < full.length; i++) {
+        if (full[i] === null && full[i-1] !== null && full[i-2] !== null) full[i] = full[i-1] + full[i-2];
+      }
+      if (full[targetIdx] !== null) return full[targetIdx];
+    }
+    // Fallback: quadratic (squares)
+    // n^2 pattern: check if known[k].v === (known[k].i+1)^2
+    const isSquares = known.every(k => k.v === (k.i + 1) * (k.i + 1));
+    if (isSquares) return (targetIdx + 1) * (targetIdx + 1);
+    return 0;
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, verify, restart };
+})();
+</script>
+</body>
+</html>

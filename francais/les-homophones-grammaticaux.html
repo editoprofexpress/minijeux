@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e, cm2">
+  <meta name="matiere" content="Français">
+  <meta name="type" content="dictee">
+  <title>Les homophones grammaticaux — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #7c3aed;
+      --subject-dark: #6d28d9;
+      --subject-light: #ede9fe;
+      --subject-mid: #c4b5fd;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #faf5ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #3b0764 0%, #7c3aed 60%, #a78bfa 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1rem; }
+    .recap-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .recap-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Dictée game — phrase par phrase */
+    .phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .phase-counter { font-size: 0.85rem; font-weight: 800; color: var(--muted); }
+    .score-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    /* Sentence */
+    .sentence-container { margin-bottom: 1.5rem; }
+    .sentence-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
+    .sentence-text { font-size: 1.05rem; font-weight: 700; line-height: 2.2; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+    .word { }
+    /* Dropdown for choices */
+    .choice-select { border: 2.5px solid var(--subject); border-radius: 8px; padding: 0.3rem 0.5rem; font-family: inherit; font-size: 0.95rem; font-weight: 800; background: white; color: var(--subject-dark); cursor: pointer; outline: none; appearance: auto; }
+    .choice-select.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .choice-select.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    /* Explication */
+    .explication { background: var(--subject-light); border-radius: 10px; padding: 0.75rem 1rem; margin-top: 0.75rem; font-size: 0.85rem; font-weight: 700; color: var(--subject-dark); line-height: 1.6; display: none; }
+    .explication.show { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .explication.ko { background: var(--error-light); color: var(--error); }
+    .btn-validate { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-validate:hover { background: var(--subject-dark); }
+    .btn-next { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 0.75rem; display: none; }
+    .btn-next.show { display: block; }
+    /* Results */
+    .results-card { text-align: center; padding: 1rem 0; }
+    .score-big { font-size: 3rem; font-weight: 900; color: var(--subject); }
+    .score-lbl { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .score-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📝 Français</div>
+  <h1>Les homophones grammaticaux</h1>
+  <p>Écris le bon homophone grammatical dans chaque phrase</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔤</div>
+    <div class="intro-title">Homophones grammaticaux</div>
+    <div class="intro-desc">Choisis le bon homophone dans chaque phrase. Chaque erreur est expliquée pour t'aider à progresser !</div>
+    <div class="recap-box">
+      <strong>Rappels clés :</strong><br>
+      → <strong>a / à</strong> : "a" = verbe avoir (remplace par "avait") · "à" = préposition<br>
+      → <strong>on / ont</strong> : "on" = pronom (remplace par "il") · "ont" = verbe avoir<br>
+      → <strong>son / sont</strong> : "son" = déterminant (remplace par "mon") · "sont" = verbe être<br>
+      → <strong>ces / ses / c'est / s'est</strong> : déterminants vs verbes<br>
+      → <strong>ou / où</strong> : "ou" = choix · "où" = lieu/temps
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="phase-header">
+      <span class="phase-counter" id="phaseCounter">Phrase 1 / 12</span>
+      <span class="score-chip" id="scoreChip">0 / 0</span>
+    </div>
+    <div class="sentence-container" id="sentenceContainer"></div>
+    <div class="explication" id="explication"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()">Vérifier ✓</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Phrase suivante →</button>
+  </div>
+  <div class="card screen" id="screenEnd">
+    <div class="results-card">
+      <div class="score-big" id="finalScore"></div>
+      <div class="score-lbl" id="finalLbl"></div>
+      <div class="score-msg" id="finalMsg"></div>
+      <button class="btn-start" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+// Each sentence: parts array (strings or {choices, answer} objects), explication
+const SENTENCES = [
+  {
+    parts: ['Le chat', {choices: ['a', 'à'], answer: 'a'}, 'mangé sa soupe.'],
+    expl: '✅ "a" = verbe avoir (on peut dire "avait mangé"). "à mangé" est impossible.',
+    explKo: '❌ "a" = verbe avoir. On peut remplacer par "avait" : "Le chat avait mangé…" → c\'est correct.'
+  },
+  {
+    parts: ['Il est allé', {choices: ['a', 'à'], answer: 'à'}, 'l\'école.'],
+    expl: '✅ "à" est une préposition de lieu. On ne peut pas remplacer par "avait".',
+    explKo: '❌ "à" est une préposition ici (direction). On ne peut pas dire "avait l\'école".'
+  },
+  {
+    parts: ['{choices: ["on", "ont"]} Les élèves', {choices: ['on', 'ont'], answer: 'ont'}, 'bien travaillé.'],
+    expl: '✅ "ont" = verbe avoir (ils ont). On peut dire "ils ont bien travaillé".',
+    explKo: '❌ "ont" = ils ont. "Les élèves ils ont…" → conjugaison du verbe avoir.'
+  },
+  {
+    parts: [{choices: ['On', 'Ont'], answer: 'On'}, 'sonne à la porte.'],
+    expl: '✅ "On" = pronom sujet (= il). "Il sonne à la porte" est correct.',
+    explKo: '❌ "On" = pronom sujet. Remplace par "il" : "Il sonne à la porte." ✓'
+  },
+  {
+    parts: ['Ce livre est', {choices: ['son', 'sont'], answer: 'son'}, 'préféré.'],
+    expl: '✅ "son" = déterminant possessif (remplaçable par "mon").',
+    explKo: '❌ "son" = déterminant possessif. "Mon préféré" → on utilise "son" ici.'
+  },
+  {
+    parts: ['Les fleurs', {choices: ['son', 'sont'], answer: 'sont'}, 'belles.'],
+    expl: '✅ "sont" = verbe être (ils sont). "Les fleurs elles sont belles." ✓',
+    explKo: '❌ "sont" = verbe être. "Les fleurs elles sont…" → conjugaison de être.'
+  },
+  {
+    parts: ['Tu veux du lait', {choices: ['ou', 'où'], answer: 'ou'}, 'du jus d\'orange ?'],
+    expl: '✅ "ou" exprime un choix entre deux options.',
+    explKo: '❌ "ou" exprime un choix. "où" indique un lieu. Ici il s\'agit d\'un choix entre deux boissons.'
+  },
+  {
+    parts: ['Je ne sais pas', {choices: ['ou', 'où'], answer: 'où'}, 'il est parti.'],
+    expl: '✅ "où" = lieu/destination. On peut dire "à quel endroit il est parti".',
+    explKo: '❌ "où" indique un lieu/direction. "À quel endroit il est parti" → c\'est bien "où".'
+  },
+  {
+    parts: [{choices: ['Ces', 'Ses', "C'est"], answer: "C'est"}, 'vraiment une belle journée.'],
+    expl: '✅ "C\'est" = ce + verbe être. On peut remplacer par "cela est".',
+    explKo: '❌ "C\'est" = "cela est". "Ces" et "ses" sont des déterminants qui précèdent un nom.'
+  },
+  {
+    parts: ['Range', {choices: ['ces', 'ses'], answer: 'ces'}, 'affaires maintenant.'],
+    expl: '✅ "ces" = déterminant démonstratif (montre des choses précises). Remplaçable par "ces affaires-là".',
+    explKo: '❌ "ces" = déterminant démonstratif. "ces affaires" = les affaires dont on parle. "ses" = ses affaires à lui.'
+  },
+  {
+    parts: ['Elle a perdu', {choices: ['ces', 'ses'], answer: 'ses'}, 'clés.'],
+    expl: '✅ "ses" = déterminant possessif (ses clés à elle). Remplaçable par "mes clés".',
+    explKo: '❌ "ses" = déterminant possessif (à elle). "ses clés" = les clés qui lui appartiennent.'
+  },
+  {
+    parts: ['Il', {choices: ["s'est", 'sont'], answer: "s'est"}, 'levé tôt ce matin.'],
+    expl: '✅ "s\'est" = se + verbe être (il s\'est levé = passé composé pronominal).',
+    explKo: '❌ "s\'est" = pronom "se" + auxiliaire "est". "Il se est levé" → contraction : il s\'est levé.'
+  }
+];
+
+const game = (() => {
+  let idx, correct, validated;
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() { idx = 0; correct = 0; loadSentence(); show('screenGame'); }
+
+  function loadSentence() {
+    validated = false;
+    const s = SENTENCES[idx];
+    document.getElementById('phaseCounter').textContent = 'Phrase ' + (idx + 1) + ' / ' + SENTENCES.length;
+    document.getElementById('scoreChip').textContent = correct + ' / ' + idx;
+    document.getElementById('explication').className = 'explication';
+    document.getElementById('btnNext').className = 'btn-next';
+    document.getElementById('btnValidate').disabled = false;
+    const container = document.getElementById('sentenceContainer');
+    container.innerHTML = '<div class="sentence-label">Choisis le bon homophone :</div><div class="sentence-text" id="sentText"></div>';
+    const sentText = document.getElementById('sentText');
+    s.parts.forEach(part => {
+      if (typeof part === 'string') {
+        // Skip the malformed string that starts with {choices:
+        if (part.startsWith('{choices')) return;
+        part.split(' ').forEach(w => {
+          if (!w) return;
+          const sp = document.createElement('span');
+          sp.className = 'word';
+          sp.textContent = w + ' ';
+          sentText.appendChild(sp);
+        });
+      } else {
+        const sel = document.createElement('select');
+        sel.className = 'choice-select';
+        sel.id = 'sel_' + idx;
+        part.choices.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          sel.appendChild(opt);
+        });
+        // Randomize initial selection
+        sel.selectedIndex = Math.random() < 0.5 ? 0 : part.choices.length - 1;
+        sentText.appendChild(sel);
+        const sp = document.createElement('span');
+        sp.textContent = ' ';
+        sentText.appendChild(sp);
+      }
+    });
+  }
+
+  function validate() {
+    if (validated) return;
+    validated = true;
+    const s = SENTENCES[idx];
+    const selParts = s.parts.filter(p => typeof p === 'object');
+    const sel = document.getElementById('sel_' + idx);
+    if (!sel || selParts.length === 0) { next(); return; }
+    const ok = sel.value === selParts[0].answer;
+    sel.className = 'choice-select ' + (ok ? 'correct' : 'wrong');
+    sel.disabled = true;
+    if (ok) correct++;
+    const expl = document.getElementById('explication');
+    expl.textContent = ok ? s.expl : s.explKo;
+    expl.className = 'explication show' + (ok ? '' : ' ko');
+    document.getElementById('scoreChip').textContent = correct + ' / ' + (idx + 1);
+    document.getElementById('btnValidate').disabled = true;
+    const btn = document.getElementById('btnNext');
+    btn.className = 'btn-next show';
+    btn.textContent = idx + 1 < SENTENCES.length ? 'Phrase suivante →' : 'Voir mon score →';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= SENTENCES.length) {
+      showEnd();
+    } else {
+      loadSentence();
+    }
+  }
+
+  function showEnd() {
+    const pct = correct / SENTENCES.length;
+    document.getElementById('finalScore').textContent = correct + ' / ' + SENTENCES.length;
+    document.getElementById('finalLbl').textContent = 'bonne' + (correct > 1 ? 's' : '') + ' réponse' + (correct > 1 ? 's' : '');
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu maîtrises tous les homophones grammaticaux !';
+    else if (pct >= .75) msg = '🎉 Très bien ! Relis les explications des erreurs.';
+    else if (pct >= .5) msg = '👍 Bien ! Continue à t\'entraîner.';
+    else msg = '📚 Relis le récapitulatif des homophones et recommence !';
+    document.getElementById('finalMsg').textContent = msg;
+    show('screenEnd');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, validate, next, restart };
+})();
+</script>
+</body>
+</html>

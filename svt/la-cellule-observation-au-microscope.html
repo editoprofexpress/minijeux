@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e">
+  <meta name="matiere" content="SVT">
+  <meta name="type" content="identification">
+  <title>La cellule — observation au microscope — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #059669;
+      --subject-dark: #065f46;
+      --subject-light: #d1fae5;
+      --subject-mid: #6ee7b7;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f0fdf4;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #34d399 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); margin-bottom: 1rem; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Cell diagram */
+    .cell-wrapper { position: relative; width: 100%; max-width: 500px; margin: 0 auto 1.25rem; }
+    .cell-svg { width: 100%; height: auto; display: block; border-radius: 12px; background: #f8fafc; border: 2px solid var(--border); }
+    .hotspot { cursor: pointer; }
+    .hotspot circle { transition: all .15s; }
+    .hotspot:hover circle { r: 14; }
+    .hotspot.correct circle { fill: var(--success); }
+    .hotspot.wrong circle { fill: var(--error); }
+    /* QCM panel */
+    .qcm-panel { background: var(--subject-light); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; display: none; }
+    .qcm-panel.show { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .qcm-question { font-size: 1rem; font-weight: 800; color: var(--subject-dark); margin-bottom: 0.9rem; }
+    .qcm-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .qcm-btn { padding: 0.7rem 1rem; border: 2.5px solid var(--subject-mid); border-radius: 10px; background: white; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all .15s; text-align: left; }
+    .qcm-btn:hover:not(:disabled) { background: var(--subject-light); border-color: var(--subject); }
+    .qcm-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+    .qcm-btn.wrong { background: var(--error-light); border-color: var(--error); color: var(--error); }
+    .feedback { margin-top: 0.75rem; font-size: 0.88rem; font-weight: 700; line-height: 1.5; display: none; }
+    .feedback.show { display: block; }
+    .feedback.ok { color: var(--success); }
+    .feedback.ko { color: var(--error); }
+    /* Progress */
+    .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .progress-label { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+    .progress-bar-wrap { flex: 1; margin: 0 0.75rem; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width .3s; }
+    /* Score */
+    .score-card { background: var(--subject-light); border-radius: 14px; padding: 1.5rem; text-align: center; display: none; }
+    .score-card.show { display: block; animation: fadeIn .3s ease; }
+    .score-big { font-size: 2.8rem; font-weight: 900; color: var(--subject); }
+    .score-label { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .score-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+    .btn-retry { padding: 0.75rem 2rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🔬 SVT</div>
+  <h1>La cellule — observation au microscope</h1>
+  <p>Légendez les parties de la cellule au microscope</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔬</div>
+    <div class="intro-title">Identification cellulaire</div>
+    <div class="intro-desc">Clique sur un numéro dans le schéma pour identifier la structure correspondante. Utilise tes connaissances sur la cellule animale !</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-row">
+      <span class="progress-label" id="progressLabel">0 / 8</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <!-- Ideogram: "Animal cell cross-section diagram with numbered labels, scientific illustration, flat design, white background, no text, clean educational vector art" -->
+    <div class="cell-wrapper">
+      <svg class="cell-svg" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cell membrane (outer) -->
+        <ellipse cx="250" cy="190" rx="230" ry="170" fill="#fef9c3" stroke="#ca8a04" stroke-width="4"/>
+        <!-- Nucleus -->
+        <ellipse cx="250" cy="180" rx="80" ry="65" fill="#bfdbfe" stroke="#3b82f6" stroke-width="3"/>
+        <!-- Nucleolus -->
+        <ellipse cx="255" cy="175" rx="28" ry="22" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/>
+        <!-- Mitochondria 1 -->
+        <ellipse cx="130" cy="150" rx="35" ry="18" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+        <path d="M110,150 Q120,140 130,150 Q140,160 150,150" fill="none" stroke="#ea580c" stroke-width="1.5"/>
+        <!-- Mitochondria 2 -->
+        <ellipse cx="370" cy="230" rx="35" ry="18" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+        <path d="M350,230 Q360,220 370,230 Q380,240 390,230" fill="none" stroke="#ea580c" stroke-width="1.5"/>
+        <!-- Vacuole -->
+        <ellipse cx="160" cy="270" rx="40" ry="30" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+        <!-- Ribosome dots -->
+        <circle cx="320" cy="150" r="4" fill="#f43f5e"/>
+        <circle cx="330" cy="160" r="4" fill="#f43f5e"/>
+        <circle cx="340" cy="148" r="4" fill="#f43f5e"/>
+        <!-- Hotspot labels -->
+        <g class="hotspot" id="hs0" onclick="game.clickZone(0)">
+          <circle cx="70" cy="80" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="70" y="85" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">1</text>
+        </g>
+        <g class="hotspot" id="hs1" onclick="game.clickZone(1)">
+          <circle cx="250" cy="100" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="250" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">2</text>
+        </g>
+        <g class="hotspot" id="hs2" onclick="game.clickZone(2)">
+          <circle cx="250" cy="175" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="250" y="180" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">3</text>
+        </g>
+        <g class="hotspot" id="hs3" onclick="game.clickZone(3)">
+          <circle cx="215" cy="205" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="215" y="210" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">4</text>
+        </g>
+        <g class="hotspot" id="hs4" onclick="game.clickZone(4)">
+          <circle cx="130" cy="120" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="130" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">5</text>
+        </g>
+        <g class="hotspot" id="hs5" onclick="game.clickZone(5)">
+          <circle cx="400" cy="210" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="400" y="215" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">6</text>
+        </g>
+        <g class="hotspot" id="hs6" onclick="game.clickZone(6)">
+          <circle cx="160" cy="260" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="160" y="265" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">7</text>
+        </g>
+        <g class="hotspot" id="hs7" onclick="game.clickZone(7)">
+          <circle cx="330" cy="140" r="12" fill="#16a34a" opacity="0.9"/>
+          <text x="330" y="145" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="white">8</text>
+        </g>
+      </svg>
+    </div>
+    <div class="qcm-panel" id="qcmPanel">
+      <div class="qcm-question" id="qcmQuestion"></div>
+      <div class="qcm-choices" id="qcmChoices"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="score-card" id="scoreCard">
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-label" id="scoreLabel"></div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+const ZONES = [
+  { label: 'Membrane cellulaire', desc: 'La membrane cellulaire délimite la cellule et contrôle les échanges avec le milieu extérieur.', choices: ['Membrane cellulaire', 'Paroi cellulaire', 'Cytoplasme', 'Enveloppe nucléaire'], answer: 0 },
+  { label: 'Cytoplasme', desc: 'Le cytoplasme est le liquide visqueux qui remplit la cellule et dans lequel baignent les organites.', choices: ['Noyau', 'Cytoplasme', 'Vacuole', 'Lysosome'], answer: 1 },
+  { label: 'Nucléole', desc: 'Le nucléole est une structure dense à l\'intérieur du noyau, impliqué dans la fabrication des ribosomes.', choices: ['Noyau', 'Nucléole', 'Centrosome', 'Ribosome'], answer: 1 },
+  { label: 'Noyau', desc: 'Le noyau contient l\'ADN de la cellule (les chromosomes) et dirige toutes les activités cellulaires.', choices: ['Mitochondrie', 'Vacuole', 'Noyau', 'Lysosome'], answer: 2 },
+  { label: 'Mitochondrie', desc: 'La mitochondrie est le siège de la respiration cellulaire : elle produit l\'énergie (ATP) utilisée par la cellule.', choices: ['Mitochondrie', 'Appareil de Golgi', 'Réticulum endoplasmique', 'Chloroplaste'], answer: 0 },
+  { label: 'Mitochondrie', desc: 'Les mitochondries sont présentes en grand nombre dans les cellules ayant besoin de beaucoup d\'énergie.', choices: ['Vacuole', 'Lysosome', 'Noyau', 'Mitochondrie'], answer: 3 },
+  { label: 'Vacuole', desc: 'La vacuole est une vésicule de stockage. Dans la cellule animale, les vacuoles sont petites et temporaires.', choices: ['Vacuole', 'Noyau', 'Mitochondrie', 'Cytoplasme'], answer: 0 },
+  { label: 'Ribosome', desc: 'Les ribosomes fabriquent les protéines à partir des instructions de l\'ARN messager. Ils sont très nombreux dans la cellule.', choices: ['Centrosome', 'Lysosome', 'Ribosome', 'Peroxysome'], answer: 2 }
+];
+
+const game = (() => {
+  let answered, correct, activeZone;
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    answered = 0; correct = 0; activeZone = null;
+    ZONES.forEach((_, i) => {
+      const hs = document.getElementById('hs' + i);
+      hs.className = 'hotspot';
+      hs.style.pointerEvents = 'auto';
+    });
+    document.getElementById('qcmPanel').className = 'qcm-panel';
+    document.getElementById('scoreCard').className = 'score-card';
+    updateProgress();
+    show('screenGame');
+  }
+
+  function updateProgress() {
+    document.getElementById('progressLabel').textContent = answered + ' / ' + ZONES.length;
+    document.getElementById('progressFill').style.width = (answered / ZONES.length * 100) + '%';
+  }
+
+  function clickZone(idx) {
+    const hs = document.getElementById('hs' + idx);
+    if (hs.style.pointerEvents === 'none') return;
+    activeZone = idx;
+    const z = ZONES[idx];
+    const panel = document.getElementById('qcmPanel');
+    document.getElementById('qcmQuestion').textContent = 'Zone ' + (idx + 1) + ' — Quelle structure est indiquée ?';
+    const choicesDiv = document.getElementById('qcmChoices');
+    choicesDiv.innerHTML = '';
+    // Shuffle choices
+    const order = z.choices.map((c, i) => i).sort(() => Math.random() - 0.5);
+    order.forEach(ci => {
+      const btn = document.createElement('button');
+      btn.className = 'qcm-btn';
+      btn.textContent = z.choices[ci];
+      btn.onclick = () => selectAnswer(ci, z, btn, choicesDiv);
+      choicesDiv.appendChild(btn);
+    });
+    document.getElementById('feedback').className = 'feedback';
+    panel.className = 'qcm-panel show';
+  }
+
+  function selectAnswer(choiceIdx, zone, btn, choicesDiv) {
+    const btns = choicesDiv.querySelectorAll('.qcm-btn');
+    btns.forEach(b => b.disabled = true);
+    const ok = choiceIdx === zone.answer;
+    btn.className = 'qcm-btn ' + (ok ? 'correct' : 'wrong');
+    if (!ok) {
+      btns.forEach(b => { if (b.textContent === zone.choices[zone.answer]) b.className = 'qcm-btn correct'; });
+    }
+    const fb = document.getElementById('feedback');
+    fb.textContent = (ok ? '✅ ' : '❌ ') + zone.desc;
+    fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+    if (ok) correct++;
+    const hs = document.getElementById('hs' + activeZone);
+    hs.className = 'hotspot ' + (ok ? 'correct' : 'wrong');
+    hs.style.pointerEvents = 'none';
+    answered++;
+    updateProgress();
+    if (answered === ZONES.length) {
+      setTimeout(showScore, 1200);
+    }
+  }
+
+  function showScore() {
+    document.getElementById('qcmPanel').className = 'qcm-panel';
+    const pct = correct / ZONES.length;
+    document.getElementById('scoreBig').textContent = correct + ' / ' + ZONES.length;
+    document.getElementById('scoreLabel').textContent = 'structure' + (correct > 1 ? 's' : '') + ' correctement identifiée' + (correct > 1 ? 's' : '');
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu connais la cellule sur le bout des doigts !';
+    else if (pct >= .75) msg = '🎉 Très bien ! Encore un peu de révision et ce sera parfait.';
+    else msg = '📚 Relis ton cours sur la cellule et réessaie !';
+    document.getElementById('scoreMsg').textContent = msg;
+    document.getElementById('scoreCard').className = 'score-card show';
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, clickZone, restart };
+})();
+</script>
+</body>
+</html>

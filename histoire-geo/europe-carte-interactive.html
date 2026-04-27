@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Géographie – Carte interactive de l'Europe</title>
+  <title>Histoire-Géographie – Carte interactive de l'Europe</title>
+  <meta name="niveau" content="4e-5e">
+  <meta name="matiere" content="Histoire-Géographie">
+  <meta name="type" content="carte">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --subject: #0f766e; --subject-dark: #0d6b63; --subject-light: #ccfbf1; --subject-mid: #5eead4;
+      --subject: #b45309; --subject-dark: #92400e; --subject-light: #fef3c7; --subject-mid: #fcd34d;
       --success: #059669; --success-light: #d1fae5;
       --error: #dc2626; --error-light: #fee2e2;
-      --bg: #f0fdfa; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --bg: #fffbeb; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-    .top-bar { width: 100%; background: linear-gradient(135deg, #0f766e, #0d9488, #14b8a6); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #78350f 0%, #b45309 60%, #f59e0b 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
     .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
-    .back-link { position: absolute; top: 1rem; left: 1rem; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 700; }
     .subject-badge { display: inline-flex; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
     .top-bar h1 { font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 900; margin-bottom: 0.3rem; }
     .top-bar p { font-size: 0.9rem; opacity: 0.85; }
@@ -53,15 +55,13 @@
     @media (max-width: 400px) {
       .map-question { font-size: 0.9rem; }
     }
-    .country { fill: #e2e8f0; stroke: white; stroke-width: 1.5; transition: fill .2s; cursor: pointer; }
-    .country:hover { fill: var(--subject-mid); }
+    .country { fill: #c8d9a0; stroke: #f5f0e8; stroke-width: 1.5; transition: fill .2s, stroke .2s; cursor: pointer; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .country:hover { fill: var(--subject-mid); stroke: #d97706; }
     .country.target { fill: #fde68a; stroke: #d97706; stroke-width: 2; }
     .country.correct { fill: var(--success); stroke: #065f46; stroke-width: 2; animation: pulse .4s ease; }
     .country.wrong { fill: var(--error); stroke: #991b1b; stroke-width: 2; animation: shake .4s ease; }
     @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
     @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)} }
-
-    .country-label { font-size: 9px; font-weight: 700; fill: white; pointer-events: none; text-anchor: middle; paint-order: stroke; stroke: rgba(0,0,0,0.3); stroke-width: 3px; }
 
     /* ── FEEDBACK TOAST ── */
     .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); border-radius: 100px; padding: 0.75rem 1.5rem; font-weight: 800; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity .2s; white-space: nowrap; z-index: 100; }
@@ -87,8 +87,7 @@
 <body>
 
 <div class="top-bar">
-  <a href="../index.html" class="back-link">← Accueil</a>
-  <div class="subject-badge">🗺️ Géographie · 3e–Lycée</div>
+  <div class="subject-badge">🗺️ Histoire-Géographie</div>
   <h1>Carte interactive de l'Europe 🗺️</h1>
   <p>Cliquez sur le bon pays pour répondre</p>
 </div>
@@ -121,114 +120,95 @@
       <div class="map-question">🔍 Cliquez sur : <em id="qText">…</em></div>
 
       <svg id="europeMap" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg">
-        <!-- Simplified European countries as polygons -->
+        <!-- Fond océan -->
+        <rect width="560" height="420" fill="#a8cce0" rx="8"/>
         <!-- France -->
         <g id="france" class="country" onclick="game.guess('france')">
           <polygon points="155,175 210,165 235,180 250,220 230,265 195,280 165,265 145,240 140,205"/>
-          <text class="country-label" x="192" y="228">France</text>
         </g>
         <!-- Germany -->
         <g id="germany" class="country" onclick="game.guess('germany')">
           <polygon points="225,130 295,120 315,145 310,185 280,205 250,200 230,180 225,155"/>
-          <text class="country-label" x="270" y="168">Allemagne</text>
         </g>
         <!-- Spain -->
         <g id="spain" class="country" onclick="game.guess('spain')">
           <polygon points="80,210 150,195 165,230 155,285 130,310 85,310 60,285 55,250"/>
-          <text class="country-label" x="112" y="260">Espagne</text>
         </g>
         <!-- Italy -->
         <g id="italy" class="country" onclick="game.guess('italy')">
           <polygon points="230,240 265,230 295,245 310,280 305,325 280,360 260,355 240,330 235,290 230,260"/>
-          <text class="country-label" x="270" y="295">Italie</text>
         </g>
         <!-- United Kingdom -->
         <g id="uk" class="country" onclick="game.guess('uk')">
           <polygon points="140,80 185,70 200,105 185,140 160,150 135,135 125,110"/>
-          <text class="country-label" x="163" y="115">Royaume-Uni</text>
         </g>
         <!-- Poland -->
         <g id="poland" class="country" onclick="game.guess('poland')">
           <polygon points="310,115 385,105 395,135 385,175 345,185 310,175 300,150"/>
-          <text class="country-label" x="350" y="150">Pologne</text>
         </g>
         <!-- Sweden -->
         <g id="sweden" class="country" onclick="game.guess('sweden')">
           <polygon points="295,30 330,20 355,50 350,100 320,115 290,105 280,75"/>
-          <text class="country-label" x="318" y="75">Suède</text>
         </g>
         <!-- Norway -->
         <g id="norway" class="country" onclick="game.guess('norway')">
           <polygon points="220,15 295,10 295,65 270,80 240,70 215,50"/>
-          <text class="country-label" x="256" y="48">Norvège</text>
         </g>
         <!-- Finland -->
         <g id="finland" class="country" onclick="game.guess('finland')">
           <polygon points="355,15 405,5 425,40 415,80 380,100 355,85 345,55"/>
-          <text class="country-label" x="388" y="58">Finlande</text>
         </g>
         <!-- Portugal -->
         <g id="portugal" class="country" onclick="game.guess('portugal')">
           <polygon points="60,215 90,210 95,250 90,295 65,300 50,270 50,240"/>
-          <text class="country-label" x="73" y="260">Portugal</text>
         </g>
         <!-- Netherlands -->
         <g id="netherlands" class="country" onclick="game.guess('netherlands')">
           <polygon points="205,120 235,115 240,140 215,150 200,140"/>
-          <text class="country-label" x="220" y="134">P-B</text>
         </g>
         <!-- Belgium -->
         <g id="belgium" class="country" onclick="game.guess('belgium')">
           <polygon points="195,150 225,145 230,168 205,172 188,165"/>
-          <text class="country-label" x="210" y="163">Belg.</text>
         </g>
         <!-- Switzerland -->
         <g id="switzerland" class="country" onclick="game.guess('switzerland')">
           <polygon points="225,200 250,195 258,215 238,228 218,222"/>
-          <text class="country-label" x="238" y="213">Suisse</text>
         </g>
         <!-- Austria -->
         <g id="austria" class="country" onclick="game.guess('austria')">
           <polygon points="258,190 305,185 310,205 280,215 255,210"/>
-          <text class="country-label" x="283" y="204">Autriche</text>
         </g>
         <!-- Czech Republic -->
         <g id="czech" class="country" onclick="game.guess('czech')">
           <polygon points="280,155 325,148 332,170 300,178 278,172"/>
-          <text class="country-label" x="307" y="165">Tchéquie</text>
         </g>
         <!-- Romania -->
         <g id="romania" class="country" onclick="game.guess('romania')">
           <polygon points="380,180 430,172 445,200 435,228 400,235 375,218"/>
-          <text class="country-label" x="410" y="207">Roumanie</text>
         </g>
         <!-- Greece -->
         <g id="greece" class="country" onclick="game.guess('greece')">
           <polygon points="340,290 375,280 390,310 375,345 350,350 330,330 325,305"/>
-          <text class="country-label" x="358" y="320">Grèce</text>
         </g>
         <!-- Ukraine -->
         <g id="ukraine" class="country" onclick="game.guess('ukraine')">
           <polygon points="430,150 510,135 525,165 515,200 460,215 425,205 415,180"/>
-          <text class="country-label" x="472" y="180">Ukraine</text>
         </g>
         <!-- Denmark -->
         <g id="denmark" class="country" onclick="game.guess('denmark')">
           <polygon points="245,85 278,78 282,105 258,115 240,107"/>
-          <text class="country-label" x="261" y="98">Danemark</text>
         </g>
         <!-- Ireland -->
         <g id="ireland" class="country" onclick="game.guess('ireland')">
           <polygon points="100,95 130,88 138,115 120,130 98,122"/>
-          <text class="country-label" x="118" y="111">Irlande</text>
         </g>
 
         <!-- Sea labels -->
-        <text x="80" y="165" fill="#94a3b8" font-size="9" font-weight="600" font-family="Nunito,sans-serif" opacity="0.7">Atlantique</text>
-        <text x="55" y="380" fill="#94a3b8" font-size="9" font-weight="600" font-family="Nunito,sans-serif" opacity="0.7">Mer Méditerranée</text>
-        <text x="430" y="380" fill="#94a3b8" font-size="9" font-weight="600" font-family="Nunito,sans-serif" opacity="0.7">Mer Noire</text>
-        <text x="430" y="58" fill="#94a3b8" font-size="9" font-weight="600" font-family="Nunito,sans-serif" opacity="0.7">Mer Baltique</text>
-        <text x="145" y="55" fill="#94a3b8" font-size="9" font-weight="600" font-family="Nunito,sans-serif" opacity="0.7">Mer du Nord</text>
+        <text x="80" y="165" fill="#1e4d72" font-size="9" font-weight="700" font-family="Nunito,sans-serif" font-style="italic">Atlantique</text>
+        <text x="55" y="380" fill="#1e4d72" font-size="9" font-weight="700" font-family="Nunito,sans-serif" font-style="italic">Mer Méditerranée</text>
+        <text x="430" y="380" fill="#1e4d72" font-size="9" font-weight="700" font-family="Nunito,sans-serif" font-style="italic">Mer Noire</text>
+        <text x="430" y="58" fill="#1e4d72" font-size="9" font-weight="700" font-family="Nunito,sans-serif" font-style="italic">Mer Baltique</text>
+        <text x="145" y="55" fill="#1e4d72" font-size="9" font-weight="700" font-family="Nunito,sans-serif" font-style="italic">Mer du Nord</text>
       </svg>
     </div>
   </div>
@@ -247,7 +227,6 @@
       <div class="results-msg" id="resultsMsg">Excellent !</div>
       <div class="results-sub" id="resultsSub"></div>
       <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
-      <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
     </div>
   </div>
 

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="3e, 4e, 5e">
+  <meta name="matiere" content="Anglais">
+  <meta name="type" content="trous">
+  <title>Le présent continu (BE + V-ing) : actions en cours — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #2563eb;
+      --subject-dark: #1d4ed8;
+      --subject-light: #dbeafe;
+      --subject-mid: #93c5fd;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #eff6ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #3b82f6 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(2,132,199,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.25rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+    .rule-box p { font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .sentence-display { font-size: 1.05rem; font-weight: 700; background: var(--subject-light); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.5rem; line-height: 1.8; }
+    .hint-text { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
+    .fill-input-wrap { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .fill-input { flex: 1; border: 2px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; font-family: inherit; font-size: 1rem; font-weight: 700; outline: none; transition: border-color .15s; }
+    .fill-input:focus { border-color: var(--subject); }
+    .fill-input.correct { border-color: var(--success); background: var(--success-light); }
+    .fill-input.wrong { border-color: var(--error); background: var(--error-light); }
+    .btn-check { padding: 0.75rem 1.5rem; background: var(--subject); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .btn-check:disabled { background: var(--border); cursor: default; }
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    .btn-next:hover { background: var(--subject-dark); }
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; width: 100%; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇬🇧 Anglais</div>
+  <h1>Le présent continu (BE + V-ing)</h1>
+  <p>Complète les phrases au présent continu (be + V-ing)</p>
+</div>
+<div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">✏️</div>
+    <div class="intro-title">Le présent continu</div>
+    <div class="intro-desc">Complète chaque phrase avec la forme correcte du présent continu.</div>
+    <div class="rule-box">
+      <p>
+        <strong>Formation :</strong> sujet + <strong>BE</strong> (am / is / are) + <strong>V-ing</strong><br>
+        → <em>She <strong>is watching</strong> TV right now.</em><br>
+        → <em>We <strong>are not eating</strong> now.</em><br><br>
+        <strong>Emploi :</strong> action en cours au moment où l'on parle.<br>
+        Marqueurs : <em>right now, at the moment, currently, look! listen!</em>
+      </p>
+    </div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Phrase 1 / 8</div>
+    <div class="sentence-display" id="sentenceDisplay"></div>
+    <div class="hint-text" id="hintText"></div>
+    <div class="fill-input-wrap">
+      <input type="text" class="fill-input" id="fillInput" placeholder="Votre réponse…" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn-check" id="btnCheck" onclick="game.check()">Vérifier</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Phrase suivante →</button>
+  </div>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total" id="scoreTotal">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg"></div>
+      <div class="results-sub" id="resultsSub"></div>
+      <div style="margin-top:1rem">
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const QUESTIONS = [
+  { before: 'She', after: '(watch) a film right now.', answer: 'is watching', hint: 'she → am / is / are ? Pensez : he/she/it + ___' },
+  { before: 'They', after: '(play) football in the garden at the moment.', answer: 'are playing', hint: 'they → am / is / are ? Pensez au pluriel.' },
+  { before: 'I', after: '(study) for my exams this week.', answer: 'am studying', hint: 'I → am / is / are ? Attention : study se termine par -y précédé d'une consonne.' },
+  { before: 'He', after: '(run) very fast today!', answer: 'is running', hint: 'run : voyelle courte + consonne finale → que fait-on avant -ing ?' },
+  { before: 'My parents', after: '(cook) dinner right now.', answer: 'are cooking', hint: 'my parents = pluriel → am / is / are ?' },
+  { before: 'We', after: 'are not (eat) pizza tonight.', answer: 'eating', hint: '"are not" est déjà écrit. Mettez seulement le verbe eat à la forme -ing.' },
+  { before: 'It', after: '(not / rain) today. The sun is out!', answer: 'is not raining', hint: 'it → quelle forme de BE ? Puis ajoutez not et rain au -ing.', alts: ["isn't raining"] },
+  { before: 'What are you', after: '(listen) to?', answer: 'listening', hint: '"are you" est déjà là. Mettez seulement listen à la forme -ing.' }
+];
+
+const game = (() => {
+  let questions, idx, score;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  }
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    questions = shuffle(QUESTIONS); idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotal').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[idx];
+    document.getElementById('qNum').textContent = 'Phrase ' + (idx + 1) + ' / ' + questions.length;
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+    document.getElementById('sentenceDisplay').innerHTML = '<strong>' + q.before + '</strong> <span style="color:var(--subject)">[…]</span> <em>' + q.after + '</em>';
+    document.getElementById('hintText').textContent = '';
+    const inp = document.getElementById('fillInput');
+    inp.value = ''; inp.disabled = false; inp.className = 'fill-input';
+    document.getElementById('btnCheck').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+    setTimeout(() => inp.focus(), 100);
+  }
+
+  function normalize(s) { return s.trim().toLowerCase().replace(/'/g, "'"); }
+
+  function check() {
+    const q = questions[idx];
+    const inp = document.getElementById('fillInput');
+    const val = normalize(inp.value);
+    const correct = val === normalize(q.answer) || (q.alts || []).some(a => val === normalize(a));
+    inp.disabled = true;
+    document.getElementById('btnCheck').disabled = true;
+    inp.className = 'fill-input ' + (correct ? 'correct' : 'wrong');
+    if (!correct) {
+      inp.value = q.answer;
+      document.getElementById('hintText').textContent = '💡 ' + q.hint;
+    }
+    const fb = document.getElementById('feedback');
+    document.getElementById('feedbackTitle').textContent = correct ? '✅ Parfait !' : '❌ Pas tout à fait…';
+    document.getElementById('feedbackText').textContent = 'Bonne réponse : ' + q.before + ' ' + q.answer + ' ' + q.after;
+    fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+    if (correct) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() { idx++; if (idx >= questions.length) showResults(); else showQuestion(); }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !'; sub='Tu maîtrises le présent continu !'; }
+    else if (pct >= .75) { emoji='🎉'; stars='⭐⭐⭐'; msg='Très bien !'; sub='Encore un peu de pratique et ce sera parfait !'; }
+    else if (pct >= .5) { emoji='👍'; stars='⭐⭐'; msg='Bien !'; sub='Relis la règle BE + V-ing et réessaie.'; }
+    else { emoji='📚'; stars='⭐'; msg='À réviser'; sub='Travaille la formation du présent continu !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; }
+
+  return { start, check, next, restart };
+})();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('screenQuestion').classList.contains('active')) {
+    if (!document.getElementById('btnCheck').disabled) game.check();
+    else if (document.getElementById('btnNext').classList.contains('show')) game.next();
+  }
+});
+</script>
+</body>
+</html>

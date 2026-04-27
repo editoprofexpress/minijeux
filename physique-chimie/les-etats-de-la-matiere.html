@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e, 6e">
+  <meta name="matiere" content="Physique-Chimie">
+  <meta name="type" content="qcm-image">
+  <title>Les états de la matière — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #1d4ed8;
+      --subject-dark: #1e40af;
+      --subject-light: #dbeafe;
+      --subject-mid: #93c5fd;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #eff6ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #60a5fa 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* QCM image */
+    .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .q-counter { font-size: 0.85rem; font-weight: 800; color: var(--muted); }
+    .score-chip { font-size: 0.85rem; font-weight: 800; background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.2rem 0.75rem; }
+    /* Image area */
+    .img-area { border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; background: #f1f5f9; border: 2px solid var(--border); }
+    .q-image { width: 100%; display: block; }
+    .q-caption { font-size: 0.78rem; color: var(--muted); font-weight: 700; text-align: center; padding: 0.4rem; }
+    /* Question */
+    .q-text { font-size: 1rem; font-weight: 800; margin-bottom: 1rem; color: var(--subject-dark); line-height: 1.5; }
+    /* Choices */
+    .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-bottom: 1rem; }
+    .choice-btn { padding: 0.8rem 1rem; border: 2.5px solid var(--border); border-radius: 12px; background: white; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: left; transition: all .15s; line-height: 1.4; }
+    .choice-btn:hover:not(:disabled) { border-color: var(--subject); background: var(--subject-light); }
+    .choice-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+    .choice-btn.wrong { background: var(--error-light); border-color: var(--error); color: var(--error); }
+    /* Explication */
+    .expl-box { background: var(--subject-light); border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 700; color: var(--subject-dark); line-height: 1.6; display: none; margin-bottom: 1rem; }
+    .expl-box.show { display: block; animation: fadeIn .2s ease; }
+    .expl-box.ko { background: var(--error-light); color: var(--error); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .btn-next { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; }
+    /* End */
+    .end-section { text-align: center; padding: 1rem 0; }
+    .score-big { font-size: 3rem; font-weight: 900; color: var(--subject); }
+    .score-lbl { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .score-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">⚗️ Physique-Chimie</div>
+  <h1>Les états de la matière</h1>
+  <p>Identifie et classe les états de la matière</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">💧</div>
+    <div class="intro-title">États de la matière</div>
+    <div class="intro-desc">Observe chaque schéma et réponds aux questions sur les états solide, liquide et gazeux, et les changements d'état.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="progress-row">
+      <span class="q-counter" id="qCounter">Question 1 / 10</span>
+      <span class="score-chip" id="scoreChip">0 / 0</span>
+    </div>
+    <div class="img-area">
+      <svg id="qImageSvg" viewBox="0 0 600 220" class="q-image" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="q-caption" id="qCaption"></div>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div class="choices-grid" id="choicesGrid"></div>
+    <div class="expl-box" id="explBox"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenEnd">
+    <div class="end-section">
+      <div class="score-big" id="finalScore"></div>
+      <div class="score-lbl" id="finalLbl"></div>
+      <div class="score-msg" id="finalMsg"></div>
+      <button class="btn-start" onclick="game.restart()">🔄 Réessayer</button>
+    </div>
+  </div>
+</div>
+<script>
+// SVG drawing functions for each question
+function drawSolid(svg) {
+  svg.innerHTML = `
+    <rect width="600" height="220" fill="#f8fafc"/>
+    <text x="300" y="24" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">ÉTAT SOLIDE — molécules très ordonnées</text>
+    <rect x="160" y="40" width="280" height="160" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    ${Array.from({length:5},(_,r)=>Array.from({length:6},(_,c)=>`<circle cx="${190+c*48}" cy="${68+r*28}" r="11" fill="#3b82f6" opacity="0.85"/>
+    <line x1="${190+c*48+14}" y1="${68+r*28}" x2="${190+(c<5?c+1:c)*48-14}" y2="${68+r*28}" stroke="#93c5fd" stroke-width="2"/>`).join('')).join('')}
+  `;
+}
+function drawLiquid(svg) {
+  svg.innerHTML = `
+    <rect width="600" height="220" fill="#f8fafc"/>
+    <text x="300" y="24" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">ÉTAT LIQUIDE — molécules proches mais libres</text>
+    <rect x="160" y="40" width="280" height="160" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+    <ellipse cx="300" cy="180" rx="130" ry="14" fill="#7dd3fc" opacity="0.5"/>
+    ${[{x:190,y:80},{x:230,y:110},{x:280,y:75},{x:320,y:120},{x:370,y:90},{x:210,y:140},{x:260,y:155},{x:310,y:145},{x:360,y:155},{x:400,y:130},{x:200,y:175},{x:250,y:170},{x:340,y:172},{x:390,y:168}].map(p=>`<circle cx="${p.x}" cy="${p.y}" r="11" fill="#0284c7" opacity="0.8"/>`).join('')}
+  `;
+}
+function drawGas(svg) {
+  svg.innerHTML = `
+    <rect width="600" height="220" fill="#f8fafc"/>
+    <text x="300" y="24" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">ÉTAT GAZEUX — molécules très espacées et rapides</text>
+    <rect x="160" y="40" width="280" height="160" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    ${[{x:185,y:60},{x:390,y:55},{x:280,y:80},{x:220,y:130},{x:370,y:120},{x:300,y:170},{x:195,y:185},{x:380,y:180},{x:250,y:55},{x:340,y:155}].map(p=>`<circle cx="${p.x}" cy="${p.y}" r="11" fill="#f59e0b" opacity="0.8"/>`).join('')}
+  `;
+}
+function drawChangement(svg, from, to, name, color) {
+  svg.innerHTML = `
+    <rect width="600" height="220" fill="#f8fafc"/>
+    <rect x="20" y="70" width="160" height="80" rx="10" fill="${from.bg}" stroke="${from.stroke}" stroke-width="2"/>
+    <text x="100" y="115" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="${from.stroke}">${from.label}</text>
+    <rect x="420" y="70" width="160" height="80" rx="10" fill="${to.bg}" stroke="${to.stroke}" stroke-width="2"/>
+    <text x="500" y="115" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="${to.stroke}">${to.label}</text>
+    <line x1="185" y1="110" x2="415" y2="110" stroke="${color}" stroke-width="3" stroke-dasharray="8,4"/>
+    <polygon points="415,103 428,110 415,117" fill="${color}"/>
+    <text x="300" y="100" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="${color}">${name}</text>
+    <text x="300" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#64748b">⬆️ chauffage</text>
+  `;
+}
+
+const QUESTIONS = [
+  {
+    draw: svg => drawSolid(svg),
+    caption: 'Schéma des molécules dans un état de la matière',
+    text: 'D\'après ce schéma des molécules, quel est l\'état de la matière représenté ?',
+    choices: ['État solide', 'État liquide', 'État gazeux', 'État plasma'],
+    answer: 0,
+    expl: '✅ État solide : les molécules sont très ordonnées et fixes (agitation minimale). Le volume et la forme sont fixes.',
+    explKo: '❌ C\'est l\'état solide. Les molécules sont rangées en réseau ordonné, très rapprochées et presque immobiles.'
+  },
+  {
+    draw: svg => drawLiquid(svg),
+    caption: 'Schéma des molécules dans un état de la matière',
+    text: 'Les molécules de ce schéma sont proches mais en désordre. Quel est cet état ?',
+    choices: ['État solide', 'État liquide', 'État gazeux', 'État de fusion'],
+    answer: 1,
+    expl: '✅ État liquide : les molécules sont proches mais libres de se déplacer. Volume fixe, mais pas de forme propre.',
+    explKo: '❌ C\'est l\'état liquide. Les molécules sont proches mais désordonnées et mobiles (pas de forme fixe, volume fixe).'
+  },
+  {
+    draw: svg => drawGas(svg),
+    caption: 'Schéma des molécules dans un état de la matière',
+    text: 'Les molécules sont très espacées et rapides dans ce schéma. Quel état représente-t-il ?',
+    choices: ['État solide', 'État liquide', 'État gazeux', 'Vide'],
+    answer: 2,
+    expl: '✅ État gazeux : les molécules sont très éloignées et se déplacent rapidement dans tous les sens.',
+    explKo: '❌ C\'est l\'état gazeux. Molécules très espacées, en mouvement rapide et désordonné. Ni volume ni forme fixes.'
+  },
+  {
+    draw: svg => drawChangement(svg, {label:'SOLIDE',bg:'#dbeafe',stroke:'#3b82f6'}, {label:'LIQUIDE',bg:'#e0f2fe',stroke:'#0284c7'}, 'FUSION', '#0369a1'),
+    caption: 'Schéma d\'un changement d\'état',
+    text: 'Ce schéma montre un changement d\'état lors d\'un chauffage. Comment s\'appelle ce changement ?',
+    choices: ['Évaporation', 'Solidification', 'Fusion', 'Condensation'],
+    answer: 2,
+    expl: '✅ Fusion : passage de l\'état solide à l\'état liquide lors d\'une augmentation de température. Ex : la glace fond.',
+    explKo: '❌ C\'est la fusion (solide → liquide). Ex : la glace (solide) fond et devient de l\'eau (liquide).'
+  },
+  {
+    draw: svg => {
+      drawChangement(svg, {label:'LIQUIDE',bg:'#e0f2fe',stroke:'#0284c7'}, {label:'GAZEUX',bg:'#fef3c7',stroke:'#f59e0b'}, 'VAPORISATION', '#0891b2');
+    },
+    caption: 'Schéma d\'un changement d\'état',
+    text: 'Ce changement d\'état transforme un liquide en gaz. Quel est son nom ?',
+    choices: ['Fusion', 'Vaporisation', 'Solidification', 'Liquéfaction'],
+    answer: 1,
+    expl: '✅ Vaporisation (ou ébullition) : passage de l\'état liquide à l\'état gazeux. Ex : l\'eau bout à 100°C.',
+    explKo: '❌ C\'est la vaporisation. Quand on chauffe de l\'eau jusqu\'à 100°C, elle se transforme en vapeur (gaz).'
+  },
+  {
+    draw: svg => {
+      svg.innerHTML = `<rect width="600" height="220" fill="#f8fafc"/>
+      <text x="300" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#64748b">Propriétés des états de la matière</text>
+      <rect x="20" y="50" width="170" height="150" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="105" y="78" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#3b82f6">SOLIDE</text>
+      <text x="105" y="100" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Volume fixe</text>
+      <text x="105" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Forme propre</text>
+      <text x="105" y="140" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Incompressible</text>
+      <rect x="215" y="50" width="170" height="150" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+      <text x="300" y="78" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0284c7">LIQUIDE</text>
+      <text x="300" y="100" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Volume fixe</text>
+      <text x="300" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Pas de forme propre</text>
+      <text x="300" y="140" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Incompressible</text>
+      <rect x="410" y="50" width="170" height="150" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+      <text x="495" y="78" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f59e0b">GAZEUX</text>
+      <text x="495" y="100" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Volume variable</text>
+      <text x="495" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Pas de forme propre</text>
+      <text x="495" y="140" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1e293b">Compressible</text>`;
+    },
+    caption: 'Tableau comparatif des 3 états de la matière',
+    text: 'Quelle propriété est COMMUNE aux états solide et liquide, mais PAS à l\'état gazeux ?',
+    choices: ['Forme propre fixe', 'Incompressible (volume fixe)', 'Compressible', 'Molécules très espacées'],
+    answer: 1,
+    expl: '✅ Solide et liquide sont incompressibles (volume fixe). L\'état gazeux est compressible (volume variable).',
+    explKo: '❌ Solide ET liquide ont un volume fixe (incompressibles). Seul le gaz est compressible.'
+  },
+  {
+    draw: svg => {
+      svg.innerHTML = `<rect width="600" height="220" fill="#f8fafc"/>
+      <text x="300" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">L'eau et ses changements d'état</text>
+      <circle cx="300" cy="120" r="70" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="300" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1d4ed8">EAU LIQUIDE</text>
+      <rect x="80" y="80" width="110" height="50" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="135" y="110" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1d4ed8">GLACE (solide)</text>
+      <rect x="415" y="80" width="110" height="50" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+      <text x="470" y="110" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#92400e">VAPEUR (gaz)</text>
+      <line x1="190" y1="105" x2="228" y2="112" stroke="#6366f1" stroke-width="2"/>
+      <line x1="372" y1="112" x2="410" y2="105" stroke="#6366f1" stroke-width="2"/>
+      <text x="205" y="95" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6366f1">fusion</text>
+      <text x="395" y="95" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6366f1">vaporisation</text>`;
+    },
+    caption: 'Les changements d\'état de l\'eau',
+    text: 'L\'eau bout et se transforme en vapeur. À quelle température l\'eau bout-elle (sous pression normale) ?',
+    choices: ['0°C', '37°C', '100°C', '212°C'],
+    answer: 2,
+    expl: '✅ L\'eau bout à 100°C sous pression atmosphérique normale. C\'est sa température d\'ébullition.',
+    explKo: '❌ L\'eau bout à 100°C. (0°C = point de fusion de la glace. 37°C = température du corps humain.)'
+  },
+  {
+    draw: svg => {
+      svg.innerHTML = `<rect width="600" height="220" fill="#f8fafc"/>
+      <text x="300" y="28" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">Schéma bilan des changements d'état</text>
+      <rect x="220" y="50" width="160" height="50" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="300" y="80" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#3b82f6">SOLIDE</text>
+      <rect x="30" y="150" width="160" height="50" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+      <text x="110" y="180" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0284c7">LIQUIDE</text>
+      <rect x="410" y="150" width="160" height="50" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+      <text x="490" y="180" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f59e0b">GAZEUX</text>
+      <line x1="220" y1="90" x2="145" y2="150" stroke="#0284c7" stroke-width="2"/>
+      <text x="160" y="128" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0284c7">fusion ↓</text>
+      <line x1="190" y1="155" x2="220" y2="95" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="192" y="115" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">solidification ↑</text>
+      <line x1="190" y1="175" x2="410" y2="175" stroke="#f59e0b" stroke-width="2"/>
+      <text x="300" y="168" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f59e0b">vaporisation →</text>`;
+    },
+    caption: 'Schéma des changements d\'état',
+    text: 'Le passage de l\'état liquide à l\'état solide (refroidissement) s\'appelle :',
+    choices: ['Fusion', 'Solidification', 'Condensation', 'Sublimation'],
+    answer: 1,
+    expl: '✅ Solidification : liquide → solide (refroidissement). Ex : l\'eau se solidifie en glace à 0°C.',
+    explKo: '❌ Liquide → solide = solidification. Fusion c\'est l\'inverse (solide → liquide).'
+  },
+  {
+    draw: svg => drawGas(svg),
+    caption: 'État gazeux',
+    text: 'Quelle est la principale propriété d\'un gaz qui le distingue d\'un solide et d\'un liquide ?',
+    choices: ['Il a une forme fixe', 'Il est incompressible', 'Il est compressible et n\'a pas de volume fixe', 'Ses molécules ne bougent pas'],
+    answer: 2,
+    expl: '✅ Un gaz est compressible et extensible : il occupe tout le volume disponible. Son volume n\'est pas fixe.',
+    explKo: '❌ Un gaz est compressible (on peut le comprimer) et n\'a pas de volume propre (il remplit tout récipient).'
+  },
+  {
+    draw: svg => {
+      svg.innerHTML = `<rect width="600" height="220" fill="#f8fafc"/>
+      <text x="300" y="28" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#64748b">Expérience : chauffage d'un corps pur</text>
+      <rect x="60" y="50" width="480" height="140" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+      <line x1="100" y1="170" x2="100" y2="60" stroke="#64748b" stroke-width="2"/>
+      <line x1="100" y1="170" x2="520" y2="170" stroke="#64748b" stroke-width="2"/>
+      <text x="80" y="60" text-anchor="end" font-family="sans-serif" font-size="11" fill="#64748b">T (°C)</text>
+      <text x="525" y="175" font-family="sans-serif" font-size="11" fill="#64748b">temps</text>
+      <polyline points="100,160 180,160 210,90 320,90 350,65 520,65" fill="none" stroke="#16a34a" stroke-width="3" stroke-linejoin="round"/>
+      <text x="195" y="130" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0369a1">palier fusion</text>
+      <text x="335" y="82" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#dc2626">palier ébullition</text>`;
+    },
+    caption: 'Courbe de chauffage d\'un corps pur',
+    text: 'Sur cette courbe de chauffage, que représentent les "paliers" (parties horizontales) ?',
+    choices: ['Une erreur de mesure', 'Un changement d\'état (température constante)', 'Une panne du thermomètre', 'Le corps s\'évapore complètement'],
+    answer: 1,
+    expl: '✅ Les paliers correspondent aux changements d\'état : la température reste constante le temps que tout le corps change d\'état.',
+    explKo: '❌ Les paliers (températures constantes) correspondent aux changements d\'état. La température ne varie pas pendant la fusion ou l\'ébullition d\'un corps pur.'
+  }
+];
+
+const game = (() => {
+  let idx, correct;
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function shuffle(arr) { const a = [...arr]; for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+  function start() { idx = 0; correct = 0; loadQ(); show('screenGame'); }
+
+  function loadQ() {
+    const q = QUESTIONS[idx];
+    document.getElementById('qCounter').textContent = 'Question ' + (idx + 1) + ' / ' + QUESTIONS.length;
+    document.getElementById('scoreChip').textContent = correct + ' / ' + idx;
+    q.draw(document.getElementById('qImageSvg'));
+    document.getElementById('qCaption').textContent = q.caption;
+    document.getElementById('qText').textContent = q.text;
+    document.getElementById('explBox').className = 'expl-box';
+    document.getElementById('btnNext').className = 'btn-next';
+    const grid = document.getElementById('choicesGrid');
+    grid.innerHTML = '';
+    // Shuffle choices but keep track of correct answer
+    const indexed = q.choices.map((c, i) => ({ c, i }));
+    const shuffled = shuffle(indexed);
+    shuffled.forEach(({ c, i }) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = c;
+      btn.addEventListener('click', () => selectAnswer(i, btn, grid, q));
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(choiceIdx, btn, grid, q) {
+    grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    const ok = choiceIdx === q.answer;
+    if (ok) { correct++; btn.className = 'choice-btn correct'; }
+    else {
+      btn.className = 'choice-btn wrong';
+      grid.querySelectorAll('.choice-btn').forEach(b => { if (b.textContent === q.choices[q.answer]) b.className = 'choice-btn correct'; });
+    }
+    const expl = document.getElementById('explBox');
+    expl.textContent = ok ? q.expl : q.explKo;
+    expl.className = 'expl-box show' + (ok ? '' : ' ko');
+    document.getElementById('scoreChip').textContent = correct + ' / ' + (idx + 1);
+    const btn2 = document.getElementById('btnNext');
+    btn2.className = 'btn-next show';
+    btn2.textContent = idx + 1 < QUESTIONS.length ? 'Question suivante →' : 'Voir mon score →';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= QUESTIONS.length) showEnd();
+    else loadQ();
+  }
+
+  function showEnd() {
+    const pct = correct / QUESTIONS.length;
+    document.getElementById('finalScore').textContent = correct + ' / ' + QUESTIONS.length;
+    document.getElementById('finalLbl').textContent = 'bonne' + (correct > 1 ? 's' : '') + ' réponse' + (correct > 1 ? 's' : '');
+    let msg;
+    if (pct === 1) msg = '🏆 Parfait ! Tu maîtrises les états de la matière !';
+    else if (pct >= .7) msg = '🎉 Très bien ! Quelques révisions et ce sera parfait.';
+    else msg = '📚 Relis ton cours sur les états de la matière !';
+    document.getElementById('finalMsg').textContent = msg;
+    show('screenEnd');
+  }
+
+  function restart() { show('screenIntro'); }
+  return { start, next, restart };
+})();
+</script>
+</body>
+</html>

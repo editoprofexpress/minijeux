@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="5e">
+  <meta name="matiere" content="EMC">
+  <meta name="type" content="vrai-faux">
+  <title>Respecter autrui — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #db2777;
+      --subject-dark: #be185d;
+      --subject-light: #fce7f3;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #fdf2f8;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #831843 0%, #be185d 60%, #f472b6 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; display: flex; flex-direction: column; }
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(225,29,72,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: background .15s; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .statement-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 12px; padding: 1.25rem 1.5rem; font-size: 1.05rem; font-weight: 700; line-height: 1.6; margin-bottom: 1.5rem; }
+    .vf-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .vf-btn { border: 3px solid transparent; border-radius: 14px; padding: 1.1rem; font-family: inherit; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .vf-btn.vrai { background: #d1fae5; color: #059669; border-color: #6ee7b7; }
+    .vf-btn.faux { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+    .vf-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .vf-btn:disabled { cursor: default; transform: none; }
+    .vf-btn.selected-correct { box-shadow: 0 0 0 4px rgba(5,150,105,0.3); }
+    .vf-btn.selected-wrong { opacity: 0.5; }
+    .vf-btn.answer-correct { border-color: #059669; background: #d1fae5; }
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform:none; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback p { font-size: 0.85rem; line-height: 1.6; }
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; animation: fadeIn .3s ease; }
+    .btn-next:hover { background: var(--subject-dark); }
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .results-actions { display: flex; gap: 0.75rem; flex-direction: column; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🏛️ EMC</div>
+  <h1>Respecter autrui</h1>
+  <p>Vrai ou faux : reconnais les bonnes attitudes</p>
+</div>
+<div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 8</span>
+  </div>
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🤝</div>
+    <div class="intro-title">Respecter autrui</div>
+    <div class="intro-desc">Lis chaque affirmation et décide si elle est <strong>vraie</strong> ou <strong>fausse</strong>. Justification fournie après chaque réponse.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Affirmation 1 / 8</div>
+    <div class="statement-box" id="statementText"></div>
+    <div class="vf-buttons">
+      <button class="vf-btn vrai" id="btnVrai" onclick="game.answer(true)">✅ VRAI</button>
+      <button class="vf-btn faux" id="btnFaux" onclick="game.answer(false)">❌ FAUX</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Affirmation suivante →</button>
+  </div>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">8</span>
+          <span class="score-total" id="scoreTotal">/ 8</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <div class="results-actions">
+        <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const QUESTIONS = [
+  { statement: "Il est normal de se moquer de quelqu'un si c'est pour rire.", answer: false, explanation: "Se moquer d'une personne, même « pour rire », peut blesser profondément. C'est une forme de manque de respect." },
+  { statement: "Respecter autrui, c'est accepter les différences même si on n'est pas d'accord.", answer: true, explanation: "Le respect implique de reconnaître la dignité de chaque personne, quelle que soit sa différence." },
+  { statement: "On peut partager les données personnelles de quelqu'un sans son accord.", answer: false, explanation: "Partager des informations privées sans consentement est une atteinte à la vie privée et au respect d'autrui — c'est aussi illégal." },
+  { statement: "La violence verbale peut faire autant de mal que la violence physique.", answer: true, explanation: "Les mots blessants, les insultes et le cyberharcèlement peuvent avoir des conséquences psychologiques graves et durables." },
+  { statement: "Harceler quelqu'un est une forme de respect de sa différence.", answer: false, explanation: "Le harcèlement est l'opposé du respect : c'est une agression répétée portant atteinte à la dignité de la personne." },
+  { statement: "Écouter l'autre sans l'interrompre est une marque de respect.", answer: true, explanation: "L'écoute active est un des piliers du respect : elle montre que l'on reconnaît la valeur de ce que dit l'autre." },
+  { statement: "Les insultes publiées sur les réseaux sociaux ne sont pas punissables par la loi.", answer: false, explanation: "Les insultes en ligne sont passibles de sanctions pénales (injure publique, harcèlement). La loi s'applique aussi sur Internet." },
+  { statement: "Reconnaître ses erreurs envers quelqu'un est une forme de respect.", answer: true, explanation: "Admettre ses torts et présenter ses excuses est une preuve de maturité et de respect sincère envers l'autre." }
+];
+
+const game = (() => {
+  let questions, idx, score, answered;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS); idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotal').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+    document.getElementById('qNum').textContent = 'Affirmation ' + (idx + 1) + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[idx];
+    document.getElementById('statementText').textContent = q.statement;
+    document.getElementById('btnVrai').className = 'vf-btn vrai';
+    document.getElementById('btnFaux').className = 'vf-btn faux';
+    document.getElementById('btnVrai').disabled = false;
+    document.getElementById('btnFaux').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+  }
+
+  function answer(isVrai) {
+    if (answered) return;
+    answered = true;
+    const q = questions[idx];
+    const correct = (isVrai === q.answer);
+    document.getElementById('btnVrai').disabled = true;
+    document.getElementById('btnFaux').disabled = true;
+    const vBtn = document.getElementById('btnVrai');
+    const fBtn = document.getElementById('btnFaux');
+    if (q.answer) vBtn.className = 'vf-btn vrai answer-correct'; else fBtn.className = 'vf-btn faux answer-correct';
+    if (!correct) { if (isVrai) vBtn.classList.add('selected-wrong'); else fBtn.classList.add('selected-wrong'); }
+    const fb = document.getElementById('feedback');
+    document.getElementById('feedbackTitle').textContent = correct ? '✅ Bonne réponse !' : '❌ ' + (q.answer ? 'C\'était VRAI' : 'C\'était FAUX');
+    document.getElementById('feedbackText').textContent = q.explanation;
+    fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+    if (correct) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji = '🏆'; stars = '⭐⭐⭐'; msg = 'Parfait !'; sub = 'Tu maîtrises parfaitement le respect d\'autrui !'; }
+    else if (pct >= .75) { emoji = '🎉'; stars = '⭐⭐⭐'; msg = 'Très bien !'; sub = 'Tu comprends bien les enjeux du respect.'; }
+    else if (pct >= .5) { emoji = '👍'; stars = '⭐⭐'; msg = 'Bien !'; sub = 'Quelques notions à revoir sur le respect et l\'EMC.'; }
+    else { emoji = '📚'; stars = '⭐'; msg = 'À réviser'; sub = 'Relis ta leçon sur le respect d\'autrui en EMC !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; }
+
+  return { start, answer, next, restart };
+})();
+</script>
+</body>
+</html>

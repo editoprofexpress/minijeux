@@ -4,19 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allemand – La négation : nicht et kein</title>
+  <meta name="niveau" content="3e-6e">
+  <meta name="matiere" content="Allemand">
+  <meta name="type" content="quiz">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --subject: #b91c1c;
-      --subject-dark: #991b1b;
+      --subject: #dc2626;
+      --subject-dark: #b91c1c;
       --subject-light: #fee2e2;
       --subject-mid: #fca5a5;
       --success: #059669;
       --success-light: #d1fae5;
       --error: #dc2626;
       --error-light: #fee2e2;
-      --bg: #fff8f8;
+      --bg: #fff5f5;
       --card: #ffffff;
       --text: #1e293b;
       --muted: #64748b;
@@ -37,7 +40,7 @@
     /* ── TOP BAR ─────────────────────────────────── */
     .top-bar {
       width: 100%;
-      background: linear-gradient(135deg, var(--subject) 0%, #dc2626 60%, #ef4444 100%);
+      background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 60%, #ef4444 100%);
       color: white;
       padding: 1.25rem 1rem 3.5rem;
       text-align: center;
@@ -51,13 +54,11 @@
       background: var(--bg);
       border-radius: 50% 50% 0 0;
     }
-    .back-link {
       position: absolute; top: 1rem; left: 1rem;
       color: rgba(255,255,255,0.8); text-decoration: none;
       font-size: 0.85rem; font-weight: 700;
       display: flex; align-items: center; gap: 0.3rem;
     }
-    .back-link:hover { color: white; }
     .subject-badge {
       display: inline-flex; align-items: center; gap: 0.4rem;
       background: rgba(255,255,255,0.2);
@@ -310,8 +311,7 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <a href="../index.html" class="back-link">← Accueil</a>
-  <div class="subject-badge">🇩🇪 Allemand · 3e–6e</div>
+  <div class="subject-badge">🇩🇪 Allemand</div>
   <h1>La négation : nicht et kein</h1>
   <p>Savoir quand utiliser <strong>nicht</strong> ou <strong>kein</strong></p>
 </div>
@@ -369,7 +369,6 @@
       <div class="results-sub" id="resultsSub">Tu maîtrises la négation allemande.</div>
       <div class="results-actions">
         <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
-        <a href="../index.html" class="btn-home">🏠 Retour à l'accueil</a>
       </div>
     </div>
   </div>

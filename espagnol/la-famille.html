@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="niveau" content="6e">
+  <meta name="matiere" content="Espagnol">
+  <meta name="type" content="mots-meles">
+  <title>La famille — Minijeux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --subject: #d97706;
+      --subject-dark: #b45309;
+      --subject-light: #fef3c7;
+      --success: #059669;
+      --success-light: #d1fae5;
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #78350f 0%, #b45309 60%, #fbbf24 100%); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 900; margin-bottom: 0.3rem; }
+    .top-bar p { font-size: 0.9rem; opacity: 0.85; }
+    .container { width: 100%; max-width: 700px; padding: 2rem 1rem 3rem; flex: 1; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 1.75rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 4rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Score / status */
+    .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .found-count { background: var(--subject-light); color: var(--subject-dark); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.85rem; font-weight: 800; }
+    /* Grid */
+    .grid-wrap { overflow-x: auto; margin-bottom: 1.25rem; display: flex; justify-content: center; }
+    .letter-grid { display: grid; gap: 2px; user-select: none; }
+    .letter-cell { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 900; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: background .1s; border: 2px solid transparent; }
+    .letter-cell:hover { background: var(--subject-light); }
+    .letter-cell.selecting { background: #fbbf24; color: #78350f; border-color: #f59e0b; }
+    .letter-cell.found { background: var(--success-light); color: var(--success); border-color: #6ee7b7; cursor: default; }
+    /* Words to find */
+    .words-section { margin-bottom: 1.25rem; }
+    .words-title { font-size: 0.78rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.5rem; }
+    .words-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .word-chip { background: var(--subject-light); color: var(--subject-dark); border-radius: 8px; padding: 0.3rem 0.75rem; font-size: 0.82rem; font-weight: 800; transition: all .2s; }
+    .word-chip.found { background: var(--success-light); color: var(--success); text-decoration: line-through; opacity: 0.7; }
+    .congrats { text-align: center; padding: 1rem 0; animation: slideUp .4s ease; }
+    .congrats-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .congrats-msg { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .congrats-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">🇪🇸 Espagnol</div>
+  <h1>La famille</h1>
+  <p>Associe chaque membre de la famille à sa traduction</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">👨‍👩‍👧‍👦</div>
+    <div class="intro-title">Mots mêlés — La famille</div>
+    <div class="intro-desc">Retrouve les 10 membres de la famille en espagnol cachés dans la grille. Clique sur la première lettre, puis sur la dernière du mot.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="game-header">
+      <span style="font-weight:900;font-size:1rem;">🔍 Trouve les mots cachés</span>
+      <span class="found-count" id="foundCount">0 / 10 trouvés</span>
+    </div>
+    <div class="grid-wrap"><div class="letter-grid" id="letterGrid"></div></div>
+    <div class="words-section">
+      <div class="words-title">Mots à trouver :</div>
+      <div class="words-list" id="wordsList"></div>
+    </div>
+    <div class="congrats" id="congrats" style="display:none">
+      <div class="congrats-emoji">🏆</div>
+      <div class="congrats-msg">¡Bravo! Tous les mots trouvés !</div>
+      <div class="congrats-sub">Tu connais le vocabulaire de la famille en espagnol.</div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
+    </div>
+  </div>
+</div>
+<script>
+// Grille 11×10 — chaque mot occupe une zone distincte, aucun chevauchement
+const WORDS_DATA = [
+  { word: 'MADRE',   meaning: 'la mère',        dir: 'H', row: 0, col: 0 },
+  { word: 'PADRE',   meaning: 'le père',         dir: 'H', row: 1, col: 2 },
+  { word: 'TIA',     meaning: 'la tante',        dir: 'H', row: 2, col: 5 },
+  { word: 'TIO',     meaning: 'l\'oncle',        dir: 'V', row: 3, col: 9 },
+  { word: 'HIJO',    meaning: 'le fils',         dir: 'H', row: 4, col: 0 },
+  { word: 'HIJA',    meaning: 'la fille',        dir: 'H', row: 5, col: 5 },
+  { word: 'ABUELO',  meaning: 'le grand-père',   dir: 'H', row: 6, col: 0 },
+  { word: 'ABUELA',  meaning: 'la grand-mère',   dir: 'H', row: 7, col: 3 },
+  { word: 'HERMANA', meaning: 'la sœur',         dir: 'H', row: 8, col: 0 },
+  { word: 'HERMANO', meaning: 'le frère',        dir: 'H', row: 9, col: 1 },
+];
+
+const ROWS = 11, COLS = 10;
+
+function buildGrid() {
+  const g = Array.from({length: ROWS}, () => Array(COLS).fill(''));
+  // Place words
+  WORDS_DATA.forEach(w => {
+    w.word.split('').forEach((l, i) => {
+      const r = w.dir === 'H' ? w.row : w.row + i;
+      const c = w.dir === 'H' ? w.col + i : w.col;
+      if (r < ROWS && c < COLS) g[r][c] = l;
+    });
+  });
+  // Fill empty cells with random letters
+  const letters = 'AEIOURSTLNMPDBCHFGVYZ';
+  for (let r = 0; r < ROWS; r++)
+    for (let c = 0; c < COLS; c++)
+      if (!g[r][c]) g[r][c] = letters[Math.floor(Math.random() * letters.length)];
+  return g;
+}
+
+const game = (() => {
+  let grid, selecting = false, startCell = null, selectedCells = [], foundWords = 0, foundCells = new Set();
+
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    grid = buildGrid(); foundWords = 0; foundCells = new Set();
+    renderGrid(); renderWords();
+    document.getElementById('congrats').style.display = 'none';
+    document.getElementById('foundCount').textContent = '0 / ' + WORDS_DATA.length + ' trouvés';
+    show('screenGame');
+  }
+
+  function renderGrid() {
+    const el = document.getElementById('letterGrid');
+    el.style.gridTemplateColumns = 'repeat(' + COLS + ', 34px)';
+    el.innerHTML = '';
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'letter-cell' + (foundCells.has(r+','+c) ? ' found' : '');
+        cell.textContent = grid[r][c];
+        cell.dataset.r = r; cell.dataset.c = c;
+        cell.addEventListener('mousedown', () => startSelect(r, c));
+        cell.addEventListener('mouseenter', () => { if (selecting) moveSelect(r, c); });
+        cell.addEventListener('mouseup', () => endSelect(r, c));
+        el.appendChild(cell);
+      }
+    }
+    // Touch support
+    el.addEventListener('touchstart', e => { const t = e.touches[0]; const el = document.elementFromPoint(t.clientX, t.clientY); if (el?.classList.contains('letter-cell')) startSelect(+el.dataset.r, +el.dataset.c); }, {passive: true});
+    el.addEventListener('touchmove', e => { const t = e.touches[0]; const el = document.elementFromPoint(t.clientX, t.clientY); if (el?.classList.contains('letter-cell')) moveSelect(+el.dataset.r, +el.dataset.c); }, {passive: true});
+    el.addEventListener('touchend', e => { const t = e.changedTouches[0]; const el = document.elementFromPoint(t.clientX, t.clientY); if (el?.classList.contains('letter-cell')) endSelect(+el.dataset.r, +el.dataset.c); }, {passive: true});
+  }
+
+  function renderWords() {
+    const el = document.getElementById('wordsList');
+    el.innerHTML = WORDS_DATA.map(w => `<span class="word-chip" id="chip_${w.word}">${w.word} <span style="font-weight:600;opacity:.7;">(${w.meaning})</span></span>`).join('');
+  }
+
+  function startSelect(r, c) {
+    selecting = true; startCell = {r, c}; selectedCells = [{r,c}];
+    updateHighlight([{r,c}]);
+  }
+
+  function moveSelect(r, c) {
+    if (!selecting || !startCell) return;
+    const cells = getCellsBetween(startCell.r, startCell.c, r, c);
+    selectedCells = cells;
+    updateHighlight(cells);
+  }
+
+  function endSelect(r, c) {
+    if (!selecting) return;
+    selecting = false;
+    const cells = getCellsBetween(startCell.r, startCell.c, r, c);
+    const word = cells.map(({r, c}) => grid[r][c]).join('');
+    const wordRev = word.split('').reverse().join('');
+    const match = WORDS_DATA.find(w => w.word === word || w.word === wordRev);
+    if (match && !document.getElementById('chip_'+match.word)?.classList.contains('found')) {
+      cells.forEach(({r, c}) => {
+        foundCells.add(r+','+c);
+        const el = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+        if (el) el.className = 'letter-cell found';
+      });
+      document.getElementById('chip_'+match.word)?.classList.add('found');
+      foundWords++;
+      document.getElementById('foundCount').textContent = foundWords + ' / ' + WORDS_DATA.length + ' trouvés';
+      if (foundWords === WORDS_DATA.length) setTimeout(() => { document.getElementById('congrats').style.display = 'block'; }, 400);
+    } else {
+      updateHighlight([]);
+    }
+    selectedCells = [];
+  }
+
+  function getCellsBetween(r1, c1, r2, c2) {
+    const cells = [];
+    const dr = Math.sign(r2 - r1), dc = Math.sign(c2 - c1);
+    // Only allow H, V, diagonal
+    const valid = (dr === 0 || dc === 0 || Math.abs(r2-r1) === Math.abs(c2-c1));
+    if (!valid) return [{r:r1, c:c1}];
+    let r = r1, c = c1;
+    while (true) {
+      cells.push({r, c});
+      if (r === r2 && c === c2) break;
+      r += dr; c += dc;
+      if (cells.length > 20) break;
+    }
+    return cells;
+  }
+
+  function updateHighlight(cells) {
+    document.querySelectorAll('.letter-cell.selecting').forEach(el => el.classList.remove('selecting'));
+    cells.forEach(({r, c}) => {
+      const el = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+      if (el && !el.classList.contains('found')) el.classList.add('selecting');
+    });
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, restart };
+})();
+</script>
+</body>
+</html>
