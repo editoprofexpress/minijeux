@@ -237,6 +237,12 @@
     <button class="filter-btn" data-group="subject" data-filter="emc">⚖️ EMC</button>
     <button class="filter-btn" data-group="subject" data-filter="sciences">🔬 Sciences</button>
     <button class="filter-btn" data-group="subject" data-filter="philosophie">🧠 Philosophie</button>
+    <div style="width:100%;height:1px;background:#f1f5f9;margin:.25rem 0;"></div>
+    <span class="filter-label">Niveau :</span>
+    <button class="filter-btn active" data-group="level" data-filter="all">Tous niveaux</button>
+    <button class="filter-btn" data-group="level" data-filter="primaire">🎒 Primaire</button>
+    <button class="filter-btn" data-group="level" data-filter="college">📓 Collège</button>
+    <button class="filter-btn" data-group="level" data-filter="lycee">🎓 Lycée</button>
   </div>
 
   <!-- Games Grid -->
@@ -996,6 +1002,12 @@
     });
   });
 
+  const levelGroups = {
+    primaire: ['cp', 'ce1', 'ce2', 'cm1', 'cm2', 'primaire'],
+    college:  ['6e', '5e', '4e', '3e'],
+    lycee:    ['terminale', 'premiere', 'seconde', '2de', '1re'],
+  };
+
   function applyFilters() {
     let visible = 0;
     cards.forEach(card => {
@@ -1006,7 +1018,10 @@
         matchLevel = true;
       } else {
         const cardLevels = (card.dataset.level || '').split(' ');
-        matchLevel = cardLevels.some(l => active.levels.has(l));
+        matchLevel = cardLevels.some(l =>
+          active.levels.has(l) ||
+          [...active.levels].some(grp => levelGroups[grp]?.includes(l))
+        );
       }
       const show = matchSubject && matchLevel && matchType;
       card.style.display = show ? '' : 'none';
