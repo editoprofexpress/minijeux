@@ -101,7 +101,7 @@ const QS=[
     expl:"$u_5 = u_0 + 5r = 700 + 5 \\times 20 = 700 + 100 = 800$ €."
   },
   {
-    q:"Un locataire paie 700 € en année 0 (loyer 1), puis 720 €, puis 740 €, etc. Quel est le total cumulé sur les 3 premières années ($u_0 + u_1 + u_2$) ?",
+    q:"Un locataire paie 700 € en année 0, 720 € en année 1, 740 € en année 2. Quel est le total cumulé $u_0 + u_1 + u_2$ ?",
     choices:[
       "$2100$ €",
       "$2160$ €",
@@ -109,21 +109,21 @@ const QS=[
       "$2040$ €"
     ],
     ans:1,
-    expl:"$u_0=700$, $u_1=720$, $u_2=740$. Total $= 700+720+740 = 2160$ €. On peut aussi utiliser la formule : $S = \\frac{3(700+740)}{2} = \\frac{3 \\times 1440}{2} = 2160$ €."
+    expl:"$u_0=700$, $u_1=720$, $u_2=740$. Total $= 700+720+740 = 2160$ €. Formule : $S = \\frac{3(700+740)}{2} = \\frac{3 \\times 1440}{2} = 2160$ €."
   },
   {
-    q:"Le loyer est $u_n = 700 + 20n$. À partir de quelle année $n$ le loyer dépassera-t-il 800 € ?",
+    q:"Le loyer est $u_n = 700 + 20n$. À partir de quelle valeur de $n$ le loyer <strong>dépasse-t-il strictement</strong> 800 € ?",
     choices:[
-      "Année $n = 4$",
-      "Année $n = 5$",
-      "Année $n = 6$",
-      "Année $n = 10$"
+      "$n = 4$",
+      "$n = 5$",
+      "$n = 6$",
+      "$n = 10$"
     ],
-    ans:1,
-    expl:"On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc dès $n = 6$... Attention : $u_5 = 800$ exactement (non strictement supérieur), donc le loyer <em>dépasse</em> 800 € à partir de $n=6$. Mais si la question est « quand atteint-il 800 » c'est $n=5$. Ici on cherche quand il <em>dépasse</em> strictement : $n=6$. Réponse correcte : $n=6$."
+    ans:2,
+    expl:"On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc le loyer dépasse 800 € à partir de $n = 6$ (car $u_5 = 800$ exactement, non strictement supérieur)."
   },
   {
-    q:"Deux salariés débutent au même salaire de 1800 €. Le salarié A reçoit une augmentation de 50 € par mois. Le salarié B reçoit une augmentation de 80 € par mois. Au bout de combien de mois B gagne-t-il 300 € de plus que A ?",
+    q:"Deux salariés débutent à 1800 €. Salarié A : +50 € par mois. Salarié B : +80 € par mois. Au bout de combien de mois B gagne-t-il 300 € de plus que A ?",
     choices:[
       "$5$ mois",
       "$6$ mois",
@@ -131,10 +131,10 @@ const QS=[
       "$15$ mois"
     ],
     ans:2,
-    expl:"L'écart entre B et A augmente de $80 - 50 = 30$ € par mois. On veut que cet écart atteigne 300 € : $30n = 300 \\Rightarrow n = 10$ mois."
+    expl:"L'écart augmente de $80-50 = 30$ € par mois. On veut $30n = 300 \\Rightarrow n = 10$ mois."
   },
   {
-    q:"Un coureur parcourt 5 km lors de sa première séance, puis augmente de 1 km à chaque séance suivante. Quelle distance parcourt-il lors de la <strong>8e séance</strong> (séance numéro 7, car $u_0$ = séance 1) ?",
+    q:"Un coureur parcourt 5 km à la séance 1, puis augmente de 1 km par séance. En notant $u_0 = 5$ (séance 1), quelle distance court-il lors de la <strong>8e séance</strong> ?",
     choices:[
       "$12$ km",
       "$13$ km",
@@ -142,10 +142,10 @@ const QS=[
       "$11$ km"
     ],
     ans:0,
-    expl:"On pose $u_0 = 5$ (séance 1) et $r = 1$. La 8e séance correspond à $u_7 = 5 + 7 \\times 1 = 12$ km."
+    expl:"La 8e séance correspond au rang $n=7$ (car $u_0$ est la séance 1). $u_7 = 5 + 7 \\times 1 = 12$ km."
   },
   {
-    q:"Dans la suite $u_n = 700 + 20n$, que représente $u_0 = 700$ dans le contexte du loyer ?",
+    q:"Dans la suite $u_n = 700 + 20n$ modélisant un loyer, que représente $u_0 = 700$ ?",
     choices:[
       "Le loyer après 700 ans",
       "Le montant de l'augmentation annuelle",
@@ -156,26 +156,17 @@ const QS=[
     expl:"$u_0$ est le terme initial, c'est-à-dire la valeur de départ avant toute évolution. Ici $u_0 = 700$ € est le loyer au début (année 0)."
   },
   {
-    q:"Combien vaut $u_0 + u_1 + u_2 + u_3 + u_4$ pour la suite $u_n = 2 + 3n$ ?",
+    q:"Combien vaut $S = u_0 + u_1 + u_2 + u_3 + u_4$ pour la suite $u_n = 2 + 3n$ ?",
     choices:[
       "$40$",
       "$50$",
       "$60$",
       "$30$"
     ],
-    ans:1,
-    expl:"Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. On peut aussi utiliser $S = \\frac{5(u_0+u_4)}{2} = \\frac{5(2+14)}{2} = \\frac{5 \\times 16}{2} = 40$."
+    ans:0,
+    expl:"Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. Formule : $S = \\frac{5(u_0+u_4)}{2} = \\frac{5(2+14)}{2} = \\frac{5 \\times 16}{2} = 40$."
   }
 ];
-
-// Fix: question 4 answer should be index 2 (n=6)
-QS[3].ans = 2;
-QS[3].expl = "On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc le loyer dépasse 800 € à partir de $n = 6$. Attention : $u_5 = 800$ (égal, pas strictement supérieur).";
-
-// Fix: question 8 answer should be index 0 (40)
-QS[7].ans = 0;
-QS[7].expl = "Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. Formule : $S = \\frac{5(u_0+u_4)}{2} = \\frac{5 \\times 16}{2} = 40$.";
-
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
