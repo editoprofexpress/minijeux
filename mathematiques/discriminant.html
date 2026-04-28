@@ -40,16 +40,17 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Le discriminant</h1>
-  <p>Δ = b² − 4ac et nombre de racines réelles</p>
+  <p>$\Delta = b^2 - 4ac$ et nombre de racines réelles</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">Δ</div>
+    <div class="intro-emoji">$\Delta$</div>
     <div class="intro-title">QCM — Le discriminant</div>
     <div class="intro-desc">Le discriminant est la clé pour déterminer le nombre de solutions réelles d'une équation du second degré. Teste tes connaissances !</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Le discriminant du trinôme ax² + bx + c est :",choices:["Δ = b² − 4ac","Δ = b² + 4ac","Δ = −b/(2a)","Δ = 4ac − b²"],ans:0,expl:"Par définition, Δ = b² − 4ac. Il permet de déterminer le nombre de racines réelles du trinôme."},
-  {q:"Si Δ > 0, l'équation ax² + bx + c = 0 admet :",choices:["Aucune solution réelle","Une solution réelle double","Deux solutions réelles distinctes","Une infinité de solutions"],ans:2,expl:"Si Δ > 0, il y a deux racines réelles distinctes : x₁ = (−b − √Δ)/(2a) et x₂ = (−b + √Δ)/(2a)."},
-  {q:"Si Δ = 0, l'équation ax² + bx + c = 0 admet :",choices:["Aucune solution réelle","Une solution réelle double x₀ = −b/(2a)","Deux solutions réelles distinctes","Trois solutions"],ans:1,expl:"Si Δ = 0, il y a une racine double x₀ = −b/(2a). La parabole est tangente à l'axe des abscisses."},
-  {q:"Si Δ < 0, l'équation ax² + bx + c = 0 admet :",choices:["Aucune solution réelle","Une solution réelle double","Deux solutions réelles distinctes","Une solution nulle"],ans:0,expl:"Si Δ < 0, il n'y a pas de racine réelle. La parabole est entièrement au-dessus ou en dessous de l'axe des x."},
-  {q:"Pour x² − 5x + 6 = 0, le discriminant vaut :",choices:["Δ = 1","Δ = 49","Δ = −1","Δ = 11"],ans:0,expl:"Δ = b² − 4ac = (−5)² − 4×1×6 = 25 − 24 = 1."},
-  {q:"Pour x² − 4x + 4 = 0, quelle est la solution ?",choices:["x = 2 (racine double)","x = −2 (racine double)","x = 2 et x = −2","Aucune solution réelle"],ans:0,expl:"Δ = (−4)² − 4×1×4 = 16 − 16 = 0. Racine double : x₀ = −(−4)/(2×1) = 2."},
-  {q:"Pour x² + x + 1 = 0, combien de solutions réelles ?",choices:["Deux solutions","Une solution double","Aucune solution réelle","On ne peut pas savoir"],ans:2,expl:"Δ = 1² − 4×1×1 = 1 − 4 = −3 < 0. Donc pas de solution réelle."},
-  {q:"Pour 2x² − 7x + 3 = 0, Δ = 25. Les racines sont :",choices:["x = 3 et x = 1/2","x = −3 et x = −1/2","x = 7/4 ± 5/4","x = 2 et x = 1"],ans:0,expl:"x₁ = (7 − 5)/4 = 1/2 et x₂ = (7 + 5)/4 = 12/4 = 3. Vérification : 2(x−3)(x−1/2) = 2x²−7x+3. ✓"},
+  {q:"Le discriminant du trinôme $ax^2 + bx + c$ est :",choices:["$\\Delta = b^2 - 4ac$","$\\Delta = b^2 + 4ac$","$\\Delta = -\\dfrac{b}{2a}$","$\\Delta = 4ac - b^2$"],ans:0,expl:"Par définition, $\\Delta = b^2 - 4ac$. Il permet de déterminer le nombre de racines réelles du trinôme."},
+  {q:"Si $\\Delta > 0$, l'équation $ax^2 + bx + c = 0$ admet :",choices:["Aucune solution réelle","Une solution réelle double","Deux solutions réelles distinctes","Une infinité de solutions"],ans:2,expl:"Si $\\Delta > 0$, il y a deux racines réelles distinctes : $x_1 = \\dfrac{-b - \\sqrt{\\Delta}}{2a}$ et $x_2 = \\dfrac{-b + \\sqrt{\\Delta}}{2a}$."},
+  {q:"Si $\\Delta = 0$, l'équation $ax^2 + bx + c = 0$ admet :",choices:["Aucune solution réelle","Une solution réelle double $x_0 = -\\dfrac{b}{2a}$","Deux solutions réelles distinctes","Trois solutions"],ans:1,expl:"Si $\\Delta = 0$, il y a une racine double $x_0 = -\\dfrac{b}{2a}$. La parabole est tangente à l'axe des abscisses."},
+  {q:"Si $\\Delta < 0$, l'équation $ax^2 + bx + c = 0$ admet :",choices:["Aucune solution réelle","Une solution réelle double","Deux solutions réelles distinctes","Une solution nulle"],ans:0,expl:"Si $\\Delta < 0$, il n'y a pas de racine réelle. La parabole est entièrement au-dessus ou en dessous de l'axe des $x$."},
+  {q:"Pour $x^2 - 5x + 6 = 0$, le discriminant vaut :",choices:["$\\Delta = 1$","$\\Delta = 49$","$\\Delta = -1$","$\\Delta = 11$"],ans:0,expl:"$\\Delta = b^2 - 4ac = (-5)^2 - 4 \\times 1 \\times 6 = 25 - 24 = 1$."},
+  {q:"Pour $x^2 - 4x + 4 = 0$, quelle est la solution ?",choices:["$x = 2$ (racine double)","$x = -2$ (racine double)","$x = 2$ et $x = -2$","Aucune solution réelle"],ans:0,expl:"$\\Delta = (-4)^2 - 4 \\times 1 \\times 4 = 16 - 16 = 0$. Racine double : $x_0 = \\dfrac{-(-4)}{2 \\times 1} = 2$."},
+  {q:"Pour $x^2 + x + 1 = 0$, combien de solutions réelles ?",choices:["Deux solutions","Une solution double","Aucune solution réelle","On ne peut pas savoir"],ans:2,expl:"$\\Delta = 1^2 - 4 \\times 1 \\times 1 = 1 - 4 = -3 < 0$. Donc pas de solution réelle."},
+  {q:"Pour $2x^2 - 7x + 3 = 0$, $\\Delta = 25$. Les racines sont :",choices:["$x = 3$ et $x = \\dfrac{1}{2}$","$x = -3$ et $x = -\\dfrac{1}{2}$","$x = \\dfrac{7}{4} \\pm \\dfrac{5}{4}$","$x = 2$ et $x = 1$"],ans:0,expl:"$x_1 = \\dfrac{7 - 5}{4} = \\dfrac{1}{2}$ et $x_2 = \\dfrac{7 + 5}{4} = \\dfrac{12}{4} = 3$. Vérification : $2(x-3)(x-\\dfrac{1}{2}) = 2x^2-7x+3$. ✓"},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

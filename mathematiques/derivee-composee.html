@@ -40,18 +40,19 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Dérivée d'une fonction composée</h1>
-  <p>(f∘g)'(x) = g'(x) × f'(g(x)) — règle de la chaîne</p>
+  <p>$(f \circ g)'(x) = g'(x) \cdot f'(g(x))$ — règle de la chaîne</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🔗</div>
     <div class="intro-title">QCM — Dérivée composée</div>
-    <div class="intro-desc">La règle de la chaîne permet de dériver les fonctions composées comme e^(x²), ln(2x+1) ou (3x−1)⁵. Maîtrise-la !</div>
+    <div class="intro-desc">La règle de la chaîne permet de dériver les fonctions composées comme $e^{x^2}$, $\ln(2x+1)$ ou $(3x-1)^5$. Maîtrise-la !</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Si h(x) = f(g(x)), la règle de la chaîne donne h'(x) = ?",choices:["f'(x) × g'(x)","g'(x) × f'(g(x))","f'(g(x))","g'(f(x)) × f'(x)"],ans:1,expl:"Règle de la chaîne : h'(x) = g'(x) × f'(g(x)). On dérive la fonction extérieure évaluée en g(x), multiplié par la dérivée de g."},
-  {q:"Pour h(x) = (2x + 1)³, h'(x) = ?",choices:["3(2x+1)²","6(2x+1)²","2·3(2x+1)","3(2x+1)² + 2"],ans:1,expl:"g(x) = 2x+1, g'(x) = 2 ; f(u) = u³, f'(u) = 3u². h'(x) = 2 × 3(2x+1)² = 6(2x+1)²."},
-  {q:"Pour h(x) = e^(x²), h'(x) = ?",choices:["e^(x²)","2x·e^(x²)","x²·e^(x²)","2e^(x²)"],ans:1,expl:"g(x) = x², g'(x) = 2x ; f(u) = eᵘ, f'(u) = eᵘ. h'(x) = 2x × e^(x²)."},
-  {q:"Pour h(x) = ln(2x + 3) (2x+3 > 0), h'(x) = ?",choices:["1/(2x+3)","2/(2x+3)","2·ln(2x+3)","1/(2·ln(2x+3))"],ans:1,expl:"g(x) = 2x+3, g'(x) = 2 ; f(u) = ln u, f'(u) = 1/u. h'(x) = 2 × 1/(2x+3) = 2/(2x+3)."},
-  {q:"Pour h(x) = sin(3x), h'(x) = ?",choices:["cos(3x)","3cos(3x)","−3sin(3x)","3sin(3x)"],ans:1,expl:"g(x) = 3x, g'(x) = 3 ; f(u) = sin u, f'(u) = cos u. h'(x) = 3 × cos(3x) = 3cos(3x)."},
-  {q:"Pour h(x) = √(x² + 1), h'(x) = ?",choices:["1/(2√(x²+1))","x/√(x²+1)","2x·√(x²+1)","x/(2(x²+1))"],ans:1,expl:"g(x) = x²+1, g'(x) = 2x ; f(u) = √u, f'(u) = 1/(2√u). h'(x) = 2x × 1/(2√(x²+1)) = x/√(x²+1)."},
-  {q:"Pour h(x) = (x² + 1)⁵, h'(x) = ?",choices:["5(x²+1)⁴","10x(x²+1)⁴","2x·5(x²+1)⁴ + (x²+1)⁵","5x(x²+1)⁴"],ans:1,expl:"g(x) = x²+1, g'(x) = 2x ; f(u) = u⁵, f'(u) = 5u⁴. h'(x) = 2x × 5(x²+1)⁴ = 10x(x²+1)⁴."},
-  {q:"Pour h(x) = e^(−x), h'(x) = ?",choices:["e^(−x)","−e^(−x)","−x·e^(−x)","e^(−x−1)"],ans:1,expl:"g(x) = −x, g'(x) = −1 ; f(u) = eᵘ, f'(u) = eᵘ. h'(x) = −1 × e^(−x) = −e^(−x)."},
+  {q:"Si $h(x) = f(g(x))$, la règle de la chaîne donne $h'(x) =$ ?",choices:["$f'(x) \\cdot g'(x)$","$g'(x) \\cdot f'(g(x))$","$f'(g(x))$","$g'(f(x)) \\cdot f'(x)$"],ans:1,expl:"Règle de la chaîne : $h'(x) = g'(x) \\cdot f'(g(x))$. On dérive la fonction extérieure évaluée en $g(x)$, multiplié par la dérivée de $g$."},
+  {q:"Pour $h(x) = (2x + 1)^3$, $h'(x) =$ ?",choices:["$3(2x+1)^2$","$6(2x+1)^2$","$2 \\cdot 3(2x+1)$","$3(2x+1)^2 + 2$"],ans:1,expl:"$g(x) = 2x+1$, $g'(x) = 2$ ; $f(u) = u^3$, $f'(u) = 3u^2$. $h'(x) = 2 \\times 3(2x+1)^2 = 6(2x+1)^2$."},
+  {q:"Pour $h(x) = e^{x^2}$, $h'(x) =$ ?",choices:["$e^{x^2}$","$2x \\cdot e^{x^2}$","$x^2 \\cdot e^{x^2}$","$2e^{x^2}$"],ans:1,expl:"$g(x) = x^2$, $g'(x) = 2x$ ; $f(u) = e^u$, $f'(u) = e^u$. $h'(x) = 2x \\cdot e^{x^2}$."},
+  {q:"Pour $h(x) = \\ln(2x + 3)$ ($2x+3 > 0$), $h'(x) =$ ?",choices:["$\\dfrac{1}{2x+3}$","$\\dfrac{2}{2x+3}$","$2 \\cdot \\ln(2x+3)$","$\\dfrac{1}{2\\ln(2x+3)}$"],ans:1,expl:"$g(x) = 2x+3$, $g'(x) = 2$ ; $f(u) = \\ln u$, $f'(u) = \\dfrac{1}{u}$. $h'(x) = 2 \\times \\dfrac{1}{2x+3} = \\dfrac{2}{2x+3}$."},
+  {q:"Pour $h(x) = \\sin(3x)$, $h'(x) =$ ?",choices:["$\\cos(3x)$","$3\\cos(3x)$","$-3\\sin(3x)$","$3\\sin(3x)$"],ans:1,expl:"$g(x) = 3x$, $g'(x) = 3$ ; $f(u) = \\sin u$, $f'(u) = \\cos u$. $h'(x) = 3 \\times \\cos(3x) = 3\\cos(3x)$."},
+  {q:"Pour $h(x) = \\sqrt{x^2 + 1}$, $h'(x) =$ ?",choices:["$\\dfrac{1}{2\\sqrt{x^2+1}}$","$\\dfrac{x}{\\sqrt{x^2+1}}$","$2x \\cdot \\sqrt{x^2+1}$","$\\dfrac{x}{2(x^2+1)}$"],ans:1,expl:"$g(x) = x^2+1$, $g'(x) = 2x$ ; $f(u) = \\sqrt{u}$, $f'(u) = \\dfrac{1}{2\\sqrt{u}}$. $h'(x) = 2x \\times \\dfrac{1}{2\\sqrt{x^2+1}} = \\dfrac{x}{\\sqrt{x^2+1}}$."},
+  {q:"Pour $h(x) = (x^2 + 1)^5$, $h'(x) =$ ?",choices:["$5(x^2+1)^4$","$10x(x^2+1)^4$","$2x \\cdot 5(x^2+1)^4 + (x^2+1)^5$","$5x(x^2+1)^4$"],ans:1,expl:"$g(x) = x^2+1$, $g'(x) = 2x$ ; $f(u) = u^5$, $f'(u) = 5u^4$. $h'(x) = 2x \\times 5(x^2+1)^4 = 10x(x^2+1)^4$."},
+  {q:"Pour $h(x) = e^{-x}$, $h'(x) =$ ?",choices:["$e^{-x}$","$-e^{-x}$","$-x \\cdot e^{-x}$","$e^{-x-1}$"],ans:1,expl:"$g(x) = -x$, $g'(x) = -1$ ; $f(u) = e^u$, $f'(u) = e^u$. $h'(x) = -1 \\times e^{-x} = -e^{-x}$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

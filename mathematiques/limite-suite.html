@@ -40,6 +40,7 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Une suite arithmétique de raison r ≠ 0 a pour limite :",choices:["0","r","±∞ (diverge)","r/2"],ans:2,expl:"Si r > 0, uₙ = u₀ + n·r → +∞. Si r < 0, uₙ → −∞. Une suite arithmétique de raison non nulle diverge toujours."},
-  {q:"La limite de la suite géométrique uₙ = qⁿ quand |q| < 1 est :",choices:["1","q","0","+∞"],ans:2,expl:"Si |q| < 1, qⁿ → 0 quand n → +∞. La suite converge vers 0."},
-  {q:"La limite de uₙ = qⁿ quand q > 1 est :",choices:["0","1","q","+∞"],ans:3,expl:"Si q > 1, qⁿ croît sans borne : qⁿ → +∞."},
-  {q:"La limite de uₙ = qⁿ quand q = 1 est :",choices:["0","1","+∞","La suite diverge par oscillation"],ans:1,expl:"Si q = 1, uₙ = 1ⁿ = 1 pour tout n. La suite est constante et converge vers 1."},
-  {q:"La limite de uₙ = 1/n quand n → +∞ est :",choices:["+∞","1","0","−∞"],ans:2,expl:"1/n → 0 quand n → +∞. C'est une limite fondamentale."},
-  {q:"La limite de uₙ = n² + 3n est :",choices:["3","0","+∞","1"],ans:2,expl:"n² + 3n → +∞ car n² → +∞ (terme dominant). La suite diverge vers +∞."},
-  {q:"Si une suite (uₙ) vérifie ℓ ≤ uₙ ≤ wₙ pour tout n, et si wₙ → ℓ, alors :",choices:["uₙ → 0","uₙ → ℓ","uₙ → +∞","On ne peut pas conclure"],ans:1,expl:"C'est le théorème des gendarmes : si ℓ ≤ uₙ ≤ wₙ et que les deux bornes tendent vers la même limite ℓ, alors uₙ → ℓ."},
-  {q:"La suite uₙ = (−1)ⁿ a pour limite :",choices:["1","−1","0","Elle n'a pas de limite (diverge par oscillation)"],ans:3,expl:"(−1)ⁿ vaut 1 pour n pair et −1 pour n impair. Elle oscille entre 1 et −1 sans converger vers une valeur fixe."},
+  {q:"Une suite arithmétique de raison $r \\neq 0$ a pour limite :",choices:["$0$","$r$","$\\pm\\infty$ (diverge)","$r/2$"],ans:2,expl:"Si $r > 0$, $u_n = u_0 + n \\cdot r \\to +\\infty$. Si $r < 0$, $u_n \\to -\\infty$. Une suite arithmétique de raison non nulle diverge toujours."},
+  {q:"La limite de la suite géométrique $u_n = q^n$ quand $|q| < 1$ est :",choices:["$1$","$q$","$0$","$+\\infty$"],ans:2,expl:"$|q| < 1 \\Rightarrow q^n \\to 0$ quand $n \\to +\\infty$. La suite converge vers $0$."},
+  {q:"La limite de $u_n = q^n$ quand $q > 1$ est :",choices:["$0$","$1$","$q$","$+\\infty$"],ans:3,expl:"$q > 1 \\Rightarrow q^n$ croît sans borne : $q^n \\to +\\infty$."},
+  {q:"La limite de $u_n = q^n$ quand $q = 1$ est :",choices:["$0$","$1$","$+\\infty$","La suite diverge par oscillation"],ans:1,expl:"Si $q = 1$, $u_n = 1^n = 1$ pour tout $n$. La suite est constante et converge vers $1$."},
+  {q:"La limite de $u_n = \\dfrac{1}{n}$ quand $n \\to +\\infty$ est :",choices:["$+\\infty$","$1$","$0$","$-\\infty$"],ans:2,expl:"$\\dfrac{1}{n} \\to 0$ quand $n \\to +\\infty$. C'est une limite fondamentale."},
+  {q:"La limite de $u_n = n^2 + 3n$ est :",choices:["$3$","$0$","$+\\infty$","$1$"],ans:2,expl:"$n^2 + 3n \\to +\\infty$ car $n^2 \\to +\\infty$ (terme dominant). La suite diverge vers $+\\infty$."},
+  {q:"Si une suite $(u_n)$ vérifie $\\ell \\leq u_n \\leq w_n$ pour tout $n$, et si $w_n \\to \\ell$, alors :",choices:["$u_n \\to 0$","$u_n \\to \\ell$","$u_n \\to +\\infty$","On ne peut pas conclure"],ans:1,expl:"C'est le théorème des gendarmes : si $v_n \\leq u_n \\leq w_n$ et que les deux bornes tendent vers la même limite $\\ell$, alors $u_n \\to \\ell$."},
+  {q:"La suite $u_n = (-1)^n$ a pour limite :",choices:["$1$","$-1$","$0$","Elle n'a pas de limite (diverge par oscillation)"],ans:3,expl:"$(-1)^n$ vaut $1$ pour $n$ pair et $-1$ pour $n$ impair. Elle oscille entre $1$ et $-1$ sans converger vers une valeur fixe."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

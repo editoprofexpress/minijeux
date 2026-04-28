@@ -40,18 +40,19 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Suites définies par récurrence</h1>
-  <p>uₙ₊₁ = f(uₙ) — calcul, raisonnement, convergence</p>
+  <p>$u_{n+1} = f(u_n)$ — calcul, raisonnement, convergence</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🔁</div>
     <div class="intro-title">QCM — Suites par récurrence</div>
-    <div class="intro-desc">Apprends à travailler avec les suites définies par une relation de récurrence uₙ₊₁ = f(uₙ) : calcul des termes, démonstrations par récurrence, convergence.</div>
+    <div class="intro-desc">Apprends à travailler avec les suites définies par une relation de récurrence $u_{n+1} = f(u_n)$ : calcul des termes, démonstrations par récurrence, convergence.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Pour définir une suite par récurrence, il faut donner :",choices:["Le terme général uₙ","Le premier terme u₀ (ou u₁) et la relation uₙ₊₁ = f(uₙ)","La somme des termes","La limite de la suite"],ans:1,expl:"Une suite par récurrence est définie par : un premier terme (condition initiale) ET une relation de récurrence qui permet de calculer chaque terme à partir du précédent."},
-  {q:"Pour uₙ₊₁ = uₙ/2 + 1 avec u₀ = 4, u₁ = ?",choices:["3","2","5","6"],ans:0,expl:"u₁ = u₀/2 + 1 = 4/2 + 1 = 2 + 1 = 3."},
-  {q:"Pour uₙ₊₁ = uₙ/2 + 1 avec u₀ = 4, u₂ = ?",choices:["2,5","2","3","1,5"],ans:0,expl:"u₂ = u₁/2 + 1 = 3/2 + 1 = 1,5 + 1 = 2,5."},
-  {q:"Pour démontrer par récurrence que uₙ > 0 pour tout n, il faut :",choices:["Vérifier u₀ > 0 seulement","Vérifier u₀ > 0, puis montrer que si uₙ > 0 alors uₙ₊₁ > 0","Calculer tous les termes","Trouver la limite de la suite"],ans:1,expl:"Raisonnement par récurrence : (1) Initialisation : u₀ > 0 ; (2) Hérédité : on suppose uₙ > 0 et on montre que uₙ₊₁ > 0."},
-  {q:"Si la suite (uₙ) définie par uₙ₊₁ = f(uₙ) converge vers une limite ℓ, alors ℓ vérifie :",choices:["f(ℓ) = 0","f(ℓ) = ℓ","ℓ = 0","f'(ℓ) = 0"],ans:1,expl:"Si uₙ → ℓ, alors uₙ₊₁ → ℓ aussi. En passant à la limite dans uₙ₊₁ = f(uₙ) : ℓ = f(ℓ). C'est l'équation du point fixe."},
-  {q:"Pour uₙ₊₁ = (uₙ + 1)/2 avec u₀ = 3, la suite est :",choices:["Croissante","Décroissante","Constante","Alternante"],ans:1,expl:"uₙ₊₁ − uₙ = (uₙ+1)/2 − uₙ = (1−uₙ)/2. Si u₀ = 3 > 1, alors u₁−u₀ = (1−3)/2 = −1 < 0. La suite est décroissante (au moins au début)."},
-  {q:"La suite de Fibonacci est définie par u₀=0, u₁=1, uₙ₊₁ = uₙ + uₙ₋₁. u₄ = ?",choices:["2","3","4","5"],ans:1,expl:"u₂ = u₁ + u₀ = 1+0 = 1, u₃ = u₂+u₁ = 1+1 = 2, u₄ = u₃+u₂ = 2+1 = 3."},
-  {q:"uₙ₊₁ = 2uₙ − 3 avec u₀ = 4. u₂ = ?",choices:["5","2","7","1"],ans:0,expl:"u₁ = 2×4 − 3 = 5. u₂ = 2×5 − 3 = 7. Attention, la réponse 7 est C... Recalculons : u₁=2·4−3=8−3=5, u₂=2·5−3=10−3=7. La réponse est 7 (C)."},
+  {q:"Pour définir une suite par récurrence, il faut donner :",choices:["Le terme général $u_n$","Le premier terme $u_0$ (ou $u_1$) et la relation $u_{n+1} = f(u_n)$","La somme des termes","La limite de la suite"],ans:1,expl:"Une suite par récurrence est définie par : un premier terme (condition initiale) ET une relation de récurrence qui permet de calculer chaque terme à partir du précédent."},
+  {q:"Pour $u_{n+1} = u_n/2 + 1$ avec $u_0 = 4$, $u_1 = $ ?",choices:["$3$","$2$","$5$","$6$"],ans:0,expl:"$u_1 = u_0/2 + 1 = 4/2 + 1 = 2 + 1 = 3$."},
+  {q:"Pour $u_{n+1} = u_n/2 + 1$ avec $u_0 = 4$, $u_2 = $ ?",choices:["$2{,}5$","$2$","$3$","$1{,}5$"],ans:0,expl:"$u_2 = u_1/2 + 1 = 3/2 + 1 = 1{,}5 + 1 = 2{,}5$."},
+  {q:"Pour démontrer par récurrence que $u_n > 0$ pour tout $n$, il faut :",choices:["Vérifier $u_0 > 0$ seulement","Vérifier $u_0 > 0$, puis montrer que si $u_n > 0$ alors $u_{n+1} > 0$","Calculer tous les termes","Trouver la limite de la suite"],ans:1,expl:"Raisonnement par récurrence : (1) Initialisation : $u_0 > 0$ ; (2) Hérédité : on suppose $u_n > 0$ et on montre que $u_{n+1} > 0$."},
+  {q:"Si la suite $(u_n)$ définie par $u_{n+1} = f(u_n)$ converge vers une limite $\ell$, alors $\ell$ vérifie :",choices:["$f(\\ell) = 0$","$f(\\ell) = \\ell$","$\\ell = 0$","$f'(\\ell) = 0$"],ans:1,expl:"Si $u_n \\to \\ell$, alors $u_{n+1} \\to \\ell$ aussi. En passant à la limite dans $u_{n+1} = f(u_n)$ : $\\ell = f(\\ell)$. C'est l'équation du point fixe."},
+  {q:"Pour $u_{n+1} = (u_n + 1)/2$ avec $u_0 = 3$, la suite est :",choices:["Croissante","Décroissante","Constante","Alternante"],ans:1,expl:"$u_{n+1} - u_n = (u_n+1)/2 - u_n = (1-u_n)/2$. Si $u_0 = 3 > 1$, alors $u_1 - u_0 = (1-3)/2 = -1 < 0$. La suite est décroissante (au moins au début)."},
+  {q:"La suite de Fibonacci est définie par $u_0=0$, $u_1=1$, $u_{n+1} = u_n + u_{n-1}$. $u_4 = $ ?",choices:["$2$","$3$","$4$","$5$"],ans:1,expl:"$u_2 = u_1 + u_0 = 1+0 = 1$, $u_3 = u_2+u_1 = 1+1 = 2$, $u_4 = u_3+u_2 = 2+1 = 3$."},
+  {q:"$u_{n+1} = 2u_n - 3$ avec $u_0 = 4$. $u_2 = $ ?",choices:["$5$","$2$","$7$","$1$"],ans:2,expl:"$u_1 = 2 \\times 4 - 3 = 5$. $u_2 = 2 \\times 5 - 3 = 7$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

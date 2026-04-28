@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Représentation graphique des suites</h1>
-  <p>Nuage de points (n, uₙ) et diagramme en escalier</p>
+  <p>Nuage de points $(n, u_n)$ et diagramme en escalier</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"La représentation graphique d'une suite (uₙ) consiste à placer les points :",choices:["(uₙ, n) dans le plan","(n, uₙ) dans le plan","(n, n+uₙ) dans le plan","La courbe de la fonction continue associée"],ans:1,expl:"On représente la suite par le nuage de points (n, uₙ) où n est l'indice (abscisse) et uₙ la valeur (ordonnée)."},
-  {q:"Le diagramme en escalier est utilisé pour visualiser :",choices:["Le terme général d'une suite explicite","L'évolution d'une suite définie par récurrence uₙ₊₁ = f(uₙ)","La dérivée d'une fonction associée","La somme des termes d'une suite"],ans:1,expl:"Le diagramme en escalier (ou toile d'araignée) illustre graphiquement l'itération d'une suite de récurrence uₙ₊₁ = f(uₙ) à l'aide de la courbe de f et de la droite y = x."},
-  {q:"Dans un diagramme en escalier, la droite y = x sert à :",choices:["Calculer les termes de la suite","Passer de uₙ₊₁ à uₙ₊₂ (reporter la valeur)","Trouver les racines de f","Tracer la tangente en un point"],ans:1,expl:"La droite y = x permet de 'reporter' uₙ₊₁ en abscisse pour construire le terme suivant : on lit uₙ₊₁ sur la courbe, puis on se déplace horizontalement vers y = x."},
-  {q:"Pour une suite arithmétique de raison r > 0, le nuage de points (n, uₙ) ressemble à :",choices:["Une parabole","Des points alignés sur une droite croissante","Une courbe exponentielle","Des points sur l'axe des abscisses"],ans:1,expl:"uₙ = u₀ + n·r est une fonction affine de n. Les points (n, uₙ) sont alignés sur une droite de pente r."},
-  {q:"Pour une suite géométrique de raison q > 1, le nuage de points (n, uₙ) ressemble à :",choices:["Une droite","Des points sur une courbe croissante de type exponentielle","Une parabole","Des points décroissants"],ans:1,expl:"uₙ = u₀·qⁿ est une exponentielle en n. Les points croissent de plus en plus vite (croissance exponentielle)."},
-  {q:"Si le diagramme en escalier converge vers un point fixe, cela signifie que la suite :",choices:["Diverge vers l'infini","Converge vers une limite","Est périodique","N'est pas définie"],ans:1,expl:"Un point fixe l est tel que f(l) = l. Si le diagramme en escalier converge vers ce point, la suite tend vers l."},
-  {q:"Pour une suite arithmétique de raison r < 0, le nuage de points (n, uₙ) est :",choices:["Croissant","Décroissant","Constant","En forme de parabole"],ans:1,expl:"Si r < 0, chaque terme est plus petit que le précédent : uₙ₊₁ < uₙ. Le nuage de points est décroissant."},
-  {q:"Un point fixe l d'une suite de récurrence uₙ₊₁ = f(uₙ) vérifie :",choices:["f(l) = 0","f(l) = l","f'(l) = 0","l = 0"],ans:1,expl:"Un point fixe est une valeur l telle que f(l) = l. Si la suite atteint ce point, elle y reste : uₙ = l pour tout n."},
+  {q:"La représentation graphique d'une suite $(u_n)$ consiste à placer les points :",choices:["$(u_n, n)$ dans le plan","$(n, u_n)$ dans le plan","$(n, n+u_n)$ dans le plan","La courbe de la fonction continue associée"],ans:1,expl:"On représente la suite par le nuage de points $(n, u_n)$ où $n$ est l'indice (abscisse) et $u_n$ la valeur (ordonnée)."},
+  {q:"Le diagramme en escalier est utilisé pour visualiser :",choices:["Le terme général d'une suite explicite","L'évolution d'une suite définie par récurrence $u_{n+1} = f(u_n)$","La dérivée d'une fonction associée","La somme des termes d'une suite"],ans:1,expl:"Le diagramme en escalier (ou toile d'araignée) illustre graphiquement l'itération d'une suite de récurrence $u_{n+1} = f(u_n)$ à l'aide de la courbe de $f$ et de la droite $y = x$."},
+  {q:"Dans un diagramme en escalier, la droite $y = x$ sert à :",choices:["Calculer les termes de la suite","Passer de $u_{n+1}$ à $u_{n+2}$ (reporter la valeur)","Trouver les racines de $f$","Tracer la tangente en un point"],ans:1,expl:"La droite $y = x$ permet de 'reporter' $u_{n+1}$ en abscisse pour construire le terme suivant : on lit $u_{n+1}$ sur la courbe, puis on se déplace horizontalement vers $y = x$."},
+  {q:"Pour une suite arithmétique de raison $r > 0$, le nuage de points $(n, u_n)$ ressemble à :",choices:["Une parabole","Des points alignés sur une droite croissante","Une courbe exponentielle","Des points sur l'axe des abscisses"],ans:1,expl:"$u_n = u_0 + n \\cdot r$ est une fonction affine de $n$. Les points $(n, u_n)$ sont alignés sur une droite de pente $r$."},
+  {q:"Pour une suite géométrique de raison $q > 1$, le nuage de points $(n, u_n)$ ressemble à :",choices:["Une droite","Des points sur une courbe croissante de type exponentielle","Une parabole","Des points décroissants"],ans:1,expl:"$u_n = u_0 \\cdot q^n$ est une exponentielle en $n$. Les points croissent de plus en plus vite (croissance exponentielle)."},
+  {q:"Si le diagramme en escalier converge vers un point fixe, cela signifie que la suite :",choices:["Diverge vers l'infini","Converge vers une limite","Est périodique","N'est pas définie"],ans:1,expl:"Un point fixe $\\ell$ est tel que $f(\\ell) = \\ell$. Si le diagramme en escalier converge vers ce point, la suite tend vers $\\ell$."},
+  {q:"Pour une suite arithmétique de raison $r < 0$, le nuage de points $(n, u_n)$ est :",choices:["Croissant","Décroissant","Constant","En forme de parabole"],ans:1,expl:"Si $r < 0$, chaque terme est plus petit que le précédent : $u_{n+1} < u_n$. Le nuage de points est décroissant."},
+  {q:"Un point fixe $\\ell$ d'une suite de récurrence $u_{n+1} = f(u_n)$ vérifie :",choices:["$f(\\ell) = 0$","$f(\\ell) = \\ell$","$f'(\\ell) = 0$","$\\ell = 0$"],ans:1,expl:"Un point fixe est une valeur $\\ell$ telle que $f(\\ell) = \\ell$. Si la suite atteint ce point, elle y reste : $u_n = \\ell$ pour tout $n$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

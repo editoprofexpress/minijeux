@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Nombre dérivé et taux d'accroissement</h1>
-  <p>f'(a) = lim [f(a+h)−f(a)] / h quand h → 0</p>
+  <p>$f'(a) = \lim_{h \to 0} \dfrac{f(a+h)-f(a)}{h}$</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Le taux d'accroissement de f entre a et a+h est :",choices:["f(a+h) − f(a)","[f(a+h) − f(a)] / h","[f(a+h) + f(a)] / h","f'(a)"],ans:1,expl:"Le taux d'accroissement est [f(a+h) − f(a)] / h. Il mesure la variation moyenne de f par unité d'accroissement de x."},
-  {q:"Le nombre dérivé f'(a) est défini comme :",choices:["f(a+h) − f(a) quand h → 0","La limite de [f(a+h)−f(a)]/h quand h → 0","La valeur de f en a","La pente de l'axe des abscisses"],ans:1,expl:"f'(a) = lim_{h→0} [f(a+h)−f(a)]/h, à condition que cette limite existe. C'est la définition fondamentale."},
-  {q:"Pour f(x) = x², le taux d'accroissement entre x=2 et x=2+h vaut :",choices:["4h","4 + h","(4h + h²)/h","2h"],ans:1,expl:"[f(2+h)−f(2)]/h = [(2+h)²−4]/h = [4+4h+h²−4]/h = (4h+h²)/h = 4+h."},
-  {q:"Pour f(x) = x², en faisant h → 0 dans le taux d'accroissement en x=2, on obtient f'(2) = ?",choices:["f'(2) = 4","f'(2) = 2","f'(2) = 0","f'(2) = 8"],ans:0,expl:"lim_{h→0}(4+h) = 4. Donc f'(2) = 4. Cohérent avec f'(x) = 2x, donc f'(2) = 4."},
-  {q:"Géométriquement, le taux d'accroissement de f entre a et b représente :",choices:["La pente de la tangente en a","La pente de la sécante passant par (a,f(a)) et (b,f(b))","L'aire sous la courbe entre a et b","La valeur maximale de f"],ans:1,expl:"[f(b)−f(a)]/(b−a) est la pente de la droite (sécante) passant par les deux points de la courbe."},
-  {q:"Le taux d'accroissement de f(x) = 3x + 1 entre x=1 et x=1+h vaut :",choices:["3","3h","3 + h","1/h"],ans:0,expl:"[f(1+h)−f(1)]/h = [3(1+h)+1−4]/h = 3h/h = 3. Pour une fonction affine, le taux est constant."},
-  {q:"Si f n'est pas dérivable en a, cela signifie que :",choices:["f(a) n'existe pas","lim_{h→0}[f(a+h)−f(a)]/h n'existe pas","f'(a) = 0","f est constante au voisinage de a"],ans:1,expl:"f est dérivable en a si la limite du taux d'accroissement en a existe et est finie. Sinon, f n'est pas dérivable en a."},
-  {q:"f'(a) représente géométriquement :",choices:["La valeur de f en a","La pente de la tangente à la courbe en x=a","L'ordonnée à l'origine de la tangente","L'abscisse du point de contact"],ans:1,expl:"f'(a) est la pente de la tangente à la courbe représentative de f au point d'abscisse a. C'est l'interprétation géométrique clé."},
+  {q:"Le taux d'accroissement de $f$ entre $a$ et $a+h$ est :",choices:["$f(a+h) - f(a)$","$\\dfrac{f(a+h) - f(a)}{h}$","$\\dfrac{f(a+h) + f(a)}{h}$","$f'(a)$"],ans:1,expl:"Le taux d'accroissement est $\\dfrac{f(a+h) - f(a)}{h}$. Il mesure la variation moyenne de $f$ par unité d'accroissement de $x$."},
+  {q:"Le nombre dérivé $f'(a)$ est défini comme :",choices:["$f(a+h) - f(a)$ quand $h \\to 0$","La limite de $\\dfrac{f(a+h)-f(a)}{h}$ quand $h \\to 0$","La valeur de $f$ en $a$","La pente de l'axe des abscisses"],ans:1,expl:"$f'(a) = \\lim_{h \\to 0} \\dfrac{f(a+h)-f(a)}{h}$, à condition que cette limite existe. C'est la définition fondamentale."},
+  {q:"Pour $f(x) = x^2$, le taux d'accroissement entre $x=2$ et $x=2+h$ vaut :",choices:["$4h$","$4 + h$","$\\dfrac{4h + h^2}{h}$","$2h$"],ans:1,expl:"$\\dfrac{f(2+h)-f(2)}{h} = \\dfrac{(2+h)^2-4}{h} = \\dfrac{4+4h+h^2-4}{h} = \\dfrac{4h+h^2}{h} = 4+h$."},
+  {q:"Pour $f(x) = x^2$, en faisant $h \\to 0$ dans le taux d'accroissement en $x=2$, on obtient $f'(2)$ = ?",choices:["$f'(2) = 4$","$f'(2) = 2$","$f'(2) = 0$","$f'(2) = 8$"],ans:0,expl:"$\\lim_{h \\to 0}(4+h) = 4$. Donc $f'(2) = 4$. Cohérent avec $f'(x) = 2x$, donc $f'(2) = 4$."},
+  {q:"Géométriquement, le taux d'accroissement de $f$ entre $a$ et $b$ représente :",choices:["La pente de la tangente en $a$","La pente de la sécante passant par $(a,f(a))$ et $(b,f(b))$","L'aire sous la courbe entre $a$ et $b$","La valeur maximale de $f$"],ans:1,expl:"$\\dfrac{f(b)-f(a)}{b-a}$ est la pente de la droite (sécante) passant par les deux points de la courbe."},
+  {q:"Le taux d'accroissement de $f(x) = 3x + 1$ entre $x=1$ et $x=1+h$ vaut :",choices:["$3$","$3h$","$3 + h$","$\\dfrac{1}{h}$"],ans:0,expl:"$\\dfrac{f(1+h)-f(1)}{h} = \\dfrac{3(1+h)+1-4}{h} = \\dfrac{3h}{h} = 3$. Pour une fonction affine, le taux est constant."},
+  {q:"Si $f$ n'est pas dérivable en $a$, cela signifie que :",choices:["$f(a)$ n'existe pas","$\\lim_{h \\to 0}\\dfrac{f(a+h)-f(a)}{h}$ n'existe pas","$f'(a) = 0$","$f$ est constante au voisinage de $a$"],ans:1,expl:"$f$ est dérivable en $a$ si la limite du taux d'accroissement en $a$ existe et est finie. Sinon, $f$ n'est pas dérivable en $a$."},
+  {q:"$f'(a)$ représente géométriquement :",choices:["La valeur de $f$ en $a$","La pente de la tangente à la courbe en $x=a$","L'ordonnée à l'origine de la tangente","L'abscisse du point de contact"],ans:1,expl:"$f'(a)$ est la pente de la tangente à la courbe représentative de $f$ au point d'abscisse $a$. C'est l'interprétation géométrique clé."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

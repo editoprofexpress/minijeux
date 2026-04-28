@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Probabilités conditionnelles</h1>
-  <p>P(A|B) = P(A∩B) / P(B) — définition et applications</p>
+  <p>$P_B(A) = \dfrac{P(A \cap B)}{P(B)}$ — définition et applications</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"La probabilité conditionnelle de A sachant B est définie par :",choices:["P(A|B) = P(A) × P(B)","P(A|B) = P(A∩B) / P(B) si P(B) > 0","P(A|B) = P(A) + P(B)","P(A|B) = P(A∩B) / P(A)"],ans:1,expl:"Par définition, P(A|B) = P(A∩B) / P(B), à condition que P(B) > 0. On lit « probabilité de A sachant B »."},
-  {q:"Si P(A∩B) = 0,12 et P(B) = 0,4, alors P(A|B) = ?",choices:["0,048","0,3","0,52","0,08"],ans:1,expl:"P(A|B) = P(A∩B) / P(B) = 0,12 / 0,4 = 0,3."},
-  {q:"La formule de multiplication donne P(A∩B) = ?",choices:["P(A|B) + P(B)","P(A|B) × P(B)","P(A) × P(B)","P(A|B) − P(B)"],ans:1,expl:"En réécrivant la définition : P(A∩B) = P(A|B) × P(B). C'est la formule de multiplication."},
-  {q:"Dans une classe, 60% des élèves ont révisé, et parmi eux 80% ont eu une bonne note. La probabilité d'avoir révisé ET eu une bonne note est :",choices:["0,48","0,80","0,60","0,20"],ans:0,expl:"P(révisé ∩ bonne note) = P(révisé) × P(bonne note | révisé) = 0,6 × 0,8 = 0,48."},
-  {q:"P(A|B) = 1 signifie que :",choices:["A et B sont indépendants","B est inclus dans A (B ⊂ A)","A est inclus dans B","A et B sont incompatibles"],ans:1,expl:"P(A|B) = 1 ⟺ P(A∩B) = P(B), ce qui signifie que B ⊂ A : si B se réalise, A se réalise forcément."},
-  {q:"Si P(A) = 0,5, P(B) = 0,4 et P(A∩B) = 0,2, alors P(A|B) = ?",choices:["0,5","0,4","0,2","0,1"],ans:0,expl:"P(A|B) = P(A∩B) / P(B) = 0,2 / 0,4 = 0,5."},
-  {q:"La probabilité P(B|A) avec P(A∩B) = 0,15 et P(A) = 0,5 vaut :",choices:["0,075","0,3","0,65","0,5"],ans:1,expl:"P(B|A) = P(A∩B) / P(A) = 0,15 / 0,5 = 0,3."},
-  {q:"Si P(A|B) = P(A), cela signifie que A et B sont :",choices:["Contraires","Incompatibles","Indépendants","Équiprobables"],ans:2,expl:"A et B sont indépendants si et seulement si P(A|B) = P(A) : savoir que B se réalise ne modifie pas la probabilité de A."},
+  {q:"La probabilité conditionnelle de $A$ sachant $B$ est définie par :",choices:["$P_B(A) = P(A) \\times P(B)$","$P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$ si $P(B) > 0$","$P_B(A) = P(A) + P(B)$","$P_B(A) = \\dfrac{P(A \\cap B)}{P(A)}$"],ans:1,expl:"Par définition, $P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$, à condition que $P(B) > 0$. On lit « probabilité de $A$ sachant $B$ »."},
+  {q:"Si $P(A \\cap B) = 0{,}12$ et $P(B) = 0{,}4$, alors $P_B(A) = ?$",choices:["$0{,}048$","$0{,}3$","$0{,}52$","$0{,}08$"],ans:1,expl:"$P_B(A) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{0{,}12}{0{,}4} = 0{,}3$."},
+  {q:"La formule de multiplication donne $P(A \\cap B) = ?$",choices:["$P_B(A) + P(B)$","$P_B(A) \\times P(B)$","$P(A) \\times P(B)$","$P_B(A) - P(B)$"],ans:1,expl:"En réécrivant la définition : $P(A \\cap B) = P_B(A) \\times P(B)$. C'est la formule de multiplication."},
+  {q:"Dans une classe, 60% des élèves ont révisé, et parmi eux 80% ont eu une bonne note. La probabilité d'avoir révisé ET eu une bonne note est :",choices:["$0{,}48$","$0{,}80$","$0{,}60$","$0{,}20$"],ans:0,expl:"$P(\\text{révisé} \\cap \\text{bonne note}) = P(\\text{révisé}) \\times P_{\\text{révisé}}(\\text{bonne note}) = 0{,}6 \\times 0{,}8 = 0{,}48$."},
+  {q:"$P_B(A) = 1$ signifie que :",choices:["$A$ et $B$ sont indépendants","$B$ est inclus dans $A$ ($B \\subset A$)","$A$ est inclus dans $B$","$A$ et $B$ sont incompatibles"],ans:1,expl:"$P_B(A) = 1 \\Leftrightarrow P(A \\cap B) = P(B)$, ce qui signifie que $B \\subset A$ : si $B$ se réalise, $A$ se réalise forcément."},
+  {q:"Si $P(A) = 0{,}5$, $P(B) = 0{,}4$ et $P(A \\cap B) = 0{,}2$, alors $P_B(A) = ?$",choices:["$0{,}5$","$0{,}4$","$0{,}2$","$0{,}1$"],ans:0,expl:"$P_B(A) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{0{,}2}{0{,}4} = 0{,}5$."},
+  {q:"La probabilité $P_A(B)$ avec $P(A \\cap B) = 0{,}15$ et $P(A) = 0{,}5$ vaut :",choices:["$0{,}075$","$0{,}3$","$0{,}65$","$0{,}5$"],ans:1,expl:"$P_A(B) = \\dfrac{P(A \\cap B)}{P(A)} = \\dfrac{0{,}15}{0{,}5} = 0{,}3$."},
+  {q:"Si $P_B(A) = P(A)$, cela signifie que $A$ et $B$ sont :",choices:["Contraires","Incompatibles","Indépendants","Équiprobables"],ans:2,expl:"$A$ et $B$ sont indépendants si et seulement si $P_B(A) = P(A)$ : savoir que $B$ se réalise ne modifie pas la probabilité de $A$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

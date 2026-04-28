@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Nombre dérivé et tangente</h1>
-  <p>Équation de la tangente : y = f'(a)(x − a) + f(a)</p>
+  <p>Équation de la tangente : $y = f'(a)(x - a) + f(a)$</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"L'équation de la tangente à la courbe de f au point d'abscisse a est :",choices:["y = f'(a)(x − a) + f(a)","y = f(a)(x − a) + f'(a)","y = f'(a)x + f(a)","y = f(a)x + f'(a)"],ans:0,expl:"La tangente en (a, f(a)) a pour pente f'(a) et passe par ce point. Son équation est y = f'(a)(x − a) + f(a)."},
-  {q:"Pour f(x) = x², l'équation de la tangente en x = 3 est :",choices:["y = 6x − 9","y = 9x − 6","y = 6x + 9","y = 3x − 9"],ans:0,expl:"f(3) = 9, f'(x) = 2x donc f'(3) = 6. Tangente : y = 6(x−3) + 9 = 6x − 18 + 9 = 6x − 9."},
-  {q:"Si la tangente à la courbe de f en x=a est horizontale, alors :",choices:["f(a) = 0","f'(a) = 0","f(a) = f'(a)","La courbe s'arrête en a"],ans:1,expl:"Une tangente horizontale a une pente nulle : f'(a) = 0. Ce sont les points candidats aux extrema."},
-  {q:"La tangente à f(x) = x³ en x = 0 a pour équation :",choices:["y = x","y = 0","y = 3x","y = −x"],ans:1,expl:"f(0) = 0, f'(x) = 3x² donc f'(0) = 0. Tangente : y = 0×(x−0) + 0 = 0 (l'axe des abscisses)."},
-  {q:"Pour f(x) = 2x² − 3x + 1, la pente de la tangente en x = 2 est :",choices:["1","2","5","0"],ans:2,expl:"f'(x) = 4x − 3. f'(2) = 4×2 − 3 = 8 − 3 = 5. La tangente en x=2 a pour pente 5."},
-  {q:"Pour f(x) = √x, la tangente en x = 4 a pour pente :",choices:["1/4","1/2","1/8","4"],ans:0,expl:"f'(x) = 1/(2√x). f'(4) = 1/(2√4) = 1/(2×2) = 1/4."},
-  {q:"L'ordonnée à l'origine de la tangente à f en x=a est :",choices:["f(a)","f'(a)","f(a) − a·f'(a)","f'(a) − a·f(a)"],ans:2,expl:"La tangente y = f'(a)(x−a)+f(a) = f'(a)x − a·f'(a)+f(a). Pour x=0 : ordonnée à l'origine = f(a) − a·f'(a)."},
-  {q:"Pour f(x) = eˣ, l'équation de la tangente en x = 0 est :",choices:["y = x","y = x + 1","y = eˣ","y = 0"],ans:1,expl:"f(0) = e⁰ = 1, f'(x) = eˣ donc f'(0) = 1. Tangente : y = 1×(x−0) + 1 = x + 1."},
+  {q:"L'équation de la tangente à la courbe de $f$ au point d'abscisse $a$ est :",choices:["$y = f'(a)(x - a) + f(a)$","$y = f(a)(x - a) + f'(a)$","$y = f'(a)x + f(a)$","$y = f(a)x + f'(a)$"],ans:0,expl:"La tangente en $(a, f(a))$ a pour pente $f'(a)$ et passe par ce point. Son équation est $y = f'(a)(x - a) + f(a)$."},
+  {q:"Pour $f(x) = x^2$, l'équation de la tangente en $x = 3$ est :",choices:["$y = 6x - 9$","$y = 9x - 6$","$y = 6x + 9$","$y = 3x - 9$"],ans:0,expl:"$f(3) = 9$, $f'(x) = 2x$ donc $f'(3) = 6$. Tangente : $y = 6(x-3) + 9 = 6x - 18 + 9 = 6x - 9$."},
+  {q:"Si la tangente à la courbe de $f$ en $x=a$ est horizontale, alors :",choices:["$f(a) = 0$","$f'(a) = 0$","$f(a) = f'(a)$","La courbe s'arrête en $a$"],ans:1,expl:"Une tangente horizontale a une pente nulle : $f'(a) = 0$. Ce sont les points candidats aux extrema."},
+  {q:"La tangente à $f(x) = x^3$ en $x = 0$ a pour équation :",choices:["$y = x$","$y = 0$","$y = 3x$","$y = -x$"],ans:1,expl:"$f(0) = 0$, $f'(x) = 3x^2$ donc $f'(0) = 0$. Tangente : $y = 0 \\times (x-0) + 0 = 0$ (l'axe des abscisses)."},
+  {q:"Pour $f(x) = 2x^2 - 3x + 1$, la pente de la tangente en $x = 2$ est :",choices:["$1$","$2$","$5$","$0$"],ans:2,expl:"$f'(x) = 4x - 3$. $f'(2) = 4 \\times 2 - 3 = 8 - 3 = 5$. La tangente en $x=2$ a pour pente $5$."},
+  {q:"Pour $f(x) = \\sqrt{x}$, la tangente en $x = 4$ a pour pente :",choices:["$\\dfrac{1}{4}$","$\\dfrac{1}{2}$","$\\dfrac{1}{8}$","$4$"],ans:0,expl:"$f'(x) = \\dfrac{1}{2\\sqrt{x}}$. $f'(4) = \\dfrac{1}{2\\sqrt{4}} = \\dfrac{1}{2 \\times 2} = \\dfrac{1}{4}$."},
+  {q:"L'ordonnée à l'origine de la tangente à $f$ en $x=a$ est :",choices:["$f(a)$","$f'(a)$","$f(a) - a \\cdot f'(a)$","$f'(a) - a \\cdot f(a)$"],ans:2,expl:"La tangente $y = f'(a)(x-a)+f(a) = f'(a)x - a \\cdot f'(a)+f(a)$. Pour $x=0$ : ordonnée à l'origine $= f(a) - a \\cdot f'(a)$."},
+  {q:"Pour $f(x) = e^x$, l'équation de la tangente en $x = 0$ est :",choices:["$y = x$","$y = x + 1$","$y = e^x$","$y = 0$"],ans:1,expl:"$f(0) = e^0 = 1$, $f'(x) = e^x$ donc $f'(0) = 1$. Tangente : $y = 1 \\times (x-0) + 1 = x + 1$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

@@ -40,18 +40,19 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Équation cartésienne d'une droite</h1>
-  <p>ax + by + c = 0 — pente, ordonnée à l'origine, vecteur normal</p>
+  <p>$ax + by + c = 0$ — pente, ordonnée à l'origine, vecteur normal</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📐</div>
     <div class="intro-title">QCM — Équation cartésienne d'une droite</div>
-    <div class="intro-desc">L'équation cartésienne d'une droite est de la forme ax + by + c = 0. Maîtrise le passage entre les différentes formes et la lecture des paramètres.</div>
+    <div class="intro-desc">L'équation cartésienne d'une droite est de la forme $ax + by + c = 0$. Maîtrise le passage entre les différentes formes et la lecture des paramètres.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"L'équation générale d'une droite dans le plan est :",choices:["y = mx + p","ax + by + c = 0 (a,b non tous nuls)","x² + y² = r²","ax + by = 0"],ans:1,expl:"L'équation cartésienne générale est ax+by+c=0 avec (a,b) ≠ (0,0). Elle représente toutes les droites, y compris les verticales (x=k) qui ne peuvent pas s'écrire y=mx+p."},
-  {q:"La droite d'équation 2x − y + 3 = 0 a pour pente :",choices:["−1","2","3","−2"],ans:1,expl:"2x−y+3=0 ⟺ y = 2x+3. La pente est le coefficient de x dans la forme y=mx+p, soit m=2."},
-  {q:"L'équation de la droite passant par A(2, 1) et B(4, 5) est :",choices:["y = x + 3","y = 2x − 3","y = 3x − 2","y = 2x + 1"],ans:1,expl:"Pente : m = (5−1)/(4−2) = 4/2 = 2. Équation : y−1 = 2(x−2) ⟺ y = 2x−3. Vérification : y(2)=1 ✓, y(4)=5 ✓."},
-  {q:"La droite d'équation 3x + 4y − 12 = 0 passe par :",choices:["(4, 0)","(0, 3)","(3, 4)","(12, 0)"],ans:0,expl:"En (4,0) : 3×4 + 4×0 − 12 = 12−12 = 0. ✓ Le point (4,0) est bien sur la droite. C'est l'intersection avec l'axe Ox."},
-  {q:"Dans ax+by+c=0, le vecteur normal à la droite est :",choices:["(b, a)","(a, b)","(−b, a)","(c, a)"],ans:1,expl:"Le vecteur n⃗ = (a,b) est normal à la droite ax+by+c=0. C'est une propriété fondamentale : le vecteur formé des coefficients de x et y est perpendiculaire à la droite."},
-  {q:"Quelle est l'équation de la droite verticale passant par x = 3 ?",choices:["y = 3","x = 3","3x = 0","x + y = 3"],ans:1,expl:"La droite verticale passant par x=3 a pour équation x=3, ou encore x−3=0. Cette droite n'a pas de pente (ou pente infinie)."},
-  {q:"La droite de pente m passant par A(x₀, y₀) a pour équation :",choices:["y = mx₀ + y₀","y − y₀ = m(x − x₀)","y = m(x − x₀)","mx − y = x₀y₀"],ans:1,expl:"L'équation de la droite de pente m passant par (x₀,y₀) est y−y₀ = m(x−x₀). C'est la forme point-pente, très pratique pour trouver une équation rapidement."},
-  {q:"La droite 2x + 3y − 6 = 0 coupe l'axe Oy en :",choices:["(0, 2)","(0, 3)","(0, −2)","(3, 0)"],ans:0,expl:"Sur Oy, x=0 : 2×0+3y−6=0 ⟺ y=2. L'ordonnée à l'origine est 2, soit le point (0,2)."},
+  {q:"L'équation générale d'une droite dans le plan est :",choices:["$y = mx + p$","$ax + by + c = 0$ ($a, b$ non tous nuls)","$x^2 + y^2 = r^2$","$ax + by = 0$"],ans:1,expl:"L'équation cartésienne générale est $ax+by+c=0$ avec $(a,b) \\neq (0,0)$. Elle représente toutes les droites, y compris les verticales ($x=k$) qui ne peuvent pas s'écrire $y=mx+p$."},
+  {q:"La droite d'équation $2x - y + 3 = 0$ a pour pente :",choices:["$-1$","$2$","$3$","$-2$"],ans:1,expl:"$2x-y+3=0 \\Leftrightarrow y = 2x+3$. La pente est le coefficient de $x$ dans la forme $y=mx+p$, soit $m=2$."},
+  {q:"L'équation de la droite passant par $A(2, 1)$ et $B(4, 5)$ est :",choices:["$y = x + 3$","$y = 2x - 3$","$y = 3x - 2$","$y = 2x + 1$"],ans:1,expl:"Pente : $m = \\dfrac{5-1}{4-2} = \\dfrac{4}{2} = 2$. Équation : $y - 1 = 2(x - 2) \\Leftrightarrow y = 2x-3$. Vérification : $y(2)=1$ ✓, $y(4)=5$ ✓."},
+  {q:"La droite d'équation $3x + 4y - 12 = 0$ passe par :",choices:["$(4, 0)$","$(0, 3)$","$(3, 4)$","$(12, 0)$"],ans:0,expl:"En $(4,0)$ : $3 \\times 4 + 4 \\times 0 - 12 = 12-12 = 0$. ✓ Le point $(4,0)$ est bien sur la droite. C'est l'intersection avec l'axe $Ox$."},
+  {q:"Dans $ax+by+c=0$, le vecteur normal à la droite est :",choices:["$(b, a)$","$\\vec{n} = (a, b)$","$(-b, a)$","$(c, a)$"],ans:1,expl:"Le vecteur $\\vec{n} = (a,b)$ est normal à la droite $ax+by+c=0$. C'est une propriété fondamentale : le vecteur formé des coefficients de $x$ et $y$ est perpendiculaire à la droite."},
+  {q:"Quelle est l'équation de la droite verticale passant par $x = 3$ ?",choices:["$y = 3$","$x = 3$","$3x = 0$","$x + y = 3$"],ans:1,expl:"La droite verticale passant par $x=3$ a pour équation $x=3$, ou encore $x-3=0$. Cette droite n'a pas de pente (ou pente infinie)."},
+  {q:"La droite de pente $m$ passant par $A(x_0, y_0)$ a pour équation :",choices:["$y = mx_0 + y_0$","$y - y_0 = m(x - x_0)$","$y = m(x - x_0)$","$mx - y = x_0 y_0$"],ans:1,expl:"L'équation de la droite de pente $m$ passant par $(x_0, y_0)$ est $y - y_0 = m(x - x_0)$. C'est la forme point-pente, très pratique pour trouver une équation rapidement."},
+  {q:"La droite $2x + 3y - 6 = 0$ coupe l'axe $Oy$ en :",choices:["$(0, 2)$","$(0, 3)$","$(0, -2)$","$(3, 0)$"],ans:0,expl:"Sur $Oy$, $x=0$ : $2 \\times 0+3y-6=0 \\Leftrightarrow y=2$. L'ordonnée à l'origine est $2$, soit le point $(0,2)$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}
