@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Variation instantanée et nombre dérivé : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Variation instantanée et nombre dérivé</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">⚡</div>
+    <div class="intro-title">QCM — Variation instantanée et nombre dérivé</div>
+    <div class="intro-desc">Comprendre le nombre dérivé comme limite du taux de variation. Calculer $f'(a)$ et interpréter la pente de la tangente.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -79,52 +79,52 @@
 <script>
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
-  },
-  {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
+    q:"Soit $f$ une fonction et $a$, $b$ deux réels distincts. Comment s'écrit le taux de variation de $f$ entre $a$ et $b$ ?",
+    choices:["$f(b) - f(a)$","$\\dfrac{f(b) - f(a)}{b - a}$","$\\dfrac{b - a}{f(b) - f(a)}$","$f(b) \\cdot f(a)$"],
     ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
+    expl:"Le taux de variation de $f$ entre $a$ et $b$ est $\\dfrac{f(b) - f(a)}{b - a}$. Il représente la pente de la droite sécante passant par les points $(a, f(a))$ et $(b, f(b))$."
   },
   {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
+    q:"Le nombre dérivé $f'(a)$ est défini comme :",
+    choices:["$f(a+h) - f(a)$ pour $h$ petit","$\\displaystyle\\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$","$\\displaystyle\\lim_{h \\to 0} f(a+h)$","$\\dfrac{f(a+1) - f(a)}{1}$"],
     ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
+    expl:"Le nombre dérivé $f'(a)$ est la limite du taux de variation $\\dfrac{f(a+h)-f(a)}{h}$ quand $h$ tend vers $0$. C'est la variation instantanée de $f$ en $a$."
   },
   {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
+    q:"Soit $f(x) = x^2$. Quelle est la valeur du nombre dérivé $f'(2)$ ?",
+    choices:["$2$","$4$","$8$","$1$"],
+    ans:1,
+    expl:"Pour $f(x) = x^2$, on a $f'(x) = 2x$. Donc $f'(2) = 2 \\times 2 = 4$. On peut aussi le vérifier par la limite : $\\lim_{h\\to 0}\\dfrac{(2+h)^2 - 4}{h} = \\lim_{h\\to 0}(4+h) = 4$."
+  },
+  {
+    q:"Quelle est l'équation de la tangente à la courbe de $f$ au point d'abscisse $a$ ?",
+    choices:["$y = f(a) \\cdot x + f'(a)$","$y = f'(a)(x - a) + f(a)$","$y = f'(a) \\cdot x$","$y = f(a)(x - a) + f'(a)$"],
+    ans:1,
+    expl:"La tangente en $a$ a pour pente $f'(a)$ et passe par le point $(a, f(a))$. Son équation est $y = f'(a)(x - a) + f(a)$."
+  },
+  {
+    q:"En un point $a$, $f'(a) = 3 > 0$. Que peut-on conclure ?",
+    choices:["$f$ est décroissante au voisinage de $a$","$f$ est constante au voisinage de $a$","$f$ est croissante au voisinage de $a$","$f$ admet un extremum en $a$"],
     ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
+    expl:"Si $f'(a) > 0$, la tangente a une pente positive, donc $f$ est localement croissante au voisinage de $a$. La fonction monte au passage de $a$."
   },
   {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
+    q:"En un point $a$, $f'(a) = 0$. Que peut-on dire ?",
+    choices:["$f$ est forcément nulle en $a$","La tangente est horizontale en $a$, et $a$ est peut-être un extremum","$f$ est constante sur tout son domaine","$f(a) = 0$"],
+    ans:1,
+    expl:"Si $f'(a) = 0$, la tangente est horizontale en $a$. Cela indique un extremum possible (maximum ou minimum local), mais il faut vérifier le changement de signe de $f'$ autour de $a$."
   },
   {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
-    ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
+    q:"Calcule le taux de variation de $f(x) = x^2$ entre $x = 1$ et $x = 3$.",
+    choices:["$2$","$4$","$6$","$8$"],
+    ans:1,
+    expl:"$\\dfrac{f(3) - f(1)}{3 - 1} = \\dfrac{9 - 1}{2} = \\dfrac{8}{2} = 4$. Ce taux représente la pente de la droite passant par les points $(1, 1)$ et $(3, 9)$."
   },
   {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
-  },
-  {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{-2\\}$","$\\mathbb{R} \\setminus \\{2\\}$","$[2\\,;\\,+\\infty[$"],
-    ans:2,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    q:"Pour $f(x) = x^2 + 1$, l'équation de la tangente au point d'abscisse $a = 1$ est :",
+    choices:["$y = x + 1$","$y = 2x$","$y = 2x - 1 + 2 = 2x + 1$","$y = x + 2$"],
+    ans:1,
+    expl:"$f'(x) = 2x$ donc $f'(1) = 2$. $f(1) = 1 + 1 = 2$. Tangente : $y = f'(1)(x-1) + f(1) = 2(x-1) + 2 = 2x - 2 + 2 = 2x$."
   }
 ];
 const game=(()=>{

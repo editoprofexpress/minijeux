@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Utiliser un tableur pour les données : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -25,6 +25,7 @@
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
     .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .formula-tag{display:inline-block;font-family:monospace;background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:.15rem .5rem;font-size:.9em;color:#0f172a;font-weight:700}
     .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
     .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
     .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
@@ -45,13 +46,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Utiliser un tableur pour les données</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">📋</div>
+    <div class="intro-title">QCM — Utiliser un tableur pour les données</div>
+    <div class="intro-desc">Maîtrise les fonctions essentielles d'un tableur pour analyser des données : formules, tri, graphiques, statistiques.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -77,54 +78,55 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
+const f=t=>`<span class="formula-tag">${t}</span>`;
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
-  },
-  {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
-    ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
-    ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
+    q:"Quelle formule permet de calculer la somme des cellules A1 à A10 dans un tableur ?",
+    choices:[f("=SOMME(A1,A10)"),f("=TOTAL(A1:A10)"),f("=SOMME(A1:A10)"),f("=ADDITION(A1..A10)")],
     ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
+    expl:`La formule correcte est ${f("=SOMME(A1:A10)")}. Le symbole « : » désigne une plage de cellules continues. ${f("=SOMME(A1,A10)")} ne calculerait que la somme de deux cellules spécifiques.`
   },
   {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
+    q:"Quelle formule calcule la moyenne d'une série de valeurs dans les cellules B2 à B15 ?",
+    choices:[f("=MOYENNE(B2,B15)"),f("=MOYENNE(B2:B15)"),f("=SOMME(B2:B15)/15"),f("=AVG(B2:B15)")],
+    ans:1,
+    expl:`La formule correcte est ${f("=MOYENNE(B2:B15)")}. Elle calcule automatiquement la moyenne arithmétique de toutes les cellules de la plage. ${f("AVG")} est la syntaxe anglaise, non reconnue dans un tableur en français.`
   },
   {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
+    q:"On veut afficher « Reçu » si la note en C3 est supérieure ou égale à 10, et « Recalé » sinon. Quelle formule utiliser ?",
+    choices:[f('=SI(C3>=10,"Reçu","Recalé")'),f('=IF(C3>=10,"Reçu","Recalé")'),f('=SI(C3>10;"Reçu";"Recalé")'),f('=CONDITION(C3>=10,"Reçu","Recalé")')],
     ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
+    expl:`La formule est ${f('=SI(C3>=10,"Reçu","Recalé")')}. La fonction SI (ou IF en anglais) prend trois arguments : la condition, la valeur si vrai, la valeur si faux. Note : selon le pays, le séparateur peut être « ; » ou « , ».`
   },
   {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
+    q:"Qu'est-ce qu'une référence absolue dans un tableur ? Exemple : $A$1",
+    choices:["Une cellule qui contient une valeur fixe","Une cellule dont l'adresse ne change pas quand on copie la formule","Une cellule protégée contre la modification","Une cellule qui fait référence à une autre feuille"],
+    ans:1,
+    expl:`Le symbole $ « fige » la référence. ${f("$A$1")} désigne toujours la cellule A1, même si on copie la formule dans une autre cellule. Sans $, la référence est relative et s'adapte lors de la copie.`
   },
   {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{-2\\}$","$\\mathbb{R} \\setminus \\{2\\}$","$[2\\,;\\,+\\infty[$"],
-    ans:2,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    q:"On dispose d'un tableau de données (colonnes : Nom, Note, Matière). Comment créer un graphique représentant les notes de chaque élève ?",
+    choices:["Il faut d'abord saisir les données manuellement dans un autre outil","On sélectionne les colonnes souhaitées, puis on insère un graphique depuis le menu « Insertion »","On utilise la formule =GRAPHIQUE() dans une cellule","On exporte d'abord le tableau en PDF puis on crée le graphique"],
+    ans:1,
+    expl:"Pour créer un graphique, on sélectionne les données pertinentes (par exemple les colonnes Nom et Note), puis on accède au menu « Insertion » > « Graphique ». Le tableur propose alors différents types de représentations."
+  },
+  {
+    q:"On veut classer les élèves par ordre décroissant de note (colonne B). Quelle action effectuer dans un tableur ?",
+    choices:["Utiliser la formule =TRIER(B:B)","Sélectionner la colonne B, puis utiliser « Données » > « Trier » en ordre décroissant","Copier-coller les données dans l'ordre voulu manuellement","Utiliser la formule =MAX(B:B) pour identifier la plus grande valeur"],
+    ans:1,
+    expl:"Pour trier, on sélectionne le tableau de données (et non uniquement la colonne à trier pour éviter de désaligner les lignes), puis on accède à « Données » > « Trier » et on choisit l'ordre décroissant sur la colonne des notes."
+  },
+  {
+    q:"Quelle formule compte le nombre de cellules non vides dans la plage C1:C20 ?",
+    choices:[f("=NBVAL(C1:C20)"),f("=NB(C1:C20)"),f("=COMPTER(C1:C20)"),f("=NBSI(C1:C20,\"<>\")")],
+    ans:0,
+    expl:`${f("=NBVAL(C1:C20)")} compte toutes les cellules non vides (texte ou nombre). ${f("=NB(C1:C20)")} ne compte que les cellules contenant des nombres. Pour les données mixtes, NBVAL est plus approprié.`
+  },
+  {
+    q:"Quelle formule renvoie la valeur minimale de la plage D2:D30 ?",
+    choices:[f("=MINIMUM(D2:D30)"),f("=MIN(D2:D30)"),f("=PETITE.VALEUR(D2:D30,1)"),f("=INF(D2:D30)")],
+    ans:1,
+    expl:`La formule correcte est ${f("=MIN(D2:D30)")}. Elle renvoie la plus petite valeur numérique de la plage. ${f("=PETITE.VALEUR(D2:D30,1)")} donne également le minimum mais est moins directe.`
   }
 ];
 const game=(()=>{

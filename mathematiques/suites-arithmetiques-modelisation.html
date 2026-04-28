@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Modéliser avec les suites arithmétiques : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Modéliser avec les suites arithmétiques</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">📐</div>
+    <div class="intro-title">QCM — Modéliser avec les suites arithmétiques</div>
+    <div class="intro-desc">Utiliser les suites arithmétiques pour modéliser des situations concrètes : évolutions régulières, économies, distances.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -79,54 +79,103 @@
 <script>
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
-  },
-  {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
+    q:"Un loyer est de 700 € en année 0 et augmente de 20 € par an. Cette situation est modélisée par une suite arithmétique. Quelle est la raison $r$ ?",
+    choices:[
+      "$r = 700$",
+      "$r = 20$",
+      "$r = 720$",
+      "$r = 35$"
+    ],
     ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
+    expl:"La raison $r$ représente l'augmentation régulière par période. Ici le loyer augmente de 20 € par an, donc $r = 20$. Le premier terme est $u_0 = 700$."
   },
   {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
-    ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
-    ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
-  },
-  {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
-  },
-  {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
+    q:"Le loyer démarre à 700 € ($u_0 = 700$) et augmente de 20 € par an ($r = 20$). Quel sera le loyer après <strong>5 ans</strong> ?",
+    choices:[
+      "$800$ €",
+      "$820$ €",
+      "$700$ €",
+      "$900$ €"
+    ],
     ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
+    expl:"$u_5 = u_0 + 5r = 700 + 5 \\times 20 = 700 + 100 = 800$ €."
   },
   {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
+    q:"Un locataire paie 700 € en année 0 (loyer 1), puis 720 €, puis 740 €, etc. Quel est le total cumulé sur les 3 premières années ($u_0 + u_1 + u_2$) ?",
+    choices:[
+      "$2100$ €",
+      "$2160$ €",
+      "$2220$ €",
+      "$2040$ €"
+    ],
+    ans:1,
+    expl:"$u_0=700$, $u_1=720$, $u_2=740$. Total $= 700+720+740 = 2160$ €. On peut aussi utiliser la formule : $S = \\frac{3(700+740)}{2} = \\frac{3 \\times 1440}{2} = 2160$ €."
   },
   {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{-2\\}$","$\\mathbb{R} \\setminus \\{2\\}$","$[2\\,;\\,+\\infty[$"],
+    q:"Le loyer est $u_n = 700 + 20n$. À partir de quelle année $n$ le loyer dépassera-t-il 800 € ?",
+    choices:[
+      "Année $n = 4$",
+      "Année $n = 5$",
+      "Année $n = 6$",
+      "Année $n = 10$"
+    ],
+    ans:1,
+    expl:"On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc dès $n = 6$... Attention : $u_5 = 800$ exactement (non strictement supérieur), donc le loyer <em>dépasse</em> 800 € à partir de $n=6$. Mais si la question est « quand atteint-il 800 » c'est $n=5$. Ici on cherche quand il <em>dépasse</em> strictement : $n=6$. Réponse correcte : $n=6$."
+  },
+  {
+    q:"Deux salariés débutent au même salaire de 1800 €. Le salarié A reçoit une augmentation de 50 € par mois. Le salarié B reçoit une augmentation de 80 € par mois. Au bout de combien de mois B gagne-t-il 300 € de plus que A ?",
+    choices:[
+      "$5$ mois",
+      "$6$ mois",
+      "$10$ mois",
+      "$15$ mois"
+    ],
     ans:2,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    expl:"L'écart entre B et A augmente de $80 - 50 = 30$ € par mois. On veut que cet écart atteigne 300 € : $30n = 300 \\Rightarrow n = 10$ mois."
+  },
+  {
+    q:"Un coureur parcourt 5 km lors de sa première séance, puis augmente de 1 km à chaque séance suivante. Quelle distance parcourt-il lors de la <strong>8e séance</strong> (séance numéro 7, car $u_0$ = séance 1) ?",
+    choices:[
+      "$12$ km",
+      "$13$ km",
+      "$8$ km",
+      "$11$ km"
+    ],
+    ans:0,
+    expl:"On pose $u_0 = 5$ (séance 1) et $r = 1$. La 8e séance correspond à $u_7 = 5 + 7 \\times 1 = 12$ km."
+  },
+  {
+    q:"Dans la suite $u_n = 700 + 20n$, que représente $u_0 = 700$ dans le contexte du loyer ?",
+    choices:[
+      "Le loyer après 700 ans",
+      "Le montant de l'augmentation annuelle",
+      "La valeur initiale du loyer (en année 0)",
+      "La somme totale des loyers"
+    ],
+    ans:2,
+    expl:"$u_0$ est le terme initial, c'est-à-dire la valeur de départ avant toute évolution. Ici $u_0 = 700$ € est le loyer au début (année 0)."
+  },
+  {
+    q:"Combien vaut $u_0 + u_1 + u_2 + u_3 + u_4$ pour la suite $u_n = 2 + 3n$ ?",
+    choices:[
+      "$40$",
+      "$50$",
+      "$60$",
+      "$30$"
+    ],
+    ans:1,
+    expl:"Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. On peut aussi utiliser $S = \\frac{5(u_0+u_4)}{2} = \\frac{5(2+14)}{2} = \\frac{5 \\times 16}{2} = 40$."
   }
 ];
+
+// Fix: question 4 answer should be index 2 (n=6)
+QS[3].ans = 2;
+QS[3].expl = "On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc le loyer dépasse 800 € à partir de $n = 6$. Attention : $u_5 = 800$ (égal, pas strictement supérieur).";
+
+// Fix: question 8 answer should be index 0 (40)
+QS[7].ans = 0;
+QS[7].expl = "Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. Formule : $S = \\frac{5(u_0+u_4)}{2} = \\frac{5 \\times 16}{2} = 40$.";
+
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
