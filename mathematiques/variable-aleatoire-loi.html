@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Spé – Variable aléatoire et loi de probabilité : QCM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
+    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
+    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
+    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <h1>Variable aléatoire et loi de probabilité</h1>
+  <p>X : Ω → ℝ — tableau de distribution, espérance</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🎲</div>
+    <div class="intro-title">QCM — Variable aléatoire et loi de probabilité</div>
+    <div class="intro-desc">Une variable aléatoire associe un nombre réel à chaque issue d'une expérience aléatoire. Maîtrise la loi de probabilité, l'espérance et les applications.</div>
+    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Quiz terminé !</div>
+      <div class="win-sub" id="winSub"></div>
+      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+<script>
+const QS=[
+  {q:"Une variable aléatoire X est :",choices:["Un événement aléatoire","Une fonction qui associe un réel à chaque issue de l'expérience","La probabilité d'un événement","Un ensemble d'événements"],ans:1,expl:"X : Ω → ℝ est une application de l'univers des possibles vers les réels. Par exemple, X = 'gain en euros' ou X = 'nombre de pile obtenus'."},
+  {q:"La somme de toutes les probabilités P(X = xᵢ) d'une variable aléatoire est :",choices:["0","E(X)","1","Var(X)"],ans:2,expl:"La somme de toutes les probabilités d'une loi de probabilité vaut toujours 1 : Σ P(X = xᵢ) = 1. C'est une condition nécessaire pour qu'une distribution soit une loi de probabilité."},
+  {q:"X prend les valeurs 1, 2, 3 avec P(X=1)=0,2, P(X=2)=0,5, P(X=3)=0,3. E(X) = ?",choices:["2","2,1","1,8","2,5"],ans:1,expl:"E(X) = 1×0,2 + 2×0,5 + 3×0,3 = 0,2 + 1 + 0,9 = 2,1."},
+  {q:"L'espérance E(X) représente :",choices:["La valeur maximale de X","La valeur la plus probable","La moyenne des valeurs pondérée par les probabilités","La dispersion de X"],ans:2,expl:"E(X) = Σ xᵢ·P(X=xᵢ) est la moyenne à long terme de X si on répétait l'expérience un grand nombre de fois. C'est la valeur 'attendue'."},
+  {q:"On lance un dé équilibré. X est le résultat. E(X) = ?",choices:["3","3,5","4","6"],ans:1,expl:"E(X) = (1+2+3+4+5+6)/6 = 21/6 = 3,5. Chaque face a la probabilité 1/6, et la moyenne est 3,5."},
+  {q:"X prend les valeurs 0 et 1. P(X=1) = p. P(X=0) = ?",choices:["p","1","1−p","p²"],ans:2,expl:"La somme des probabilités vaut 1 : P(X=0) + P(X=1) = 1, donc P(X=0) = 1−p. C'est la loi de Bernoulli de paramètre p."},
+  {q:"Pour la loi de Bernoulli B(p) avec P(X=1)=p et P(X=0)=1−p, E(X) = ?",choices:["1−p","p(1−p)","p","1"],ans:2,expl:"E(X) = 0×(1−p) + 1×p = p. L'espérance d'une loi de Bernoulli est simplement p, le paramètre."},
+  {q:"Si X prend les valeurs −1, 0, 1 avec P(X=−1)=P(X=1)=1/4 et P(X=0)=1/2, E(X) = ?",choices:["0","1/4","1/2","−1/4"],ans:0,expl:"E(X) = (−1)×(1/4) + 0×(1/2) + 1×(1/4) = −1/4 + 0 + 1/4 = 0. La distribution est symétrique autour de 0, donc l'espérance est 0."},
+];
+const game=(()=>{
+  let order=[],idx=0,score=0;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
+  function next(){idx++;idx>=QS.length?showWin():loadQ()}
+  return{start,next};
+})();
+</script>
+</body>
+</html>
