@@ -46,7 +46,6 @@
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
   <h1>Nombre dérivé et taux d'accroissement</h1>
-  <p>$f'(a) = \lim_{h \to 0} \dfrac{f(a+h)-f(a)}{h}$</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -76,7 +75,6 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Le taux d'accroissement de $f$ entre $a$ et $a+h$ est :",choices:["$f(a+h) - f(a)$","$\\dfrac{f(a+h) - f(a)}{h}$","$\\dfrac{f(a+h) + f(a)}{h}$","$f'(a)$"],ans:1,expl:"Le taux d'accroissement est $\\dfrac{f(a+h) - f(a)}{h}$. Il mesure la variation moyenne de $f$ par unité d'accroissement de $x$."},
