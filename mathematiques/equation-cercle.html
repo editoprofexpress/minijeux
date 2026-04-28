@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"L'équation du cercle de centre $\\Omega(a,b)$ et de rayon $r$ est :",choices:["$(x+a)^2+(y+b)^2=r$","$(x-a)^2+(y-b)^2=r^2$","$x^2+y^2=r^2$","$ax^2+by^2=r$"],ans:1,expl:"Un point $M(x,y)$ est sur le cercle $\\Leftrightarrow \\Omega M = r \\Leftrightarrow (x-a)^2+(y-b)^2=r^2$. C'est la définition du cercle : l'ensemble des points à distance $r$ du centre $\\Omega$."},

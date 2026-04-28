@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Une suite arithmétique de raison $r$ est définie par la relation de récurrence :",choices:["$u_{n+1} = r \\cdot u_n$","$u_{n+1} = u_n + r$","$u_n = r \\cdot n$","$u_n = u_{n-1} - r$"],ans:1,expl:"Une suite arithmétique vérifie $u_{n+1} = u_n + r$, où $r$ est la raison (constante). Chaque terme est obtenu en ajoutant $r$ au précédent."},

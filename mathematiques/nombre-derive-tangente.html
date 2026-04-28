@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"L'équation de la tangente à la courbe de $f$ au point d'abscisse $a$ est :",choices:["$y = f'(a)(x - a) + f(a)$","$y = f(a)(x - a) + f'(a)$","$y = f'(a)x + f(a)$","$y = f(a)x + f'(a)$"],ans:0,expl:"La tangente en $(a, f(a))$ a pour pente $f'(a)$ et passe par ce point. Son équation est $y = f'(a)(x - a) + f(a)$."},

@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"La forme générale d'une fonction du second degré est :",choices:["$f(x) = ax + b$","$f(x) = ax^2 + bx + c$ avec $a \\neq 0$","$f(x) = ax^2 + bx + c$ avec $a$ quelconque","$f(x) = ax^3 + bx + c$"],ans:1,expl:"Une fonction du second degré s'écrit $f(x) = ax^2 + bx + c$ avec $a \\neq 0$ (si $a = 0$, ce serait une fonction affine ou constante)."},

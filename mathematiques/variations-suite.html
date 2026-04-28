@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Pour étudier les variations d'une suite $(u_n)$, on calcule :",choices:["$u_{n+1} + u_n$","$u_{n+1} - u_n$ (ou $\\dfrac{u_{n+1}}{u_n}$ si $u_n > 0$)","$u_{n+1} \\times u_n$","$u_n^2 - u_n$"],ans:1,expl:"Pour les variations, on étudie le signe de $u_{n+1} - u_n$ (méthode de la différence) ou le rapport $\\dfrac{u_{n+1}}{u_n}$ (méthode du quotient, si $u_n > 0$)."},

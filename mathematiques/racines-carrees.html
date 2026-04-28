@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"$\\sqrt{a}$ est définie (dans $\\mathbb{R}$) si et seulement si :",choices:["$a > 0$","$a \\geq 0$","$a \\neq 0$","$a \\leq 0$"],ans:1,expl:"La racine carrée $\\sqrt{a}$ est définie pour tout $a \\geq 0$. Elle vaut $0$ lorsque $a = 0$, d'où la condition $a \\geq 0$ et non $a > 0$."},

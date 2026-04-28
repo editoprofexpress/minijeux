@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Le discriminant du trinôme $ax^2 + bx + c$ est :",choices:["$\\Delta = b^2 - 4ac$","$\\Delta = b^2 + 4ac$","$\\Delta = -\\dfrac{b}{2a}$","$\\Delta = 4ac - b^2$"],ans:0,expl:"Par définition, $\\Delta = b^2 - 4ac$. Il permet de déterminer le nombre de racines réelles du trinôme."},
