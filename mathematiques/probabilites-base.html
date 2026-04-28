@@ -3,41 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Probabilités : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="calcul">
+  <title>Probabilités de base — Calcul — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
+    .container{width:100%;max-width:600px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .problem-box{background:var(--subject-light);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;font-size:1rem;font-weight:700;line-height:1.8}
+    .question-ask{font-size:1rem;font-weight:800;margin-bottom:1rem;line-height:1.5}
+    .answer-row{display:flex;gap:.75rem;margin-bottom:1rem;align-items:center}
+    .answer-input{flex:1;border:2.5px solid var(--border);border-radius:12px;padding:.85rem 1rem;font-family:inherit;font-size:1.2rem;font-weight:900;text-align:center;outline:none;transition:border-color .15s}
+    .answer-input:focus{border-color:var(--subject)}
+    .answer-input.correct{border-color:var(--success);background:var(--success-light)}
+    .answer-input.wrong{border-color:var(--error);background:var(--error-light)}
+    .btn-ok{padding:.85rem 1.4rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;white-space:nowrap}
+    .btn-ok:hover{background:var(--subject-dark)}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.7;transition:max-height .35s ease,padding .35s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}
+    .win-emoji{font-size:4rem;margin-bottom:.5rem}
+    .win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}
+    .win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}
+    .score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
@@ -45,28 +58,32 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Probabilités</h1>
+  <h1>Probabilités de base</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🎲</div>
-    <div class="intro-title">QCM — Probabilités</div>
-    <div class="intro-desc">Calculer des probabilités simples, utiliser la fréquence et les règles de base. Événements, complémentaires, réunion, intersection.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Calcul — Probabilités de base</div>
+    <div class="intro-desc">Calcule $P(A)$, $P(\bar{A})$, $P(A \cup B)$ et $P(A \cap B)$ à partir de situations variées. Saisis ta réponse sous forme décimale.</div>
+    <div class="rule-box">📝 <strong>10 problèmes</strong> à résoudre — tape la réponse (décimale arrondie à 2 chiffres si besoin) et valide.<br>Une correction détaillée s'affiche après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Problème 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="problem-box" id="problemBox"></div>
+    <div class="question-ask" id="questionAsk"></div>
+    <div class="answer-row">
+      <input class="answer-input" id="answerInput" type="text" placeholder="0,xx" autocomplete="off">
+      <button class="btn-ok" onclick="game.submit()">OK ✓</button>
+    </div>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Problème suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Exercice terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,68 +94,144 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
+const PROBLEMS = [
   {
-    q:"Quelle affirmation est toujours vraie concernant une probabilité $P(A)$ ?",
-    choices:["$P(A)$ peut être négatif","$P(A) \\in [0,\\,1]$","$P(A) > 1$ si $A$ est très probable","$P(A)=\\frac{1}{2}$ pour tout événement"],
-    ans:1,
-    expl:"Une probabilité est toujours comprise entre $0$ (événement impossible) et $1$ (événement certain) : $P(A) \\in [0,\\,1]$."
+    prob: "On lance un dé équilibré à 6 faces. On note $A$ l'événement « obtenir un nombre pair ».",
+    ask: "Calcule $P(A)$.",
+    ans: 0.5,
+    expl: "$A = \\{2, 4, 6\\}$ : 3 issues favorables sur 6. $P(A) = \\dfrac{3}{6} = 0{,}5$."
   },
   {
-    q:"Si $P(A)=0{,}3$, quelle est la probabilité du complémentaire $P(\\bar{A})$ ?",
-    choices:["$0{,}3$","$0{,}6$","$0{,}7$","$1{,}3$"],
-    ans:2,
-    expl:"La probabilité du complémentaire est $P(\\bar{A})=1-P(A)=1-0{,}3=0{,}7$. L'événement $\\bar{A}$ correspond à « $A$ ne se réalise pas »."
+    prob: "Dans une urne : 4 boules rouges, 6 boules bleues. On tire une boule au hasard. $A$ = « boule rouge ».",
+    ask: "Calcule $P(\\bar{A})$ (complémentaire de $A$).",
+    ans: 0.6,
+    expl: "$P(A) = \\dfrac{4}{10} = 0{,}4$. Donc $P(\\bar{A}) = 1 - P(A) = 1 - 0{,}4 = 0{,}6$."
   },
   {
-    q:"Pour deux événements quelconques $A$ et $B$, quelle formule est correcte ?",
-    choices:["$P(A \\cup B)=P(A)+P(B)$","$P(A \\cup B)=P(A)+P(B)-P(A \\cap B)$","$P(A \\cup B)=P(A) \\times P(B)$","$P(A \\cup B)=P(A)-P(B)$"],
-    ans:1,
-    expl:"La formule d'inclusion-exclusion : $P(A \\cup B)=P(A)+P(B)-P(A \\cap B)$. On soustrait $P(A \\cap B)$ pour éviter de compter deux fois les issues appartenant aux deux événements."
+    prob: "On sait que $P(A) = 0{,}35$ et $A$, $B$ sont incompatibles avec $P(B) = 0{,}25$.",
+    ask: "Calcule $P(A \\cup B)$.",
+    ans: 0.6,
+    expl: "$A$ et $B$ incompatibles : $P(A \\cap B) = 0$. Donc $P(A \\cup B) = P(A) + P(B) = 0{,}35 + 0{,}25 = 0{,}6$."
   },
   {
-    q:"Deux événements $A$ et $B$ sont dits incompatibles (mutuellement exclusifs) si :",
-    choices:["$P(A)=P(B)$","$P(A \\cap B)=1$","$P(A \\cap B)=0$","$P(A)+P(B)=1$"],
-    ans:2,
-    expl:"Deux événements sont incompatibles s'ils ne peuvent pas se réaliser simultanément, c'est-à-dire $P(A \\cap B)=0$. Dans ce cas, $P(A \\cup B)=P(A)+P(B)$."
+    prob: "Dans une classe de 30 élèves : 18 font du sport, 12 font de la musique, 5 font les deux.",
+    ask: "Calcule $P(A \\cup B)$ où $A$ = sport, $B$ = musique.",
+    ans: 0.83,
+    expl: "$P(A) = \\frac{18}{30}$, $P(B) = \\frac{12}{30}$, $P(A\\cap B) = \\frac{5}{30}$. $P(A\\cup B) = \\frac{18+12-5}{30} = \\frac{25}{30} \\approx 0{,}83$."
   },
   {
-    q:"Dans un contexte d'équiprobabilité avec $n$ issues également probables, la probabilité d'un événement $A$ composé de $k$ issues est :",
-    choices:["$P(A)=k \\times n$","$P(A)=\\frac{n}{k}$","$P(A)=\\frac{k}{n}$","$P(A)=k+n$"],
-    ans:2,
-    expl:"En situation d'équiprobabilité : $P(A)=\\frac{\\text{nombre d'issues favorables}}{\\text{nombre total d'issues}}=\\frac{k}{n}$."
+    prob: "On sait que $P(A) = 0{,}6$, $P(B) = 0{,}5$ et $P(A \\cup B) = 0{,}8$.",
+    ask: "Calcule $P(A \\cap B)$.",
+    ans: 0.3,
+    expl: "Par inclusion-exclusion : $P(A \\cap B) = P(A) + P(B) - P(A \\cup B) = 0{,}6 + 0{,}5 - 0{,}8 = 0{,}3$."
   },
   {
-    q:"On lance un dé à 6 faces équilibré. Quelle est la probabilité d'obtenir un nombre pair ?",
-    choices:["$\\frac{1}{6}$","$\\frac{1}{3}$","$\\frac{1}{2}$","$\\frac{2}{3}$"],
-    ans:2,
-    expl:"Les faces paires sont $2, 4, 6$ : il y en a $3$ sur $6$ faces au total. Donc $P(\\text{pair})=\\frac{3}{6}=\\frac{1}{2}$."
+    prob: "On tire une carte au hasard dans un jeu de 52 cartes. $A$ = « obtenir un cœur ».",
+    ask: "Calcule $P(A)$.",
+    ans: 0.25,
+    expl: "Il y a 13 cœurs sur 52 cartes. $P(A) = \\dfrac{13}{52} = \\dfrac{1}{4} = 0{,}25$."
   },
   {
-    q:"Dans un jeu de 52 cartes, on tire une carte au hasard. Quelle est la probabilité d'obtenir un As ?",
-    choices:["$\\frac{1}{52}$","$\\frac{1}{13}$","$\\frac{1}{4}$","$\\frac{4}{52}$ et $\\frac{1}{13}$ sont équivalents — les deux réponses B et D sont correctes"],
-    ans:1,
-    expl:"Il y a 4 As dans un jeu de 52 cartes. $P(\\text{As})=\\frac{4}{52}=\\frac{1}{13}$. Les réponses B et D expriment la même valeur, mais B est la forme simplifiée attendue."
+    prob: "On sait que $P(\\bar{A}) = 0{,}72$.",
+    ask: "Calcule $P(A)$.",
+    ans: 0.28,
+    expl: "$P(A) = 1 - P(\\bar{A}) = 1 - 0{,}72 = 0{,}28$."
   },
   {
-    q:"La loi des grands nombres affirme que, lorsque le nombre d'expériences augmente :",
-    choices:["La probabilité d'un événement augmente","La fréquence relative d'un événement se rapproche de sa probabilité théorique","Tous les événements deviennent équiprobables","La somme des probabilités dépasse 1"],
-    ans:1,
-    expl:"La loi des grands nombres stipule que la fréquence relative d'un événement tend vers sa probabilité théorique quand le nombre d'expériences tend vers l'infini."
+    prob: "On lance deux dés équilibrés. $A$ = « la somme vaut 7 ». Il y a 6 issues favorables sur 36.",
+    ask: "Calcule $P(A)$.",
+    ans: 0.17,
+    expl: "Les paires $(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)$ donnent 7 : 6 issues. $P(A) = \\dfrac{6}{36} = \\dfrac{1}{6} \\approx 0{,}17$."
+  },
+  {
+    prob: "Dans une expérience aléatoire, $P(A) = 0{,}45$, $P(B) = 0{,}30$, $A$ et $B$ incompatibles.",
+    ask: "Calcule $P(\\overline{A \\cup B})$.",
+    ans: 0.25,
+    expl: "$P(A \\cup B) = 0{,}45 + 0{,}30 = 0{,}75$. Donc $P(\\overline{A \\cup B}) = 1 - 0{,}75 = 0{,}25$."
+  },
+  {
+    prob: "On tire une boule dans une urne contenant 3 rouges, 4 bleues et 3 vertes.",
+    ask: "Calcule $P(\\text{non bleue})$.",
+    ans: 0.6,
+    expl: "$P(\\text{bleue}) = \\dfrac{4}{10} = 0{,}4$. $P(\\text{non bleue}) = 1 - 0{,}4 = 0{,}6$."
   }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const TOTAL = PROBLEMS.length;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[], idx=0, score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const p = PROBLEMS[order[idx]];
+    document.getElementById('qLabel').textContent = `Problème ${idx+1} / ${TOTAL}`;
+    document.getElementById('progFill').style.width = `${idx/TOTAL*100}%`;
+    document.getElementById('problemBox').innerHTML = p.prob;
+    document.getElementById('questionAsk').innerHTML = p.ask;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').style.display = 'none';
+    const inp = document.getElementById('answerInput');
+    inp.value = '';
+    inp.className = 'answer-input';
+    inp.disabled = false;
+    inp.focus();
+    rm(document.getElementById('problemBox'));
+    rm(document.getElementById('questionAsk'));
+  }
+
+  function submit() {
+    const inp = document.getElementById('answerInput');
+    const raw = inp.value.replace(',', '.').trim();
+    const val = parseFloat(raw);
+    if (isNaN(val)) { inp.focus(); return; }
+    inp.disabled = true;
+    const p = PROBLEMS[order[idx]];
+    const ok = Math.abs(val - p.ans) < 0.015;
+    if (ok) score++;
+    inp.className = 'answer-input ' + (ok ? 'correct' : 'wrong');
+    const fb = document.getElementById('feedback');
+    fb.innerHTML = (ok ? '✅ Correct ! ' : `❌ Réponse attendue : ${p.ans} — `) + p.expl;
+    fb.className = 'feedback ' + (ok ? 'show-ok' : 'show-ko');
+    document.getElementById('btnNext').style.display = 'block';
+    rm(fb);
+  }
+
+  function next() {
+    idx++;
+    if (idx >= TOTAL) showWin(); else loadQ();
+  }
+
+  function showWin() {
+    document.getElementById('progFill').style.width = '100%';
+    const pct = Math.round(score/TOTAL*100);
+    document.getElementById('winScore').textContent = `${score} / ${TOTAL}`;
+    document.getElementById('winPct').textContent = `${pct} %`;
+    const e = pct>=90?'🏆':pct>=60?'😊':'💪';
+    const s = pct>=90?'Excellent ! Tu maîtrises les probabilités de base !':pct>=60?'Bon travail ! Revois les points délicats.':'Continue à t\'entraîner !';
+    document.getElementById('winEmoji').textContent = e;
+    document.getElementById('winSub').textContent = s;
+    show('screenWin');
+  }
+
+  function start() {
+    order = shuffle([...Array(TOTAL).keys()]);
+    idx = 0; score = 0;
+    loadQ();
+    show('screenGame');
+  }
+
+  return { start, submit, next };
 })();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('screenGame').classList.contains('active')) {
+    if (document.getElementById('btnNext').style.display === 'block') game.next();
+    else game.submit();
+  }
+});
 </script>
 </body>
 </html>
