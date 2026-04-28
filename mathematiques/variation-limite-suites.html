@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Variation et limite des suites</h1>
   <p>Monotonie, bornage, convergence et divergence</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Une suite $(u_n)$ est dite croissante si :",choices:["$u_{n+1} - u_n > 0$ pour tout $n$","$u_{n+1} - u_n < 0$ pour tout $n$","$u_n > 0$ pour tout $n$","$u_{n+1}/u_n > 1$ pour tout $n$"],ans:0,expl:"Une suite est croissante si $u_{n+1} - u_n > 0$ pour tout $n$, c'est-à-dire si chaque terme est strictement supérieur au précédent."},

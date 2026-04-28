@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Probabilités conditionnelles</h1>
   <p>$P_B(A) = \dfrac{P(A \cap B)}{P(B)}$ — définition et applications</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"La probabilité conditionnelle de $A$ sachant $B$ est définie par :",choices:["$P_B(A) = P(A) \\times P(B)$","$P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$ si $P(B) > 0$","$P_B(A) = P(A) + P(B)$","$P_B(A) = \\dfrac{P(A \\cap B)}{P(A)}$"],ans:1,expl:"Par définition, $P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$, à condition que $P(B) > 0$. On lit « probabilité de $A$ sachant $B$ »."},

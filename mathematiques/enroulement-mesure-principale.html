@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Enroulement et mesure principale</h1>
   <p>Angles coterminaux · $\pi$ rad = 180° · mesure dans $]-\pi\,;\,\pi]$</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Deux angles $\\alpha$ et $\\beta$ sont coterminaux (même point sur le cercle) si et seulement si :",choices:["$\\alpha = \\beta$","$\\alpha - \\beta = \\pi$","$\\alpha - \\beta = 2k\\pi$ pour un entier $k$","$\\alpha + \\beta = 2\\pi$"],ans:2,expl:"Deux angles sont coterminaux s'ils diffèrent d'un multiple entier de $2\\pi$ : $\\alpha = \\beta + 2k\\pi$, $k \\in \\mathbb{Z}$."},

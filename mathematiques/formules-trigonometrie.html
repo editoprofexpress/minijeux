@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Formules de trigonométrie</h1>
   <p>Parité, symétries, périodicité de cos et sin</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"$\\cos(-x) = $ ?",choices:["$-\\cos(x)$","$\\cos(x)$","$\\sin(x)$","$-\\sin(x)$"],ans:1,expl:"Le cosinus est une fonction paire : $\\cos(-x) = \\cos(x)$. Sur le cercle, $-x$ est le symétrique de $x$ par rapport à l'axe des abscisses."},

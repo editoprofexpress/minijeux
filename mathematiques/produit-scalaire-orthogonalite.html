@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Produit scalaire et orthogonalité</h1>
   <p>$\vec{u} \cdot \vec{v} = 0 \Leftrightarrow \vec{u} \perp \vec{v}$ — Pythagore et réciproque</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont orthogonaux si et seulement si :",choices:["$\\|\\vec{u}\\| = \\|\\vec{v}\\|$","$\\vec{u} \\cdot \\vec{v} = 0$","$\\vec{u} \\cdot \\vec{v} = 1$","$\\|\\vec{u}+\\vec{v}\\| = 0$"],ans:1,expl:"La définition : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. En coordonnées : $(x_1,y_1)\\perp(x_2,y_2) \\Leftrightarrow x_1x_2+y_1y_2 = 0$."},

@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Arbres et probabilités totales</h1>
   <p>Lire un arbre, multiplier les branches, sommer les chemins</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"La formule des probabilités totales avec partition $\\{B_1, B_2\\}$ donne $P(A)$ = ?",choices:["$P_{B_1}(A) + P_{B_2}(A)$","$P(B_1) \\cdot P_{B_1}(A) + P(B_2) \\cdot P_{B_2}(A)$","$P(B_1) + P(B_2)$","$P(A \\cap B_1) \\times P(A \\cap B_2)$"],ans:1,expl:"$P(A) = P(B_1) \\cdot P_{B_1}(A) + P(B_2) \\cdot P_{B_2}(A)$. C'est la somme des produits sur chaque branche menant à A."},

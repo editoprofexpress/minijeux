@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Suites arithmético-géométriques</h1>
   <p>$u_{n+1} = a \cdot u_n + b$ — point fixe et terme général</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"La suite définie par $u_{n+1} = 2u_n + 3$ est de type :",choices:["Arithmétique","Géométrique","Arithmético-géométrique","Constante"],ans:2,expl:"$u_{n+1} = a \\cdot u_n + b$ avec $a = 2$ et $b = 3$. Comme $a \\neq 0$ et $a \\neq 1$, c'est une suite arithmético-géométrique."},

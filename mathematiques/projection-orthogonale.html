@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Projection orthogonale</h1>
   <p>Distance d'un point à une droite, pied de la perpendiculaire</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"La projection orthogonale de $A$ sur la droite $(d)$ est le point $H$ tel que :",choices:["$AH$ est le plus long segment de $A$ à $(d)$","$AH \\perp (d)$","$H$ est le milieu de $A$ et de $(d)$","$AH$ est parallèle à $(d)$"],ans:1,expl:"$H$ est la projection orthogonale de $A$ sur $(d)$ si et seulement si $H \\in (d)$ et $AH \\perp (d)$. C'est le point de $(d)$ le plus proche de $A$."},

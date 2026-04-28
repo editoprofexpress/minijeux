@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Suites définies par récurrence</h1>
   <p>$u_{n+1} = f(u_n)$ — calcul, raisonnement, convergence</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Pour définir une suite par récurrence, il faut donner :",choices:["Le terme général $u_n$","Le premier terme $u_0$ (ou $u_1$) et la relation $u_{n+1} = f(u_n)$","La somme des termes","La limite de la suite"],ans:1,expl:"Une suite par récurrence est définie par : un premier terme (condition initiale) ET une relation de récurrence qui permet de calculer chaque terme à partir du précédent."},

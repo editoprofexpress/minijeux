@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Signe de la dérivée et variations</h1>
   <p>$f' > 0 \Rightarrow f$ croissante · $f' < 0 \Rightarrow f$ décroissante</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"Si $f'(x) > 0$ sur un intervalle $[a, b]$, alors $f$ est :",choices:["Décroissante sur $[a, b]$","Croissante sur $[a, b]$","Constante sur $[a, b]$","Convexe sur $[a, b]$"],ans:1,expl:"$f' > 0 \\Rightarrow f$ est strictement croissante. La pente de la tangente est positive, la courbe monte."},

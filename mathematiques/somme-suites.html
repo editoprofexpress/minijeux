@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="top-bar">
-  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <div class="subject-badge">📐 Mathématiques</div>
   <h1>Somme des termes d'une suite</h1>
   <p>$S_n = \dfrac{n(u_1 + u_n)}{2}$ · $u_1 \cdot \dfrac{1 - q^n}{1 - q}$</p>
 </div>
@@ -76,6 +76,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.querySelector('.top-bar'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
   {q:"La somme des $n$ premiers entiers $1 + 2 + \\cdots + n$ vaut :",choices:["$n^2$","$\\dfrac{n(n+1)}{2}$","$\\dfrac{n(n-1)}{2}$","$\\dfrac{(n+1)^2}{2}$"],ans:1,expl:"$1 + 2 + \\cdots + n = \\dfrac{n(n+1)}{2}$. Formule de Gauss : la somme des $n$ premiers entiers."},
