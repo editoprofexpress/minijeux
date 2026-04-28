@@ -3,42 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Suites : modes de génération : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="tri">
+  <title>Suites : modes de génération — Tri — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
-    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
-    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    :root {
+      --subject: #0891b2; --subject-dark: #0e7490; --subject-light: #e0f2fe;
+      --bg: #f0f9ff;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --warn: #d97706; --warn-light: #fef3c7;
+      --card: #ffffff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; }
+    .container { width: 100%; max-width: 720px; padding: 2rem 1rem 3rem; }
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.75rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+    /* Progress */
+    .progress-wrap { background: white; border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width .4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    /* Current item */
+    .item-card { background: var(--subject-light); border: 2.5px solid var(--subject); border-radius: 16px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 800; min-height: 80px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: box-shadow .15s; }
+    .item-card.selected { box-shadow: 0 0 0 4px rgba(8,145,178,0.35); }
+    /* Zones */
+    .zones { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+    @media(max-width:560px) { .zones { grid-template-columns: 1fr; } }
+    .zone { border-radius: 14px; border: 3px dashed var(--border); padding: 0.9rem 0.75rem; min-height: 160px; cursor: pointer; transition: border-color .2s, background .2s; }
+    .zone:hover { border-color: var(--subject); background: var(--subject-light); }
+    .zone.zone-arith { border-color: var(--success); }
+    .zone.zone-geo { border-color: var(--warn); }
+    .zone.zone-neither { border-color: var(--muted); }
+    .zone-header { font-weight: 900; font-size: 0.88rem; text-align: center; border-radius: 8px; padding: 0.45rem 0.5rem; margin-bottom: 0.65rem; }
+    .zone-header.arith { background: var(--success-light); color: var(--success); }
+    .zone-header.geo { background: var(--warn-light); color: var(--warn); }
+    .zone-header.neither { background: #f1f5f9; color: var(--muted); }
+    .zone-items { display: flex; flex-wrap: wrap; gap: 0.4rem; min-height: 50px; }
+    .zone-chip { background: white; border: 2px solid var(--border); border-radius: 8px; padding: 0.35rem 0.6rem; font-size: 0.8rem; font-weight: 700; transition: border-color .15s; }
+    .zone-chip.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .zone-chip.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    /* Score row */
+    .score-row { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+    .score-pill { background: white; border-radius: 100px; padding: 0.45rem 1rem; font-weight: 800; font-size: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    /* Instructions */
+    .instruction-box { text-align: center; font-size: 0.88rem; font-weight: 700; color: var(--muted); margin-bottom: 1rem; min-height: 1.4em; }
+    /* Validate */
+    .btn-validate { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; opacity: 0.4; pointer-events: none; }
+    .btn-validate.ready { opacity: 1; pointer-events: all; }
+    .btn-validate.ready:hover { background: var(--subject-dark); }
+    /* Feedback section */
+    .feedback-section { margin-top: 1rem; display: none; }
+    .feedback-section.show { display: block; animation: fadeIn .25s ease; }
+    .feedback-title-big { font-weight: 900; font-size: 1rem; margin-bottom: 0.5rem; }
+    /* Results */
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total-lbl { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-retry:hover { background: var(--subject-dark); }
+    /* Toast */
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; border-radius: 100px; padding: 0.75rem 1.5rem; font-weight: 700; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity .2s; white-space: nowrap; z-index: 100; }
+    .toast.show { opacity: 1; }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -47,57 +98,227 @@
   <div class="subject-badge">📐 Mathématiques</div>
   <h1>Suites : modes de génération</h1>
 </div>
+
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🔢</div>
-    <div class="intro-title">QCM — Modes de génération des suites</div>
-    <div class="intro-desc">Apprends à reconnaître et utiliser les différents modes de définition d'une suite : par récurrence ou par formule explicite.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Tri — Suites arithmétiques et géométriques</div>
+    <div class="intro-desc">Classe chaque suite dans la bonne catégorie.</div>
+    <div class="rule-box">
+      <strong>Suite arithmétique :</strong> on ajoute une constante $r$ — $u_{n+1} = u_n + r$<br>
+      <strong>Suite géométrique :</strong> on multiplie par une constante $q$ — $u_{n+1} = q \cdot u_n$<br>
+      <strong>Ni l'une ni l'autre :</strong> ni addition ni multiplication constante.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0 / 12</span>
+    </div>
+    <div class="score-row">
+      <div class="score-pill">✅ <span id="scoreCorrect">0</span></div>
+      <div class="score-pill">❌ <span id="scoreWrong">0</span></div>
+    </div>
+    <div class="card" style="margin-bottom:1rem">
+      <div class="instruction-box" id="instructionBox">Clique sur une suite dans la banque, puis sur la bonne catégorie.</div>
+
+      <!-- Pool -->
+      <div style="margin-bottom:1rem">
+        <div style="font-size:0.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.6rem">🃏 Suites à trier</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.55rem;min-height:50px" id="pool"></div>
+      </div>
+
+      <!-- Zones -->
+      <div class="zones">
+        <div class="zone zone-arith" id="zoneArith" onclick="game.placeInZone('arith')">
+          <div class="zone-header arith">➕ Suite arithmétique</div>
+          <div class="zone-items" id="itemsArith"></div>
+        </div>
+        <div class="zone zone-geo" id="zoneGeo" onclick="game.placeInZone('geo')">
+          <div class="zone-header geo">✖️ Suite géométrique</div>
+          <div class="zone-items" id="itemsGeo"></div>
+        </div>
+        <div class="zone zone-neither" id="zoneNeither" onclick="game.placeInZone('neither')">
+          <div class="zone-header neither">❓ Ni l'une ni l'autre</div>
+          <div class="zone-items" id="itemsNeither"></div>
+        </div>
+      </div>
+
+      <div class="feedback-section" id="feedbackSection">
+        <div class="feedback-title-big" id="feedbackTitleBig"></div>
+        <div id="feedbackDetails"></div>
+      </div>
+
+      <button class="btn-validate" id="btnValidate" onclick="game.validate()">Valider toutes les suites ✓</button>
+    </div>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">12</span>
+          <span class="score-total-lbl">/ 12</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Une suite arithmétique de raison $r$ est définie par la relation de récurrence :",choices:["$u_{n+1} = r \\cdot u_n$","$u_{n+1} = u_n + r$","$u_n = r \\cdot n$","$u_n = u_{n-1} - r$"],ans:1,expl:"Une suite arithmétique vérifie $u_{n+1} = u_n + r$, où $r$ est la raison (constante). Chaque terme est obtenu en ajoutant $r$ au précédent."},
-  {q:"Une suite géométrique de raison $q$ est définie par la relation de récurrence :",choices:["$u_{n+1} = u_n + q$","$u_{n+1} = q \\cdot u_n$","$u_n = q \\cdot n$","$u_n = u_{n-1} / q$"],ans:1,expl:"Une suite géométrique vérifie $u_{n+1} = q \\cdot u_n$, où $q$ est la raison. Chaque terme est obtenu en multipliant le précédent par $q$."},
-  {q:"Soit $u_{n+1} = u_n + 3$ avec $u_0 = 1$. La valeur de $u_3$ est :",choices:["$7$","$10$","$6$","$4$"],ans:1,expl:"$u_1 = 1+3 = 4$, $u_2 = 4+3 = 7$, $u_3 = 7+3 = 10$."},
-  {q:"Soit $u_{n+1} = 2 \\cdot u_n$ avec $u_0 = 1$. La valeur de $u_4$ est :",choices:["$8$","$16$","$4$","$32$"],ans:1,expl:"$u_1 = 2$, $u_2 = 4$, $u_3 = 8$, $u_4 = 16$."},
-  {q:"Le terme général d'une suite arithmétique de premier terme $u_0$ et de raison $r$ est :",choices:["$u_n = u_0 \\cdot r^n$","$u_n = u_0 + n \\cdot r$","$u_n = u_0 + r^n$","$u_n = n \\cdot u_0 + r$"],ans:1,expl:"$u_n = u_0 + n \\cdot r$. On a ajouté $r$ exactement $n$ fois à partir de $u_0$."},
-  {q:"Le terme général d'une suite géométrique de premier terme $u_0$ et de raison $q$ est :",choices:["$u_n = u_0 + n \\cdot q$","$u_n = n \\cdot u_0 \\cdot q$","$u_n = u_0 \\cdot q^n$","$u_n = u_0 + q^n$"],ans:2,expl:"$u_n = u_0 \\cdot q^n$. On a multiplié par $q$ exactement $n$ fois à partir de $u_0$."},
-  {q:"La suite définie par $u_n = 3n + 1$ est :",choices:["Géométrique de raison $3$","Arithmétique de raison $3$","Ni arithmétique ni géométrique","Constante"],ans:1,expl:"$u_{n+1} - u_n = 3(n+1)+1 - (3n+1) = 3$. La différence est constante (= 3) : c'est une suite arithmétique de raison $3$."},
-  {q:"Pour une suite géométrique de raison $q = -\\dfrac{1}{2}$, quand $n \\to +\\infty$, $u_n$ :",choices:["Tend vers $+\\infty$","Tend vers $-\\infty$","Tend vers $0$","Oscille indéfiniment"],ans:2,expl:"Si $|q| = \\dfrac{1}{2} < 1$, alors $q^n \\to 0$ quand $n \\to +\\infty$. Donc $u_n = u_0 \\cdot q^n \\to 0$."},
+const ITEMS = [
+  { label: '$u_n = 3n + 1$',          type: 'arith',   expl: 'Suite arithmétique de raison $3$ (terme général $u_0+nr$).' },
+  { label: '$u_{n+1} = u_n + 5$',     type: 'arith',   expl: 'Suite arithmétique de raison $5$ (récurrence additive constante).' },
+  { label: '$3;\\ 7;\\ 11;\\ 15;\\ \\ldots$', type: 'arith', expl: 'Suite arithmétique de raison $4$ ($7-3=11-7=4$).' },
+  { label: '$u_n = 2 \\times 3^n$',   type: 'geo',     expl: 'Suite géométrique de raison $3$ (terme général $u_0 \\cdot q^n$).' },
+  { label: '$u_{n+1} = 2 u_n$',       type: 'geo',     expl: 'Suite géométrique de raison $2$ (récurrence multiplicative constante).' },
+  { label: '$1;\\ 2;\\ 4;\\ 8;\\ \\ldots$', type: 'geo', expl: 'Suite géométrique de raison $2$.' },
+  { label: '$u_n = n^2$',             type: 'neither', expl: 'Ni arithmétique ni géométrique : $u_{n+1} - u_n = 2n+1$ n\'est pas constant.' },
+  { label: '$u_{n+1} = u_n^2 + 1$',  type: 'neither', expl: 'La relation fait intervenir $u_n^2$, ni addition ni multiplication constante.' },
+  { label: '$1;\\ 4;\\ 9;\\ 16;\\ \\ldots$', type: 'neither', expl: 'Ce sont les carrés parfaits. Ni arithmétique ($3 \\neq 5$) ni géométrique ($4 \\neq 9/4$).' },
+  { label: '$u_{n+1} = -\\frac{1}{2}u_n$, $u_0=8$', type: 'geo', expl: 'Suite géométrique de raison $-\\frac{1}{2}$.' },
+  { label: '$u_n = 7 - 2n$',         type: 'arith',   expl: 'Suite arithmétique de raison $-2$.' },
+  { label: '$u_n = n!$',             type: 'neither', expl: 'La factorielle. $u_{n+1}/u_n = n+1$ n\'est pas constant : pas géométrique. $u_{n+1}-u_n = n\\cdot n!$ : pas arithmétique.' },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false });
+  }
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+  function showToast(msg, dur=1600) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),dur); }
+
+  let selected = null; // { item, el }
+  let placements = {}; // item.label -> zone key
+  let validated = false;
+
+  function start() {
+    selected = null; placements = {}; validated = false;
+    document.getElementById('itemsArith').innerHTML = '';
+    document.getElementById('itemsGeo').innerHTML = '';
+    document.getElementById('itemsNeither').innerHTML = '';
+    document.getElementById('feedbackSection').className = 'feedback-section';
+    document.getElementById('btnValidate').className = 'btn-validate';
+    document.getElementById('scoreCorrect').textContent = '0';
+    document.getElementById('scoreWrong').textContent = '0';
+
+    const pool = document.getElementById('pool');
+    pool.innerHTML = '';
+    shuffle(ITEMS).forEach(item => {
+      const el = document.createElement('div');
+      el.style.cssText = 'background:var(--subject-light);border:2.5px solid var(--subject);border-radius:10px;padding:.45rem .85rem;font-weight:800;font-size:.88rem;cursor:pointer;transition:all .15s;user-select:none;';
+      el.innerHTML = item.label;
+      el.dataset.key = item.label;
+      el.addEventListener('click', () => selectItem(item, el));
+      pool.appendChild(el);
+    });
+    rMath(pool);
+    updateProgress();
+    show('screenGame');
+  }
+
+  function updateProgress() {
+    const placed = Object.keys(placements).length;
+    document.getElementById('progressFill').style.width = (placed / ITEMS.length * 100) + '%';
+    document.getElementById('progressText').textContent = placed + ' / ' + ITEMS.length;
+    document.getElementById('btnValidate').className = 'btn-validate' + (placed === ITEMS.length && !validated ? ' ready' : '');
+  }
+
+  function selectItem(item, el) {
+    if (validated) return;
+    if (selected) { selected.el.style.transform = ''; selected.el.style.boxShadow = ''; }
+    if (selected && selected.item === item) { selected = null; return; }
+    selected = { item, el };
+    el.style.transform = 'scale(1.05)';
+    el.style.boxShadow = '0 0 0 3px rgba(8,145,178,.4)';
+    document.getElementById('instructionBox').textContent = 'Clique maintenant sur la catégorie correcte.';
+  }
+
+  function placeInZone(zone) {
+    if (!selected) { showToast('Sélectionne d\'abord une suite !'); return; }
+    if (validated) return;
+    const { item, el } = selected;
+    selected = null;
+    el.style.transform = ''; el.style.boxShadow = '';
+
+    // Remove from pool
+    el.remove();
+    placements[item.label] = zone;
+
+    // Add chip to zone
+    const chip = document.createElement('div');
+    chip.className = 'zone-chip';
+    chip.dataset.key = item.label;
+    chip.innerHTML = item.label;
+    const zoneMap = { arith: 'itemsArith', geo: 'itemsGeo', neither: 'itemsNeither' };
+    document.getElementById(zoneMap[zone]).appendChild(chip);
+    rMath(chip);
+
+    document.getElementById('instructionBox').textContent = 'Clique sur une suite dans la banque, puis sur la bonne catégorie.';
+    updateProgress();
+  }
+
+  function validate() {
+    if (validated) return;
+    validated = true;
+    document.getElementById('btnValidate').className = 'btn-validate';
+
+    let correct = 0, wrong = 0;
+    const lines = [];
+    ITEMS.forEach(item => {
+      const chosen = placements[item.label];
+      const ok = (chosen === item.type);
+      if (ok) correct++; else wrong++;
+      // Update chip appearance
+      const zoneMap = { arith: 'itemsArith', geo: 'itemsGeo', neither: 'itemsNeither' };
+      const chips = document.querySelectorAll('#' + zoneMap[chosen] + ' .zone-chip');
+      chips.forEach(c => { if (c.dataset.key === item.label) c.classList.add(ok ? 'correct' : 'wrong'); });
+      if (!ok) {
+        const zoneLabel = { arith: 'Suite arithmétique', geo: 'Suite géométrique', neither: 'Ni l\'une ni l\'autre' };
+        lines.push(`<div style="margin-bottom:.4rem;font-size:.82rem;">❌ <strong>${item.label.replace(/\$/g,'$')}</strong> → ${zoneLabel[item.type]} — ${item.expl}</div>`);
+      }
+    });
+
+    document.getElementById('scoreCorrect').textContent = correct;
+    document.getElementById('scoreWrong').textContent = wrong;
+    const pct = correct / ITEMS.length;
+    const sec = document.getElementById('feedbackSection');
+    sec.className = 'feedback-section show';
+    document.getElementById('feedbackTitleBig').textContent = pct === 1 ? '🏆 Parfait ! Toutes les suites bien classées !' : `${correct} / ${ITEMS.length} correct(s)`;
+    const det = document.getElementById('feedbackDetails');
+    det.innerHTML = lines.length ? lines.join('') : '<div style="color:var(--success);font-weight:800;">✅ Tout est correct !</div>';
+    rMath(det);
+
+    setTimeout(() => {
+      const sc = document.getElementById('scoreCircle');
+      sc.style.setProperty('--pct', Math.round(pct*360)+'deg');
+      const stars = pct===1 ? '⭐⭐⭐' : pct>=.7 ? '⭐⭐⭐' : pct>=.5 ? '⭐⭐' : '⭐';
+      const emoji = pct===1 ? '🏆' : pct>=.7 ? '🎉' : pct>=.5 ? '👍' : '📚';
+      const msg = pct===1 ? 'Parfait !' : pct>=.7 ? 'Très bien !' : pct>=.5 ? 'Bien !' : 'À réviser';
+      const sub = pct===1 ? 'Tu sais reconnaître les suites !' : pct>=.5 ? 'Revois les cas mal classés.' : 'Relis ta leçon sur les suites.';
+      document.getElementById('resultsEmoji').textContent = emoji;
+      document.getElementById('resultsStars').textContent = stars;
+      document.getElementById('scoreNum').textContent = correct;
+      document.getElementById('resultsMsg').textContent = msg;
+      document.getElementById('resultsSub').textContent = sub;
+      show('screenResults');
+    }, 2800);
+  }
+
+  return { start, placeInZone, validate };
 })();
 </script>
 </body>

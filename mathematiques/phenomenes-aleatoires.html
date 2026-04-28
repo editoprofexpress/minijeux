@@ -3,42 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Phénomènes aléatoires : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="tri">
+  <title>Phénomènes aléatoires — Tri — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
-    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
-    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    :root {
+      --subject: #0891b2; --subject-dark: #0e7490; --subject-light: #e0f2fe;
+      --bg: #f0f9ff;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --warn: #d97706; --warn-light: #fef3c7;
+      --card: #ffffff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; }
+    .container { width: 100%; max-width: 720px; padding: 2rem 1rem 3rem; }
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 0.75rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .rule-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.88rem; line-height: 1.8; }
+    .rule-box strong { color: var(--subject-dark); }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .progress-wrap { background: white; border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width .4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .score-row { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+    .score-pill { background: white; border-radius: 100px; padding: 0.45rem 1rem; font-weight: 800; font-size: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .instruction-box { text-align: center; font-size: 0.88rem; font-weight: 700; color: var(--muted); margin-bottom: 1rem; min-height: 1.4em; }
+    /* Pool */
+    .pool-title { font-size: 0.8rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 0.6rem; }
+    .pool-items { display: flex; flex-wrap: wrap; gap: 0.55rem; min-height: 55px; margin-bottom: 1.2rem; }
+    .pool-chip { background: var(--subject-light); border: 2.5px solid var(--subject); border-radius: 10px; padding: 0.5rem 0.85rem; font-weight: 800; font-size: 0.88rem; cursor: pointer; transition: all .15s; user-select: none; }
+    .pool-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(8,145,178,0.2); }
+    .pool-chip.selected { background: var(--subject); color: white; transform: scale(1.05); }
+    /* Zones */
+    .zones { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+    @media(max-width:560px) { .zones { grid-template-columns: 1fr; } }
+    .zone { border-radius: 14px; border: 3px dashed var(--border); padding: 0.9rem 0.75rem; min-height: 150px; cursor: pointer; transition: border-color .2s, background .2s; }
+    .zone:hover { border-color: var(--subject); background: var(--subject-light); }
+    .zone.zone-impos { border-color: var(--error); }
+    .zone.zone-cert { border-color: var(--success); }
+    .zone.zone-aleat { border-color: var(--warn); }
+    .zone-header { font-weight: 900; font-size: 0.82rem; text-align: center; border-radius: 8px; padding: 0.4rem 0.5rem; margin-bottom: 0.6rem; line-height: 1.35; }
+    .zone-header.impos { background: var(--error-light); color: var(--error); }
+    .zone-header.cert { background: var(--success-light); color: var(--success); }
+    .zone-header.aleat { background: var(--warn-light); color: var(--warn); }
+    .zone-items { display: flex; flex-wrap: wrap; gap: 0.4rem; min-height: 40px; }
+    .zone-chip { background: white; border: 2px solid var(--border); border-radius: 8px; padding: 0.3rem 0.55rem; font-size: 0.78rem; font-weight: 700; }
+    .zone-chip.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+    .zone-chip.wrong { border-color: var(--error); background: var(--error-light); color: var(--error); }
+    /* Feedback + validate */
+    .feedback-section { margin-top: 1rem; display: none; }
+    .feedback-section.show { display: block; animation: fadeIn .25s ease; }
+    .feedback-title-big { font-weight: 900; font-size: 1rem; margin-bottom: 0.5rem; }
+    .btn-validate { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; opacity: 0.4; pointer-events: none; }
+    .btn-validate.ready { opacity: 1; pointer-events: all; }
+    .btn-validate.ready:hover { background: var(--subject-dark); }
+    /* Results */
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total-lbl { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-retry:hover { background: var(--subject-dark); }
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; border-radius: 100px; padding: 0.75rem 1.5rem; font-weight: 700; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity .2s; white-space: nowrap; z-index: 100; }
+    .toast.show { opacity: 1; }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -47,137 +96,214 @@
   <div class="subject-badge">📐 Mathématiques</div>
   <h1>Phénomènes aléatoires</h1>
 </div>
+
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🎯</div>
-    <div class="intro-title">QCM — Phénomènes aléatoires</div>
-    <div class="intro-desc">Comprendre la notion d'aléatoire, modéliser des expériences aléatoires, et distinguer fréquence et probabilité.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-emoji">🎲</div>
+    <div class="intro-title">Tri — Événements et probabilités</div>
+    <div class="intro-desc">Classe chaque événement selon sa probabilité.</div>
+    <div class="rule-box">
+      <strong>Impossible ($P = 0$) :</strong> l'événement ne peut jamais se produire.<br>
+      <strong>Certain ($P = 1$) :</strong> l'événement se produit à coup sûr.<br>
+      <strong>Aléatoire ($0 &lt; P &lt; 1$) :</strong> l'événement peut ou non se produire.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0 / 12</span>
+    </div>
+    <div class="score-row">
+      <div class="score-pill">✅ <span id="scoreCorrect">0</span></div>
+      <div class="score-pill">❌ <span id="scoreWrong">0</span></div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <div class="instruction-box" id="instructionBox">Clique sur un événement, puis sur la catégorie correcte.</div>
+
+      <div class="pool-title">🃏 Événements à classer</div>
+      <div class="pool-items" id="pool"></div>
+
+      <div class="zones">
+        <div class="zone zone-impos" onclick="game.placeInZone('impos')">
+          <div class="zone-header impos">🚫 Impossible<br>$P = 0$</div>
+          <div class="zone-items" id="itemsImpos"></div>
+        </div>
+        <div class="zone zone-cert" onclick="game.placeInZone('cert')">
+          <div class="zone-header cert">✅ Certain<br>$P = 1$</div>
+          <div class="zone-items" id="itemsCert"></div>
+        </div>
+        <div class="zone zone-aleat" onclick="game.placeInZone('aleat')">
+          <div class="zone-header aleat">🎲 Aléatoire<br>$0 &lt; P &lt; 1$</div>
+          <div class="zone-items" id="itemsAleat"></div>
+        </div>
+      </div>
+
+      <div class="feedback-section" id="feedbackSection">
+        <div class="feedback-title-big" id="feedbackTitleBig"></div>
+        <div id="feedbackDetails"></div>
+      </div>
+
+      <button class="btn-validate" id="btnValidate" onclick="game.validate()">Valider tous les événements ✓</button>
+    </div>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">12</span>
+          <span class="score-total-lbl">/ 12</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {
-    q:"Qu'est-ce qu'un <strong>événement</strong> dans une expérience aléatoire ?",
-    choices:[
-      "Le résultat certain que l'on attend",
-      "Un sous-ensemble de l'univers $\\Omega$ des issues possibles",
-      "Une valeur numérique associée à l'expérience",
-      "Une répétition de l'expérience"
-    ],
-    ans:1,
-    expl:"Un événement est un sous-ensemble de l'univers $\\Omega$. Il regroupe une ou plusieurs issues. Par exemple, pour un dé, « obtenir un nombre pair » est l'événement $\\{2, 4, 6\\}$."
-  },
-  {
-    q:"On lance un dé à six faces équilibré. Quel est l'univers $\\Omega$ de cette expérience ?",
-    choices:[
-      "$\\Omega = \\{1, 2, 3\\}$",
-      "$\\Omega = \\{0, 1, 2, 3, 4, 5, 6\\}$",
-      "$\\Omega = \\{1, 2, 3, 4, 5, 6\\}$",
-      "$\\Omega = \\{2, 4, 6\\}$"
-    ],
-    ans:2,
-    expl:"L'univers $\\Omega$ contient <em>toutes</em> les issues possibles. Pour un dé standard, les faces vont de 1 à 6, donc $\\Omega = \\{1, 2, 3, 4, 5, 6\\}$."
-  },
-  {
-    q:"On répète 200 fois le lancer d'une pièce. On obtient 102 fois « pile ». Quelle est la <strong>fréquence</strong> de « pile » ?",
-    choices:[
-      "$0{,}5$",
-      "$102$",
-      "$0{,}51$",
-      "$0{,}49$"
-    ],
-    ans:2,
-    expl:"La fréquence est le rapport entre le nombre d'occurrences et le nombre total d'essais : $\\frac{102}{200} = 0{,}51$. Ce n'est pas la probabilité (qui vaut $0{,}5$ pour une pièce équilibrée), mais une estimation obtenue par expérience."
-  },
-  {
-    q:"La <strong>loi des grands nombres</strong> affirme que, lorsque le nombre d'expériences augmente :",
-    choices:[
-      "La fréquence d'un événement s'éloigne de plus en plus de sa probabilité",
-      "La fréquence d'un événement se stabilise autour de sa probabilité théorique",
-      "La probabilité change à chaque répétition",
-      "Les résultats deviennent certains"
-    ],
-    ans:1,
-    expl:"La loi des grands nombres garantit que la fréquence observée d'un événement se rapproche de sa probabilité théorique quand le nombre de répétitions devient très grand. C'est pourquoi on utilise des simulations avec un grand nombre d'essais."
-  },
-  {
-    q:"Une <strong>simulation</strong> informatique permet de :",
-    choices:[
-      "Calculer exactement la probabilité d'un événement rare",
-      "Remplacer définitivement le calcul théorique",
-      "Obtenir une estimation de la probabilité par la fréquence observée sur un grand nombre d'essais",
-      "Garantir que chaque issue est équiprobable"
-    ],
-    ans:2,
-    expl:"Une simulation génère un grand nombre d'issues aléatoires pour estimer une probabilité par la fréquence. Elle ne remplace pas le calcul théorique, mais est utile quand ce calcul est difficile ou impossible."
-  },
-  {
-    q:"Un événement dont la probabilité est égale à 1 est dit :",
-    choices:[
-      "Impossible",
-      "Élémentaire",
-      "Certain",
-      "Équiprobable"
-    ],
-    ans:2,
-    expl:"Un événement <strong>certain</strong> a une probabilité égale à 1 : il se réalise à chaque issue. À l'opposé, un événement <strong>impossible</strong> a une probabilité égale à 0."
-  },
-  {
-    q:"On lance un dé équilibré à six faces. Les issues sont <strong>équiprobables</strong>. Quelle est la probabilité d'obtenir le 3 ?",
-    choices:[
-      "$\\frac{1}{3}$",
-      "$\\frac{1}{2}$",
-      "$3$",
-      "$\\frac{1}{6}$"
-    ],
-    ans:3,
-    expl:"Quand les $n$ issues sont équiprobables, chacune a une probabilité $\\frac{1}{n}$. Ici $n=6$, donc $P(\\{3\\}) = \\frac{1}{6}$."
-  },
-  {
-    q:"On lance un dé à six faces équilibré. Quelle est la probabilité d'obtenir un nombre <strong>strictement supérieur à 4</strong> ?",
-    choices:[
-      "$\\frac{1}{6}$",
-      "$\\frac{2}{3}$",
-      "$\\frac{1}{3}$",
-      "$\\frac{1}{2}$"
-    ],
-    ans:2,
-    expl:"Les issues favorables sont 5 et 6, soit 2 issues sur 6 équiprobables. $P = \\frac{2}{6} = \\frac{1}{3}$."
-  }
+const ITEMS = [
+  { label: 'Obtenir un 7 avec un dé à 6 faces',                                  type: 'impos', expl: 'Un dé standard n\'a que les faces 1 à 6 : obtenir 7 est impossible.' },
+  { label: 'Le Soleil se lève demain matin',                                      type: 'cert',  expl: 'La rotation de la Terre est un phénomène certain dans le cadre scolaire.' },
+  { label: 'Tirer un roi dans un jeu de 52 cartes',                              type: 'aleat', expl: '$P = 4/52 = 1/13 \\approx 7{,}7\\%$. C\'est possible mais pas certain.' },
+  { label: 'Obtenir pile ou face avec une pièce',                                type: 'aleat', expl: 'Chaque côté a une probabilité $1/2$. C\'est aléatoire.' },
+  { label: 'Tirer une boule rouge d\'un sac ne contenant que des boules rouges', type: 'cert',  expl: 'Toutes les boules étant rouges, on tire forcément une rouge : $P = 1$.' },
+  { label: 'Lancer un dé et obtenir un nombre négatif',                          type: 'impos', expl: 'Les faces d\'un dé sont toutes positives (1 à 6) : impossible.' },
+  { label: 'Il pleuvra quelque part dans le monde demain',                       type: 'cert',  expl: 'Il pleut en permanence quelque part sur Terre : $P = 1$.' },
+  { label: 'Gagner au loto en achetant un billet',                               type: 'aleat', expl: 'C\'est très peu probable mais pas impossible : $P > 0$.' },
+  { label: 'Tirer une carte noire dans un jeu de 52 cartes normales',            type: 'aleat', expl: '26 cartes noires sur 52 : $P = 1/2$. Aléatoire.' },
+  { label: 'Obtenir moins de 7 en lançant un dé à 6 faces',                     type: 'cert',  expl: 'Toutes les faces (1 à 6) sont inférieures à 7 : $P = 1$.' },
+  { label: 'Tirer une boule verte d\'un sac contenant uniquement des boules rouges', type: 'impos', expl: 'Aucune boule verte dans le sac : $P = 0$.' },
+  { label: 'Obtenir un nombre pair en lançant un dé',                            type: 'aleat', expl: '$P(\\{2,4,6\\}) = 3/6 = 1/2$. C\'est aléatoire.' },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false });
+  }
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+  function showToast(msg, dur=1600) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),dur); }
+
+  let selected = null;
+  let placements = {};
+  let validated = false;
+
+  function start() {
+    selected = null; placements = {}; validated = false;
+    ['Impos','Cert','Aleat'].forEach(z => document.getElementById('items'+z).innerHTML = '');
+    document.getElementById('feedbackSection').className = 'feedback-section';
+    document.getElementById('btnValidate').className = 'btn-validate';
+    document.getElementById('scoreCorrect').textContent = '0';
+    document.getElementById('scoreWrong').textContent = '0';
+
+    const pool = document.getElementById('pool');
+    pool.innerHTML = '';
+    shuffle(ITEMS).forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'pool-chip';
+      el.textContent = item.label;
+      el.dataset.key = item.label;
+      el.addEventListener('click', () => selectItem(item, el));
+      pool.appendChild(el);
+    });
+    updateProgress();
+    show('screenGame');
+  }
+
+  function updateProgress() {
+    const placed = Object.keys(placements).length;
+    document.getElementById('progressFill').style.width = (placed / ITEMS.length * 100) + '%';
+    document.getElementById('progressText').textContent = placed + ' / ' + ITEMS.length;
+    document.getElementById('btnValidate').className = 'btn-validate' + (placed === ITEMS.length && !validated ? ' ready' : '');
+  }
+
+  function selectItem(item, el) {
+    if (validated) return;
+    if (selected) { selected.el.classList.remove('selected'); }
+    if (selected && selected.item === item) { selected = null; return; }
+    selected = { item, el };
+    el.classList.add('selected');
+  }
+
+  function placeInZone(zone) {
+    if (!selected) { showToast('Sélectionne d\'abord un événement !'); return; }
+    if (validated) return;
+    const { item, el } = selected;
+    selected = null;
+    el.classList.remove('selected');
+    el.remove();
+    placements[item.label] = zone;
+
+    const chip = document.createElement('div');
+    chip.className = 'zone-chip';
+    chip.dataset.key = item.label;
+    chip.textContent = item.label;
+    const zoneMap = { impos: 'itemsImpos', cert: 'itemsCert', aleat: 'itemsAleat' };
+    document.getElementById(zoneMap[zone]).appendChild(chip);
+
+    document.getElementById('instructionBox').textContent = 'Clique sur un événement, puis sur la catégorie correcte.';
+    updateProgress();
+  }
+
+  function validate() {
+    if (validated) return;
+    validated = true;
+    document.getElementById('btnValidate').className = 'btn-validate';
+
+    let correct = 0, wrong = 0;
+    const lines = [];
+    ITEMS.forEach(item => {
+      const chosen = placements[item.label];
+      const ok = (chosen === item.type);
+      if (ok) correct++; else wrong++;
+      const zoneMap = { impos: 'itemsImpos', cert: 'itemsCert', aleat: 'itemsAleat' };
+      document.querySelectorAll('#' + zoneMap[chosen] + ' .zone-chip').forEach(c => {
+        if (c.dataset.key === item.label) c.classList.add(ok ? 'correct' : 'wrong');
+      });
+      if (!ok) {
+        const zoneLabel = { impos: 'Impossible ($P=0$)', cert: 'Certain ($P=1$)', aleat: 'Aléatoire ($0<P<1$)' };
+        lines.push(`<div style="margin-bottom:.4rem;font-size:.82rem;">❌ <strong>${item.label}</strong> → ${zoneLabel[item.type]} : ${item.expl}</div>`);
+      }
+    });
+
+    document.getElementById('scoreCorrect').textContent = correct;
+    document.getElementById('scoreWrong').textContent = wrong;
+    const pct = correct / ITEMS.length;
+    const sec = document.getElementById('feedbackSection');
+    sec.className = 'feedback-section show';
+    document.getElementById('feedbackTitleBig').textContent = pct === 1 ? '🏆 Parfait ! Tous les événements bien classés !' : `${correct} / ${ITEMS.length} correct(s)`;
+    const det = document.getElementById('feedbackDetails');
+    det.innerHTML = lines.length ? lines.join('') : '<div style="color:var(--success);font-weight:800;">✅ Tout est correct !</div>';
+    rMath(det);
+
+    setTimeout(() => {
+      document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct*360)+'deg');
+      const stars = pct===1?'⭐⭐⭐':pct>=.7?'⭐⭐⭐':pct>=.5?'⭐⭐':'⭐';
+      const emoji = pct===1?'🏆':pct>=.7?'🎉':pct>=.5?'👍':'📚';
+      const msg   = pct===1?'Parfait !':pct>=.7?'Très bien !':pct>=.5?'Bien !':'À réviser';
+      const sub   = pct===1?'Tu sais classer les événements aléatoires !':pct>=.5?'Revois les événements mal classés.':'Relis ta leçon sur les probabilités.';
+      document.getElementById('resultsEmoji').textContent = emoji;
+      document.getElementById('resultsStars').textContent = stars;
+      document.getElementById('scoreNum').textContent = correct;
+      document.getElementById('resultsMsg').textContent = msg;
+      document.getElementById('resultsSub').textContent = sub;
+      show('screenResults');
+    }, 2800);
+  }
+
+  return { start, placeInZone, validate };
 })();
 </script>
 </body>

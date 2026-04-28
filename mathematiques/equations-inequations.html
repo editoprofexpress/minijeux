@@ -3,38 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Équations et inéquations : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="trous">
+  <title>Maths – Équations et inéquations : à compléter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .sentence{font-size:.95rem;font-weight:700;line-height:2;background:var(--subject-light);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+    .blank-group{margin-bottom:.9rem}
+    .blank-label{font-size:.82rem;font-weight:800;color:var(--muted);margin-bottom:.4rem}
+    .inline-choices{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ichoice{padding:.4rem .9rem;border:2px solid var(--border);border-radius:8px;background:#f8fafc;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:border-color .15s,background .15s}
+    .ichoice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.selected{border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.correct{border-color:var(--success);background:var(--success-light);color:#065f46}
+    .ichoice.wrong{border-color:var(--error);background:var(--error-light);color:#991b1b}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .4s ease,padding .3s ease}
+    .feedback.show-ok{max-height:400px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:400px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
     .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .btn-validate{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}.btn-validate:disabled{background:var(--border);cursor:default}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -50,23 +58,29 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">⚖️</div>
-    <div class="intro-title">QCM — Équations et inéquations</div>
-    <div class="intro-desc">Résoudre des équations et des inéquations du premier degré à une inconnue. Règles de transformation, sens des inégalités.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Complète les étapes de résolution</div>
+    <div class="intro-desc">Clique sur les bonnes réponses pour compléter chaque étape de résolution d'équations et d'inéquations.</div>
+    <div class="rule-box">
+      <strong>Rappels :</strong><br>
+      On peut ajouter/soustraire le même nombre des deux membres.<br>
+      On peut multiplier/diviser par un <em>positif</em> : le sens ne change pas.<br>
+      On multiplie/divise par un <em>négatif</em> : le sens <strong>s'inverse</strong>.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Exercice 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="sentence" id="sentence"></div>
+    <div id="blanksArea"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()" disabled>Vérifier</button>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Exercice suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,67 +91,188 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
+const QS = [
   {
-    q:"Résoudre $2x + 3 = 7$.",
-    choices:["$x = 5$","$x = 2$","$x = -2$","$x = 1$"],
-    ans:1,
-    expl:"$2x + 3 = 7 \\Rightarrow 2x = 7 - 3 = 4 \\Rightarrow x = 2$."
+    sentence: `Résoudre $3x - 7 = 5$ : $3x = 5 + $ <strong>[B1]</strong> $=$ <strong>[B2]</strong>, donc $x = $ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "nombre à ajouter", choices: ["$5$","$7$","$3$"], ans: 1},
+      {label: "valeur de $3x$", choices: ["$10$","$12$","$2$"], ans: 1},
+      {label: "valeur de $x$", choices: ["$3$","$4$","$6$"], ans: 1},
+    ],
+    expl: "$3x-7=5\\Rightarrow 3x=5+7=12\\Rightarrow x=4$."
   },
   {
-    q:"Résoudre $\\dfrac{x}{3} - 1 = 2$.",
-    choices:["$x = 1$","$x = 3$","$x = 6$","$x = 9$"],
-    ans:3,
-    expl:"$\\dfrac{x}{3} - 1 = 2 \\Rightarrow \\dfrac{x}{3} = 3 \\Rightarrow x = 9$."
+    sentence: `Résoudre $2x + 1 > 0$ : $2x > $ <strong>[B1]</strong>, donc $x > $ <strong>[B2]</strong>, soit $x\\in$ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "valeur après transposition", choices: ["$1$","$-1$","$0$"], ans: 1},
+      {label: "valeur de $x$", choices: ["$0$","$-\\frac{1}{2}$","$\\frac{1}{2}$"], ans: 1},
+      {label: "ensemble solution", choices: ["$]-\\infty\\,;\\,-\\frac{1}{2}[$","$]-\\frac{1}{2}\\,;\\,+\\infty[$","$\\mathbb{R}$"], ans: 1},
+    ],
+    expl: "$2x+1>0\\Rightarrow 2x>-1\\Rightarrow x>-\\frac{1}{2}$, soit $x\\in]-\\frac{1}{2};+\\infty[$."
   },
   {
-    q:"Résoudre l'inéquation $3x - 1 > 5$.",
-    choices:["$x > 2$","$x < 2$","$x > -2$","$x \\geq 2$"],
-    ans:0,
-    expl:"$3x - 1 > 5 \\Rightarrow 3x > 6 \\Rightarrow x > 2$. On additionne 1, puis on divise par 3 (positif : le sens ne change pas)."
+    sentence: `Résoudre $-3x + 6 = 0$ : $-3x = $ <strong>[B1]</strong>, donc $x = $ <strong>[B2]</strong>.`,
+    blanks: [
+      {label: "valeur de $-3x$", choices: ["$6$","$-6$","$0$"], ans: 1},
+      {label: "valeur de $x$", choices: ["$-2$","$2$","$3$"], ans: 1},
+    ],
+    expl: "$-3x+6=0\\Rightarrow -3x=-6\\Rightarrow x=2$."
   },
   {
-    q:"Que se passe-t-il au sens d'une inégalité quand on multiplie les deux membres par un nombre négatif ?",
-    choices:["Il reste le même","Il s'inverse","Il disparaît","Il devient une égalité"],
-    ans:1,
-    expl:"Multiplier ou diviser les deux membres d'une inégalité par un nombre <strong>négatif</strong> inverse le sens de l'inégalité. Par exemple : $-2x < 6 \\Rightarrow x > -3$."
+    sentence: `Résoudre $\\dfrac{x}{4} - 2 = 1$ : $\\dfrac{x}{4} = 1 + $ <strong>[B1]</strong> $=$ <strong>[B2]</strong>, donc $x = $ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "nombre à ajouter", choices: ["$1$","$2$","$4$"], ans: 1},
+      {label: "valeur de $\\frac{x}{4}$", choices: ["$2$","$3$","$-1$"], ans: 1},
+      {label: "valeur de $x$", choices: ["$3$","$8$","$12$"], ans: 2},
+    ],
+    expl: "$\\frac{x}{4}-2=1\\Rightarrow\\frac{x}{4}=3\\Rightarrow x=12$."
   },
   {
-    q:"Résoudre l'équation produit $(x - 4)(2x + 1) = 0$.",
-    choices:["$x = 4$ ou $x = \\dfrac{1}{2}$","$x = -4$ ou $x = \\dfrac{1}{2}$","$x = 4$ ou $x = -\\dfrac{1}{2}$","$x = -4$ ou $x = -\\dfrac{1}{2}$"],
-    ans:2,
-    expl:"Un produit est nul si et seulement si l'un des facteurs est nul : $x - 4 = 0 \\Rightarrow x = 4$ ou $2x + 1 = 0 \\Rightarrow x = -\\dfrac{1}{2}$."
+    sentence: `Résoudre $-2x \\leq 8$ : on divise par $-2$ (négatif, le sens <strong>[B1]</strong>), donc $x$ <strong>[B2]</strong> $-4$, soit $x\\in$ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "ce qui se passe au signe", choices: ["reste le même","s'inverse"], ans: 1},
+      {label: "signe de l'inégalité", choices: ["$\\leq$","$\\geq$","$<$"], ans: 1},
+      {label: "ensemble solution", choices: ["$]-\\infty\\,;\\,-4]$","$[-4\\,;\\,+\\infty[$","$[-4\\,;\\,4]$"], ans: 1},
+    ],
+    expl: "$-2x\\leq 8$, on divise par $-2$ (négatif) : le sens s'inverse, $x\\geq-4$, soit $x\\in[-4;+\\infty[$."
   },
   {
-    q:"$x = -3$ est-il solution de $5x + 4 = -11$ ?",
-    choices:["Oui","Non, $5(-3)+4 = -11$ est faux","Non, $5(-3)+4 = -19$","On ne peut pas vérifier"],
-    ans:0,
-    expl:"On substitue : $5 \\times (-3) + 4 = -15 + 4 = -11$. C'est bien égal à $-11$, donc $x = -3$ est bien solution."
+    sentence: `Résoudre $(x-3)(x+1) = 0$ : $x - 3 = 0$ donne $x = $ <strong>[B1]</strong>, ou $x + 1 = 0$ donne $x = $ <strong>[B2]</strong>.`,
+    blanks: [
+      {label: "première solution", choices: ["$-3$","$3$","$1$"], ans: 1},
+      {label: "deuxième solution", choices: ["$-1$","$1$","$0$"], ans: 0},
+    ],
+    expl: "Un produit est nul si et seulement si l'un des facteurs est nul : $x=3$ ou $x=-1$."
   },
   {
-    q:"Résoudre l'inéquation $\\dfrac{x + 1}{2} \\leq 3$.",
-    choices:["$x \\leq 5$","$x \\leq 7$","$x \\leq 4$","$x \\geq 5$"],
-    ans:0,
-    expl:"$\\dfrac{x+1}{2} \\leq 3 \\Rightarrow x + 1 \\leq 6 \\Rightarrow x \\leq 5$. On multiplie par 2 (positif, le sens ne change pas), puis on soustrait 1."
+    sentence: `Résoudre $5x - 3 < 2x + 6$ : $5x - 2x < 6 + $ <strong>[B1]</strong>, soit $3x < $ <strong>[B2]</strong>, donc $x < $ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "nombre à transposer", choices: ["$2$","$3$","$6$"], ans: 1},
+      {label: "valeur de $3x$", choices: ["$3$","$9$","$-3$"], ans: 1},
+      {label: "valeur limite de $x$", choices: ["$3$","$-3$","$9$"], ans: 0},
+    ],
+    expl: "$5x-3<2x+6\\Rightarrow 3x<9\\Rightarrow x<3$."
   },
   {
-    q:"L'ensemble solution de $-2x + 5 > 1$ s'écrit en notation d'intervalle :",
-    choices:["$[2 ; +\\infty[$","$]-\\infty ; 2[$","$]2 ; +\\infty[$","$]-\\infty ; 2]$"],
-    ans:1,
-    expl:"$-2x + 5 > 1 \\Rightarrow -2x > -4$. En divisant par $-2$ (négatif), le sens s'inverse : $x < 2$. L'ensemble solution est donc $]-\\infty ; 2[$."
-  }
+    sentence: `Résoudre $x^2 = 16$ : $x = $ <strong>[B1]</strong> ou $x = $ <strong>[B2]</strong>.`,
+    blanks: [
+      {label: "racine positive", choices: ["$4$","$8$","$2$"], ans: 0},
+      {label: "racine négative", choices: ["$-2$","$-4$","$-8$"], ans: 1},
+    ],
+    expl: "$x^2=16\\Leftrightarrow x=4$ ou $x=-4$. Les deux sont solutions car $4^2=(-4)^2=16$."
+  },
+  {
+    sentence: `Résoudre $\\dfrac{x+3}{2} \\leq 4$ : $x + 3 \\leq $ <strong>[B1]</strong>, donc $x \\leq $ <strong>[B2]</strong>, soit $x\\in$ <strong>[B3]</strong>.`,
+    blanks: [
+      {label: "valeur après multiplication par 2", choices: ["$4$","$8$","$6$"], ans: 1},
+      {label: "valeur limite de $x$", choices: ["$5$","$-5$","$11$"], ans: 0},
+      {label: "ensemble solution", choices: ["$]-\\infty\\,;\\,5]$","$[5\\,;\\,+\\infty[$","$]-\\infty\\,;\\,8]$"], ans: 0},
+    ],
+    expl: "$\\frac{x+3}{2}\\leq4\\Rightarrow x+3\\leq8\\Rightarrow x\\leq5$, soit $x\\in]-\\infty;5]$."
+  },
+  {
+    sentence: `Résoudre $4 - 2x > 10$ : $-2x > 10 - $ <strong>[B1]</strong> $=$ <strong>[B2]</strong>, en divisant par $-2$ le sens <strong>[B3]</strong>, donc $x < $ <strong>[B4]</strong>.`,
+    blanks: [
+      {label: "nombre à transposer", choices: ["$2$","$4$","$10$"], ans: 1},
+      {label: "valeur de $-2x$", choices: ["$6$","$-6$","$14$"], ans: 1},
+      {label: "ce qui se passe au signe", choices: ["reste le même","s'inverse"], ans: 1},
+      {label: "valeur limite de $x$", choices: ["$3$","$-3$","$6$"], ans: 1},
+    ],
+    expl: "$4-2x>10\\Rightarrow -2x>6\\Rightarrow x<-3$ (division par $-2$, signe inversé)."
+  },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0,selected=[];
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const q = QS[order[idx]];
+    selected = new Array(q.blanks.length).fill(null);
+    document.getElementById('qLabel').textContent = `Exercice ${idx+1} / ${QS.length}`;
+    document.getElementById('progFill').style.width = `${idx/QS.length*100}%`;
+    let sent = q.sentence;
+    for(let i=0;i<q.blanks.length;i++){
+      sent = sent.replace(`[B${i+1}]`, `<span id="bslot${i}" style="display:inline-block;min-width:3.5rem;border-bottom:2px solid var(--subject);color:var(--subject);font-weight:900;text-align:center;padding:0 .3rem">?</span>`);
+    }
+    document.getElementById('sentence').innerHTML = sent;
+    const area = document.getElementById('blanksArea');
+    area.innerHTML = '';
+    q.blanks.forEach((b,bi)=>{
+      const g = document.createElement('div');
+      g.className='blank-group';
+      g.innerHTML = `<div class="blank-label">Compléter : ${b.label}</div>`;
+      const row = document.createElement('div');
+      row.className='inline-choices';
+      b.choices.forEach((c,ci)=>{
+        const btn = document.createElement('button');
+        btn.className='ichoice';
+        btn.innerHTML = c;
+        btn.dataset.bi = bi;
+        btn.dataset.ci = ci;
+        btn.onclick = () => pickChoice(bi,ci,btn,c);
+        row.appendChild(btn);
+      });
+      g.appendChild(row);
+      area.appendChild(g);
+    });
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('btnNext').style.display='none';
+    document.getElementById('btnValidate').disabled=true;
+    document.getElementById('btnValidate').style.display='block';
+    rm(document.getElementById('sentence'));
+    rm(document.getElementById('blanksArea'));
+    show('screenGame');
+  }
+
+  function pickChoice(bi, ci, btn, text) {
+    document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected[bi] = ci;
+    const slot = document.getElementById(`bslot${bi}`);
+    if(slot){slot.innerHTML=text;rm(slot);}
+    if(selected.every(v=>v!==null)) document.getElementById('btnValidate').disabled=false;
+  }
+
+  function validate() {
+    const q = QS[order[idx]];
+    let allCorrect = true;
+    q.blanks.forEach((b,bi)=>{
+      const correct = selected[bi]===b.ans;
+      if(!correct) allCorrect=false;
+      document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(btn=>{
+        btn.disabled=true;
+        if(parseInt(btn.dataset.ci)===b.ans) btn.classList.add('correct');
+        else if(parseInt(btn.dataset.ci)===selected[bi]) btn.classList.add('wrong');
+      });
+    });
+    if(allCorrect) score++;
+    const fb = document.getElementById('feedback');
+    fb.innerHTML=(allCorrect?'✅ <strong>Parfait !</strong> ':'❌ <strong>Pas tout à fait.</strong> ')+q.expl;
+    fb.className='feedback '+(allCorrect?'show-ok':'show-ko');
+    rm(fb);
+    document.getElementById('btnValidate').style.display='none';
+    document.getElementById('btnNext').style.display='block';
+  }
+
+  function next(){idx++;idx>=QS.length?showWin():loadQ();}
+
+  function showWin(){
+    document.getElementById('progFill').style.width='100%';
+    const pct=Math.round(score/QS.length*100);
+    document.getElementById('winScore').textContent=`${score} / ${QS.length}`;
+    document.getElementById('winPct').textContent=`${pct} %`;
+    const e=pct>=80?'🏆':pct>=60?'😊':'💪';
+    const s=pct>=80?'Excellent ! Tu maîtrises les équations et inéquations.':pct>=60?'Bon travail ! Revois les cas délicats (signe inversé).':'Continue de t\'entraîner !';
+    document.getElementById('winEmoji').textContent=e;
+    document.getElementById('winSub').textContent=s;
+    show('screenWin');
+  }
+
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();}
+  return{start,validate,next};
 })();
 </script>
 </body>
