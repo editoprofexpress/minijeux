@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"La forme canonique d'une fonction du second degré est :",choices:["$f(x) = ax^2 + bx + c$","$f(x) = a(x - \\alpha)^2 + \\beta$","$f(x) = a(x - x_1)(x - x_2)$","$f(x) = ax + b$"],ans:1,expl:"La forme canonique est $f(x) = a(x - \\alpha)^2 + \\beta$, où $S(\\alpha, \\beta)$ est le sommet de la parabole."},

@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Comparer $\\dfrac{3}{4}$ et $\\dfrac{5}{7}$ :",choices:["$\\dfrac{3}{4} < \\dfrac{5}{7}$","$\\dfrac{3}{4} = \\dfrac{5}{7}$","$\\dfrac{3}{4} > \\dfrac{5}{7}$","On ne peut pas comparer"],ans:2,expl:"On met au même dénominateur : $\\dfrac{3}{4} = \\dfrac{21}{28}$ et $\\dfrac{5}{7} = \\dfrac{20}{28}$. Comme $21 > 20$, on a $\\dfrac{3}{4} > \\dfrac{5}{7}$."},

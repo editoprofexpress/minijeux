@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"La formule d'Al-Kashi (loi des cosinus) dans un triangle ABC est :",choices:["$BC^2 = AB^2 + AC^2$","$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos(\\hat{A})$","$\\cos(\\hat{A}) = AB/BC$","$BC = AB \\cdot \\cos(\\hat{A})$"],ans:1,expl:"$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos(\\hat{A})$. C'est la généralisation du théorème de Pythagore. Si $\\hat{A} = 90°$, $\\cos(\\hat{A}) = 0$ et on retrouve $BC^2 = AB^2 + AC^2$."},

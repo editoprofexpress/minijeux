@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"La somme des $n$ premiers entiers $1 + 2 + \\cdots + n$ vaut :",choices:["$n^2$","$\\dfrac{n(n+1)}{2}$","$\\dfrac{n(n-1)}{2}$","$\\dfrac{(n+1)^2}{2}$"],ans:1,expl:"$1 + 2 + \\cdots + n = \\dfrac{n(n+1)}{2}$. Formule de Gauss : la somme des $n$ premiers entiers."},

@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Quand $\\Delta > 0$ avec racines $x_1$ et $x_2$, la forme factorisée de $ax^2 + bx + c$ est :",choices:["$a(x - x_1)(x - x_2)$","$(x - x_1)(x - x_2)$","$a(x + x_1)(x + x_2)$","$a(x - x_1)^2$"],ans:0,expl:"Quand $\\Delta > 0$, avec deux racines $x_1$ et $x_2$, on peut écrire $f(x) = a(x - x_1)(x - x_2)$. Le coefficient $a$ est indispensable !"},

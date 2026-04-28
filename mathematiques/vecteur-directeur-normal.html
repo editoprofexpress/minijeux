@@ -75,7 +75,7 @@
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
 const QS=[
   {q:"Un vecteur directeur d'une droite $(d)$ est :",choices:["Perpendiculaire à $(d)$","Parallèle à $(d)$","D'origine sur $(d)$","De longueur $1$"],ans:1,expl:"Un vecteur directeur de $(d)$ est tout vecteur non nul parallèle à $(d)$. Si $A$ et $B$ sont deux points de $(d)$, alors $\\overrightarrow{AB}$ est un vecteur directeur."},
