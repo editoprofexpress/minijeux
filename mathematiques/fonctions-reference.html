@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Fonctions de référence : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Fonctions de référence</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">📐</div>
+    <div class="intro-title">QCM — Fonctions de référence</div>
+    <div class="intro-desc">Maîtrise les fonctions de référence : carré, inverse, racine carrée, valeur absolue. Domaine, variations, représentation graphique.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,54 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"La fonction $f(x) = x^2$ est-elle paire ?",
+    choices:["Non, elle est impaire","Oui, car $f(-x) = f(x)$ pour tout $x$","Non, elle n'est ni paire ni impaire","Oui, car sa courbe est symétrique par rapport à l'axe $Oy$... seulement sur $[0;+\\infty[$"],
+    ans:1,
+    expl:"Une fonction est paire si $f(-x) = f(x)$ pour tout $x$ de son domaine. Or $f(-x) = (-x)^2 = x^2 = f(x)$, donc $f$ est bien paire. Sa courbe est symétrique par rapport à l'axe des ordonnées."
+  },
+  {
+    q:"Sur quel intervalle la fonction $f(x) = x^2$ est-elle croissante ?",
+    choices:["$]-\\infty ; 0]$","$\\mathbb{R}$ tout entier","$[0 ; +\\infty[$","$[-1 ; 1]$"],
+    ans:2,
+    expl:"$f(x) = x^2$ est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$. En effet, pour $x \\geq 0$, si $x_1 < x_2$ alors $x_1^2 < x_2^2$."
+  },
+  {
+    q:"Quel est le domaine de définition de $f(x) = \\sqrt{x}$ ?",
+    choices:["$\\mathbb{R}$","$]-\\infty ; 0]$","$\\mathbb{R}^*$","$[0 ; +\\infty[$"],
+    ans:3,
+    expl:"La racine carrée est définie uniquement pour les réels positifs ou nuls. Le domaine de $f(x) = \\sqrt{x}$ est donc $[0 ; +\\infty[$."
+  },
+  {
+    q:"Sur quel ensemble la fonction $f(x) = \\dfrac{1}{x}$ est-elle définie ?",
+    choices:["$\\mathbb{R}$","$\\mathbb{R}^* = \\mathbb{R} \\setminus \\{0\\}$","$[0 ; +\\infty[$","$\\mathbb{R}^+$"],
+    ans:1,
+    expl:"On ne peut pas diviser par zéro, donc $f(x) = \\frac{1}{x}$ est définie pour tout $x \\neq 0$, c'est-à-dire sur $\\mathbb{R}^*$."
+  },
+  {
+    q:"Pour tout $x \\in \\mathbb{R}$, quelle relation relie $f(x) = |x|$ et $g(x) = x$ ?",
+    choices:["$f(x) = g(x)$ pour tout $x$","$f(x) \\geq g(x)$ pour tout $x$","$f(x) \\leq g(x)$ pour tout $x$","$f(x) = -g(x)$ pour tout $x$"],
+    ans:1,
+    expl:"La valeur absolue $|x| \\geq x$ pour tout réel $x$. Pour $x \\geq 0$, $|x| = x$. Pour $x < 0$, $|x| = -x > x$. Donc $|x| \\geq x$ toujours."
+  },
+  {
+    q:"Quel est le minimum de la fonction $f(x) = x^2$ sur $\\mathbb{R}$ ?",
+    choices:["$-1$","$1$","Il n'y a pas de minimum","$0$"],
+    ans:3,
+    expl:"$f(x) = x^2 \\geq 0$ pour tout $x$, et $f(0) = 0$. Donc le minimum est $0$, atteint en $x = 0$."
+  },
+  {
+    q:"Quelle est la valeur de $f(-3)$ pour $f(x) = x^2$ ?",
+    choices:["$-9$","$6$","$-6$","$9$"],
+    ans:3,
+    expl:"$f(-3) = (-3)^2 = 9$. Attention : $(-3)^2 \\neq -9$ ; le carré d'un nombre négatif est toujours positif."
+  },
+  {
+    q:"Parmi les courbes suivantes, laquelle représente la fonction $f(x) = \\dfrac{1}{x}$ ?",
+    choices:["Une parabole d'axe de symétrie l'axe $Oy$","Une droite passant par l'origine","Une courbe en forme de « U » avec minimum en 0","Une hyperbole à deux branches symétriques par rapport à l'origine"],
+    ans:3,
+    expl:"La fonction inverse $f(x) = \\frac{1}{x}$ a pour représentation graphique une hyperbole équilatère à deux branches, l'une dans le quadrant I (pour $x > 0$) et l'autre dans le quadrant III (pour $x < 0$). Elle est symétrique par rapport à l'origine."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}

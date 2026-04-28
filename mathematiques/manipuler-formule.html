@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Manipuler une formule : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Manipuler une formule</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">🔧</div>
+    <div class="intro-title">QCM — Manipuler une formule</div>
+    <div class="intro-desc">Isoler une variable dans une formule, substituer des valeurs, adapter une formule à un contexte donné.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,54 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"Dans la formule $C = 2\\pi r$, comment isoler $r$ ?",
+    choices:["$r = 2\\pi C$","$r = \\dfrac{C}{2\\pi}$","$r = C - 2\\pi$","$r = \\dfrac{2\\pi}{C}$"],
+    ans:1,
+    expl:"On divise les deux membres par $2\\pi$ : $r = \\dfrac{C}{2\\pi}$."
+  },
+  {
+    q:"Dans la formule $V = \\dfrac{1}{3}\\pi r^2 h$, comment isoler $h$ ?",
+    choices:["$h = \\dfrac{V}{3\\pi r^2}$","$h = \\dfrac{3V}{\\pi r^2}$","$h = 3V\\pi r^2$","$h = V - \\dfrac{1}{3}\\pi r^2$"],
+    ans:1,
+    expl:"On multiplie les deux membres par $3$ : $3V = \\pi r^2 h$. On divise ensuite par $\\pi r^2$ : $h = \\dfrac{3V}{\\pi r^2}$."
+  },
+  {
+    q:"Dans la formule $d = vt$, comment isoler $t$ ?",
+    choices:["$t = dv$","$t = d - v$","$t = \\dfrac{v}{d}$","$t = \\dfrac{d}{v}$"],
+    ans:3,
+    expl:"On divise les deux membres par $v$ : $t = \\dfrac{d}{v}$, à condition que $v \\neq 0$."
+  },
+  {
+    q:"Un train parcourt $d = 120$ km en $t = 1{,}5$ h. Quelle est sa vitesse moyenne $v$ ?",
+    choices:["$v = 80$ km/h","$v = 60$ km/h","$v = 90$ km/h","$v = 75$ km/h"],
+    ans:0,
+    expl:"$v = \\dfrac{d}{t} = \\dfrac{120}{1{,}5} = 80$ km/h."
+  },
+  {
+    q:"Dans la relation $F = ma$, comment isoler l'accélération $a$ ?",
+    choices:["$a = Fm$","$a = F - m$","$a = \\dfrac{m}{F}$","$a = \\dfrac{F}{m}$"],
+    ans:3,
+    expl:"On divise les deux membres par $m$ : $a = \\dfrac{F}{m}$, à condition que $m \\neq 0$."
+  },
+  {
+    q:"Dans l'équation des gaz parfaits $PV = nRT$, comment isoler $T$ ?",
+    choices:["$T = \\dfrac{PV}{nR}$","$T = PVnR$","$T = \\dfrac{nR}{PV}$","$T = PV - nR$"],
+    ans:0,
+    expl:"On divise les deux membres par $nR$ : $T = \\dfrac{PV}{nR}$, à condition que $n \\neq 0$ et $R \\neq 0$."
+  },
+  {
+    q:"Dans la formule des intérêts composés $C_n = C_0(1+t)^n$, si l'on connaît $C_n$, $C_0$ et $t$, comment exprimer $n$ ?",
+    choices:["$n = \\dfrac{C_n}{C_0(1+t)}$","$n = \\dfrac{\\ln(C_n/C_0)}{\\ln(1+t)}$","$n = C_n - C_0(1+t)$","$n = C_0(1+t)^{C_n}$"],
+    ans:1,
+    expl:"On divise par $C_0$ : $\\dfrac{C_n}{C_0} = (1+t)^n$. On applique le logarithme : $\\ln\\left(\\dfrac{C_n}{C_0}\\right) = n\\ln(1+t)$, donc $n = \\dfrac{\\ln(C_n/C_0)}{\\ln(1+t)}$."
+  },
+  {
+    q:"La formule de l'aire d'un triangle est $A = \\dfrac{1}{2}bh$. Pour $b = 6$ cm et $h = 5$ cm, quelle est l'aire ?",
+    choices:["$A = 30$ cm²","$A = 11$ cm²","$A = 15$ cm²","$A = 60$ cm²"],
+    ans:2,
+    expl:"$A = \\dfrac{1}{2} \\times 6 \\times 5 = \\dfrac{30}{2} = 15$ cm²."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}

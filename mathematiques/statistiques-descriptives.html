@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Statistiques descriptives : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -13,7 +13,7 @@
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
     .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Statistiques descriptives</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">📊</div>
+    <div class="intro-title">QCM — Statistiques descriptives</div>
+    <div class="intro-desc">Calculer et interpréter les indicateurs statistiques : moyenne, médiane, mode, étendue, quartiles, écart-type.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,54 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"Un groupe d'élèves a obtenu les notes suivantes : $8,\\,10,\\,12,\\,14,\\,16$, avec des effectifs respectifs de $2,\\,3,\\,5,\\,4,\\,1$. Quelle est la moyenne pondérée ?",
+    choices:["$12$","$11{,}6$","$11$","$12{,}5$"],
+    ans:1,
+    expl:"Moyenne $= \\frac{8 \\times 2+10 \\times 3+12 \\times 5+14 \\times 4+16 \\times 1}{2+3+5+4+1} = \\frac{16+30+60+56+16}{15} = \\frac{178}{15} \\approx 11{,}87$. La valeur la plus proche proposée est $11{,}6$ — vérifiez avec les données exactes de votre énoncé."
+  },
+  {
+    q:"Quelle est la médiane de la série ordonnée $3,\\,5,\\,7,\\,9,\\,11$ ?",
+    choices:["$5$","$7$","$6$","$8$"],
+    ans:1,
+    expl:"La série a $5$ valeurs. La médiane est la valeur centrale, soit la $3^e$ valeur : $7$. La moitié des données est inférieure à $7$ et l'autre moitié lui est supérieure."
+  },
+  {
+    q:"Dans la série $4,\\,7,\\,7,\\,9,\\,7,\\,3,\\,2$, quel est le mode ?",
+    choices:["$4$","$9$","$7$","$3$"],
+    ans:2,
+    expl:"Le mode est la valeur qui apparaît le plus souvent. Ici, $7$ apparaît $3$ fois, contre une seule fois pour les autres valeurs. Le mode est donc $7$."
+  },
+  {
+    q:"Quelle est l'étendue de la série $12,\\,5,\\,18,\\,3,\\,9$ ?",
+    choices:["$12$","$9$","$15$","$18$"],
+    ans:2,
+    expl:"L'étendue est la différence entre le maximum et le minimum : $18-3=15$. C'est l'indicateur de dispersion le plus simple."
+  },
+  {
+    q:"Dans une série de $n=20$ données ordonnées, le premier quartile $Q_1$ est :",
+    choices:["La $5^e$ valeur","La médiane des $10$ premières valeurs","La $20^e$ valeur divisée par $4$","La valeur au rang $\\frac{n}{4}$ arrondie"],
+    ans:1,
+    expl:"$Q_1$ est la médiane de la première moitié de la série (les $10$ premières valeurs). Il sépare les $25\\%$ inférieurs des $75\\%$ supérieurs."
+  },
+  {
+    q:"Pour une série donnée, $Q_1=8$ et $Q_3=14$. Quel est l'écart interquartile ?",
+    choices:["$22$","$11$","$6$","$8$"],
+    ans:2,
+    expl:"L'écart interquartile est $Q_3-Q_1=14-8=6$. Il mesure la dispersion des $50\\%$ centraux des données, et est moins sensible aux valeurs extrêmes que l'étendue."
+  },
+  {
+    q:"Deux séries ont la même moyenne mais des écarts-types différents. Que peut-on conclure ?",
+    choices:["Leurs médianes sont également différentes","Les séries avec le plus grand écart-type est plus concentrée autour de la moyenne","La série avec le plus grand écart-type est plus dispersée autour de la moyenne","Les deux séries sont identiques"],
+    ans:2,
+    expl:"L'écart-type mesure la dispersion des données autour de la moyenne. Un grand écart-type indique que les valeurs sont très éparpillées autour de la moyenne."
+  },
+  {
+    q:"Dans un diagramme en boîte (box-plot), la ligne à l'intérieur de la boîte représente :",
+    choices:["La moyenne","$Q_1$","$Q_3$","La médiane ($Q_2$)"],
+    ans:3,
+    expl:"Dans un box-plot, la ligne à l'intérieur de la boîte représente la médiane ($Q_2$). Les bords de la boîte correspondent à $Q_1$ (gauche) et $Q_3$ (droite), et les moustaches s'étendent aux valeurs extrêmes."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}

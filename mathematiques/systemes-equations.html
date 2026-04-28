@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Systèmes d'équations : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Systèmes d'équations</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">🔀</div>
+    <div class="intro-title">QCM — Systèmes d'équations</div>
+    <div class="intro-desc">Résoudre un système de deux équations à deux inconnues par substitution ou par combinaison linéaire.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,54 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"Résoudre par substitution : $\\begin{cases} 2x + y = 5 \\\\ x - y = 1 \\end{cases}$",
+    choices:["$x = 2,\\ y = 1$","$x = 1,\\ y = 3$","$x = 3,\\ y = -1$","$x = 2,\\ y = -1$"],
+    ans:0,
+    expl:"De la 2e équation : $x = y + 1$. On substitue dans la 1re : $2(y+1) + y = 5 \\Rightarrow 3y = 3 \\Rightarrow y = 1$, puis $x = 2$."
+  },
+  {
+    q:"Résoudre par combinaison linéaire : $\\begin{cases} x + 2y = 5 \\\\ x - y = 2 \\end{cases}$",
+    choices:["$x = 1,\\ y = 2$","$x = 3,\\ y = 1$","$x = 0,\\ y = 4$","$x = 4,\\ y = 2$"],
+    ans:1,
+    expl:"On soustrait L2 de L1 : $(x+2y)-(x-y) = 5-2 \\Rightarrow 3y = 3 \\Rightarrow y = 1$. Puis $x = 2 + y = 2 + 1 = 3$. Vérification : $3+2=5$ ✓ et $3-1=2$ ✓."
+  },
+  {
+    q:"Le système $\\begin{cases} x + y = 4 \\\\ 2x + 2y = 8 \\end{cases}$ admet :",
+    choices:["Une solution unique","Aucune solution","Une infinité de solutions","Deux solutions"],
+    ans:2,
+    expl:"La 2e équation est le double de la 1re ($2 \\times (x+y=4)$), donc les deux droites sont confondues. Le système admet une infinité de solutions."
+  },
+  {
+    q:"Le système $\\begin{cases} x + y = 3 \\\\ x + y = 7 \\end{cases}$ admet :",
+    choices:["$x = 3,\\ y = 7$","Une infinité de solutions","Aucune solution","$x = 5,\\ y = 2$"],
+    ans:2,
+    expl:"En soustrayant : $0 = 4$, ce qui est impossible. Les droites sont parallèles et distinctes : le système n'a aucune solution."
+  },
+  {
+    q:"Résoudre par substitution : $\\begin{cases} y = 2x - 1 \\\\ 3x + y = 9 \\end{cases}$",
+    choices:["$x = 2,\\ y = 3$","$x = 3,\\ y = 5$","$x = 1,\\ y = 1$","$x = 4,\\ y = 7$"],
+    ans:0,
+    expl:"On substitue $y = 2x-1$ dans la 2e : $3x + (2x-1) = 9 \\Rightarrow 5x = 10 \\Rightarrow x = 2$. Puis $y = 2(2)-1 = 3$."
+  },
+  {
+    q:"Un billet adulte coûte $a$ euros et un billet enfant $e$ euros. 2 adultes et 3 enfants paient 31 €, 1 adulte et 2 enfants paient 18 €. Quel est le système modélisant ce problème ?",
+    choices:["$\\begin{cases} 2a + 3e = 31 \\\\ a + 2e = 18 \\end{cases}$","$\\begin{cases} 3a + 2e = 31 \\\\ 2a + e = 18 \\end{cases}$","$\\begin{cases} a + e = 31 \\\\ a + e = 18 \\end{cases}$","$\\begin{cases} 2a + 2e = 31 \\\\ a + 3e = 18 \\end{cases}$"],
+    ans:0,
+    expl:"2 adultes et 3 enfants : $2a + 3e = 31$. 1 adulte et 2 enfants : $a + 2e = 18$. La modélisation (A) est correcte."
+  },
+  {
+    q:"Quelle est la solution du système $\\begin{cases} 2x + y = 5 \\\\ x - y = 1 \\end{cases}$ ?",
+    choices:["$(1\\,;\\,3)$","$(3\\,;\\,-1)$","$(2\\,;\\,1)$","$(0\\,;\\,5)$"],
+    ans:2,
+    expl:"En additionnant les deux équations : $3x = 6 \\Rightarrow x = 2$. Puis $y = 5 - 2(2) = 1$. La solution est $(2\\,;\\,1)$."
+  },
+  {
+    q:"Graphiquement, la solution d'un système de deux équations du premier degré à deux inconnues correspond à :",
+    choices:["L'ordonnée à l'origine des deux droites","Le point d'intersection des deux droites","La pente des deux droites","L'aire entre les deux droites"],
+    ans:1,
+    expl:"Chaque équation du premier degré représente une droite dans le plan. La solution commune aux deux équations est le point d'intersection de ces deux droites."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Croissance linéaire et fonctions affines : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Croissance linéaire et fonctions affines</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">📈</div>
+    <div class="intro-title">QCM — Croissance linéaire et fonctions affines</div>
+    <div class="intro-desc">Modéliser une croissance linéaire par une fonction affine $f(x) = ax + b$. Interpréter le coefficient directeur $a$ comme un taux de variation constant.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,94 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"Une grandeur croît de façon <strong>linéaire</strong>. Cela signifie que son taux de variation est :",
+    choices:[
+      "Croissant avec le temps",
+      "Constant",
+      "Nul",
+      "Décroissant avec le temps"
+    ],
+    ans:1,
+    expl:"Une croissance linéaire est caractérisée par un taux de variation <strong>constant</strong>. C'est précisément ce que traduit le coefficient directeur $a$ dans $f(x)=ax+b$ : pour chaque unité supplémentaire de $x$, $f(x)$ augmente toujours de $a$."
+  },
+  {
+    q:"On sait que $f(2) = 7$ et $f(5) = 13$. Quel est le coefficient directeur $a$ de la fonction affine $f$ ?",
+    choices:[
+      "$a = 3$",
+      "$a = 2$",
+      "$a = 6$",
+      "$a = \\frac{1}{2}$"
+    ],
+    ans:1,
+    expl:"Le coefficient directeur se calcule par $a = \\frac{f(5)-f(2)}{5-2} = \\frac{13-7}{3} = \\frac{6}{3} = 2$."
+  },
+  {
+    q:"Dans la fonction affine $f(x) = 3x + 8$, que représente le terme $8$ ?",
+    choices:[
+      "La pente de la droite",
+      "La valeur de $f$ en $x=3$",
+      "L'ordonnée à l'origine, c'est-à-dire la valeur initiale $f(0)$",
+      "Le taux de variation"
+    ],
+    ans:2,
+    expl:"$b = 8$ est l'ordonnée à l'origine : $f(0) = 3 \\times 0 + 8 = 8$. Dans un contexte de modélisation, c'est la valeur de départ (avant toute évolution)."
+  },
+  {
+    q:"Une voiture consomme $6{,}5$ L aux 100 km. En modélisant la consommation totale $C(d)$ en fonction de la distance $d$ parcourue (en km), quelle est la valeur prédite pour $d = 400$ km ?",
+    choices:[
+      "$20$ L",
+      "$26$ L",
+      "$40$ L",
+      "$6{,}5$ L"
+    ],
+    ans:1,
+    expl:"On modélise par $C(d) = 0{,}065 \\times d$ (consommation par km). Pour $d=400$ : $C(400) = 0{,}065 \\times 400 = 26$ L. Il s'agit d'une <em>extrapolation</em> à partir du taux de variation constant."
+  },
+  {
+    q:"On observe graphiquement une droite passant par $(0, 2)$ et $(4, 10)$. Quelle est l'expression de la fonction affine correspondante ?",
+    choices:[
+      "$f(x) = 2x + 4$",
+      "$f(x) = 4x + 2$",
+      "$f(x) = 2x + 2$",
+      "$f(x) = 3x + 2$"
+    ],
+    ans:2,
+    expl:"L'ordonnée à l'origine est $b = 2$ (point $(0,2)$). Le coefficient directeur est $a = \\frac{10-2}{4-0} = \\frac{8}{4} = 2$. Donc $f(x) = 2x + 2$."
+  },
+  {
+    q:"Dans le tableau ci-dessous, la croissance est-elle linéaire ?<br><br>$x$ : 0 — 1 — 2 — 3<br>$y$ : 5 — 8 — 11 — 14",
+    choices:[
+      "Non, car les valeurs augmentent",
+      "Non, car $y$ ne s'annule pas",
+      "Oui, car le taux de variation est constant : $+3$ à chaque fois",
+      "Oui, car $y$ part de 5"
+    ],
+    ans:2,
+    expl:"Entre deux valeurs consécutives de $x$, $y$ augmente toujours de 3 : le taux de variation est constant et égal à 3. C'est la signature d'une croissance linéaire, modélisée par $f(x) = 3x + 5$."
+  },
+  {
+    q:"Soit $f(x) = 3x + 5$. Quelle est la valeur de $f(10)$ ?",
+    choices:[
+      "$30$",
+      "$35$",
+      "$38$",
+      "$53$"
+    ],
+    ans:1,
+    expl:"$f(10) = 3 \\times 10 + 5 = 30 + 5 = 35$."
+  },
+  {
+    q:"On observe qu'une population double tous les 10 ans. Cette croissance est-elle linéaire ?",
+    choices:[
+      "Oui, car elle augmente régulièrement",
+      "Oui, car on peut la modéliser par $f(x)=2x$",
+      "Non, car le taux de variation absolu augmente au fil du temps",
+      "Non, car la population diminue"
+    ],
+    ans:2,
+    expl:"Si la population double tous les 10 ans, les accroissements absolus augmentent : une population de 1000 gagne 1000 en 10 ans, puis 2000 les 10 ans suivants, etc. Le taux de variation n'est pas constant : c'est une croissance <strong>exponentielle</strong>, non linéaire."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}

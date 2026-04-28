@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Fractions et calcul fractionnel : QCM</title>
+  <title>Maths – Suites géométriques en économie : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Fractions et calcul fractionnel</h1>
+  <h1>Suites géométriques en économie</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">➗</div>
-    <div class="intro-title">QCM — Fractions et calcul fractionnel</div>
-    <div class="intro-desc">Additionner, soustraire, multiplier et diviser des fractions. Simplification et mise au même dénominateur.</div>
+    <div class="intro-emoji">💰</div>
+    <div class="intro-title">QCM — Suites géométriques en économie</div>
+    <div class="intro-desc">Appliquer les suites géométriques aux problèmes économiques : intérêts composés, emprunts, placements, inflation.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -78,14 +78,54 @@
 <script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
 <script>
 const QS=[
-  {q:"Calculer $\\dfrac{1}{3} + \\dfrac{1}{4}$ :",choices:["$\\dfrac{2}{7}$","$\\dfrac{7}{12}$","$\\dfrac{1}{12}$","$\\dfrac{5}{12}$"],ans:1,expl:"On met au même dénominateur (PPCM = 12) : $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{5}{6} - \\dfrac{1}{4}$ :",choices:["$\\dfrac{4}{2}$","$\\dfrac{4}{12}$","$\\dfrac{7}{12}$","$\\dfrac{1}{2}$"],ans:2,expl:"PPCM$(6,4)=12$ : $\\dfrac{5}{6} - \\dfrac{1}{4} = \\dfrac{10}{12} - \\dfrac{3}{12} = \\dfrac{7}{12}$."},
-  {q:"Calculer $\\dfrac{2}{3} \\times \\dfrac{3}{5}$ :",choices:["$\\dfrac{6}{15}$","$\\dfrac{5}{8}$","$\\dfrac{2}{5}$","$\\dfrac{6}{8}$"],ans:2,expl:"On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{2 \\times 3}{3 \\times 5} = \\dfrac{6}{15} = \\dfrac{2}{5}$ (après simplification par 3)."},
-  {q:"Calculer $\\dfrac{3}{4} \\div \\dfrac{2}{5}$ :",choices:["$\\dfrac{6}{20}$","$\\dfrac{3}{10}$","$\\dfrac{15}{8}$","$\\dfrac{8}{15}$"],ans:2,expl:"Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$."},
-  {q:"Simplifier $\\dfrac{18}{24}$ :",choices:["$\\dfrac{9}{12}$","$\\dfrac{3}{4}$","$\\dfrac{6}{8}$","$\\dfrac{2}{3}$"],ans:1,expl:"PGCD$(18,24)=6$. On divise numérateur et dénominateur par 6 : $\\dfrac{18}{24} = \\dfrac{3}{4}$."},
-  {q:"Calculer $3 + \\dfrac{2}{7}$ :",choices:["$\\dfrac{5}{7}$","$\\dfrac{23}{7}$","$\\dfrac{6}{7}$","$\\dfrac{21}{10}$"],ans:1,expl:"$3 = \\dfrac{21}{7}$, donc $3 + \\dfrac{2}{7} = \\dfrac{21}{7} + \\dfrac{2}{7} = \\dfrac{23}{7}$."},
-  {q:"Calculer $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2}$ :",choices:["$\\dfrac{4}{10}$","$\\dfrac{3}{10}$","$\\dfrac{1}{5}$","$0$"],ans:2,expl:"PPCM = 10 : $\\dfrac{2}{5} + \\dfrac{3}{10} - \\dfrac{1}{2} = \\dfrac{4}{10} + \\dfrac{3}{10} - \\dfrac{5}{10} = \\dfrac{4+3-5}{10} = \\dfrac{2}{10} = \\dfrac{1}{5}$."},
-  {q:"Laquelle de ces fractions est la plus proche de $1$ ?",choices:["$\\dfrac{5}{6}$","$\\dfrac{7}{8}$","$\\dfrac{11}{12}$","$\\dfrac{3}{4}$"],ans:2,expl:"$\\dfrac{11}{12} = 1 - \\dfrac{1}{12}$ est à $\\dfrac{1}{12}$ de $1$, alors que $\\dfrac{7}{8} = 1 - \\dfrac{1}{8}$ et $\\dfrac{5}{6} = 1 - \\dfrac{1}{6}$. $\\dfrac{1}{12} < \\dfrac{1}{8} < \\dfrac{1}{6}$, donc $\\dfrac{11}{12}$ est la plus proche."},
+  {
+    q:"Un capital $C_0$ est placé à un taux annuel $t$. Quelle formule donne le capital $C_n$ après $n$ années avec intérêts composés ?",
+    choices:["$C_n = C_0 + n \\cdot t$","$C_n = C_0 \\cdot (1 + t)^n$","$C_n = C_0 \\cdot n \\cdot t$","$C_n = C_0 + C_0 \\cdot t^n$"],
+    ans:1,
+    expl:"Avec les intérêts composés, chaque année le capital est multiplié par $(1+t)$. Après $n$ années : $C_n = C_0 \\cdot (1+t)^n$. La suite $(C_n)$ est géométrique de raison $q = 1+t$."
+  },
+  {
+    q:"On place $C_0 = 1000$ € à un taux annuel de $5\\%$. Quel est le capital $C_5$ après $5$ ans (intérêts composés) ?",
+    choices:["$1250$ €","$1276{,}28$ €","$1050$ €","$1500$ €"],
+    ans:1,
+    expl:"$C_5 = 1000 \\times (1{,}05)^5 = 1000 \\times 1{,}27628... \\approx 1276{,}28$ €. On applique la formule $C_n = C_0 \\cdot (1+t)^n$ avec $n=5$ et $t=0{,}05$."
+  },
+  {
+    q:"Un placement double en $n$ ans à taux annuel $t$ avec intérêts composés. Quelle relation doit vérifier $n$ ?",
+    choices:["$n = 2t$","$(1+t)^n = 2$","$n \\cdot t = 2$","$n = \\dfrac{2}{t}$"],
+    ans:1,
+    expl:"On cherche $n$ tel que $C_n = 2C_0$, soit $C_0 (1+t)^n = 2C_0$, donc $(1+t)^n = 2$. On résout en utilisant le logarithme : $n = \\dfrac{\\ln 2}{\\ln(1+t)}$."
+  },
+  {
+    q:"Une voiture vaut $20\\,000$ € neuve et se déprécie de $15\\%$ par an. Quelle est sa valeur $C_n$ après $n$ années ?",
+    choices:["$C_n = 20\\,000 - 0{,}15n$","$C_n = 20\\,000 \\times (0{,}85)^n$","$C_n = 20\\,000 \\times (1{,}15)^n$","$C_n = 20\\,000 \\times (0{,}15)^n$"],
+    ans:1,
+    expl:"Une dépréciation de $15\\%$ par an signifie que la valeur est multipliée par $(1 - 0{,}15) = 0{,}85$ chaque année. Donc $C_n = 20\\,000 \\times (0{,}85)^n$."
+  },
+  {
+    q:"Alice place $500$ € à $4\\%$ par an (intérêts simples). Bob place $500$ € à $4\\%$ par an (intérêts composés). Après plusieurs années, qui a le plus de capital ?",
+    choices:["Alice, car ses intérêts sont plus simples à calculer","Bob, car les intérêts composés génèrent des intérêts sur les intérêts","Ils ont toujours le même capital","Alice après 1 an, puis Bob à long terme"],
+    ans:1,
+    expl:"Les intérêts composés sont plus avantageux à long terme : les intérêts s'ajoutent au capital et produisent eux-mêmes des intérêts. Après 1 an ils sont égaux, mais au-delà Bob dépasse Alice."
+  },
+  {
+    q:"L'inflation est de $2\\%$ par an. Un article coûte $50$ € aujourd'hui. Quel sera son prix dans $3$ ans ?",
+    choices:["$53$ €","$53{,}06$ €","$56$ €","$50{,}06$ €"],
+    ans:1,
+    expl:"$P_3 = 50 \\times (1{,}02)^3 = 50 \\times 1{,}061208 \\approx 53{,}06$ €. L'inflation suit un modèle exponentiel avec raison $q = 1{,}02$."
+  },
+  {
+    q:"Pour rembourser un emprunt, on verse chaque année une annuité fixe $a$. Les capitaux restant dus forment une suite géométrique. Quelle est la raison de cette suite ?",
+    choices:["$q = 1 - t$ où $t$ est le taux d'intérêt","$q = 1 + t$ où $t$ est le taux d'intérêt","$q = t$","$q = a$"],
+    ans:1,
+    expl:"Chaque année, le capital restant est multiplié par $(1+t)$ (intérêts) puis on retire l'annuité $a$. La suite des capitaux restant dus est géométrique de raison $q = 1+t$ (avant soustraction de l'annuité)."
+  },
+  {
+    q:"On investit $2000$ € avec une croissance annuelle de $3\\%$. Quelle est la valeur de l'investissement après $10$ ans ?",
+    choices:["$2600$ €","$2687{,}83$ €","$2060$ €","$2030$ €"],
+    ans:1,
+    expl:"$C_{10} = 2000 \\times (1{,}03)^{10} = 2000 \\times 1{,}34392... \\approx 2687{,}83$ €. La raison est $q = 1{,}03$, et on applique $C_n = C_0 \\cdot q^n$."
+  }
 ];
 const game=(()=>{
   function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
