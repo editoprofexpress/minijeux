@@ -40,6 +40,7 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Une suite (uₙ) est dite croissante si :",choices:["uₙ₊₁ − uₙ > 0 pour tout n","uₙ₊₁ − uₙ < 0 pour tout n","uₙ > 0 pour tout n","uₙ₊₁/uₙ > 1 pour tout n"],ans:0,expl:"Une suite est croissante si uₙ₊₁ − uₙ > 0 pour tout n, c'est-à-dire si chaque terme est strictement supérieur au précédent."},
-  {q:"La suite géométrique de raison q = 2 et u₀ = 1 est :",choices:["Décroissante","Croissante","Constante","Alternante"],ans:1,expl:"q = 2 > 1 et u₀ = 1 > 0 : chaque terme est multiplié par 2, donc la suite est croissante vers +∞."},
-  {q:"La suite géométrique de raison q = 1/3 et u₀ = 9 est :",choices:["Croissante","Constante","Décroissante","Alternante"],ans:2,expl:"0 < q = 1/3 < 1 et u₀ > 0 : chaque terme est multiplié par 1/3 < 1, la suite décroît vers 0."},
-  {q:"lim(n→+∞) qⁿ vaut 0 si :",choices:["|q| > 1","q = 1","|q| < 1","q > 0"],ans:2,expl:"|q| < 1 entraîne qⁿ → 0. Exemples : (1/2)ⁿ → 0, (−1/3)ⁿ → 0. Si |q| > 1, qⁿ diverge."},
-  {q:"Une suite arithmétique de raison r = 3 est :",choices:["Bornée","Convergente vers 3","Divergente vers +∞","Oscillante"],ans:2,expl:"Une suite arithmétique de raison r ≠ 0 est toujours divergente. Si r > 0, elle tend vers +∞."},
-  {q:"Une suite (uₙ) majorée et croissante est :",choices:["Forcément nulle","Convergente","Divergente","Constante"],ans:1,expl:"Théorème : toute suite croissante et majorée converge. C'est l'un des théorèmes fondamentaux sur les suites monotones et bornées."},
-  {q:"Le théorème des gendarmes dit que si vₙ ≤ uₙ ≤ wₙ et lim vₙ = lim wₙ = ℓ, alors :",choices:["uₙ → 2ℓ","uₙ → 0","uₙ → ℓ","uₙ est bornée"],ans:2,expl:"Si uₙ est encadrée par deux suites ayant même limite ℓ, alors uₙ → ℓ. Très utile pour démontrer la convergence sans connaître la limite a priori."},
-  {q:"La suite uₙ = (−1)ⁿ est :",choices:["Convergente vers 0","Convergente vers 1","Croissante","Divergente"],ans:3,expl:"uₙ = (−1)ⁿ alterne entre −1 et 1. Elle ne converge pas car elle n'a pas de limite. C'est une suite bornée mais divergente."},
+  {q:"Une suite $(u_n)$ est dite croissante si :",choices:["$u_{n+1} - u_n > 0$ pour tout $n$","$u_{n+1} - u_n < 0$ pour tout $n$","$u_n > 0$ pour tout $n$","$u_{n+1}/u_n > 1$ pour tout $n$"],ans:0,expl:"Une suite est croissante si $u_{n+1} - u_n > 0$ pour tout $n$, c'est-à-dire si chaque terme est strictement supérieur au précédent."},
+  {q:"La suite géométrique de raison $q = 2$ et $u_0 = 1$ est :",choices:["Décroissante","Croissante","Constante","Alternante"],ans:1,expl:"$q = 2 > 1$ et $u_0 = 1 > 0$ : chaque terme est multiplié par $2$, donc la suite est croissante vers $+\infty$."},
+  {q:"La suite géométrique de raison $q = \\dfrac{1}{3}$ et $u_0 = 9$ est :",choices:["Croissante","Constante","Décroissante","Alternante"],ans:2,expl:"$0 < q = \\dfrac{1}{3} < 1$ et $u_0 > 0$ : chaque terme est multiplié par $\\dfrac{1}{3} < 1$, la suite décroît vers $0$."},
+  {q:"$\\lim_{n \\to +\\infty} q^n = 0$ si :",choices:["$|q| > 1$","$q = 1$","$|q| < 1$","$q > 0$"],ans:2,expl:"$|q| < 1$ entraîne $q^n \\to 0$. Exemples : $\\left(\\dfrac{1}{2}\\right)^n \\to 0$, $\\left(-\\dfrac{1}{3}\\right)^n \\to 0$. Si $|q| > 1$, $q^n$ diverge."},
+  {q:"Une suite arithmétique de raison $r = 3$ est :",choices:["Bornée","Convergente vers $3$","Divergente vers $+\\infty$","Oscillante"],ans:2,expl:"Une suite arithmétique de raison $r \\neq 0$ est toujours divergente. Si $r > 0$, elle tend vers $+\\infty$."},
+  {q:"Une suite $(u_n)$ majorée et croissante est :",choices:["Forcément nulle","Convergente","Divergente","Constante"],ans:1,expl:"Théorème : toute suite croissante et majorée converge. C'est l'un des théorèmes fondamentaux sur les suites monotones et bornées."},
+  {q:"Le théorème des gendarmes dit que si $v_n \\leq u_n \\leq w_n$ et $\\lim v_n = \\lim w_n = \\ell$, alors :",choices:["$u_n \\to 2\\ell$","$u_n \\to 0$","$u_n \\to \\ell$","$u_n$ est bornée"],ans:2,expl:"Si $u_n$ est encadrée par deux suites ayant même limite $\\ell$, alors $u_n \\to \\ell$. Très utile pour démontrer la convergence sans connaître la limite a priori."},
+  {q:"La suite $u_n = (-1)^n$ est :",choices:["Convergente vers $0$","Convergente vers $1$","Croissante","Divergente"],ans:3,expl:"$u_n = (-1)^n$ alterne entre $-1$ et $1$. Elle ne converge pas car elle n'a pas de limite. C'est une suite bornée mais divergente."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

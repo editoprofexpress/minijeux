@@ -43,19 +43,20 @@
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:.75rem}
     @keyframes shake{0%,100%{transform:rotateY(180deg)}25%{transform:rotateY(180deg) translateX(-6px)}75%{transform:rotateY(180deg) translateX(6px)}}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Espérance et variance</h1>
-  <p>E(X), Var(X), σ(X) — formules et propriétés</p>
+  <p>$E(X)$, $\text{Var}(X)$, $\sigma(X)$ — formules et propriétés</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📊</div>
     <div class="intro-title">Mémoire — Espérance et variance</div>
     <div class="intro-desc">Retourne les cartes et associe chaque indicateur statistique d'une variable aléatoire à sa définition ou sa formule.</div>
-    <div class="rule-box">🃏 <strong>Comment jouer :</strong> Retourne deux cartes — si un <strong>indicateur</strong> correspond à sa <strong>formule</strong>, la paire est trouvée.<br><br>💡 E(X), Var(X), σ(X), E(aX+b), Var(aX+b), loi de Bernoulli, loi binomiale…</div>
+    <div class="rule-box">🃏 <strong>Comment jouer :</strong> Retourne deux cartes — si un <strong>indicateur</strong> correspond à sa <strong>formule</strong>, la paire est trouvée.<br><br>💡 $E(X)$, $\text{Var}(X)$, $\sigma(X)$, $E(aX+b)$, $\text{Var}(aX+b)$, loi de Bernoulli, loi binomiale…</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="screen" id="screenGame">
@@ -73,18 +74,21 @@
     <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button></div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const PAIRS=[
-  {pairIdx:0,philosopher:{type:'Définition',text:'E(X)',sub:'Espérance de X'},concept:{type:'Formule',text:'Σ xᵢ·P(X=xᵢ)',sub:'Moyenne pondérée par les probabilités'}},
-  {pairIdx:1,philosopher:{type:'Définition',text:'Var(X)',sub:'Variance de X'},concept:{type:'Formule',text:'E(X²) − [E(X)]²',sub:'Mesure de dispersion autour de E(X)'}},
-  {pairIdx:2,philosopher:{type:'Définition',text:'σ(X)',sub:'Écart-type de X'},concept:{type:'Formule',text:'√Var(X)',sub:'En même unité que X'}},
-  {pairIdx:3,philosopher:{type:'Propriété',text:'E(aX + b)',sub:'Linéarité de l\'espérance'},concept:{type:'Formule',text:'a·E(X) + b',sub:'L\'espérance est linéaire'}},
-  {pairIdx:4,philosopher:{type:'Propriété',text:'Var(aX + b)',sub:'Variance d\'une transformation affine'},concept:{type:'Formule',text:'a²·Var(X)',sub:'La constante b n\'influe pas sur Var'}},
-  {pairIdx:5,philosopher:{type:'Loi',text:'Bernoulli B(p)',sub:'Variable de Bernoulli'},concept:{type:'Formule',text:'E=p, Var=p(1−p)',sub:'P(X=1)=p, P(X=0)=1−p'}},
-  {pairIdx:6,philosopher:{type:'Loi',text:'Binomiale B(n,p)',sub:'Nombre de succès en n épreuves'},concept:{type:'Formule',text:'E=np, Var=np(1−p)',sub:'P(X=k)=C(n,k)pᵏ(1−p)ⁿ⁻ᵏ'}},
-  {pairIdx:7,philosopher:{type:'Propriété',text:'Var(X) ≥ 0',sub:'La variance est toujours positive'},concept:{type:'Formule',text:'Var(X) = 0 ⟺ X constante',sub:'Var nulle ssi X est certaine'}},
+  {pairIdx:0,philosopher:{type:'Définition',text:'$E(X)$',sub:'Espérance de X'},concept:{type:'Formule',text:'$\\sum_i x_i \\cdot P(X = x_i)$',sub:'Moyenne pondérée par les probabilités'}},
+  {pairIdx:1,philosopher:{type:'Définition',text:'$\\text{Var}(X)$',sub:'Variance de X'},concept:{type:'Formule',text:'$E(X^2) - [E(X)]^2$',sub:'Mesure de dispersion autour de E(X)'}},
+  {pairIdx:2,philosopher:{type:'Définition',text:'$\\sigma(X)$',sub:'Écart-type de X'},concept:{type:'Formule',text:'$\\sqrt{\\text{Var}(X)}$',sub:'En même unité que X'}},
+  {pairIdx:3,philosopher:{type:'Propriété',text:'$E(aX + b)$',sub:'Linéarité de l\'espérance'},concept:{type:'Formule',text:'$a \\cdot E(X) + b$',sub:'L\'espérance est linéaire'}},
+  {pairIdx:4,philosopher:{type:'Propriété',text:'$\\text{Var}(aX + b)$',sub:'Variance d\'une transformation affine'},concept:{type:'Formule',text:'$a^2 \\cdot \\text{Var}(X)$',sub:'La constante b n\'influe pas sur Var'}},
+  {pairIdx:5,philosopher:{type:'Loi',text:'Bernoulli $B(p)$',sub:'Variable de Bernoulli'},concept:{type:'Formule',text:'$E = p,\\ \\text{Var} = p(1-p)$',sub:'P(X=1)=p, P(X=0)=1−p'}},
+  {pairIdx:6,philosopher:{type:'Loi',text:'Binomiale $B(n,p)$',sub:'Nombre de succès en n épreuves'},concept:{type:'Formule',text:'$E = np,\\ \\text{Var} = np(1-p)$',sub:'P(X=k)=C(n,k)pᵏ(1−p)ⁿ⁻ᵏ'}},
+  {pairIdx:7,philosopher:{type:'Propriété',text:'$\\text{Var}(X) \\geq 0$',sub:'La variance est toujours positive'},concept:{type:'Formule',text:'$\\text{Var}(X) = 0 \\Leftrightarrow X$ constante',sub:'Var nulle ssi X est certaine'}},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let flipped=[],matched=[],attempts=0,canClick=true,timerInterval,seconds=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
@@ -92,9 +96,9 @@ const game=(()=>{
   function update(){document.getElementById('statPairs').textContent=matched.length;document.getElementById('statAttempts').textContent=attempts;document.getElementById('statTime').textContent=fmt(seconds)}
   function flipCard(el){if(!canClick||el.classList.contains('flipped')||el.classList.contains('matched'))return;el.classList.add('flipped');flipped.push(el);if(flipped.length===2){attempts++;canClick=false;setTimeout(checkMatch,700)}}
   function checkMatch(){const[a,b]=flipped;if(a.dataset.pairIdx===b.dataset.pairIdx&&a.dataset.cardSide!==b.dataset.cardSide){a.classList.add('matched');b.classList.add('matched');matched.push(a.dataset.pairIdx);if(matched.length===PAIRS.length)setTimeout(showWin,500)}else{a.classList.add('no-match');b.classList.add('no-match');setTimeout(()=>{a.classList.remove('flipped','no-match');b.classList.remove('flipped','no-match');canClick=true},900)}flipped=[];canClick=matched.length<PAIRS.length;update()}
-  function showWin(){clearInterval(timerInterval);let stars,emoji;if(attempts<=PAIRS.length+2){stars='⭐⭐⭐';emoji='🏆'}else if(attempts<=PAIRS.length+6){stars='⭐⭐';emoji='🎉'}else{stars='⭐';emoji='👍'}document.getElementById('winAttempts').textContent=attempts;document.getElementById('winTime').textContent=fmt(seconds);document.getElementById('winStars').textContent=stars;document.getElementById('winEmoji').textContent=emoji;const recap=document.getElementById('recap');recap.innerHTML='<div style="font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;margin-bottom:.5rem;">Récapitulatif</div>';PAIRS.forEach(p=>{const row=document.createElement('div');row.style.cssText='display:flex;align-items:flex-start;gap:.5rem;background:#e0f2fe;border-radius:10px;padding:.5rem .75rem;font-size:.8rem;';row.innerHTML=`<span style="font-weight:900;color:#0891b2;min-width:80px;">${p.philosopher.text}</span><span style="color:#64748b;">→</span><span><strong>${p.concept.text}</strong><br><span style="color:#94a3b8;font-size:.72rem;">${p.concept.sub}</span></span>`;recap.appendChild(row)});show('screenWin')}
+  function showWin(){clearInterval(timerInterval);let stars,emoji;if(attempts<=PAIRS.length+2){stars='⭐⭐⭐';emoji='🏆'}else if(attempts<=PAIRS.length+6){stars='⭐⭐';emoji='🎉'}else{stars='⭐';emoji='👍'}document.getElementById('winAttempts').textContent=attempts;document.getElementById('winTime').textContent=fmt(seconds);document.getElementById('winStars').textContent=stars;document.getElementById('winEmoji').textContent=emoji;const recap=document.getElementById('recap');recap.innerHTML='<div style="font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;margin-bottom:.5rem;">Récapitulatif</div>';PAIRS.forEach(p=>{const row=document.createElement('div');row.style.cssText='display:flex;align-items:flex-start;gap:.5rem;background:#e0f2fe;border-radius:10px;padding:.5rem .75rem;font-size:.8rem;';row.innerHTML=`<span style="font-weight:900;color:#0891b2;min-width:80px;">${p.philosopher.text}</span><span style="color:#64748b;">→</span><span><strong>${p.concept.text}</strong><br><span style="color:#94a3b8;font-size:.72rem;">${p.concept.sub}</span></span>`;recap.appendChild(row)});renderMath(recap);show('screenWin')}
   function buildCards(){const cards=[];PAIRS.forEach(p=>{cards.push({pairIdx:p.pairIdx,side:'philosopher',data:p.philosopher});cards.push({pairIdx:p.pairIdx,side:'concept',data:p.concept})});return shuffle(cards)}
-  function start(){flipped=[];matched=[];attempts=0;canClick=true;seconds=0;clearInterval(timerInterval);timerInterval=setInterval(()=>{seconds++;update()},1000);const grid=document.getElementById('grid');grid.innerHTML='';buildCards().forEach(cd=>{const el=document.createElement('div');el.className='mem-card';el.dataset.pairIdx=cd.pairIdx;el.dataset.cardSide=cd.side;el.innerHTML=`<div class="mem-card-inner"><div class="mem-face mem-front"><span class="mem-front-icon">${cd.side==='philosopher'?'📊':'✏️'}</span></div><div class="mem-face mem-back"><span class="card-type">${cd.data.type}</span><span class="card-text">${cd.data.text}</span><span class="card-sub">${cd.data.sub}</span></div></div>`;el.addEventListener('click',()=>flipCard(el));grid.appendChild(el)});update();show('screenGame')}
+  function start(){flipped=[];matched=[];attempts=0;canClick=true;seconds=0;clearInterval(timerInterval);timerInterval=setInterval(()=>{seconds++;update()},1000);const grid=document.getElementById('grid');grid.innerHTML='';buildCards().forEach(cd=>{const el=document.createElement('div');el.className='mem-card';el.dataset.pairIdx=cd.pairIdx;el.dataset.cardSide=cd.side;el.innerHTML=`<div class="mem-card-inner"><div class="mem-face mem-front"><span class="mem-front-icon">${cd.side==='philosopher'?'📊':'✏️'}</span></div><div class="mem-face mem-back"><span class="card-type">${cd.data.type}</span><span class="card-text">${cd.data.text}</span><span class="card-sub">${cd.data.sub}</span></div></div>`;el.addEventListener('click',()=>flipCard(el));grid.appendChild(el)});grid.querySelectorAll('.mem-back').forEach(el=>renderMath(el));update();show('screenGame')}
   return{start};
 })();
 </script>

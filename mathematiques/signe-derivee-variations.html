@@ -40,17 +40,18 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Signe de la dérivée et variations</h1>
-  <p>f' > 0 ⟹ f croissante · f' < 0 ⟹ f décroissante</p>
+  <p>$f' > 0 \Rightarrow f$ croissante · $f' < 0 \Rightarrow f$ décroissante</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📊</div>
-    <div class="intro-title">QCM — Signe de f' et tableau de variations</div>
+    <div class="intro-title">QCM — Signe de $f'$ et tableau de variations</div>
     <div class="intro-desc">Le signe de la dérivée révèle les variations de la fonction : croissance, décroissance et extrema locaux.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Si f'(x) > 0 sur un intervalle [a, b], alors f est :",choices:["Décroissante sur [a, b]","Croissante sur [a, b]","Constante sur [a, b]","Convexe sur [a, b]"],ans:1,expl:"f' > 0 ⟹ f est strictement croissante. La pente de la tangente est positive, la courbe monte."},
-  {q:"Si f'(x) < 0 sur un intervalle [a, b], alors f est :",choices:["Décroissante sur [a, b]","Croissante sur [a, b]","Constante sur [a, b]","Nulle sur [a, b]"],ans:0,expl:"f' < 0 ⟹ f est strictement décroissante. La pente est négative, la courbe descend."},
-  {q:"Si f'(a) = 0 et f' change de signe de − à + en a, alors f a en x = a :",choices:["Un maximum local","Un minimum local","Un point d'inflexion","On ne peut pas conclure"],ans:1,expl:"f' passe de − à + en a : f décroît avant a, croît après. Donc f(a) est un minimum local."},
-  {q:"Si f'(a) = 0 et f' change de signe de + à − en a, alors f a en x = a :",choices:["Un maximum local","Un minimum local","Un point d'inflexion","Rien de particulier"],ans:0,expl:"f' passe de + à − en a : f croît avant a, décroît après. Donc f(a) est un maximum local."},
-  {q:"Pour f(x) = x³ − 3x, f'(x) = 3x² − 3 = 3(x−1)(x+1). Sur ]−1 ; 1[, f' est :",choices:["Positive, f est croissante","Négative, f est décroissante","Nulle, f est constante","Positive, f est décroissante"],ans:1,expl:"Pour x ∈ ]−1;1[ : (x−1) < 0 et (x+1) > 0, donc 3(x−1)(x+1) < 0. f' < 0 : f est décroissante sur ]−1;1[."},
-  {q:"Pour f(x) = −x² + 4x, f'(x) = −2x + 4. f est croissante sur :",choices:["[2 ; +∞[","[0 ; 2]","]−∞ ; 2]","[4 ; +∞["],ans:2,expl:"f' = −2x + 4 > 0 ⟺ x < 2. Donc f est croissante sur ]−∞ ; 2] et décroissante sur [2 ; +∞[."},
-  {q:"Si f'(x) = 0 pour tout x, alors f est :",choices:["Nulle","Constante","Croissante","Indérivable"],ans:1,expl:"f'(x) = 0 pour tout x signifie que la pente est toujours nulle : f est une fonction constante."},
-  {q:"f'(a) = 0 est une condition _________ pour que f ait un extremum en a.",choices:["Suffisante","Nécessaire","Nécessaire et suffisante","Ni nécessaire ni suffisante"],ans:1,expl:"f'(a) = 0 est nécessaire mais pas suffisante. Si f' ne change pas de signe en a, ce n'est pas un extremum (ex. f(x) = x³ en x = 0)."},
+  {q:"Si $f'(x) > 0$ sur un intervalle $[a, b]$, alors $f$ est :",choices:["Décroissante sur $[a, b]$","Croissante sur $[a, b]$","Constante sur $[a, b]$","Convexe sur $[a, b]$"],ans:1,expl:"$f' > 0 \\Rightarrow f$ est strictement croissante. La pente de la tangente est positive, la courbe monte."},
+  {q:"Si $f'(x) < 0$ sur un intervalle $[a, b]$, alors $f$ est :",choices:["Décroissante sur $[a, b]$","Croissante sur $[a, b]$","Constante sur $[a, b]$","Nulle sur $[a, b]$"],ans:0,expl:"$f' < 0 \\Rightarrow f$ est strictement décroissante. La pente est négative, la courbe descend."},
+  {q:"Si $f'(a) = 0$ et $f'$ change de signe de $-$ à $+$ en $a$, alors $f$ a en $x = a$ :",choices:["Un maximum local","Un minimum local","Un point d'inflexion","On ne peut pas conclure"],ans:1,expl:"$f'$ passe de $-$ à $+$ en $a$ : $f$ décroît avant $a$, croît après. Donc $f(a)$ est un minimum local."},
+  {q:"Si $f'(a) = 0$ et $f'$ change de signe de $+$ à $-$ en $a$, alors $f$ a en $x = a$ :",choices:["Un maximum local","Un minimum local","Un point d'inflexion","Rien de particulier"],ans:0,expl:"$f'$ passe de $+$ à $-$ en $a$ : $f$ croît avant $a$, décroît après. Donc $f(a)$ est un maximum local."},
+  {q:"Pour $f(x) = x^3 - 3x$, $f'(x) = 3x^2 - 3 = 3(x-1)(x+1)$. Sur $]-1 ; 1[$, $f'$ est :",choices:["Positive, $f$ est croissante","Négative, $f$ est décroissante","Nulle, $f$ est constante","Positive, $f$ est décroissante"],ans:1,expl:"Pour $x \\in ]-1;1[$ : $(x-1) < 0$ et $(x+1) > 0$, donc $3(x-1)(x+1) < 0$. $f' < 0$ : $f$ est décroissante sur $]-1;1[$."},
+  {q:"Pour $f(x) = -x^2 + 4x$, $f'(x) = -2x + 4$. $f$ est croissante sur :",choices:["$[2 ; +\\infty[$","$[0 ; 2]$","$]-\\infty ; 2]$","$[4 ; +\\infty[$"],ans:2,expl:"$f' = -2x + 4 > 0 \\Leftrightarrow x < 2$. Donc $f$ est croissante sur $]-\\infty ; 2]$ et décroissante sur $[2 ; +\\infty[$."},
+  {q:"Si $f'(x) = 0$ pour tout $x$, alors $f$ est :",choices:["Nulle","Constante","Croissante","Indérivable"],ans:1,expl:"$f'(x) = 0$ pour tout $x$ signifie que la pente est toujours nulle : $f$ est une fonction constante."},
+  {q:"$f'(a) = 0$ est une condition _________ pour que $f$ ait un extremum en $a$.",choices:["Suffisante","Nécessaire","Nécessaire et suffisante","Ni nécessaire ni suffisante"],ans:1,expl:"$f'(a) = 0$ est nécessaire mais pas suffisante. Si $f'$ ne change pas de signe en $a$, ce n'est pas un extremum (ex. $f(x) = x^3$ en $x = 0$)."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

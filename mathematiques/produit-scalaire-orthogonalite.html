@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Produit scalaire et orthogonalité</h1>
-  <p>u⃗·v⃗ = 0 ⟺ u⃗ ⊥ v⃗ — Pythagore et réciproque</p>
+  <p>$\vec{u} \cdot \vec{v} = 0 \Leftrightarrow \vec{u} \perp \vec{v}$ — Pythagore et réciproque</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Deux vecteurs u⃗ et v⃗ sont orthogonaux si et seulement si :",choices:["‖u⃗‖ = ‖v⃗‖","u⃗·v⃗ = 0","u⃗·v⃗ = 1","‖u⃗+v⃗‖ = 0"],ans:1,expl:"La définition : u⃗ ⊥ v⃗ ⟺ u⃗·v⃗ = 0. En coordonnées : (x₁,y₁)⊥(x₂,y₂) ⟺ x₁x₂+y₁y₂ = 0."},
-  {q:"u⃗ = (3, −2) et v⃗ = (2, 3). Ces vecteurs sont :",choices:["Colinéaires","Orthogonaux","De même norme","Opposés"],ans:1,expl:"u⃗·v⃗ = 3×2 + (−2)×3 = 6 − 6 = 0 ⟹ u⃗ ⊥ v⃗. Les vecteurs perpendiculaires (x,y) et (−y,x) ont toujours un produit scalaire nul."},
-  {q:"Le théorème de Pythagore affirme que dans un triangle ABC rectangle en A :",choices:["AB² + AC² = BC²","AB + AC = BC","AB·AC = BC²","BC² − AB² = AC"],ans:0,expl:"ABC rectangle en A ⟺ AB² + AC² = BC² ⟺ AB⃗·AC⃗ = 0. C'est une conséquence directe du produit scalaire : ‖BC⃗‖² = ‖BA⃗+AC⃗‖² = ‖BA⃗‖² + ‖AC⃗‖²."},
-  {q:"Dans un triangle ABC, BC² = AB² + AC² − 2·AB⃗·AC⃗. Si BC² = AB² + AC², alors :",choices:["AB⃗·AC⃗ = 1","Le triangle est isocèle","AB⃗·AC⃗ = 0 donc le triangle est rectangle en A","BC = AB"],ans:2,expl:"Si BC² = AB² + AC², alors 2·AB⃗·AC⃗ = 0, soit AB⃗·AC⃗ = 0. Cela signifie que AB⃗ ⊥ AC⃗, donc le triangle est rectangle en A."},
-  {q:"Le vecteur (4, −3) est orthogonal à :",choices:["(4, 3)","(3, 4)","(−4, 3)","(2, −3)"],ans:1,expl:"(4,−3)·(3,4) = 4×3 + (−3)×4 = 12 − 12 = 0. Pour trouver un vecteur orthogonal à (a,b), on peut prendre (−b,a) ou (b,−a)."},
-  {q:"La hauteur d'un triangle issue de A est perpendiculaire à :",choices:["AB","La médiane","BC","L'axe Ox"],ans:2,expl:"La hauteur issue de A est la droite passant par A et perpendiculaire au côté opposé BC. AH⃗·BC⃗ = 0 où H est le pied de la hauteur."},
-  {q:"Dans un losange ABCD, les diagonales AC et BD sont :",choices:["Égales","Parallèles","Perpendiculaires","De longueur double"],ans:2,expl:"Dans un losange, les diagonales sont perpendiculaires entre elles (elles se coupent à angle droit). On montre cela grâce au produit scalaire : AC⃗·BD⃗ = 0."},
-  {q:"Si u⃗ = (1, 0) et v⃗ = (0, 1), alors u⃗·v⃗ = ?",choices:["1","0","−1","√2"],ans:1,expl:"u⃗·v⃗ = 1×0 + 0×1 = 0. Ce sont les vecteurs de la base canonique, perpendiculaires entre eux. Ils forment un angle de 90°, et cos 90° = 0."},
+  {q:"Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont orthogonaux si et seulement si :",choices:["$\\|\\vec{u}\\| = \\|\\vec{v}\\|$","$\\vec{u} \\cdot \\vec{v} = 0$","$\\vec{u} \\cdot \\vec{v} = 1$","$\\|\\vec{u}+\\vec{v}\\| = 0$"],ans:1,expl:"La définition : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. En coordonnées : $(x_1,y_1)\\perp(x_2,y_2) \\Leftrightarrow x_1x_2+y_1y_2 = 0$."},
+  {q:"$\\vec{u} = (3, -2)$ et $\\vec{v} = (2, 3)$. Ces vecteurs sont :",choices:["Colinéaires","Orthogonaux","De même norme","Opposés"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = 3 \\times 2 + (-2) \\times 3 = 6 - 6 = 0 \\Rightarrow \\vec{u} \\perp \\vec{v}$. Les vecteurs perpendiculaires $(x,y)$ et $(-y,x)$ ont toujours un produit scalaire nul."},
+  {q:"Le théorème de Pythagore affirme que dans un triangle ABC rectangle en A :",choices:["$AB^2 + AC^2 = BC^2$","$AB + AC = BC$","$AB \\cdot AC = BC^2$","$BC^2 - AB^2 = AC$"],ans:0,expl:"ABC rectangle en A $\\Leftrightarrow AB^2 + AC^2 = BC^2 \\Leftrightarrow \\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$. C'est une conséquence directe du produit scalaire : $\\|\\overrightarrow{BC}\\|^2 = \\|\\overrightarrow{BA}+\\overrightarrow{AC}\\|^2 = \\|\\overrightarrow{BA}\\|^2 + \\|\\overrightarrow{AC}\\|^2$."},
+  {q:"Dans un triangle ABC, $BC^2 = AB^2 + AC^2 - 2 \\cdot \\overrightarrow{AB} \\cdot \\overrightarrow{AC}$. Si $BC^2 = AB^2 + AC^2$, alors :",choices:["$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 1$","Le triangle est isocèle","$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$ donc le triangle est rectangle en A","$BC = AB$"],ans:2,expl:"Si $BC^2 = AB^2 + AC^2$, alors $2 \\cdot \\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$, soit $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$. Cela signifie que $\\overrightarrow{AB} \\perp \\overrightarrow{AC}$, donc le triangle est rectangle en A."},
+  {q:"Le vecteur $(4, -3)$ est orthogonal à :",choices:["$(4, 3)$","$(3, 4)$","$(-4, 3)$","$(2, -3)$"],ans:1,expl:"$(4,-3) \\cdot (3,4) = 4 \\times 3 + (-3) \\times 4 = 12 - 12 = 0$. Pour trouver un vecteur orthogonal à $(a,b)$, on peut prendre $(-b,a)$ ou $(b,-a)$."},
+  {q:"La hauteur d'un triangle issue de A est perpendiculaire à :",choices:["AB","La médiane","BC","L'axe Ox"],ans:2,expl:"La hauteur issue de A est la droite passant par A et perpendiculaire au côté opposé BC. $\\overrightarrow{AH} \\cdot \\overrightarrow{BC} = 0$ où H est le pied de la hauteur."},
+  {q:"Dans un losange ABCD, les diagonales AC et BD sont :",choices:["Égales","Parallèles","Perpendiculaires","De longueur double"],ans:2,expl:"Dans un losange, les diagonales sont perpendiculaires entre elles (elles se coupent à angle droit). On montre cela grâce au produit scalaire : $\\overrightarrow{AC} \\cdot \\overrightarrow{BD} = 0$."},
+  {q:"Si $\\vec{u} = (1, 0)$ et $\\vec{v} = (0, 1)$, alors $\\vec{u} \\cdot \\vec{v} = $ ?",choices:["$1$","$0$","$-1$","$\\sqrt{2}$"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = 1 \\times 0 + 0 \\times 1 = 0$. Ce sont les vecteurs de la base canonique, perpendiculaires entre eux. Ils forment un angle de 90°, et $\\cos 90° = 0$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

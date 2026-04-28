@@ -40,12 +40,13 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Indépendance</h1>
-  <p>P(A∩B) = P(A)×P(B) — définition et propriétés</p>
+  <p>$P(A \cap B) = P(A) \times P(B)$ — définition et propriétés</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"A et B sont indépendants si et seulement si :",choices:["P(A∩B) = P(A) + P(B)","P(A∩B) = P(A) × P(B)","P(A∩B) = 0","P(A) = P(B)"],ans:1,expl:"Définition : A et B indépendants ⟺ P(A∩B) = P(A)×P(B). La réalisation de l'un n'influence pas la probabilité de l'autre."},
-  {q:"A et B sont indépendants avec P(A) = 0,4 et P(B) = 0,3. P(A∩B) = ?",choices:["0,7","0,1","0,12","0,4"],ans:2,expl:"Par indépendance : P(A∩B) = P(A) × P(B) = 0,4 × 0,3 = 0,12."},
-  {q:"P(A) = 0,5, P(B) = 0,4, P(A∩B) = 0,2. A et B sont-ils indépendants ?",choices:["Oui, car P(A)×P(B) = 0,2","Non, car P(A)×P(B) ≠ 0,2","On ne peut pas savoir","Oui, car P(A∩B) < P(A)"],ans:0,expl:"P(A)×P(B) = 0,5×0,4 = 0,2 = P(A∩B). Condition satisfaite : A et B sont indépendants."},
-  {q:"Si A et B sont incompatibles (A∩B = ∅) avec P(A) > 0 et P(B) > 0, alors :",choices:["A et B sont indépendants","A et B sont dépendants","A et B peuvent être indépendants","On ne sait pas"],ans:1,expl:"Incompatibles ⟹ P(A∩B) = 0, mais P(A)×P(B) > 0. Donc P(A∩B) ≠ P(A)×P(B) : ils sont dépendants."},
-  {q:"Si A et B sont indépendants, alors A et B̄ sont :",choices:["Dépendants","Indépendants","Incompatibles","Identiques"],ans:1,expl:"L'indépendance est stable par passage au complémentaire : si A⊥B, alors A⊥B̄, Ā⊥B et Ā⊥B̄."},
+  {q:"A et B sont indépendants si et seulement si :",choices:["$P(A \\cap B) = P(A) + P(B)$","$P(A \\cap B) = P(A) \\times P(B)$","$P(A \\cap B) = 0$","$P(A) = P(B)$"],ans:1,expl:"Définition : A et B indépendants $\\Leftrightarrow$ $P(A \\cap B) = P(A) \\times P(B)$. La réalisation de l'un n'influence pas la probabilité de l'autre."},
+  {q:"A et B sont indépendants avec $P(A) = 0{,}4$ et $P(B) = 0{,}3$. $P(A \\cap B)$ = ?",choices:["$0{,}7$","$0{,}1$","$0{,}12$","$0{,}4$"],ans:2,expl:"Par indépendance : $P(A \\cap B) = P(A) \\times P(B) = 0{,}4 \\times 0{,}3 = 0{,}12$."},
+  {q:"$P(A) = 0{,}5$, $P(B) = 0{,}4$, $P(A \\cap B) = 0{,}2$. A et B sont-ils indépendants ?",choices:["Oui, car $P(A) \\times P(B) = 0{,}2$","Non, car $P(A) \\times P(B) \\neq 0{,}2$","On ne peut pas savoir","Oui, car $P(A \\cap B) < P(A)$"],ans:0,expl:"$P(A) \\times P(B) = 0{,}5 \\times 0{,}4 = 0{,}2 = P(A \\cap B)$. Condition satisfaite : A et B sont indépendants."},
+  {q:"Si A et B sont incompatibles ($A \\cap B = \\emptyset$) avec $P(A) > 0$ et $P(B) > 0$, alors :",choices:["A et B sont indépendants","A et B sont dépendants","A et B peuvent être indépendants","On ne sait pas"],ans:1,expl:"Incompatibles $\\Rightarrow$ $P(A \\cap B) = 0$, mais $P(A) \\times P(B) > 0$. Donc $P(A \\cap B) \\neq P(A) \\times P(B)$ : ils sont dépendants."},
+  {q:"Si A et B sont indépendants, alors A et $\\bar{B}$ sont :",choices:["Dépendants","Indépendants","Incompatibles","Identiques"],ans:1,expl:"L'indépendance est stable par passage au complémentaire : si $A \\perp B$, alors $A \\perp \\bar{B}$, $\\bar{A} \\perp B$ et $\\bar{A} \\perp \\bar{B}$."},
   {q:"Deux lancers successifs d'une pièce équilibrée. Les résultats de chaque lancer sont :",choices:["Dépendants","Indépendants","Incompatibles","Identiques"],ans:1,expl:"Les lancers successifs d'une pièce sont indépendants : le résultat du premier ne change pas la probabilité du second."},
-  {q:"A et B indépendants avec P(A) = 0,6. Alors P(A|B) = ?",choices:["0,6","0,4","Dépend de P(B)","0"],ans:0,expl:"Par indépendance : P(A|B) = P(A) = 0,6. Connaître B ne modifie pas la probabilité de A."},
+  {q:"A et B indépendants avec $P(A) = 0{,}6$. Alors $P_B(A)$ = ?",choices:["$0{,}6$","$0{,}4$","Dépend de $P(B)$","$0$"],ans:0,expl:"Par indépendance : $P_B(A) = P(A) = 0{,}6$. Connaître B ne modifie pas la probabilité de A."},
   {q:"Tirage avec remise dans une urne. Les deux tirages successifs sont :",choices:["Dépendants, car la composition change","Indépendants, car on remet la boule","Incompatibles","Toujours équiprobables"],ans:1,expl:"Avec remise, on remet la boule tirée avant le second tirage. Les conditions sont identiques à chaque tirage : les résultats sont indépendants."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

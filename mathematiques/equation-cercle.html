@@ -40,18 +40,19 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Équation d'un cercle</h1>
-  <p>(x−a)²+(y−b)²=r² — centre, rayon, appartenance</p>
+  <p>$(x-a)^2+(y-b)^2=r^2$ — centre, rayon, appartenance</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">⭕</div>
     <div class="intro-title">QCM — Équation d'un cercle</div>
-    <div class="intro-desc">Maîtrise l'équation d'un cercle de centre Ω(a,b) et de rayon r, ainsi que les conditions d'appartenance et les intersections avec des droites.</div>
+    <div class="intro-desc">Maîtrise l'équation d'un cercle de centre $\Omega(a,b)$ et de rayon $r$, ainsi que les conditions d'appartenance et les intersections avec des droites.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"L'équation du cercle de centre Ω(a,b) et de rayon r est :",choices:["(x+a)²+(y+b)²=r","(x−a)²+(y−b)²=r²","x²+y²=r²","ax²+by²=r"],ans:1,expl:"Un point M(x,y) est sur le cercle ⟺ ΩM = r ⟺ (x−a)²+(y−b)²=r². C'est la définition du cercle : l'ensemble des points à distance r du centre Ω."},
-  {q:"L'équation x²+y²=25 représente le cercle de centre :",choices:["(25, 0)","(5, 0)","(0, 0)","(5, 5)"],ans:2,expl:"x²+y²=25 = (x−0)²+(y−0)² = 5². Centre : O(0,0), rayon : 5."},
-  {q:"Le cercle (x−2)²+(y+1)²=9 a pour rayon :",choices:["9","3","2","1"],ans:1,expl:"r² = 9 ⟹ r = 3. Le centre est (2,−1). Attention : c'est bien √9 = 3, pas 9."},
-  {q:"Le point A(3, 4) appartient-il au cercle x²+y²=25 ?",choices:["Non","Oui","On ne peut pas savoir","Seulement si r=5"],ans:1,expl:"3²+4² = 9+16 = 25. Comme 25 = 25, le point A(3,4) est bien sur le cercle x²+y²=25."},
-  {q:"L'équation générale d'un cercle x²+y²+Dx+Ey+F=0 représente un cercle si :",choices:["D²+E²−4F > 0","D+E > F","F > 0","D²+E²−F > 0"],ans:0,expl:"En mettant sous forme canonique : (x+D/2)²+(y+E/2)²=D²/4+E²/4−F. C'est un cercle de rayon r si r² = D²/4+E²/4−F > 0, soit D²+E²−4F > 0."},
-  {q:"Le cercle de diamètre [AB] avec A(0,0) et B(4,0) a pour équation :",choices:["x²+y²=4","(x−2)²+y²=4","(x−2)²+y²=16","x²+y²=16"],ans:1,expl:"Centre = milieu de AB = (2,0). Rayon = AB/2 = 2. Équation : (x−2)²+y²=4."},
-  {q:"Un point M est sur le cercle de diamètre [AB] si et seulement si :",choices:["MA = MB","MA⃗·MB⃗ = 0","MA + MB = AB","MA² + MB² = AB²"],ans:1,expl:"Théorème de Thalès : M est sur le cercle de diamètre [AB] ⟺ angle AMB = 90° ⟺ MA⃗·MB⃗ = 0. C'est une application directe du produit scalaire."},
-  {q:"La droite y=x et le cercle x²+y²=2 ont pour intersection :",choices:["Aucun point commun","Un seul point commun","Deux points communs","Une infinité de points communs"],ans:2,expl:"Substituons y=x : x²+x²=2 ⟹ 2x²=2 ⟹ x²=1 ⟹ x=1 ou x=−1. Points : (1,1) et (−1,−1). Il y a deux points d'intersection."},
+  {q:"L'équation du cercle de centre $\\Omega(a,b)$ et de rayon $r$ est :",choices:["$(x+a)^2+(y+b)^2=r$","$(x-a)^2+(y-b)^2=r^2$","$x^2+y^2=r^2$","$ax^2+by^2=r$"],ans:1,expl:"Un point $M(x,y)$ est sur le cercle $\\Leftrightarrow \\Omega M = r \\Leftrightarrow (x-a)^2+(y-b)^2=r^2$. C'est la définition du cercle : l'ensemble des points à distance $r$ du centre $\\Omega$."},
+  {q:"L'équation $x^2+y^2=25$ représente le cercle de centre :",choices:["$(25, 0)$","$(5, 0)$","$(0, 0)$","$(5, 5)$"],ans:2,expl:"$x^2+y^2=25 = (x-0)^2+(y-0)^2 = 5^2$. Centre : $O(0,0)$, rayon : $5$."},
+  {q:"Le cercle $(x-2)^2+(y+1)^2=9$ a pour rayon :",choices:["$9$","$3$","$2$","$1$"],ans:1,expl:"$r^2 = 9 \\Rightarrow r = 3$. Le centre est $(2,-1)$. Attention : c'est bien $\\sqrt{9} = 3$, pas $9$."},
+  {q:"Le point $A(3, 4)$ appartient-il au cercle $x^2+y^2=25$ ?",choices:["Non","Oui","On ne peut pas savoir","Seulement si $r=5$"],ans:1,expl:"$3^2+4^2 = 9+16 = 25$. Comme $25 = 25$, le point $A(3,4)$ est bien sur le cercle $x^2+y^2=25$."},
+  {q:"L'équation générale $x^2+y^2+Dx+Ey+F=0$ représente un cercle si :",choices:["$D^2+E^2-4F > 0$","$D+E > F$","$F > 0$","$D^2+E^2-F > 0$"],ans:0,expl:"En mettant sous forme canonique : $(x+D/2)^2+(y+E/2)^2=D^2/4+E^2/4-F$. C'est un cercle de rayon $r$ si $r^2 = D^2/4+E^2/4-F > 0$, soit $D^2+E^2-4F > 0$."},
+  {q:"Le cercle de diamètre $[AB]$ avec $A(0,0)$ et $B(4,0)$ a pour équation :",choices:["$x^2+y^2=4$","$(x-2)^2+y^2=4$","$(x-2)^2+y^2=16$","$x^2+y^2=16$"],ans:1,expl:"Centre $=$ milieu de $AB = (2,0)$. Rayon $= AB/2 = 2$. Équation : $(x-2)^2+y^2=4$."},
+  {q:"Un point $M$ est sur le cercle de diamètre $[AB]$ si et seulement si :",choices:["$MA = MB$","$\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$","$MA + MB = AB$","$MA^2 + MB^2 = AB^2$"],ans:1,expl:"Théorème de Thalès : $M$ est sur le cercle de diamètre $[AB]$ $\\Leftrightarrow$ $\\widehat{AMB} = 90°$ $\\Leftrightarrow$ $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$. C'est une application directe du produit scalaire."},
+  {q:"La droite $y=x$ et le cercle $x^2+y^2=2$ ont pour intersection :",choices:["Aucun point commun","Un seul point commun","Deux points communs","Une infinité de points communs"],ans:2,expl:"Substituons $y=x$ : $x^2+x^2=2 \\Rightarrow 2x^2=2 \\Rightarrow x^2=1 \\Rightarrow x=1$ ou $x=-1$. Points : $(1,1)$ et $(-1,-1)$. Il y a deux points d'intersection."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

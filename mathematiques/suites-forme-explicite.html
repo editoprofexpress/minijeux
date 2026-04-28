@@ -40,18 +40,19 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Suites : forme explicite</h1>
-  <p>uₙ = f(n) — terme général arithmétique et géométrique</p>
+  <p>$u_n = f(n)$ — terme général arithmétique et géométrique</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📋</div>
     <div class="intro-title">QCM — Suites : forme explicite</div>
-    <div class="intro-desc">La forme explicite donne directement le nème terme en fonction de n. Maîtrise les formules pour les suites arithmétiques et géométriques.</div>
+    <div class="intro-desc">La forme explicite donne directement le $n$-ème terme en fonction de $n$. Maîtrise les formules $u_n = u_0 + nr$ et $u_n = u_0 \cdot q^n$.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"La suite arithmétique de raison 4 avec u₀ = 2 a pour terme général :",choices:["uₙ = 4n","uₙ = 2·4ⁿ","uₙ = 2 + 4n","uₙ = 4 + 2n"],ans:2,expl:"uₙ = u₀ + n·r = 2 + 4n. Vérification : u₀ = 2 ✓, u₁ = 6 = 2+4 ✓."},
-  {q:"La suite géométrique de raison 3 avec u₀ = 5 a pour terme général :",choices:["uₙ = 5 + 3n","uₙ = 5·3ⁿ","uₙ = 3·5ⁿ","uₙ = 5·n³"],ans:1,expl:"uₙ = u₀·qⁿ = 5·3ⁿ. Vérification : u₀ = 5 ✓, u₁ = 15 = 5·3 ✓."},
-  {q:"Une suite arithmétique vérifie u₃ = 11 et u₅ = 17. Sa raison est :",choices:["3","4","5","6"],ans:0,expl:"u₅ − u₃ = 2r = 17 − 11 = 6, donc r = 3."},
-  {q:"Une suite arithmétique vérifie u₃ = 11 et r = 3. Le premier terme u₀ est :",choices:["2","4","5","8"],ans:0,expl:"u₃ = u₀ + 3r ⟹ u₀ = u₃ − 3r = 11 − 9 = 2."},
-  {q:"Une suite géométrique vérifie u₁ = 6 et u₃ = 54. Sa raison est :",choices:["2","3","9","6"],ans:1,expl:"u₃ = u₁·q² ⟹ q² = 54/6 = 9 ⟹ q = 3 (raison positive)."},
-  {q:"Pour la suite arithmétique u₀ = 3, r = 5, quel est u₁₀ ?",choices:["50","53","55","58"],ans:1,expl:"u₁₀ = u₀ + 10·r = 3 + 10×5 = 3 + 50 = 53."},
-  {q:"Pour la suite géométrique u₀ = 2, q = 1/2, quel est u₅ ?",choices:["1/8","1/16","1/32","1/64"],ans:1,expl:"u₅ = 2·(1/2)⁵ = 2/32 = 1/16."},
-  {q:"Le 15ème terme (indice 14) d'une suite arithmétique u₁ = 3, r = 2 est :",choices:["29","31","27","33"],ans:1,expl:"u₁₄ = u₁ + 13·r = 3 + 13×2 = 3 + 26 = 29. Attention, u₁₄ est le 14ème terme si on indexe depuis 1 : u_{14} = 3 + (14−1)·2 = 3+26 = 29. Mais si on cherche le 15ème terme (u₁₄) : 29. Ah wait, si u₁=3 et on veut le 15ème terme (u₁₅) : u₁₅ = 3 + (15−1)·2 = 3+28=31."},
+  {q:"La suite arithmétique de raison $4$ avec $u_0 = 2$ a pour terme général :",choices:["$u_n = 4n$","$u_n = 2 \\cdot 4^n$","$u_n = 2 + 4n$","$u_n = 4 + 2n$"],ans:2,expl:"$u_n = u_0 + nr = 2 + 4n$. Vérification : $u_0 = 2$ ✓, $u_1 = 6 = 2+4$ ✓."},
+  {q:"La suite géométrique de raison $3$ avec $u_0 = 5$ a pour terme général :",choices:["$u_n = 5 + 3n$","$u_n = 5 \\cdot 3^n$","$u_n = 3 \\cdot 5^n$","$u_n = 5 \\cdot n^3$"],ans:1,expl:"$u_n = u_0 \\cdot q^n = 5 \\cdot 3^n$. Vérification : $u_0 = 5$ ✓, $u_1 = 15 = 5 \\times 3$ ✓."},
+  {q:"Une suite arithmétique vérifie $u_3 = 11$ et $u_5 = 17$. Sa raison est :",choices:["$3$","$4$","$5$","$6$"],ans:0,expl:"$u_5 - u_3 = 2r = 17 - 11 = 6$, donc $r = 3$."},
+  {q:"Une suite arithmétique vérifie $u_3 = 11$ et $r = 3$. Le premier terme $u_0$ est :",choices:["$2$","$4$","$5$","$8$"],ans:0,expl:"$u_3 = u_0 + 3r \\Rightarrow u_0 = u_3 - 3r = 11 - 9 = 2$."},
+  {q:"Une suite géométrique vérifie $u_1 = 6$ et $u_3 = 54$. Sa raison est :",choices:["$2$","$3$","$9$","$6$"],ans:1,expl:"$u_3 = u_1 \\cdot q^2 \\Rightarrow q^2 = 54/6 = 9 \\Rightarrow q = 3$ (raison positive)."},
+  {q:"Pour la suite arithmétique $u_0 = 3$, $r = 5$, quel est $u_{10}$ ?",choices:["$50$","$53$","$55$","$58$"],ans:1,expl:"$u_{10} = u_0 + 10r = 3 + 10 \\times 5 = 3 + 50 = 53$."},
+  {q:"Pour la suite géométrique $u_0 = 2$, $q = 1/2$, quel est $u_5$ ?",choices:["$1/8$","$1/16$","$1/32$","$1/64$"],ans:1,expl:"$u_5 = 2 \\cdot (1/2)^5 = 2/32 = 1/16$."},
+  {q:"Le 15ème terme d'une suite arithmétique avec $u_1 = 3$, $r = 2$ est :",choices:["$29$","$31$","$27$","$33$"],ans:1,expl:"Le 15ème terme est $u_{15} = u_1 + (15-1) \\cdot r = 3 + 14 \\times 2 = 3 + 28 = 31$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

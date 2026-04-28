@@ -40,6 +40,7 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"Le cercle trigonométrique est un cercle de centre O et de rayon :",choices:["π","2","1","360"],ans:2,expl:"Le cercle trigonométrique (ou cercle unité) a pour centre l'origine O et pour rayon 1."},
-  {q:"Pour un point M sur le cercle trigonométrique associé à l'angle θ, les coordonnées de M sont :",choices:["(sin θ, cos θ)","(cos θ, sin θ)","(θ, 1)","(1, θ)"],ans:1,expl:"M = (cos θ, sin θ). L'abscisse est le cosinus et l'ordonnée est le sinus de l'angle θ."},
-  {q:"Sur le cercle trigonométrique, l'angle θ = 0 correspond au point :",choices:["(0, 1)","(1, 0)","(0, 0)","(−1, 0)"],ans:1,expl:"cos(0) = 1 et sin(0) = 0. Le point correspondant est (1, 0), à droite du cercle."},
-  {q:"Sur le cercle trigonométrique, l'angle θ = π/2 correspond au point :",choices:["(1, 0)","(0, 1)","(−1, 0)","(0, −1)"],ans:1,expl:"cos(π/2) = 0 et sin(π/2) = 1. Le point est (0, 1), en haut du cercle."},
-  {q:"Dans quel quadrant se trouve un point M tel que cos θ < 0 et sin θ > 0 ?",choices:["1er quadrant (x > 0, y > 0)","2ème quadrant (x < 0, y > 0)","3ème quadrant (x < 0, y < 0)","4ème quadrant (x > 0, y < 0)"],ans:1,expl:"cos θ < 0 ⟹ abscisse négative (côté gauche) ; sin θ > 0 ⟹ ordonnée positive (côté haut). C'est le 2ème quadrant."},
-  {q:"La relation fondamentale cos²θ + sin²θ = ?",choices:["0","π","1","2"],ans:2,expl:"cos²θ + sin²θ = 1 pour tout angle θ. C'est la conséquence directe du théorème de Pythagore appliqué au cercle unité."},
-  {q:"Sur le cercle trigonométrique, l'angle θ = π correspond au point :",choices:["(1, 0)","(0, 1)","(−1, 0)","(0, −1)"],ans:2,expl:"cos(π) = −1 et sin(π) = 0. Le point est (−1, 0), à gauche du cercle."},
+  {q:"Le cercle trigonométrique est un cercle de centre O et de rayon :",choices:["$\\pi$","$2$","$1$","$360$"],ans:2,expl:"Le cercle trigonométrique (ou cercle unité) a pour centre l'origine O et pour rayon $1$."},
+  {q:"Pour un point $M$ sur le cercle trigonométrique associé à l'angle $\\theta$, les coordonnées de $M$ sont :",choices:["$(\\sin\\theta,\\, \\cos\\theta)$","$(\\cos\\theta,\\, \\sin\\theta)$","$(\\theta,\\, 1)$","$(1,\\, \\theta)$"],ans:1,expl:"$M = (\\cos\\theta,\\, \\sin\\theta)$. L'abscisse est le cosinus et l'ordonnée est le sinus de l'angle $\\theta$."},
+  {q:"Sur le cercle trigonométrique, l'angle $\\theta = 0$ correspond au point :",choices:["$(0,\\, 1)$","$(1,\\, 0)$","$(0,\\, 0)$","$(-1,\\, 0)$"],ans:1,expl:"$\\cos(0) = 1$ et $\\sin(0) = 0$. Le point correspondant est $(1,\\, 0)$, à droite du cercle."},
+  {q:"Sur le cercle trigonométrique, l'angle $\\theta = \\dfrac{\\pi}{2}$ correspond au point :",choices:["$(1,\\, 0)$","$(0,\\, 1)$","$(-1,\\, 0)$","$(0,\\, -1)$"],ans:1,expl:"$\\cos\\!\\left(\\dfrac{\\pi}{2}\\right) = 0$ et $\\sin\\!\\left(\\dfrac{\\pi}{2}\\right) = 1$. Le point est $(0,\\, 1)$, en haut du cercle."},
+  {q:"Dans quel quadrant se trouve un point $M$ tel que $\\cos\\theta < 0$ et $\\sin\\theta > 0$ ?",choices:["1er quadrant ($x > 0$, $y > 0$)","2ème quadrant ($x < 0$, $y > 0$)","3ème quadrant ($x < 0$, $y < 0$)","4ème quadrant ($x > 0$, $y < 0$)"],ans:1,expl:"$\\cos\\theta < 0$ $\\Rightarrow$ abscisse négative (côté gauche) ; $\\sin\\theta > 0$ $\\Rightarrow$ ordonnée positive (côté haut). C'est le 2ème quadrant."},
+  {q:"La relation fondamentale $\\cos^2\\theta + \\sin^2\\theta = $ ?",choices:["$0$","$\\pi$","$1$","$2$"],ans:2,expl:"$\\cos^2\\theta + \\sin^2\\theta = 1$ pour tout angle $\\theta$. C'est la conséquence directe du théorème de Pythagore appliqué au cercle unité."},
+  {q:"Sur le cercle trigonométrique, l'angle $\\theta = \\pi$ correspond au point :",choices:["$(1,\\, 0)$","$(0,\\, 1)$","$(-1,\\, 0)$","$(0,\\, -1)$"],ans:2,expl:"$\\cos(\\pi) = -1$ et $\\sin(\\pi) = 0$. Le point est $(-1,\\, 0)$, à gauche du cercle."},
   {q:"Le sens positif sur le cercle trigonométrique est le sens :",choices:["Horaire (sens des aiguilles d'une montre)","Antihoraire (sens contraire des aiguilles)","Vers le haut","Vers la droite"],ans:1,expl:"Le sens positif est le sens antihoraire (trigonométrique). Les angles positifs s'orientent dans le sens antihoraire."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

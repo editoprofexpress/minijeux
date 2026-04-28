@@ -40,6 +40,7 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
@@ -51,7 +52,7 @@
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🔀</div>
     <div class="intro-title">QCM — Formules de trigonométrie</div>
-    <div class="intro-desc">Maîtrise les formules de parité et de symétrie de cosinus et sinus : cos(−x), sin(π−x), cos(π+x) et leurs conséquences.</div>
+    <div class="intro-desc">Maîtrise les formules de parité et de symétrie de cosinus et sinus : $\cos(-x)$, $\sin(\pi-x)$, $\cos(\pi+x)$ et leurs conséquences.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"cos(−x) = ?",choices:["−cos(x)","cos(x)","sin(x)","−sin(x)"],ans:1,expl:"Le cosinus est une fonction paire : cos(−x) = cos(x). Sur le cercle, −x est le symétrique de x par rapport à l'axe des abscisses."},
-  {q:"sin(−x) = ?",choices:["sin(x)","−sin(x)","cos(x)","−cos(x)"],ans:1,expl:"Le sinus est une fonction impaire : sin(−x) = −sin(x). La symétrie par rapport à l'axe des abscisses inverse le signe de l'ordonnée."},
-  {q:"cos(π − x) = ?",choices:["cos(x)","−cos(x)","sin(x)","−sin(x)"],ans:1,expl:"cos(π − x) = −cos(x). Symétrie par rapport à l'axe des ordonnées : l'abscisse change de signe."},
-  {q:"sin(π − x) = ?",choices:["−sin(x)","sin(x)","cos(x)","−cos(x)"],ans:1,expl:"sin(π − x) = sin(x). Par symétrie par rapport à l'axe des ordonnées, l'ordonnée reste la même."},
-  {q:"cos(π + x) = ?",choices:["cos(x)","−cos(x)","sin(x)","−sin(x)"],ans:1,expl:"cos(π + x) = −cos(x). Symétrie par rapport à l'origine : les deux coordonnées changent de signe."},
-  {q:"sin(π + x) = ?",choices:["sin(x)","−sin(x)","cos(x)","−cos(x)"],ans:1,expl:"sin(π + x) = −sin(x). Symétrie par rapport à l'origine : l'ordonnée change de signe."},
-  {q:"cos(π/2 − x) = ?",choices:["cos(x)","−cos(x)","sin(x)","−sin(x)"],ans:2,expl:"cos(π/2 − x) = sin(x). C'est la relation de complémentarité : le cosinus d'un angle est le sinus de son complémentaire."},
-  {q:"sin(π/2 − x) = ?",choices:["sin(x)","−sin(x)","cos(x)","−cos(x)"],ans:2,expl:"sin(π/2 − x) = cos(x). La relation de complémentarité : le sinus d'un angle est le cosinus de son complémentaire."},
+  {q:"$\\cos(-x) = $ ?",choices:["$-\\cos(x)$","$\\cos(x)$","$\\sin(x)$","$-\\sin(x)$"],ans:1,expl:"Le cosinus est une fonction paire : $\\cos(-x) = \\cos(x)$. Sur le cercle, $-x$ est le symétrique de $x$ par rapport à l'axe des abscisses."},
+  {q:"$\\sin(-x) = $ ?",choices:["$\\sin(x)$","$-\\sin(x)$","$\\cos(x)$","$-\\cos(x)$"],ans:1,expl:"Le sinus est une fonction impaire : $\\sin(-x) = -\\sin(x)$. La symétrie par rapport à l'axe des abscisses inverse le signe de l'ordonnée."},
+  {q:"$\\cos(\\pi - x) = $ ?",choices:["$\\cos(x)$","$-\\cos(x)$","$\\sin(x)$","$-\\sin(x)$"],ans:1,expl:"$\\cos(\\pi - x) = -\\cos(x)$. Symétrie par rapport à l'axe des ordonnées : l'abscisse change de signe."},
+  {q:"$\\sin(\\pi - x) = $ ?",choices:["$-\\sin(x)$","$\\sin(x)$","$\\cos(x)$","$-\\cos(x)$"],ans:1,expl:"$\\sin(\\pi - x) = \\sin(x)$. Par symétrie par rapport à l'axe des ordonnées, l'ordonnée reste la même."},
+  {q:"$\\cos(\\pi + x) = $ ?",choices:["$\\cos(x)$","$-\\cos(x)$","$\\sin(x)$","$-\\sin(x)$"],ans:1,expl:"$\\cos(\\pi + x) = -\\cos(x)$. Symétrie par rapport à l'origine : les deux coordonnées changent de signe."},
+  {q:"$\\sin(\\pi + x) = $ ?",choices:["$\\sin(x)$","$-\\sin(x)$","$\\cos(x)$","$-\\cos(x)$"],ans:1,expl:"$\\sin(\\pi + x) = -\\sin(x)$. Symétrie par rapport à l'origine : l'ordonnée change de signe."},
+  {q:"$\\cos\\!\\left(\\dfrac{\\pi}{2} - x\\right) = $ ?",choices:["$\\cos(x)$","$-\\cos(x)$","$\\sin(x)$","$-\\sin(x)$"],ans:2,expl:"$\\cos\\!\\left(\\dfrac{\\pi}{2} - x\\right) = \\sin(x)$. C'est la relation de complémentarité : le cosinus d'un angle est le sinus de son complémentaire."},
+  {q:"$\\sin\\!\\left(\\dfrac{\\pi}{2} - x\\right) = $ ?",choices:["$\\sin(x)$","$-\\sin(x)$","$\\cos(x)$","$-\\cos(x)$"],ans:2,expl:"$\\sin\\!\\left(\\dfrac{\\pi}{2} - x\\right) = \\cos(x)$. La relation de complémentarité : le sinus d'un angle est le cosinus de son complémentaire."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}

@@ -40,16 +40,17 @@
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Maths Spé · 1ère</div>
   <h1>Équations exponentielles</h1>
-  <p>eˣ = eᵃ ⟺ x = a · Résoudre eˣ = k</p>
+  <p>$e^x = e^a \Leftrightarrow x = a$ · Résoudre $e^x = k$</p>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">eˣ</div>
+    <div class="intro-emoji">$e^x$</div>
     <div class="intro-title">QCM — Équations exponentielles</div>
     <div class="intro-desc">Résoudre des équations et inéquations faisant intervenir la fonction exponentielle en utilisant sa stricte croissance et ses propriétés algébriques.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
@@ -73,23 +74,26 @@
     </div>
   </div>
 </div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
 const QS=[
-  {q:"eˣ = eᵃ est équivalent à :",choices:["x ≥ a","x = a","x > 0","eˣ > 0"],ans:1,expl:"La fonction exponentielle est strictement croissante et injective : eˣ = eᵃ ⟺ x = a. C'est le principe fondamental pour résoudre ce type d'équation."},
-  {q:"Résoudre eˣ = 1 :",choices:["x = e","x = 0","x = 1","Pas de solution"],ans:1,expl:"e⁰ = 1, donc eˣ = 1 ⟺ eˣ = e⁰ ⟺ x = 0."},
-  {q:"Résoudre e²ˣ = eˣ⁺³ :",choices:["x = 3","x = −3","x = 6","x = 0"],ans:0,expl:"e²ˣ = eˣ⁺³ ⟺ 2x = x+3 ⟺ x = 3."},
-  {q:"Résoudre eˣ = e⁻² :",choices:["x = 2","x = −2","x = e²","Pas de solution"],ans:1,expl:"eˣ = e⁻² ⟺ x = −2. La solution est bien réelle car eˣ > 0 pour tout x réel."},
-  {q:"eˣ > 0 pour :",choices:["x > 0 seulement","x ≥ 0","Tout réel x","x > 1"],ans:2,expl:"eˣ > 0 pour tout réel x. La fonction exponentielle est toujours strictement positive. Elle ne s'annule jamais."},
-  {q:"Résoudre eˣ ≥ 1 :",choices:["x ≥ 0","x ≥ 1","x ≥ e","x > 0"],ans:0,expl:"eˣ ≥ 1 = e⁰. Comme eˣ est croissante : eˣ ≥ e⁰ ⟺ x ≥ 0."},
-  {q:"Résoudre eˣ² = e⁴ :",choices:["x = 2","x = −2","x = 2 ou x = −2","x = 4"],ans:2,expl:"eˣ² = e⁴ ⟺ x² = 4 ⟺ x = 2 ou x = −2. Il y a deux solutions car x² = 4 a deux racines."},
-  {q:"Résoudre e²ˣ − 3eˣ + 2 = 0 (poser X = eˣ) :",choices:["x = 0 ou x = ln 2","x = 0 ou x = 2","x = ln 3","x = 1"],ans:0,expl:"Posons X = eˣ > 0. On obtient X²−3X+2 = 0, soit (X−1)(X−2) = 0. X = 1 ⟹ eˣ = 1 ⟹ x = 0. X = 2 ⟹ eˣ = 2 ⟹ x = ln 2. Solutions : x = 0 ou x = ln 2."},
+  {q:"$e^x = e^a$ est équivalent à :",choices:["$x \\geq a$","$x = a$","$x > 0$","$e^x > 0$"],ans:1,expl:"La fonction exponentielle est strictement croissante et injective : $e^x = e^a \\Leftrightarrow x = a$. C'est le principe fondamental pour résoudre ce type d'équation."},
+  {q:"Résoudre $e^x = 1$ :",choices:["$x = e$","$x = 0$","$x = 1$","Pas de solution"],ans:1,expl:"$e^0 = 1$, donc $e^x = 1 \\Leftrightarrow e^x = e^0 \\Leftrightarrow x = 0$."},
+  {q:"Résoudre $e^{2x} = e^{x+3}$ :",choices:["$x = 3$","$x = -3$","$x = 6$","$x = 0$"],ans:0,expl:"$e^{2x} = e^{x+3} \\Leftrightarrow 2x = x + 3 \\Leftrightarrow x = 3$."},
+  {q:"Résoudre $e^x = e^{-2}$ :",choices:["$x = 2$","$x = -2$","$x = e^2$","Pas de solution"],ans:1,expl:"$e^x = e^{-2} \\Leftrightarrow x = -2$. La solution est bien réelle car $e^x > 0$ pour tout $x$ réel."},
+  {q:"$e^x > 0$ pour :",choices:["$x > 0$ seulement","$x \\geq 0$","Tout réel $x$","$x > 1$"],ans:2,expl:"$e^x > 0$ pour tout $x \\in \\mathbb{R}$. La fonction exponentielle est toujours strictement positive. Elle ne s'annule jamais."},
+  {q:"Résoudre $e^x \\geq 1$ :",choices:["$x \\geq 0$","$x \\geq 1$","$x \\geq e$","$x > 0$"],ans:0,expl:"$e^x \\geq 1 = e^0$. Comme $e^x$ est croissante : $e^x \\geq e^0 \\Leftrightarrow x \\geq 0$."},
+  {q:"Résoudre $e^{x^2} = e^4$ :",choices:["$x = 2$","$x = -2$","$x = 2$ ou $x = -2$","$x = 4$"],ans:2,expl:"$e^{x^2} = e^4 \\Leftrightarrow x^2 = 4 \\Leftrightarrow x = 2$ ou $x = -2$. Il y a deux solutions car $x^2 = 4$ a deux racines."},
+  {q:"Résoudre $e^{2x} - 3e^x + 2 = 0$ (poser $X = e^x$) :",choices:["$x = 0$ ou $x = \\ln 2$","$x = 0$ ou $x = 2$","$x = \\ln 3$","$x = 1$"],ans:0,expl:"Posons $X = e^x > 0$. On obtient $X^2 - 3X + 2 = 0$, soit $(X-1)(X-2) = 0$. $X = 1 \\Rightarrow e^x = 1 \\Rightarrow x = 0$. $X = 2 \\Rightarrow e^x = 2 \\Rightarrow x = \\ln 2$. Solutions : $x = 0$ ou $x = \\ln 2$."},
 ];
 const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
   let order=[],idx=0,score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
   function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
   function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
   function next(){idx++;idx>=QS.length?showWin():loadQ()}
