@@ -3,39 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Pourcentages, proportions et évolutions : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="calcul">
+  <title>Pourcentages et évolutions — Calcul — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
+    .container{width:100%;max-width:620px;padding:2rem 1rem 3rem;flex:1}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+    .score-chip{font-size:.82rem;font-weight:800;background:var(--subject-light);color:var(--subject-dark);border-radius:100px;padding:.2rem .75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:220px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:220px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .problem-box{background:var(--subject-light);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1.25rem;font-size:1.05rem;line-height:1.9;font-weight:700}
+    .answer-row{display:flex;gap:.75rem;margin-bottom:1rem}
+    .answer-input{flex:1;border:2.5px solid var(--border);border-radius:12px;padding:.85rem 1rem;font-family:inherit;font-size:1.3rem;font-weight:900;text-align:center;outline:none;transition:border-color .15s}
+    .answer-input:focus{border-color:var(--subject)}
+    .answer-input.correct{border-color:var(--success);background:var(--success-light)}
+    .answer-input.wrong{border-color:var(--error);background:var(--error-light)}
+    .btn-ok{padding:.85rem 1.5rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;white-space:nowrap}.btn-ok:hover{background:var(--subject-dark)}
+    .hint{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:.75rem;font-weight:600}
+    .feedback-box{border-radius:12px;padding:.85rem 1.1rem;font-size:.88rem;line-height:1.7;display:none;margin-bottom:1rem}
+    .feedback-box.show{display:block;animation:fadeIn .2s ease}
+    .feedback-box.ok{background:var(--success-light);border-left:4px solid var(--success);color:#065f46}
+    .feedback-box.ko{background:var(--error-light);border-left:4px solid var(--error);color:#991b1b}
+    .btn-next{width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .btn-next.show{display:block}
+    .win-screen{text-align:center}
+    .win-emoji{font-size:4rem;margin-bottom:.5rem}
+    .win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}
+    .win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
@@ -50,23 +63,34 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">💹</div>
-    <div class="intro-title">QCM — Pourcentages, proportions et évolutions</div>
-    <div class="intro-desc">Calculer des pourcentages, des taux d'évolution, des évolutions successives et des taux réciproques.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Calcul de pourcentages et évolutions</div>
+    <div class="intro-desc">Applique un taux, calcule un taux d'évolution, enchaîne des évolutions successives, retrouve le taux réciproque.</div>
+    <div class="rule-box">
+      🧮 <strong>10 exercices</strong> — tape le résultat numérique.<br>
+      Selon la question : entre un pourcentage (ex: <code>20</code> pour $20\%$) ou un coefficient multiplicateur (ex: <code>1.15</code>).<br>
+      La consigne précise toujours le format attendu.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="top-info">
+      <span class="q-label" id="qLabel">Exercice 1 / 10</span>
+      <span class="score-chip" id="scoreChip">✔ 0</span>
+    </div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <div class="problem-box" id="problemBox"></div>
+    <div class="hint" id="hintBox"></div>
+    <div class="answer-row">
+      <input class="answer-input" id="answerInput" type="number" step="any" placeholder="?" autocomplete="off">
+      <button class="btn-ok" onclick="game.submit()">OK</button>
+    </div>
+    <div class="feedback-box" id="feedbackBox"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Exercice suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,68 +101,124 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {
-    q:"Calculer $15\\%$ de $200$.",
-    choices:["$15$","$20$","$30$","$35$"],
-    ans:2,
-    expl:"$15\\%$ de $200 = \\frac{15}{100} \\times 200 = 0{,}15 \\times 200 = 30$."
-  },
-  {
-    q:"Un article coûtait $80\\,€$. Son prix est passé à $96\\,€$. Quel est le taux d'évolution ?",
-    choices:["$16\\%$","$20\\%$","$-20\\%$","$83\\%$"],
-    ans:1,
-    expl:"Le taux d'évolution est $t = \\frac{V_f - V_i}{V_i} = \\frac{96-80}{80} = \\frac{16}{80} = 0{,}2$, soit $+20\\%$."
-  },
-  {
-    q:"Une augmentation de $15\\%$ correspond à quel coefficient multiplicateur ?",
-    choices:["$0{,}85$","$15$","$1{,}15$","$1{,}015$"],
-    ans:2,
-    expl:"Le coefficient multiplicateur pour une augmentation de $t\\%$ est $CM = 1 + \\frac{t}{100} = 1 + 0{,}15 = 1{,}15$. Multiplier par $1{,}15$ revient à augmenter de $15\\%$."
-  },
-  {
-    q:"Un prix augmente de $20\\%$ puis diminue de $20\\%$. Quel est le résultat par rapport au prix initial ?",
-    choices:["Le prix est identique","Le prix a baissé de $4\\%$","Le prix a baissé de $40\\%$","Le prix a augmenté de $4\\%$"],
-    ans:1,
-    expl:"$CM = 1{,}20 \\times 0{,}80 = 0{,}96$. Le prix final est $96\\%$ du prix initial, soit une baisse de $4\\%$. On ne peut pas simplement additionner les taux !"
-  },
-  {
-    q:"Un prix augmente de $10\\%$ puis de $5\\%$. Quel est le taux d'évolution global ?",
-    choices:["$15\\%$","$15{,}5\\%$","$14{,}5\\%$","$10{,}5\\%$"],
-    ans:1,
-    expl:"$CM_{\\text{global}} = 1{,}10 \\times 1{,}05 = 1{,}155$. Le taux global est $t = 1{,}155 - 1 = 0{,}155 = 15{,}5\\%$. On multiplie les coefficients, on n'additionne pas les taux."
-  },
-  {
-    q:"Le prix d'un article a augmenté de $25\\%$. Quel taux réciproque (de diminution) permet de retrouver le prix initial ?",
-    choices:["$-25\\%$","$-20\\%$","$-30\\%$","$-15\\%$"],
-    ans:1,
-    expl:"Le coefficient multiplicateur est $1{,}25$. Pour revenir au prix initial, on divise par $1{,}25$ : $CM_{\\text{réc}} = \\frac{1}{1{,}25} = 0{,}8$, soit une diminution de $20\\%$. On ne prend pas le même taux en sens inverse !"
-  },
-  {
-    q:"Dans une classe de $30$ élèves, $18$ sont des filles. Quelle est la proportion de filles ?",
-    choices:["$18\\%$","$60\\%$","$40\\%$","$30\\%$"],
-    ans:1,
-    expl:"La proportion de filles est $\\frac{18}{30} = 0{,}6 = 60\\%$."
-  },
-  {
-    q:"$30\\%$ des élèves d'une école pratiquent un sport. Parmi eux, $40\\%$ font de la natation. Quelle proportion de tous les élèves fait de la natation ?",
-    choices:["$70\\%$","$10\\%$","$12\\%$","$40\\%$"],
-    ans:2,
-    expl:"$40\\%$ de $30\\% = 0{,}40 \\times 0{,}30 = 0{,}12 = 12\\%$. C'est le pourcentage de pourcentage : on multiplie les proportions."
-  }
+// hint: short format reminder shown under problem. ans: exact numeric value (number or string).
+const PROBLEMS = [
+  {q:"Calculer $15\\%$ de $200$. (Entrer le résultat en euros)",
+   hint:"Format : entier ou décimal (ex: 30)",
+   ans:"30",
+   expl:"$15\\%\\times200=0{,}15\\times200=30$."},
+  {q:"Un article passe de $80\\,€$ à $96\\,€$. Quel est le taux d'évolution ? (Entrer le pourcentage, ex: 20 pour $+20\\%$)",
+   hint:"Format : pourcentage (ex: 20)",
+   ans:"20",
+   expl:"$t=\\dfrac{96-80}{80}=\\dfrac{16}{80}=0{,}2$, soit $+20\\%$."},
+  {q:"Une augmentation de $15\\%$ correspond à quel coefficient multiplicateur ?",
+   hint:"Format : décimal (ex: 1.15)",
+   ans:"1.15",
+   expl:"$CM = 1 + \\dfrac{15}{100} = 1{,}15$."},
+  {q:"Une diminution de $30\\%$ correspond à quel coefficient multiplicateur ?",
+   hint:"Format : décimal (ex: 0.70)",
+   ans:"0.7",
+   expl:"$CM = 1 - 0{,}30 = 0{,}70$."},
+  {q:"Un prix augmente de $20\\%$ puis diminue de $20\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage, ex: -4 pour $-4\\%$)",
+   hint:"Format : pourcentage (ex: -4)",
+   ans:"-4",
+   expl:"$CM = 1{,}20\\times0{,}80 = 0{,}96$. Taux global : $0{,}96-1=-0{,}04$, soit $-4\\%$."},
+  {q:"Un prix augmente de $10\\%$ puis de $5\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage, ex: 15.5 pour $+15{,}5\\%$)",
+   hint:"Format : pourcentage décimal (ex: 15.5)",
+   ans:"15.5",
+   expl:"$CM = 1{,}10\\times1{,}05=1{,}155$. Taux : $15{,}5\\%$."},
+  {q:"Le prix d'un article a augmenté de $25\\%$. Quel taux de diminution permet de retrouver le prix initial ? (Entrer le pourcentage de baisse, ex: 20 pour $-20\\%$)",
+   hint:"Format : pourcentage (ex: 20)",
+   ans:"20",
+   expl:"$CM=1{,}25$. Taux réciproque : $1-\\dfrac{1}{1{,}25}=1-0{,}8=0{,}2$, soit $-20\\%$."},
+  {q:"Dans une classe de $30$ élèves, $18$ sont des filles. Quelle est la proportion de filles ? (Entrer le pourcentage, ex: 60)",
+   hint:"Format : pourcentage (ex: 60)",
+   ans:"60",
+   expl:"$\\dfrac{18}{30}=0{,}6=60\\%$."},
+  {q:"$30\\%$ des élèves pratiquent un sport. Parmi eux, $40\\%$ font de la natation. Quelle proportion de tous les élèves fait de la natation ? (Entrer le pourcentage, ex: 12)",
+   hint:"Format : pourcentage (ex: 12)",
+   ans:"12",
+   expl:"$40\\%\\times30\\%=0{,}4\\times0{,}3=0{,}12=12\\%$."},
+  {q:"Un capital de $500\\,€$ est placé à $4\\%$ par an. Quel est le capital après 2 ans ? (Montant en euros, arrondi à l'entier)",
+   hint:"Format : entier (ex: 540)",
+   ans:"540.8",
+   expl:"$CM = 1{,}04^2 = 1{,}0816$. Capital : $500\\times1{,}0816 = 540{,}80\\,€$. Entier arrondi : $541\\,€$ — la réponse exacte est $540{,}80$."},
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  function rMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  const show = id => {document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');};
+  let order=[], idx=0, score=0, answered=false;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+
+  function start(){
+    order=shuffle([...Array(PROBLEMS.length).keys()]);
+    idx=0; score=0; answered=false;
+    loadQ(); show('screenGame');
+  }
+
+  function loadQ(){
+    answered=false;
+    const p=PROBLEMS[order[idx]];
+    document.getElementById('qLabel').textContent=`Exercice ${idx+1} / ${PROBLEMS.length}`;
+    document.getElementById('scoreChip').textContent=`✔ ${score}`;
+    document.getElementById('progFill').style.width=`${idx/PROBLEMS.length*100}%`;
+    document.getElementById('problemBox').innerHTML=p.q;
+    rMath(document.getElementById('problemBox'));
+    document.getElementById('hintBox').textContent=p.hint||'';
+    const inp=document.getElementById('answerInput');
+    inp.value=''; inp.className='answer-input'; inp.disabled=false;
+    document.getElementById('feedbackBox').className='feedback-box';
+    document.getElementById('btnNext').className='btn-next';
+    setTimeout(()=>inp.focus(),50);
+  }
+
+  function submit(){
+    if(answered)return;
+    const inp=document.getElementById('answerInput');
+    const raw=inp.value.trim().replace(',','.');
+    if(!raw){inp.focus();return;}
+    answered=true;
+    const p=PROBLEMS[order[idx]];
+    const expected=parseFloat(String(p.ans).replace(',','.'));
+    const given=parseFloat(raw);
+    // Allow tolerance of 0.1 for decimal answers
+    const ok=!isNaN(given)&&Math.abs(given-expected)<0.11;
+    if(ok)score++;
+    inp.className='answer-input '+(ok?'correct':'wrong');
+    inp.disabled=true;
+    const fb=document.getElementById('feedbackBox');
+    fb.innerHTML=(ok?'✅ <strong>Correct !</strong> ':'❌ <strong>Pas tout à fait.</strong> ')+p.expl;
+    fb.className='feedback-box show '+(ok?'ok':'ko');
+    rMath(fb);
+    document.getElementById('btnNext').className='btn-next show';
+    document.getElementById('scoreChip').textContent=`✔ ${score}`;
+  }
+
+  function next(){
+    idx++;
+    if(idx>=PROBLEMS.length)showWin();
+    else loadQ();
+  }
+
+  function showWin(){
+    document.getElementById('progFill').style.width='100%';
+    const pct=Math.round(score/PROBLEMS.length*100);
+    document.getElementById('winScore').textContent=`${score} / ${PROBLEMS.length}`;
+    document.getElementById('winPct').textContent=`${pct} %`;
+    const e=pct>=90?'🏆':pct>=60?'😊':'💪';
+    const s=pct>=90?'Excellent ! Pourcentages et évolutions maîtrisés !':pct>=60?'Bien ! Revois les évolutions successives.':'Continue de t\'entraîner !';
+    document.getElementById('winEmoji').textContent=e;
+    document.getElementById('winSub').textContent=s;
+    show('screenWin');
+  }
+
+  return{start,submit,next};
 })();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('screenGame').classList.contains('active'))game.submit();
+});
 </script>
 </body>
 </html>
