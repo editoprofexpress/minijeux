@@ -3,41 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Modéliser avec les suites arithmétiques : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="calcul">
+  <title>Suites arithmétiques — Modélisation — Calcul — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
+    .container{width:100%;max-width:600px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .problem-box{background:var(--subject-light);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;font-size:1rem;font-weight:700;line-height:1.9}
+    .question-ask{font-size:1rem;font-weight:800;margin-bottom:1rem;line-height:1.5}
+    .answer-row{display:flex;gap:.75rem;margin-bottom:1rem;align-items:center}
+    .answer-input{flex:1;border:2.5px solid var(--border);border-radius:12px;padding:.85rem 1rem;font-family:inherit;font-size:1.3rem;font-weight:900;text-align:center;outline:none;transition:border-color .15s}
+    .answer-input:focus{border-color:var(--subject)}
+    .answer-input.correct{border-color:var(--success);background:var(--success-light)}
+    .answer-input.wrong{border-color:var(--error);background:var(--error-light)}
+    .btn-ok{padding:.85rem 1.4rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;white-space:nowrap}
+    .btn-ok:hover{background:var(--subject-dark)}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.7;transition:max-height .35s ease,padding .35s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}
+    .win-emoji{font-size:4rem;margin-bottom:.5rem}
+    .win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}
+    .win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}
+    .score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
@@ -49,24 +62,30 @@
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">📐</div>
-    <div class="intro-title">QCM — Modéliser avec les suites arithmétiques</div>
-    <div class="intro-desc">Utiliser les suites arithmétiques pour modéliser des situations concrètes : évolutions régulières, économies, distances.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-emoji">📈</div>
+    <div class="intro-title">Calcul — Suites arithmétiques</div>
+    <div class="intro-desc">Calcule des termes et des sommes de suites arithmétiques dans des situations de modélisation concrètes.</div>
+    <div class="rule-box">📝 <strong>10 problèmes</strong> — Formule clé : $u_n = u_0 + n \cdot r$<br>
+      Somme : $S = \dfrac{(\text{nbre de termes}) \times (u_{\text{premier}} + u_{\text{dernier}})}{2}$<br>
+      Tape ta réponse et valide avec Entrée ou le bouton OK.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Problème 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="problem-box" id="problemBox"></div>
+    <div class="question-ask" id="questionAsk"></div>
+    <div class="answer-row">
+      <input class="answer-input" id="answerInput" type="text" placeholder="?" autocomplete="off">
+      <button class="btn-ok" onclick="game.submit()">OK ✓</button>
+    </div>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Problème suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Exercice terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,108 +96,141 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
+const PROBLEMS = [
   {
-    q:"Un loyer est de 700 € en année 0 et augmente de 20 € par an. Cette situation est modélisée par une suite arithmétique. Quelle est la raison $r$ ?",
-    choices:[
-      "$r = 700$",
-      "$r = 20$",
-      "$r = 720$",
-      "$r = 35$"
-    ],
-    ans:1,
-    expl:"La raison $r$ représente l'augmentation régulière par période. Ici le loyer augmente de 20 € par an, donc $r = 20$. Le premier terme est $u_0 = 700$."
+    prob: "Un loyer démarre à $700$ € ($u_0 = 700$) et augmente de $20$ € par an (raison $r = 20$).",
+    ask: "Calcule $u_5$ : le loyer après 5 ans.",
+    ans: 800, tol: 0,
+    expl: "$u_5 = u_0 + 5 \\times r = 700 + 5 \\times 20 = 700 + 100 = 800$ €."
   },
   {
-    q:"Le loyer démarre à 700 € ($u_0 = 700$) et augmente de 20 € par an ($r = 20$). Quel sera le loyer après <strong>5 ans</strong> ?",
-    choices:[
-      "$800$ €",
-      "$820$ €",
-      "$700$ €",
-      "$900$ €"
-    ],
-    ans:0,
-    expl:"$u_5 = u_0 + 5r = 700 + 5 \\times 20 = 700 + 100 = 800$ €."
+    prob: "Suite arithmétique : $u_0 = 3$, raison $r = 4$.",
+    ask: "Calcule $u_7$.",
+    ans: 31, tol: 0,
+    expl: "$u_7 = u_0 + 7 \\times r = 3 + 7 \\times 4 = 3 + 28 = 31$."
   },
   {
-    q:"Un locataire paie 700 € en année 0, 720 € en année 1, 740 € en année 2. Quel est le total cumulé $u_0 + u_1 + u_2$ ?",
-    choices:[
-      "$2100$ €",
-      "$2160$ €",
-      "$2220$ €",
-      "$2040$ €"
-    ],
-    ans:1,
-    expl:"$u_0=700$, $u_1=720$, $u_2=740$. Total $= 700+720+740 = 2160$ €. Formule : $S = \\frac{3(700+740)}{2} = \\frac{3 \\times 1440}{2} = 2160$ €."
+    prob: "Un salarié touche $1\\,800$ € au mois 0 et reçoit une augmentation de $50$ € par mois.",
+    ask: "Quel est son salaire au mois 12 ?",
+    ans: 2400, tol: 0,
+    expl: "$u_{12} = 1800 + 12 \\times 50 = 1800 + 600 = 2400$ €."
   },
   {
-    q:"Le loyer est $u_n = 700 + 20n$. À partir de quelle valeur de $n$ le loyer <strong>dépasse-t-il strictement</strong> 800 € ?",
-    choices:[
-      "$n = 4$",
-      "$n = 5$",
-      "$n = 6$",
-      "$n = 10$"
-    ],
-    ans:2,
-    expl:"On résout $700 + 20n > 800 \\Rightarrow 20n > 100 \\Rightarrow n > 5$. Donc le loyer dépasse 800 € à partir de $n = 6$ (car $u_5 = 800$ exactement, non strictement supérieur)."
+    prob: "Suite arithmétique : $u_0 = 10$, raison $r = -3$.",
+    ask: "Calcule $u_4$.",
+    ans: -2, tol: 0,
+    expl: "$u_4 = 10 + 4 \\times (-3) = 10 - 12 = -2$."
   },
   {
-    q:"Deux salariés débutent à 1800 €. Salarié A : +50 € par mois. Salarié B : +80 € par mois. Au bout de combien de mois B gagne-t-il 300 € de plus que A ?",
-    choices:[
-      "$5$ mois",
-      "$6$ mois",
-      "$10$ mois",
-      "$15$ mois"
-    ],
-    ans:2,
-    expl:"L'écart augmente de $80-50 = 30$ € par mois. On veut $30n = 300 \\Rightarrow n = 10$ mois."
+    prob: "Un locataire paie $u_0 = 600$ € en année 0, $u_1 = 620$ €, $u_2 = 640$ €.",
+    ask: "Calcule le total cumulé $u_0 + u_1 + u_2$ (en euros).",
+    ans: 1860, tol: 0,
+    expl: "$S = 600 + 620 + 640 = 1860$ €. Formule : $S = \\dfrac{3(600+640)}{2} = \\dfrac{3 \\times 1240}{2} = 1860$ €."
   },
   {
-    q:"Un coureur parcourt 5 km à la séance 1, puis augmente de 1 km par séance. En notant $u_0 = 5$ (séance 1), quelle distance court-il lors de la <strong>8e séance</strong> ?",
-    choices:[
-      "$12$ km",
-      "$13$ km",
-      "$8$ km",
-      "$11$ km"
-    ],
-    ans:0,
-    expl:"La 8e séance correspond au rang $n=7$ (car $u_0$ est la séance 1). $u_7 = 5 + 7 \\times 1 = 12$ km."
+    prob: "Suite $u_n = 2 + 3n$. Calcule $S = u_0 + u_1 + u_2 + u_3 + u_4$.",
+    ask: "Donne la valeur de $S$.",
+    ans: 40, tol: 0,
+    expl: "$u_0=2,\\; u_1=5,\\; u_2=8,\\; u_3=11,\\; u_4=14$. $S = 2+5+8+11+14 = 40$. Formule : $\\dfrac{5(2+14)}{2} = 40$."
   },
   {
-    q:"Dans la suite $u_n = 700 + 20n$ modélisant un loyer, que représente $u_0 = 700$ ?",
-    choices:[
-      "Le loyer après 700 ans",
-      "Le montant de l'augmentation annuelle",
-      "La valeur initiale du loyer (en année 0)",
-      "La somme totale des loyers"
-    ],
-    ans:2,
-    expl:"$u_0$ est le terme initial, c'est-à-dire la valeur de départ avant toute évolution. Ici $u_0 = 700$ € est le loyer au début (année 0)."
+    prob: "Un coureur parcourt $5$ km lors de la 1re séance ($u_0 = 5$) et augmente de $1$ km par séance ($r = 1$).",
+    ask: "Quelle distance court-il lors de la 8e séance ? (La 8e séance correspond au rang $n = 7$.)",
+    ans: 12, tol: 0,
+    expl: "$u_7 = 5 + 7 \\times 1 = 12$ km."
   },
   {
-    q:"Combien vaut $S = u_0 + u_1 + u_2 + u_3 + u_4$ pour la suite $u_n = 2 + 3n$ ?",
-    choices:[
-      "$40$",
-      "$50$",
-      "$60$",
-      "$30$"
-    ],
-    ans:0,
-    expl:"Les termes sont $u_0=2$, $u_1=5$, $u_2=8$, $u_3=11$, $u_4=14$. Somme $= 2+5+8+11+14 = 40$. Formule : $S = \\frac{5(u_0+u_4)}{2} = \\frac{5(2+14)}{2} = \\frac{5 \\times 16}{2} = 40$."
+    prob: "Suite arithmétique : $u_0 = 100$, $r = -5$.",
+    ask: "Pour quelle valeur de $n$ a-t-on $u_n = 55$ ?",
+    ans: 9, tol: 0,
+    expl: "$100 + n \\times (-5) = 55 \\Rightarrow -5n = -45 \\Rightarrow n = 9$."
+  },
+  {
+    prob: "Deux ouvriers débutent à $1\\,500$ €. Ouvrier A : $+30$ € par mois. Ouvrier B : $+50$ € par mois.",
+    ask: "Au bout de combien de mois B gagne-t-il $200$ € de plus que A ?",
+    ans: 10, tol: 0,
+    expl: "L'écart augmente de $50 - 30 = 20$ € par mois. On cherche $20n = 200 \\Rightarrow n = 10$ mois."
+  },
+  {
+    prob: "Suite arithmétique : $u_1 = 7$, $u_n = 37$, raison $r = 5$.",
+    ask: "Combien y a-t-il de termes dans cette suite ? (De $u_1$ à $u_n$, $n$ inclus.)",
+    ans: 7, tol: 0,
+    expl: "$u_n = u_1 + (n-1) \\times r \\Rightarrow 37 = 7 + (n-1) \\times 5 \\Rightarrow 30 = 5(n-1) \\Rightarrow n-1 = 6 \\Rightarrow n = 7$ termes."
   }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const TOTAL = PROBLEMS.length;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[], idx=0, score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const p = PROBLEMS[order[idx]];
+    document.getElementById('qLabel').textContent = `Problème ${idx+1} / ${TOTAL}`;
+    document.getElementById('progFill').style.width = `${idx/TOTAL*100}%`;
+    document.getElementById('problemBox').innerHTML = p.prob;
+    document.getElementById('questionAsk').innerHTML = p.ask;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').style.display = 'none';
+    const inp = document.getElementById('answerInput');
+    inp.value = ''; inp.className = 'answer-input'; inp.disabled = false; inp.focus();
+    rm(document.getElementById('problemBox'));
+    rm(document.getElementById('questionAsk'));
+  }
+
+  function submit() {
+    const inp = document.getElementById('answerInput');
+    const raw = inp.value.replace(',', '.').trim();
+    const val = parseFloat(raw);
+    if (isNaN(val)) { inp.focus(); return; }
+    inp.disabled = true;
+    const p = PROBLEMS[order[idx]];
+    const ok = Math.abs(val - p.ans) <= (p.tol !== undefined ? p.tol : 0.01);
+    if (ok) score++;
+    inp.className = 'answer-input ' + (ok ? 'correct' : 'wrong');
+    const fb = document.getElementById('feedback');
+    fb.innerHTML = (ok ? '✅ Correct ! ' : `❌ Réponse attendue : ${p.ans} — `) + p.expl;
+    fb.className = 'feedback ' + (ok ? 'show-ok' : 'show-ko');
+    document.getElementById('btnNext').style.display = 'block';
+    rm(fb);
+  }
+
+  function next() {
+    idx++;
+    if (idx >= TOTAL) showWin(); else loadQ();
+  }
+
+  function showWin() {
+    document.getElementById('progFill').style.width = '100%';
+    const pct = Math.round(score/TOTAL*100);
+    document.getElementById('winScore').textContent = `${score} / ${TOTAL}`;
+    document.getElementById('winPct').textContent = `${pct} %`;
+    const e = pct>=90?'🏆':pct>=60?'😊':'💪';
+    const s = pct>=90?'Excellent ! Tu maîtrises la modélisation arithmétique !':pct>=60?'Bon travail ! Revois les formules.':'Continue à t\'entraîner !';
+    document.getElementById('winEmoji').textContent = e;
+    document.getElementById('winSub').textContent = s;
+    show('screenWin');
+  }
+
+  function start() {
+    order = shuffle([...Array(TOTAL).keys()]);
+    idx = 0; score = 0;
+    loadQ();
+    show('screenGame');
+  }
+
+  return { start, submit, next };
 })();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('screenGame').classList.contains('active')) {
+    if (document.getElementById('btnNext').style.display === 'block') game.next();
+    else game.submit();
+  }
+});
 </script>
 </body>
 </html>

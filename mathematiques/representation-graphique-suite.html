@@ -3,38 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Représentation graphique d'une suite : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="completion">
+  <title>Maths – Représentation graphique des suites : table de valeurs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--radius:18px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .card{background:white;border-radius:var(--radius);padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.9}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+    .progress-bar-wrap{flex:1;margin:0 .75rem;height:8px;background:var(--border);border-radius:100px;overflow:hidden}
+    .progress-bar-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .3s}
+    .score-chip{font-size:.85rem;font-weight:800;background:var(--subject-light);color:var(--subject-dark);border-radius:100px;padding:.2rem .75rem}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    /* Suite display card */
+    .suite-card{background:var(--subject-light);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem}
+    .suite-formula{font-size:1rem;font-weight:800;margin-bottom:.75rem}
+    .suite-type{display:inline-block;background:var(--subject);color:white;font-size:.7rem;font-weight:900;border-radius:6px;padding:.1rem .5rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.04em}
+    /* Value table */
+    .val-table{border-collapse:collapse;width:100%;border-radius:8px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:1rem}
+    .val-table th,.val-table td{border:1px solid var(--border);padding:.55rem .6rem;text-align:center;font-size:.9rem}
+    .val-table th{background:var(--subject-dark);color:white;font-weight:800}
+    .val-table td{font-weight:700;background:white}
+    .val-table td.blank-cell{background:var(--subject-light);color:var(--subject);font-weight:900}
+    /* Answer choices */
+    .choices-wrap{margin-bottom:1rem}
+    .choices-label{font-size:.82rem;font-weight:800;color:var(--muted);margin-bottom:.5rem}
+    .choices-row{display:flex;flex-wrap:wrap;gap:.5rem}
+    .choice-btn{padding:.55rem 1.1rem;border:2.5px solid var(--border);border-radius:10px;background:#f8fafc;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .15s}
+    .choice-btn:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .choice-btn.selected{border-color:var(--subject);background:var(--subject-light);color:var(--subject-dark)}
+    .choice-btn.correct{border-color:var(--success);background:var(--success-light);color:#065f46}
+    .choice-btn.wrong{border-color:var(--error);background:var(--error-light);color:#991b1b}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .4s ease,padding .3s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
     .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .btn-validate{width:100%;margin-top:.75rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}.btn-validate:disabled{background:var(--border);cursor:default}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -50,23 +70,32 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📉</div>
-    <div class="intro-title">QCM — Représentation graphique des suites</div>
-    <div class="intro-desc">Apprends à représenter et interpréter graphiquement une suite numérique : nuage de points et diagramme en escalier.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Complète la table de valeurs</div>
+    <div class="intro-desc">Pour chaque suite définie par une formule explicite, complète les valeurs manquantes en choisissant parmi 3 propositions.</div>
+    <div class="rule-box">
+      <strong>Rappels :</strong><br>
+      Suite arithmétique : $u_n = u_0 + n \cdot r$ (raison $r$)<br>
+      Suite géométrique : $u_n = u_0 \cdot q^n$ (raison $q$)<br>
+      Suite quadratique : $u_n = an^2 + bn + c$ — calculer terme par terme.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="progress-row">
+      <span style="font-size:.85rem;font-weight:800;color:var(--muted);" id="qLabel">1 / 10</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progFill" style="width:0%"></div></div>
+      <span class="score-chip" id="scoreChip">0 pts</span>
+    </div>
+    <div id="suiteDisplay"></div>
+    <div id="choicesArea"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()" disabled>Vérifier</button>
     <div class="feedback" id="feedback"></div>
     <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,27 +106,185 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"La représentation graphique d'une suite $(u_n)$ consiste à placer les points :",choices:["$(u_n, n)$ dans le plan","$(n, u_n)$ dans le plan","$(n, n+u_n)$ dans le plan","La courbe de la fonction continue associée"],ans:1,expl:"On représente la suite par le nuage de points $(n, u_n)$ où $n$ est l'indice (abscisse) et $u_n$ la valeur (ordonnée)."},
-  {q:"Le diagramme en escalier est utilisé pour visualiser :",choices:["Le terme général d'une suite explicite","L'évolution d'une suite définie par récurrence $u_{n+1} = f(u_n)$","La dérivée d'une fonction associée","La somme des termes d'une suite"],ans:1,expl:"Le diagramme en escalier (ou toile d'araignée) illustre graphiquement l'itération d'une suite de récurrence $u_{n+1} = f(u_n)$ à l'aide de la courbe de $f$ et de la droite $y = x$."},
-  {q:"Dans un diagramme en escalier, la droite $y = x$ sert à :",choices:["Calculer les termes de la suite","Passer de $u_{n+1}$ à $u_{n+2}$ (reporter la valeur)","Trouver les racines de $f$","Tracer la tangente en un point"],ans:1,expl:"La droite $y = x$ permet de 'reporter' $u_{n+1}$ en abscisse pour construire le terme suivant : on lit $u_{n+1}$ sur la courbe, puis on se déplace horizontalement vers $y = x$."},
-  {q:"Pour une suite arithmétique de raison $r > 0$, le nuage de points $(n, u_n)$ ressemble à :",choices:["Une parabole","Des points alignés sur une droite croissante","Une courbe exponentielle","Des points sur l'axe des abscisses"],ans:1,expl:"$u_n = u_0 + n \\cdot r$ est une fonction affine de $n$. Les points $(n, u_n)$ sont alignés sur une droite de pente $r$."},
-  {q:"Pour une suite géométrique de raison $q > 1$, le nuage de points $(n, u_n)$ ressemble à :",choices:["Une droite","Des points sur une courbe croissante de type exponentielle","Une parabole","Des points décroissants"],ans:1,expl:"$u_n = u_0 \\cdot q^n$ est une exponentielle en $n$. Les points croissent de plus en plus vite (croissance exponentielle)."},
-  {q:"Si le diagramme en escalier converge vers un point fixe, cela signifie que la suite :",choices:["Diverge vers l'infini","Converge vers une limite","Est périodique","N'est pas définie"],ans:1,expl:"Un point fixe $\\ell$ est tel que $f(\\ell) = \\ell$. Si le diagramme en escalier converge vers ce point, la suite tend vers $\\ell$."},
-  {q:"Pour une suite arithmétique de raison $r < 0$, le nuage de points $(n, u_n)$ est :",choices:["Croissant","Décroissant","Constant","En forme de parabole"],ans:1,expl:"Si $r < 0$, chaque terme est plus petit que le précédent : $u_{n+1} < u_n$. Le nuage de points est décroissant."},
-  {q:"Un point fixe $\\ell$ d'une suite de récurrence $u_{n+1} = f(u_n)$ vérifie :",choices:["$f(\\ell) = 0$","$f(\\ell) = \\ell$","$f'(\\ell) = 0$","$\\ell = 0$"],ans:1,expl:"Un point fixe est une valeur $\\ell$ telle que $f(\\ell) = \\ell$. Si la suite atteint ce point, elle y reste : $u_n = \\ell$ pour tout $n$."},
+// Each exercise: formula label, type, known values up to idx, ask for one specific term, choices
+const QS = [
+  {
+    formula: '$u_n = 2n + 3$',
+    type: 'Arithmétique (raison 2)',
+    known: [{n:0,v:3},{n:1,v:5},{n:2,v:7}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['7','9','11'],
+    ans: 1,
+    expl: '$u_3 = 2 \\times 3 + 3 = 6 + 3 = 9$.'
+  },
+  {
+    formula: '$u_n = 5n - 1$',
+    type: 'Arithmétique (raison 5)',
+    known: [{n:0,v:-1},{n:1,v:4},{n:2,v:9}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['13','14','15'],
+    ans: 1,
+    expl: '$u_3 = 5 \\times 3 - 1 = 15 - 1 = 14$.'
+  },
+  {
+    formula: '$u_n = 3 \\cdot 2^n$',
+    type: 'Géométrique (raison 2)',
+    known: [{n:0,v:3},{n:1,v:6},{n:2,v:12}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['18','24','30'],
+    ans: 1,
+    expl: '$u_3 = 3 \\times 2^3 = 3 \\times 8 = 24$.'
+  },
+  {
+    formula: '$u_n = 100 \\cdot \\left(\\dfrac{1}{2}\\right)^n$',
+    type: 'Géométrique (raison 1/2)',
+    known: [{n:0,v:100},{n:1,v:50},{n:2,v:25}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['10','12.5','15'],
+    ans: 1,
+    expl: '$u_3 = 100 \\times (1/2)^3 = 100/8 = 12{,}5$.'
+  },
+  {
+    formula: '$u_n = n^2 + 1$',
+    type: 'Quadratique',
+    known: [{n:0,v:1},{n:1,v:2},{n:2,v:5}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['9','10','12'],
+    ans: 1,
+    expl: '$u_3 = 3^2 + 1 = 9 + 1 = 10$.'
+  },
+  {
+    formula: '$u_n = 4n$',
+    type: 'Arithmétique (raison 4)',
+    known: [{n:0,v:0},{n:1,v:4},{n:2,v:8},{n:3,v:12}],
+    ask: {n:4, label:'$u_4$'},
+    choices: ['14','16','20'],
+    ans: 1,
+    expl: '$u_4 = 4 \\times 4 = 16$.'
+  },
+  {
+    formula: '$u_n = 2^n - 1$',
+    type: 'Basée sur puissance de 2',
+    known: [{n:0,v:0},{n:1,v:1},{n:2,v:3},{n:3,v:7}],
+    ask: {n:4, label:'$u_4$'},
+    choices: ['13','15','17'],
+    ans: 1,
+    expl: '$u_4 = 2^4 - 1 = 16 - 1 = 15$.'
+  },
+  {
+    formula: '$u_n = -3n + 10$',
+    type: 'Arithmétique décroissante (raison -3)',
+    known: [{n:0,v:10},{n:1,v:7},{n:2,v:4}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['0','1','2'],
+    ans: 1,
+    expl: '$u_3 = -3 \\times 3 + 10 = -9 + 10 = 1$.'
+  },
+  {
+    formula: '$u_n = n^2 - 2n$',
+    type: 'Quadratique',
+    known: [{n:0,v:0},{n:1,v:-1},{n:2,v:0},{n:3,v:3}],
+    ask: {n:4, label:'$u_4$'},
+    choices: ['6','8','10'],
+    ans: 1,
+    expl: '$u_4 = 4^2 - 2 \\times 4 = 16 - 8 = 8$.'
+  },
+  {
+    formula: '$u_n = 5 \\cdot 3^n$',
+    type: 'Géométrique (raison 3)',
+    known: [{n:0,v:5},{n:1,v:15},{n:2,v:45}],
+    ask: {n:3, label:'$u_3$'},
+    choices: ['125','135','145'],
+    ans: 1,
+    expl: '$u_3 = 5 \\times 3^3 = 5 \\times 27 = 135$.'
+  },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0,sel=null;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ(){
+    const q=QS[order[idx]];
+    sel=null;
+    document.getElementById('qLabel').textContent=`${idx+1} / ${QS.length}`;
+    document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;
+    // Build suite display
+    let tableHtml=`<div class="suite-card">
+      <div class="suite-type">${q.type}</div>
+      <div class="suite-formula">Formule : ${q.formula}</div>
+      <table class="val-table"><tr><th>$n$</th>`;
+    const allN=[...q.known.map(k=>k.n), q.ask.n];
+    allN.forEach(n=>{ tableHtml+=`<th>$${n}$</th>`; });
+    tableHtml+=`</tr><tr><th>${q.ask.label.replace('u_3','u_n').replace('u_4','u_n')}</th>`;
+    allN.forEach(n=>{
+      const kv=q.known.find(k=>k.n===n);
+      if(kv) tableHtml+=`<td>$${kv.v}$</td>`;
+      else tableHtml+=`<td class="blank-cell" id="blankCell">?</td>`;
+    });
+    tableHtml+=`</tr></table></div>`;
+    document.getElementById('suiteDisplay').innerHTML=tableHtml;
+    // Shuffle choices
+    const choicesOrder=shuffle([0,1,2]);
+    let choicesHtml=`<div class="choices-wrap"><div class="choices-label">Quelle est la valeur de ${q.ask.label} ?</div><div class="choices-row" id="choicesRow">`;
+    choicesOrder.forEach(ci=>{
+      choicesHtml+=`<button class="choice-btn" data-ci="${ci}" onclick="game.pick(this,${ci})">${q.choices[ci]}</button>`;
+    });
+    choicesHtml+=`</div></div>`;
+    document.getElementById('choicesArea').innerHTML=choicesHtml;
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('btnNext').style.display='none';
+    document.getElementById('btnValidate').disabled=true;
+    document.getElementById('btnValidate').style.display='block';
+    rm(document.getElementById('suiteDisplay'));
+    rm(document.getElementById('choicesArea'));
+    show('screenGame');
+  }
+
+  function pick(btn,ci){
+    document.querySelectorAll('#choicesRow .choice-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected'); sel=ci;
+    document.getElementById('btnValidate').disabled=false;
+  }
+
+  function validate(){
+    const q=QS[order[idx]];
+    const correct=sel===q.ans;
+    if(correct) score++;
+    document.getElementById('scoreChip').textContent=score+' pts';
+    document.querySelectorAll('#choicesRow .choice-btn').forEach(btn=>{
+      btn.disabled=true;
+      if(parseInt(btn.dataset.ci)===q.ans) btn.classList.add('correct');
+      else if(parseInt(btn.dataset.ci)===sel) btn.classList.add('wrong');
+    });
+    const bc=document.getElementById('blankCell');
+    if(bc){bc.textContent=q.choices[q.ans];bc.style.background=correct?'var(--success-light)':'var(--error-light)';bc.style.color=correct?'#065f46':'#991b1b';}
+    const fb=document.getElementById('feedback');
+    fb.innerHTML=(correct?'✅ <strong>Correct !</strong> ':'❌ <strong>Pas tout à fait.</strong> ')+q.expl;
+    fb.className='feedback '+(correct?'show-ok':'show-ko');
+    rm(fb);
+    document.getElementById('btnValidate').style.display='none';
+    document.getElementById('btnNext').style.display='block';
+  }
+
+  function next(){idx++;idx>=QS.length?showWin():loadQ();}
+
+  function showWin(){
+    document.getElementById('progFill').style.width='100%';
+    const pct=Math.round(score/QS.length*100);
+    document.getElementById('winScore').textContent=`${score} / ${QS.length}`;
+    document.getElementById('winPct').textContent=`${pct} %`;
+    const e=pct>=90?'🏆':pct>=60?'😊':'💪';
+    const s=pct>=90?'Excellent ! Tu calcules les termes de suites sans problème !':pct>=60?'Bon travail ! Revois les formules des suites.':'Continue de t\'entraîner !';
+    document.getElementById('winEmoji').textContent=e;
+    document.getElementById('winSub').textContent=s;
+    show('screenWin');
+  }
+
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();}
+  return{start,pick,validate,next};
 })();
 </script>
 </body>

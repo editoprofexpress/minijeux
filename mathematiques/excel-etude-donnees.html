@@ -3,39 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Utiliser un tableur pour les données : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="trous">
+  <title>Maths – Tableur et étude de données : à compléter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .formula-tag{display:inline-block;font-family:monospace;background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:.15rem .5rem;font-size:.9em;color:#0f172a;font-weight:700}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .sentence{font-size:.95rem;font-weight:700;line-height:2;background:var(--subject-light);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+    .formula{display:inline-block;font-family:monospace;background:#1e293b;color:#f0f9ff;border-radius:6px;padding:.1rem .5rem;font-size:.9em;font-weight:700;letter-spacing:.03em}
+    .blank-group{margin-bottom:.9rem}
+    .blank-label{font-size:.82rem;font-weight:800;color:var(--muted);margin-bottom:.4rem}
+    .inline-choices{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ichoice{padding:.4rem .9rem;border:2px solid var(--border);border-radius:8px;background:#f8fafc;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:border-color .15s,background .15s}
+    .ichoice.mono{font-family:monospace}
+    .ichoice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.selected{border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.correct{border-color:var(--success);background:var(--success-light);color:#065f46}
+    .ichoice.wrong{border-color:var(--error);background:var(--error-light);color:#991b1b}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .4s ease,padding .3s ease}
+    .feedback.show-ok{max-height:400px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:400px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
     .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .btn-validate{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}.btn-validate:disabled{background:var(--border);cursor:default}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -46,28 +55,34 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Utiliser un tableur pour les données</h1>
+  <h1>Tableur — Étude de données</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📋</div>
-    <div class="intro-title">QCM — Utiliser un tableur pour les données</div>
-    <div class="intro-desc">Maîtrise les fonctions essentielles d'un tableur pour analyser des données : formules, tri, graphiques, statistiques.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Complète les formules du tableur</div>
+    <div class="intro-desc">Clique sur les bonnes réponses pour compléter les formules ou les instructions de tableur manquantes.</div>
+    <div class="rule-box">
+      <strong>Fonctions clés :</strong><br>
+      <span style="font-family:monospace">SOMME</span> · <span style="font-family:monospace">MOYENNE</span> · <span style="font-family:monospace">NB</span> · <span style="font-family:monospace">NBVAL</span> · <span style="font-family:monospace">NB.SI</span><br>
+      <span style="font-family:monospace">SI(condition ; si_vrai ; si_faux)</span><br>
+      <span style="font-family:monospace">MAX</span> · <span style="font-family:monospace">MIN</span> · référence absolue <span style="font-family:monospace">$A$1</span>
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Exercice 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="sentence" id="sentence"></div>
+    <div id="blanksArea"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()" disabled>Vérifier</button>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Exercice suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -78,68 +93,170 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const f=t=>`<span class="formula-tag">${t}</span>`;
-const QS=[
+const f = t => `<span class="formula">${t}</span>`;
+
+const QS = [
   {
-    q:"Quelle formule permet de calculer la somme des cellules A1 à A10 dans un tableur ?",
-    choices:[f("=SOMME(A1,A10)"),f("=TOTAL(A1:A10)"),f("=SOMME(A1:A10)"),f("=ADDITION(A1..A10)")],
-    ans:2,
-    expl:`La formule correcte est ${f("=SOMME(A1:A10)")}. Le symbole « : » désigne une plage de cellules continues. ${f("=SOMME(A1,A10)")} ne calculerait que la somme de deux cellules spécifiques.`
+    sentence: `Pour calculer la somme des cellules A1 à A10 : ${f('=___( A1:A10 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["TOTAL","SOMME","ADDITION"], mono: true, ans: 1},
+    ],
+    expl: `La formule correcte est ${f('=SOMME(A1:A10)')}. Le signe « : » désigne une plage continue.`
   },
   {
-    q:"Quelle formule calcule la moyenne d'une série de valeurs dans les cellules B2 à B15 ?",
-    choices:[f("=MOYENNE(B2,B15)"),f("=MOYENNE(B2:B15)"),f("=SOMME(B2:B15)/15"),f("=AVG(B2:B15)")],
-    ans:1,
-    expl:`La formule correcte est ${f("=MOYENNE(B2:B15)")}. Elle calcule automatiquement la moyenne arithmétique de toutes les cellules de la plage. ${f("AVG")} est la syntaxe anglaise, non reconnue dans un tableur en français.`
+    sentence: `Pour calculer la moyenne des cellules B2 à B20 : ${f('=___( B2:B20 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["AVG","MOYENNE","MOYENNE"], mono: true, ans: 2},
+    ],
+    expl: `La formule correcte est ${f('=MOYENNE(B2:B20)')}. AVG est la syntaxe anglaise, non reconnue dans un tableur en français.`
   },
   {
-    q:"On veut afficher « Reçu » si la note en C3 est supérieure ou égale à 10, et « Recalé » sinon. Quelle formule utiliser ?",
-    choices:[f('=SI(C3>=10,"Reçu","Recalé")'),f('=IF(C3>=10,"Reçu","Recalé")'),f('=SI(C3>10;"Reçu";"Recalé")'),f('=CONDITION(C3>=10,"Reçu","Recalé")')],
-    ans:0,
-    expl:`La formule est ${f('=SI(C3>=10,"Reçu","Recalé")')}. La fonction SI (ou IF en anglais) prend trois arguments : la condition, la valeur si vrai, la valeur si faux. Note : selon le pays, le séparateur peut être « ; » ou « , ».`
+    sentence: `Pour compter les cellules contenant une valeur supérieure à 50 dans B1:B20 : ${f('=NB.SI( B1:B20 , ___ )')}.`,
+    blanks: [
+      {label: "critère à saisir", choices: ['"50"','"<50"','"&gt;50"'], mono: true, ans: 2},
+    ],
+    expl: `La formule est ${f('=NB.SI(B1:B20,"&gt;50")')}. Le critère est une chaîne entre guillemets : "&gt;50".`
   },
   {
-    q:"Qu'est-ce qu'une référence absolue dans un tableur ? Exemple : $A$1",
-    choices:["Une cellule qui contient une valeur fixe","Une cellule dont l'adresse ne change pas quand on copie la formule","Une cellule protégée contre la modification","Une cellule qui fait référence à une autre feuille"],
-    ans:1,
-    expl:`Le symbole $ « fige » la référence. ${f("$A$1")} désigne toujours la cellule A1, même si on copie la formule dans une autre cellule. Sans $, la référence est relative et s'adapte lors de la copie.`
+    sentence: `Pour afficher « OUI » si A1 est supérieur à 10, sinon « NON » : ${f('=SI( A1>10 , ___ , "NON" )')}.`,
+    blanks: [
+      {label: "valeur si vrai", choices: ['"OUI"','"A1"','"10"'], mono: true, ans: 0},
+    ],
+    expl: `La formule est ${f('=SI(A1>10,"OUI","NON")')}. SI prend trois arguments : condition ; valeur si vrai ; valeur si faux.`
   },
   {
-    q:"On dispose d'un tableau de données (colonnes : Nom, Note, Matière). Comment créer un graphique représentant les notes de chaque élève ?",
-    choices:["Il faut d'abord saisir les données manuellement dans un autre outil","On sélectionne les colonnes souhaitées, puis on insère un graphique depuis le menu « Insertion »","On utilise la formule =GRAPHIQUE() dans une cellule","On exporte d'abord le tableau en PDF puis on crée le graphique"],
-    ans:1,
-    expl:"Pour créer un graphique, on sélectionne les données pertinentes (par exemple les colonnes Nom et Note), puis on accède au menu « Insertion » > « Graphique ». Le tableur propose alors différents types de représentations."
+    sentence: `Pour obtenir la valeur maximale des cellules C1:C50 : ${f('=___( C1:C50 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["MAX","GRANDE.VALEUR","MAXIMUM"], mono: true, ans: 0},
+    ],
+    expl: `La formule correcte est ${f('=MAX(C1:C50)')}. Elle renvoie la plus grande valeur numérique de la plage.`
   },
   {
-    q:"On veut classer les élèves par ordre décroissant de note (colonne B). Quelle action effectuer dans un tableur ?",
-    choices:["Utiliser la formule =TRIER(B:B)","Sélectionner la colonne B, puis utiliser « Données » > « Trier » en ordre décroissant","Copier-coller les données dans l'ordre voulu manuellement","Utiliser la formule =MAX(B:B) pour identifier la plus grande valeur"],
-    ans:1,
-    expl:"Pour trier, on sélectionne le tableau de données (et non uniquement la colonne à trier pour éviter de désaligner les lignes), puis on accède à « Données » > « Trier » et on choisit l'ordre décroissant sur la colonne des notes."
+    sentence: `Pour obtenir la valeur minimale des cellules D1:D30 : ${f('=___( D1:D30 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["MIN","PETITE.VALEUR","MINIMUM"], mono: true, ans: 0},
+    ],
+    expl: `La formule correcte est ${f('=MIN(D1:D30)')}. Elle renvoie la plus petite valeur numérique de la plage.`
   },
   {
-    q:"Quelle formule compte le nombre de cellules non vides dans la plage C1:C20 ?",
-    choices:[f("=NBVAL(C1:C20)"),f("=NB(C1:C20)"),f("=COMPTER(C1:C20)"),f("=NBSI(C1:C20,\"<>\")")],
-    ans:0,
-    expl:`${f("=NBVAL(C1:C20)")} compte toutes les cellules non vides (texte ou nombre). ${f("=NB(C1:C20)")} ne compte que les cellules contenant des nombres. Pour les données mixtes, NBVAL est plus approprié.`
+    sentence: `On veut que la référence à la cellule A1 ne change pas lors d'une copie de formule. On utilise la référence ___`,
+    blanks: [
+      {label: "référence absolue", choices: ["A1","$A$1","A$1"], mono: true, ans: 1},
+    ],
+    expl: `Le symbole $ fige la ligne et la colonne : ${f('$A$1')} reste toujours A1, quelle que soit la cellule de destination lors d'une copie.`
   },
   {
-    q:"Quelle formule renvoie la valeur minimale de la plage D2:D30 ?",
-    choices:[f("=MINIMUM(D2:D30)"),f("=MIN(D2:D30)"),f("=PETITE.VALEUR(D2:D30,1)"),f("=INF(D2:D30)")],
-    ans:1,
-    expl:`La formule correcte est ${f("=MIN(D2:D30)")}. Elle renvoie la plus petite valeur numérique de la plage. ${f("=PETITE.VALEUR(D2:D30,1)")} donne également le minimum mais est moins directe.`
-  }
+    sentence: `Pour compter le nombre de cellules non vides dans E1:E25 : ${f('=___( E1:E25 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["NB","NBVAL","NB.SI"], mono: true, ans: 1},
+    ],
+    expl: `${f('=NBVAL(E1:E25)')} compte toutes les cellules non vides (texte ou nombre). ${f('=NB')} ne compte que les cellules avec des nombres.`
+  },
+  {
+    sentence: `Pour compter uniquement les cellules contenant des nombres dans F1:F15 : ${f('=___( F1:F15 )')}.`,
+    blanks: [
+      {label: "nom de la fonction", choices: ["NBVAL","COMPTER","NB"], mono: true, ans: 2},
+    ],
+    expl: `${f('=NB(F1:F15)')} compte uniquement les cellules contenant des valeurs numériques, à la différence de NBVAL qui inclut les textes.`
+  },
+  {
+    sentence: `On veut afficher « Admis » si la note en C3 est $\\geq 10$, sinon « Recalé » : ${f('=SI( ___ , "Admis" , "Recalé" )')}.`,
+    blanks: [
+      {label: "condition", choices: ['C3=10','C3>=10','C3&gt;10'], mono: true, ans: 1},
+    ],
+    expl: `La formule est ${f('=SI(C3>=10,"Admis","Recalé")')}. La condition >= correspond à « supérieur ou égal à ».`
+  },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0,selected=[];
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const q = QS[order[idx]];
+    selected = new Array(q.blanks.length).fill(null);
+    document.getElementById('qLabel').textContent = `Exercice ${idx+1} / ${QS.length}`;
+    document.getElementById('progFill').style.width = `${idx/QS.length*100}%`;
+    let sent = q.sentence;
+    for(let i=0;i<q.blanks.length;i++){
+      sent = sent.replace(`___`, `<span id="bslot${i}" style="display:inline-block;min-width:4rem;border-bottom:2px solid var(--subject);color:var(--subject);font-weight:900;font-family:monospace;text-align:center;padding:0 .3rem">___</span>`);
+    }
+    document.getElementById('sentence').innerHTML = sent;
+    const area = document.getElementById('blanksArea');
+    area.innerHTML = '';
+    q.blanks.forEach((b,bi)=>{
+      const g = document.createElement('div');
+      g.className='blank-group';
+      g.innerHTML = `<div class="blank-label">Compléter : ${b.label}</div>`;
+      const row = document.createElement('div');
+      row.className='inline-choices';
+      b.choices.forEach((c,ci)=>{
+        const btn = document.createElement('button');
+        btn.className='ichoice' + (b.mono ? ' mono' : '');
+        btn.textContent = c;
+        btn.dataset.bi = bi;
+        btn.dataset.ci = ci;
+        btn.onclick = () => pickChoice(bi,ci,btn,c);
+        row.appendChild(btn);
+      });
+      g.appendChild(row);
+      area.appendChild(g);
+    });
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('btnNext').style.display='none';
+    document.getElementById('btnValidate').disabled=true;
+    document.getElementById('btnValidate').style.display='block';
+    rm(document.getElementById('sentence'));
+    show('screenGame');
+  }
+
+  function pickChoice(bi, ci, btn, text) {
+    document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected[bi] = ci;
+    const slot = document.getElementById(`bslot${bi}`);
+    if(slot){slot.textContent=text;}
+    if(selected.every(v=>v!==null)) document.getElementById('btnValidate').disabled=false;
+  }
+
+  function validate() {
+    const q = QS[order[idx]];
+    let allCorrect = true;
+    q.blanks.forEach((b,bi)=>{
+      const correct = selected[bi]===b.ans;
+      if(!correct) allCorrect=false;
+      document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(btn=>{
+        btn.disabled=true;
+        if(parseInt(btn.dataset.ci)===b.ans) btn.classList.add('correct');
+        else if(parseInt(btn.dataset.ci)===selected[bi]) btn.classList.add('wrong');
+      });
+    });
+    if(allCorrect) score++;
+    const fb = document.getElementById('feedback');
+    fb.innerHTML=(allCorrect?'✅ <strong>Parfait !</strong> ':'❌ <strong>Pas tout à fait.</strong> ')+q.expl;
+    fb.className='feedback '+(allCorrect?'show-ok':'show-ko');
+    document.getElementById('btnValidate').style.display='none';
+    document.getElementById('btnNext').style.display='block';
+  }
+
+  function next(){idx++;idx>=QS.length?showWin():loadQ();}
+
+  function showWin(){
+    document.getElementById('progFill').style.width='100%';
+    const pct=Math.round(score/QS.length*100);
+    document.getElementById('winScore').textContent=`${score} / ${QS.length}`;
+    document.getElementById('winPct').textContent=`${pct} %`;
+    const e=pct>=80?'🏆':pct>=60?'😊':'💪';
+    const s=pct>=80?'Excellent ! Tu maîtrises les fonctions du tableur.':pct>=60?'Bon travail ! Revois les formules.':'Continue de t\'entraîner !';
+    document.getElementById('winEmoji').textContent=e;
+    document.getElementById('winSub').textContent=s;
+    show('screenWin');
+  }
+
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();}
+  return{start,validate,next};
 })();
 </script>
 </body>

@@ -3,42 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Produit scalaire : définition : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="flashcard">
+  <title>Produit scalaire — Définition — Flashcards — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
-    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
-    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    :root {
+      --subject: #0891b2; --subject-dark: #0e7490; --subject-light: #e0f2fe;
+      --bg: #f0f9ff;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --card: #ffffff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; }
+    .container { width: 100%; max-width: 640px; padding: 2rem 1rem 3rem; flex: 1; display: flex; flex-direction: column; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.6rem 1rem; box-shadow: 0 2px 8px rgba(8,145,178,0.08); display: flex; align-items: center; gap: 0.75rem; }
+    .progress-track { flex: 1; height: 7px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.8rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .flashcard-wrap { perspective: 900px; margin-bottom: 1.5rem; cursor: pointer; }
+    .flashcard { width: 100%; min-height: 220px; position: relative; transform-style: preserve-3d; transition: transform 0.55s ease; border-radius: var(--radius); }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .fc-face { position: absolute; width: 100%; min-height: 220px; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .fc-front { background: var(--subject); color: white; }
+    .fc-back { background: white; border: 3px solid var(--subject-light); transform: rotateY(180deg); }
+    .fc-label { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; margin-bottom: 0.6rem; }
+    .fc-front .fc-label { color: rgba(255,255,255,0.8); }
+    .fc-back .fc-label { color: var(--muted); }
+    .fc-word { font-size: 1.35rem; font-weight: 900; line-height: 1.4; }
+    .fc-front .fc-word { color: white; }
+    .fc-back .fc-word { color: var(--subject-dark); font-size: 1.05rem; }
+    .fc-hint { font-size: 0.73rem; margin-top: 1rem; opacity: 0.55; }
+    .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .action-btn { border: none; border-radius: 12px; padding: 0.85rem; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .btn-know { background: var(--success-light); color: var(--success); }
+    .btn-again { background: var(--error-light); color: var(--error); }
+    .action-btn:hover { opacity: 0.82; }
+    .stats-bar { display: flex; gap: 0.75rem; justify-content: center; font-size: 0.82rem; font-weight: 700; }
+    .stat { display: flex; align-items: center; gap: 0.3rem; }
+    .results { text-align: center; }
+    .score-big { font-size: 2.5rem; font-weight: 900; color: var(--subject); margin-bottom: 0.25rem; }
+    .score-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .result-msg { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .btn-retry { width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; }
+    .btn-retry:hover { background: var(--subject-dark); }
+    .screen { display: none; }
+    .screen.active { display: block; }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -50,54 +75,128 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">·</div>
-    <div class="intro-title">QCM — Produit scalaire : définition</div>
-    <div class="intro-desc">Le produit scalaire est un nombre réel associé à deux vecteurs. Maîtrise ses différentes définitions et propriétés de base.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Flashcards — Produit scalaire</div>
+    <div class="intro-desc">Chaque carte présente une propriété ou formule du produit scalaire. Clique pour révéler. Indique si tu la connaissais.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">1 / 12</span>
+    </div>
+    <div class="flashcard-wrap" onclick="game.flip()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-face fc-front">
+          <div class="fc-label">Propriété / Formule</div>
+          <div class="fc-word" id="fcFront"></div>
+          <div class="fc-hint">👆 Cliquer pour révéler</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-label">Résultat</div>
+          <div class="fc-word" id="fcBack"></div>
+        </div>
+      </div>
+    </div>
+    <div class="action-btns" id="actionBtns" style="display:none">
+      <button class="action-btn btn-again" onclick="game.respond('again')">↺ À revoir</button>
+      <button class="action-btn btn-know" onclick="game.respond('know')">Je savais ✓</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><span style="color:var(--success)">✅</span><span id="statKnow">0</span></div>
+      <div class="stat"><span style="color:var(--error)">❌</span><span id="statAgain">0</span></div>
+    </div>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div style="font-size:3.5rem;margin-bottom:.5rem" id="resultsEmoji">🎉</div>
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-sub">propriétés sues / <span id="scoreTotal"></span></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Recommencer</button>
     </div>
   </div>
 </div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Le produit scalaire $\\vec{u} \\cdot \\vec{v}$ est :",choices:["Un vecteur","Un nombre réel","Un angle","Une longueur"],ans:1,expl:"Le produit scalaire est un scalaire (un nombre réel), pas un vecteur. C'est pourquoi on l'appelle 'scalaire' — contrairement au produit vectoriel qui donne un vecteur."},
-  {q:"$\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos\\theta$ où $\\theta$ est :",choices:["L'angle de $\\vec{u}$ avec l'axe $Ox$","L'angle entre $\\vec{u}$ et $\\vec{v}$","L'angle de $\\vec{v}$ avec l'axe $Oy$","La somme des angles"],ans:1,expl:"$\\theta$ est l'angle entre les deux vecteurs $\\vec{u}$ et $\\vec{v}$, c'est-à-dire l'angle dont on effectue la rotation pour passer de $\\vec{u}$ à $\\vec{v}$ (en valeur absolue)."},
-  {q:"Si $\\vec{u} = (x_1, y_1)$ et $\\vec{v} = (x_2, y_2)$, alors $\\vec{u} \\cdot \\vec{v} = $ ?",choices:["$x_1 x_2 + y_1 y_2$","$x_1 y_2 - x_2 y_1$","$x_1 + x_2 + y_1 + y_2$","$(x_1 + x_2)(y_1 + y_2)$"],ans:0,expl:"En coordonnées : $\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$. C'est la somme des produits des composantes correspondantes."},
-  {q:"$\\vec{u} = (2, 3)$ et $\\vec{v} = (4, -1)$. $\\vec{u} \\cdot \\vec{v} = $ ?",choices:["$8$","$5$","$10$","$-3$"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = 2 \\times 4 + 3 \\times (-1) = 8 - 3 = 5$."},
-  {q:"Le produit scalaire $\\vec{u} \\cdot \\vec{v}$ est nul si et seulement si :",choices:["$\\vec{u} = \\vec{0}$ ou $\\vec{v} = \\vec{0}$","$\\vec{u}$ et $\\vec{v}$ sont colinéaires","$\\vec{u}$ et $\\vec{v}$ sont perpendiculaires ou l'un est nul","$\\vec{u} = \\vec{v}$"],ans:2,expl:"$\\vec{u} \\cdot \\vec{v} = 0 \\Leftrightarrow \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos\\theta = 0 \\Leftrightarrow$ l'un est nul ou $\\cos\\theta = 0 \\Leftrightarrow$ l'un est nul ou $\\theta = 90°$."},
-  {q:"$\\vec{u} \\cdot \\vec{u} = $ ?",choices:["$1$","$0$","$\\|\\vec{u}\\|$","$\\|\\vec{u}\\|^2$"],ans:3,expl:"$\\vec{u} \\cdot \\vec{u} = \\|\\vec{u}\\|\\,\\|\\vec{u}\\|\\cos 0 = \\|\\vec{u}\\|^2$. En coordonnées : $x^2 + y^2 = \\|\\vec{u}\\|^2$. C'est le carré de la norme."},
-  {q:"Le produit scalaire est :",choices:["Commutatif seulement","Commutatif et distributif","Associatif","Ni commutatif ni distributif"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = \\vec{v} \\cdot \\vec{u}$ (commutatif) et $\\vec{u} \\cdot (\\vec{v} + \\vec{w}) = \\vec{u} \\cdot \\vec{v} + \\vec{u} \\cdot \\vec{w}$ (distributif). En revanche, il n'est pas associatif (pas de sens car le résultat est un scalaire)."},
-  {q:"La formule $\\vec{u} \\cdot \\vec{v} = \\dfrac{1}{2}(\\|\\vec{u}+\\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2)$ est appelée :",choices:["Formule de polarisation","Théorème de Pythagore","Théorème de Thalès","Formule de Carnot"],ans:0,expl:"C'est la formule de polarisation (ou identité de polarisation). Elle permet de calculer $\\vec{u} \\cdot \\vec{v}$ à partir des normes. Équivalente à : $\\vec{u} \\cdot \\vec{v} = \\dfrac{1}{4}(\\|\\vec{u}+\\vec{v}\\|^2 - \\|\\vec{u}-\\vec{v}\\|^2)$."},
+const CARDS = [
+  { front: 'Formule coordonnées', back: '$\\vec{u} \\cdot \\vec{v} = x_u x_v + y_u y_v$' },
+  { front: 'Formule norme-angle', back: '$\\vec{u} \\cdot \\vec{v} = |\\vec{u}||\\vec{v}|\\cos\\theta$' },
+  { front: 'Norme d\'un vecteur', back: '$|\\vec{u}|^2 = \\vec{u} \\cdot \\vec{u} = x_u^2 + y_u^2$' },
+  { front: 'Vecteurs orthogonaux', back: '$\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$' },
+  { front: 'Bilinéarité (distributivité)', back: '$\\vec{u} \\cdot (\\vec{v} + \\vec{w}) = \\vec{u} \\cdot \\vec{v} + \\vec{u} \\cdot \\vec{w}$' },
+  { front: 'Symétrie', back: '$\\vec{u} \\cdot \\vec{v} = \\vec{v} \\cdot \\vec{u}$' },
+  { front: 'Identité $|\\vec{u}+\\vec{v}|^2$', back: '$|\\vec{u}+\\vec{v}|^2 = |\\vec{u}|^2 + 2\\,\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$' },
+  { front: 'Identité $|\\vec{u}-\\vec{v}|^2$', back: '$|\\vec{u}-\\vec{v}|^2 = |\\vec{u}|^2 - 2\\,\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$' },
+  { front: 'Identité de polarisation', back: '$\\vec{u}\\cdot\\vec{v} = \\dfrac{|\\vec{u}+\\vec{v}|^2 - |\\vec{u}|^2 - |\\vec{v}|^2}{2}$' },
+  { front: 'Produit scalaire avec la hauteur', back: 'Si $H$ est le pied de la hauteur issue de $C$ : $\\overrightarrow{HA}\\cdot\\overrightarrow{HB} = -HA \\cdot HB$ si $H$ est entre $A$ et $B$' },
+  { front: 'Angle nul — $\\cos 0 = 1$', back: '$\\vec{u} \\cdot \\vec{v} = |\\vec{u}||\\vec{v}|$ si $\\theta = 0$' },
+  { front: 'Angle droit — $\\cos 90° = 0$', back: '$\\vec{u} \\cdot \\vec{v} = 0$ si $\\vec{u} \\perp \\vec{v}$' },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let deck, idx, knowCount, againCount, flipped;
+
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false });
+  }
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    deck = shuffle([...CARDS]); idx = 0; knowCount = 0; againCount = 0;
+    document.getElementById('statKnow').textContent = '0';
+    document.getElementById('statAgain').textContent = '0';
+    show('screenGame');
+    showCard();
+  }
+
+  function showCard() {
+    flipped = false;
+    const c = deck[idx];
+    document.getElementById('flashcard').classList.remove('flipped');
+    document.getElementById('fcFront').innerHTML = c.front;
+    document.getElementById('fcBack').innerHTML = c.back;
+    rMath(document.getElementById('fcFront'));
+    document.getElementById('progressFill').style.width = (idx / deck.length * 100) + '%';
+    document.getElementById('progressText').textContent = (idx + 1) + ' / ' + deck.length;
+    document.getElementById('actionBtns').style.display = 'none';
+  }
+
+  function flip() {
+    if (flipped) return;
+    flipped = true;
+    document.getElementById('flashcard').classList.add('flipped');
+    setTimeout(() => {
+      rMath(document.getElementById('fcBack'));
+      document.getElementById('actionBtns').style.display = 'grid';
+    }, 300);
+  }
+
+  function respond(type) {
+    if (type === 'know') { knowCount++; document.getElementById('statKnow').textContent = knowCount; }
+    else { againCount++; document.getElementById('statAgain').textContent = againCount; }
+    idx++;
+    if (idx >= deck.length) showResults(); else showCard();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    const pct = knowCount / deck.length;
+    document.getElementById('resultsEmoji').textContent = pct >= 0.8 ? '🏆' : pct >= 0.5 ? '🎉' : '📚';
+    document.getElementById('scoreBig').textContent = knowCount;
+    document.getElementById('scoreTotal').textContent = deck.length;
+    document.getElementById('resultMsg').textContent = pct >= 0.8 ? 'Excellent ! Tu maîtrises le produit scalaire !' : pct >= 0.5 ? 'Bien ! Continue à réviser les formules.' : 'Entraîne-toi encore avec ces cartes !';
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, flip, respond, restart };
 })();
 </script>
 </body>

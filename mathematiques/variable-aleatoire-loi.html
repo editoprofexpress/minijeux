@@ -3,42 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Variable aléatoire et loi de probabilité : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="flashcard">
+  <title>Variable aléatoire et loi de probabilité — Flashcards — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--radius:18px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
+    .container{width:100%;max-width:640px;padding:2rem 1rem 3rem;flex:1;display:flex;flex-direction:column}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    .card{background:white;border-radius:var(--radius);padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3.5rem;text-align:center;margin-bottom:1rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
+    /* Progress */
+    .progress-wrap{margin-bottom:1.5rem;background:white;border-radius:100px;padding:.6rem 1rem;box-shadow:0 2px 8px rgba(8,145,178,.08);display:flex;align-items:center;gap:.75rem}
+    .progress-track{flex:1;height:7px;background:var(--subject-light);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .4s ease}
+    .progress-text{font-size:.8rem;font-weight:700;color:var(--muted);white-space:nowrap}
+    /* Flashcard */
+    .flashcard-wrap{perspective:800px;margin-bottom:1.5rem;cursor:pointer}
+    .flashcard{width:100%;min-height:220px;position:relative;transform-style:preserve-3d;transition:transform .5s ease;border-radius:var(--radius)}
+    .flashcard.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;width:100%;min-height:220px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem 2rem;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+    .fc-front{background:var(--subject);color:white}
+    .fc-back{background:white;border:3px solid var(--subject-light);transform:rotateY(180deg)}
+    .fc-label{font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:.5rem}
+    .fc-front .fc-label{color:rgba(255,255,255,.8)}
+    .fc-back .fc-label{color:var(--muted)}
+    .fc-category{display:inline-block;background:rgba(255,255,255,.2);border-radius:100px;padding:.15rem .6rem;font-size:.7rem;font-weight:800;margin-bottom:.5rem}
+    .fc-back .fc-category{background:var(--subject-light);color:var(--subject-dark)}
+    .fc-word{font-size:1.5rem;font-weight:900;margin-bottom:.5rem;line-height:1.3}
+    .fc-front .fc-word{color:white}
+    .fc-back .fc-word{color:var(--subject-dark);font-size:1.1rem}
+    .fc-example{font-size:.85rem;line-height:1.6;opacity:.9}
+    .fc-front .fc-example{color:rgba(255,255,255,.9)}
+    .fc-back .fc-example{color:var(--muted)}
+    .fc-hint{font-size:.72rem;margin-top:.75rem;opacity:.6}
+    /* Action buttons */
+    .action-btns{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+    .action-btn{border:none;border-radius:12px;padding:.75rem;font-family:inherit;font-size:.9rem;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.2rem}
+    .btn-know{background:var(--success-light);color:var(--success)}
+    .btn-again{background:var(--error-light);color:var(--error)}
+    .action-btn:hover{opacity:.85}
+    .stats-bar{display:flex;gap:.75rem;justify-content:center;font-size:.8rem;font-weight:700}
+    .stat{display:flex;align-items:center;gap:.3rem}
+    /* Results */
+    .results{text-align:center}
+    .score-big{font-size:2.5rem;font-weight:900;color:var(--subject);margin-bottom:.25rem}
+    .score-sub{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
+    .result-msg{font-size:1.1rem;font-weight:800;margin-bottom:1.5rem}
+    .btn-retry{width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -50,26 +75,47 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">🎲</div>
-    <div class="intro-title">QCM — Variable aléatoire et loi de probabilité</div>
-    <div class="intro-desc">Une variable aléatoire associe un nombre réel à chaque issue d'une expérience aléatoire. Maîtrise la loi de probabilité, l'espérance et les applications.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Flashcards — Variable aléatoire</div>
+    <div class="intro-desc">Chaque carte présente un concept clé (loi, formule, propriété). Clique pour révéler la définition ou la formule. Indique si tu l'avais su.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">1 / 12</span>
+    </div>
+    <div class="flashcard-wrap" onclick="game.flip()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-face fc-front">
+          <div class="fc-category" id="fcCategory"></div>
+          <div class="fc-label">Concept</div>
+          <div class="fc-word" id="fcWord"></div>
+          <div class="fc-hint">👆 Cliquer pour révéler</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-category" id="fcCategoryBack"></div>
+          <div class="fc-label">Définition / Formule</div>
+          <div class="fc-word" id="fcBack"></div>
+          <div class="fc-example" id="fcExample"></div>
+        </div>
+      </div>
+    </div>
+    <div class="action-btns" id="actionBtns" style="display:none">
+      <button class="action-btn btn-again" onclick="game.respond('again')">❌<span>À revoir</span></button>
+      <button class="action-btn btn-know" onclick="game.respond('know')">✅<span>Je savais</span></button>
+    </div>
+    <div class="stats-bar" id="statsBar">
+      <div class="stat"><span style="color:var(--success)">✅</span><span id="statKnow">0</span></div>
+      <div class="stat"><span style="color:var(--error)">❌</span><span id="statAgain">0</span></div>
+    </div>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div style="font-size:3.5rem;margin-bottom:.5rem" id="resultsEmoji">🎉</div>
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-sub">cartes sues / <span id="scoreTotal"></span></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Recommencer</button>
     </div>
   </div>
 </div>
@@ -77,27 +123,160 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Une variable aléatoire $X : \\Omega \\to \\mathbb{R}$ est :",choices:["Un événement aléatoire","Une fonction qui associe un réel à chaque issue de l'expérience","La probabilité d'un événement","Un ensemble d'événements"],ans:1,expl:"$X : \\Omega \\to \\mathbb{R}$ est une application de l'univers des possibles vers les réels. Par exemple, $X$ = « gain en euros » ou $X$ = « nombre de pile obtenus »."},
-  {q:"La somme de toutes les probabilités $P(X = x_i)$ d'une variable aléatoire est :",choices:["$0$","$E(X)$","$1$","$\\text{Var}(X)$"],ans:2,expl:"La somme de toutes les probabilités d'une loi de probabilité vaut toujours $1$ : $\\sum_i P(X = x_i) = 1$. C'est une condition nécessaire pour qu'une distribution soit une loi de probabilité."},
-  {q:"$X$ prend les valeurs $1, 2, 3$ avec $P(X=1)=0{,}2$, $P(X=2)=0{,}5$, $P(X=3)=0{,}3$. $E(X) = ?$",choices:["$2$","$2{,}1$","$1{,}8$","$2{,}5$"],ans:1,expl:"$E(X) = 1 \\times 0{,}2 + 2 \\times 0{,}5 + 3 \\times 0{,}3 = 0{,}2 + 1 + 0{,}9 = 2{,}1$."},
-  {q:"L'espérance $E(X)$ représente :",choices:["La valeur maximale de $X$","La valeur la plus probable","La moyenne des valeurs pondérée par les probabilités","La dispersion de $X$"],ans:2,expl:"$E(X) = \\sum_i x_i \\cdot P(X = x_i)$ est la moyenne à long terme de $X$ si on répétait l'expérience un grand nombre de fois. C'est la valeur « attendue »."},
-  {q:"On lance un dé équilibré. $X$ est le résultat. $E(X) = ?$",choices:["$3$","$3{,}5$","$4$","$6$"],ans:1,expl:"$E(X) = \\dfrac{1+2+3+4+5+6}{6} = \\dfrac{21}{6} = 3{,}5$. Chaque face a la probabilité $\\dfrac{1}{6}$, et la moyenne est $3{,}5$."},
-  {q:"$X$ prend les valeurs $0$ et $1$. $P(X=1) = p$. $P(X=0) = ?$",choices:["$p$","$1$","$1-p$","$p^2$"],ans:2,expl:"La somme des probabilités vaut $1$ : $P(X=0) + P(X=1) = 1$, donc $P(X=0) = 1-p$. C'est la loi de Bernoulli de paramètre $p$."},
-  {q:"Pour la loi de Bernoulli $\\mathcal{B}(p)$ avec $P(X=1) = p$ et $P(X=0) = 1-p$, $E(X) = ?$",choices:["$1-p$","$p(1-p)$","$p$","$1$"],ans:2,expl:"$E(X) = 0 \\times (1-p) + 1 \\times p = p$. L'espérance d'une loi de Bernoulli est simplement $p$, le paramètre."},
-  {q:"Si $X$ prend les valeurs $-1, 0, 1$ avec $P(X=-1) = P(X=1) = \\dfrac{1}{4}$ et $P(X=0) = \\dfrac{1}{2}$, $E(X) = ?$",choices:["$0$","$\\dfrac{1}{4}$","$\\dfrac{1}{2}$","$-\\dfrac{1}{4}$"],ans:0,expl:"$E(X) = (-1) \\times \\dfrac{1}{4} + 0 \\times \\dfrac{1}{2} + 1 \\times \\dfrac{1}{4} = -\\dfrac{1}{4} + 0 + \\dfrac{1}{4} = 0$. La distribution est symétrique autour de $0$, donc l'espérance est $0$."},
+const CARDS = [
+  {
+    category: '🎲 Variable aléatoire',
+    word: 'Variable aléatoire $X$',
+    back: 'Fonction $X : \\Omega \\to \\mathbb{R}$',
+    example: 'Elle associe un nombre réel à chaque issue de l\'expérience aléatoire.'
+  },
+  {
+    category: '📊 Loi de probabilité',
+    word: 'Loi de probabilité de $X$',
+    back: 'Tableau des valeurs $x_i$ et de leurs probabilités $P(X = x_i)$',
+    example: 'Condition : $\\sum_i P(X = x_i) = 1$'
+  },
+  {
+    category: '🎲 Bernoulli',
+    word: 'Loi de Bernoulli $\\mathcal{B}(p)$',
+    back: '$P(X=1) = p$ et $P(X=0) = 1-p$',
+    example: 'Modélise un essai avec succès (prob. $p$) ou échec (prob. $1-p$).'
+  },
+  {
+    category: '🎲 Bernoulli',
+    word: 'Espérance — Bernoulli $\\mathcal{B}(p)$',
+    back: '$E(X) = p$',
+    example: 'On s\'attend en moyenne à $p$ succès par essai.'
+  },
+  {
+    category: '🎲 Bernoulli',
+    word: 'Variance — Bernoulli $\\mathcal{B}(p)$',
+    back: '$V(X) = p(1-p)$',
+    example: 'Maximale pour $p = 0{,}5$.'
+  },
+  {
+    category: '📈 Binomiale',
+    word: 'Loi binomiale $\\mathcal{B}(n,p)$',
+    back: '$n$ essais de Bernoulli indépendants, $X$ = nombre de succès',
+    example: 'Conditions : essais indépendants, même probabilité $p$.'
+  },
+  {
+    category: '📈 Binomiale',
+    word: 'Formule $P(X = k)$ — $\\mathcal{B}(n,p)$',
+    back: '$P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$',
+    example: '$k \\in \\{0, 1, \\ldots, n\\}$'
+  },
+  {
+    category: '📈 Binomiale',
+    word: 'Espérance — $\\mathcal{B}(n,p)$',
+    back: '$E(X) = np$',
+    example: 'Sur $n$ essais avec probabilité $p$, on espère $np$ succès.'
+  },
+  {
+    category: '📈 Binomiale',
+    word: 'Variance — $\\mathcal{B}(n,p)$',
+    back: '$V(X) = np(1-p)$',
+    example: 'L\'écart-type vaut $\\sigma = \\sqrt{np(1-p)}$.'
+  },
+  {
+    category: '🧮 Espérance',
+    word: 'Espérance $E(X)$ — définition',
+    back: '$E(X) = \\sum_i x_i \\cdot P(X = x_i)$',
+    example: 'Moyenne à long terme de $X$ si on répète l\'expérience.'
+  },
+  {
+    category: '🧮 Variance',
+    word: 'Variance $V(X)$ — définition',
+    back: '$V(X) = E(X^2) - [E(X)]^2$',
+    example: 'Aussi : $V(X) = \\sum_i (x_i - E(X))^2 \\cdot P(X=x_i)$'
+  },
+  {
+    category: '🧮 Écart-type',
+    word: 'Écart-type $\\sigma(X)$',
+    back: '$\\sigma(X) = \\sqrt{V(X)}$',
+    example: 'Mesure la dispersion de $X$ autour de son espérance. Même unité que $X$.'
+  }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let cards, idx, knowCount, againCount, flipped;
+
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, {
+      delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError: false
+    });
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    cards = shuffle([...CARDS]);
+    idx = 0; knowCount = 0; againCount = 0;
+    document.getElementById('statKnow').textContent = '0';
+    document.getElementById('statAgain').textContent = '0';
+    show('screenGame');
+    showCard();
+  }
+
+  function showCard() {
+    flipped = false;
+    const c = cards[idx];
+    document.getElementById('flashcard').classList.remove('flipped');
+    document.getElementById('fcCategory').textContent = c.category;
+    document.getElementById('fcCategoryBack').textContent = c.category;
+    document.getElementById('fcWord').innerHTML = c.word;
+    document.getElementById('fcBack').innerHTML = c.back;
+    document.getElementById('fcExample').innerHTML = c.example;
+    document.getElementById('progressFill').style.width = (idx / cards.length * 100) + '%';
+    document.getElementById('progressText').textContent = (idx + 1) + ' / ' + cards.length;
+    document.getElementById('actionBtns').style.display = 'none';
+    rMath(document.getElementById('fcWord'));
+  }
+
+  function flip() {
+    if (flipped) return;
+    flipped = true;
+    document.getElementById('flashcard').classList.add('flipped');
+    setTimeout(() => {
+      document.getElementById('actionBtns').style.display = 'grid';
+      rMath(document.getElementById('fcBack'));
+      rMath(document.getElementById('fcExample'));
+    }, 300);
+  }
+
+  function respond(type) {
+    if (type === 'know') { knowCount++; document.getElementById('statKnow').textContent = knowCount; }
+    else { againCount++; document.getElementById('statAgain').textContent = againCount; }
+    idx++;
+    if (idx >= cards.length) showResults(); else showCard();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    const pct = knowCount / cards.length;
+    document.getElementById('resultsEmoji').textContent = pct >= .8 ? '🏆' : pct >= .5 ? '🎉' : '📚';
+    document.getElementById('scoreBig').textContent = knowCount;
+    document.getElementById('scoreTotal').textContent = cards.length;
+    document.getElementById('resultMsg').textContent = pct >= .8 ? 'Excellent ! Tu maîtrises les lois de probabilité !' : pct >= .5 ? 'Bien ! Continue à réviser.' : 'Entraîne-toi encore avec ces cartes !';
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); }
+
+  return { start, flip, respond, restart };
 })();
 </script>
 </body>

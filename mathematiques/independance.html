@@ -3,42 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Indépendance : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="vrai-faux">
+  <title>Indépendance — Vrai ou Faux — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--radius:18px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    .card{background:white;border-radius:var(--radius);padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
+    .progress-wrap{margin-bottom:1.5rem;background:white;border-radius:100px;padding:.75rem 1.25rem;box-shadow:0 2px 12px rgba(8,145,178,.08);display:flex;align-items:center;gap:1rem}
+    .progress-track{flex:1;height:8px;background:var(--subject-light);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .4s ease}
+    .progress-text{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+    .q-num{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.75rem}
+    .statement-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:12px;padding:1.25rem 1.5rem;font-size:1.05rem;font-weight:700;line-height:1.6;margin-bottom:1.5rem}
+    .vf-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .vf-btn{border:3px solid transparent;border-radius:14px;padding:1.1rem;font-family:inherit;font-size:1.1rem;font-weight:900;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .vf-btn.vrai{background:#d1fae5;color:#059669;border-color:#6ee7b7}
+    .vf-btn.faux{background:#fee2e2;color:#dc2626;border-color:#fca5a5}
+    .vf-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+    .vf-btn:disabled{cursor:default;transform:none}
+    .vf-btn.selected-correct{box-shadow:0 0 0 4px rgba(5,150,105,.3)}
+    .vf-btn.selected-wrong{opacity:.5}
+    .vf-btn.answer-correct{border-color:#059669;background:#d1fae5}
+    .feedback{margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;display:none}
+    .feedback.show{display:block;animation:fadeIn .25s ease}
+    .feedback.correct-fb{background:var(--success-light);border-left:4px solid var(--success)}
+    .feedback.wrong-fb{background:var(--error-light);border-left:4px solid var(--error)}
+    .feedback-title{font-weight:800;font-size:.95rem;margin-bottom:.3rem}
+    .feedback.correct-fb .feedback-title{color:var(--success)}
+    .feedback.wrong-fb .feedback-title{color:var(--error)}
+    .feedback p{font-size:.85rem;line-height:1.6}
+    .btn-next{margin-top:1.25rem;width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next.show{display:block;animation:fadeIn .3s ease}
+    .btn-next:hover{background:var(--subject-dark)}
+    .results{text-align:center}
+    .results-emoji{font-size:4rem;margin-bottom:.5rem}
+    .score-circle{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--subject) 0%,var(--subject) var(--pct),var(--subject-light) var(--pct));margin:1rem auto;position:relative}
+    .score-circle::before{content:'';position:absolute;width:95px;height:95px;background:white;border-radius:50%}
+    .score-inner{position:relative;z-index:1;text-align:center}
+    .score-num{font-size:1.8rem;font-weight:900;color:var(--subject);display:block}
+    .score-total-txt{font-size:.8rem;color:var(--muted);font-weight:700}
+    .results-msg{font-size:1.2rem;font-weight:800;margin:.75rem 0 .5rem}
+    .results-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+    .stars{font-size:2rem;letter-spacing:.25rem;margin-bottom:.5rem}
+    .btn-retry{padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;width:100%}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -48,28 +72,42 @@
   <h1>Indépendance</h1>
 </div>
 <div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 10</span>
+  </div>
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">⚖️</div>
-    <div class="intro-title">QCM — Indépendance</div>
-    <div class="intro-desc">L'indépendance est une notion clé en probabilités. Sais-tu la définir, la vérifier et la distinguer de l'incompatibilité ?</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Vrai ou Faux — Indépendance</div>
+    <div class="intro-desc">Lis chaque affirmation sur l'indépendance en probabilités et décide si elle est <strong>vraie</strong> ou <strong>fausse</strong>.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Affirmation 1 / 10</div>
+    <div class="statement-box" id="statementText"></div>
+    <div class="vf-buttons">
+      <button class="vf-btn vrai" id="btnVrai" onclick="game.answer(true)">✅ VRAI</button>
+      <button class="vf-btn faux" id="btnFaux" onclick="game.answer(false)">❌ FAUX</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Affirmation suivante →</button>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">10</span>
+          <span class="score-total-txt" id="scoreTotalTxt">/ 10</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
@@ -77,27 +115,120 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"A et B sont indépendants si et seulement si :",choices:["$P(A \\cap B) = P(A) + P(B)$","$P(A \\cap B) = P(A) \\times P(B)$","$P(A \\cap B) = 0$","$P(A) = P(B)$"],ans:1,expl:"Définition : A et B indépendants $\\Leftrightarrow$ $P(A \\cap B) = P(A) \\times P(B)$. La réalisation de l'un n'influence pas la probabilité de l'autre."},
-  {q:"A et B sont indépendants avec $P(A) = 0{,}4$ et $P(B) = 0{,}3$. $P(A \\cap B)$ = ?",choices:["$0{,}7$","$0{,}1$","$0{,}12$","$0{,}4$"],ans:2,expl:"Par indépendance : $P(A \\cap B) = P(A) \\times P(B) = 0{,}4 \\times 0{,}3 = 0{,}12$."},
-  {q:"$P(A) = 0{,}5$, $P(B) = 0{,}4$, $P(A \\cap B) = 0{,}2$. A et B sont-ils indépendants ?",choices:["Oui, car $P(A) \\times P(B) = 0{,}2$","Non, car $P(A) \\times P(B) \\neq 0{,}2$","On ne peut pas savoir","Oui, car $P(A \\cap B) < P(A)$"],ans:0,expl:"$P(A) \\times P(B) = 0{,}5 \\times 0{,}4 = 0{,}2 = P(A \\cap B)$. Condition satisfaite : A et B sont indépendants."},
-  {q:"Si A et B sont incompatibles ($A \\cap B = \\emptyset$) avec $P(A) > 0$ et $P(B) > 0$, alors :",choices:["A et B sont indépendants","A et B sont dépendants","A et B peuvent être indépendants","On ne sait pas"],ans:1,expl:"Incompatibles $\\Rightarrow$ $P(A \\cap B) = 0$, mais $P(A) \\times P(B) > 0$. Donc $P(A \\cap B) \\neq P(A) \\times P(B)$ : ils sont dépendants."},
-  {q:"Si A et B sont indépendants, alors A et $\\bar{B}$ sont :",choices:["Dépendants","Indépendants","Incompatibles","Identiques"],ans:1,expl:"L'indépendance est stable par passage au complémentaire : si $A \\perp B$, alors $A \\perp \\bar{B}$, $\\bar{A} \\perp B$ et $\\bar{A} \\perp \\bar{B}$."},
-  {q:"Deux lancers successifs d'une pièce équilibrée. Les résultats de chaque lancer sont :",choices:["Dépendants","Indépendants","Incompatibles","Identiques"],ans:1,expl:"Les lancers successifs d'une pièce sont indépendants : le résultat du premier ne change pas la probabilité du second."},
-  {q:"A et B indépendants avec $P(A) = 0{,}6$. Alors $P_B(A)$ = ?",choices:["$0{,}6$","$0{,}4$","Dépend de $P(B)$","$0$"],ans:0,expl:"Par indépendance : $P_B(A) = P(A) = 0{,}6$. Connaître B ne modifie pas la probabilité de A."},
-  {q:"Tirage avec remise dans une urne. Les deux tirages successifs sont :",choices:["Dépendants, car la composition change","Indépendants, car on remet la boule","Incompatibles","Toujours équiprobables"],ans:1,expl:"Avec remise, on remet la boule tirée avant le second tirage. Les conditions sont identiques à chaque tirage : les résultats sont indépendants."},
+const QUESTIONS = [
+  { statement: "A et B sont indépendants si et seulement si $P(A \\cap B) = P(A) \\times P(B)$.", answer: true, explanation: "C'est la définition de l'indépendance. Si cette égalité est vérifiée, la réalisation de A n'influence pas la probabilité de B." },
+  { statement: "Si $P(A) = 0{,}4$ et $P(B) = 0{,}3$ et A, B indépendants, alors $P(A \\cap B) = 0{,}7$.", answer: false, explanation: "Par indépendance : $P(A \\cap B) = P(A) \\times P(B) = 0{,}4 \\times 0{,}3 = 0{,}12$. La valeur $0{,}7$ correspond à $P(A) + P(B)$, pas à $P(A \\cap B)$." },
+  { statement: "Si A et B sont incompatibles ($A \\cap B = \\emptyset$) avec $P(A) > 0$ et $P(B) > 0$, alors A et B sont indépendants.", answer: false, explanation: "Incompatibles : $P(A \\cap B) = 0$, mais $P(A) \\times P(B) > 0$. Donc $P(A \\cap B) \\neq P(A) \\times P(B)$ : A et B sont dépendants." },
+  { statement: "Si A et B sont indépendants, alors A et $\\bar{B}$ sont aussi indépendants.", answer: true, explanation: "L'indépendance est stable par passage au complémentaire. Si $A \\perp B$, alors $A \\perp \\bar{B}$, $\\bar{A} \\perp B$ et $\\bar{A} \\perp \\bar{B}$." },
+  { statement: "Avec $P(A) = 0{,}5$, $P(B) = 0{,}4$, $P(A \\cap B) = 0{,}2$, A et B sont indépendants.", answer: true, explanation: "$P(A) \\times P(B) = 0{,}5 \\times 0{,}4 = 0{,}2 = P(A \\cap B)$. La condition d'indépendance est vérifiée." },
+  { statement: "Si A et B sont indépendants avec $P(A) = 0{,}6$, alors $P(A | B) = 0{,}4$.", answer: false, explanation: "Par indépendance : $P(A | B) = P(A) = 0{,}6$. Connaître B ne modifie pas la probabilité de A. La valeur $0{,}4$ est celle de $P(\\bar{A})$." },
+  { statement: "Deux lancers successifs d'une pièce équilibrée sont des événements indépendants.", answer: true, explanation: "Le résultat du premier lancer n'influence pas le second. Les essais sont indépendants : $P(\\text{pile}_2 | \\text{pile}_1) = P(\\text{pile}_2) = 0{,}5$." },
+  { statement: "Un tirage sans remise dans une urne donne deux tirages indépendants.", answer: false, explanation: "Sans remise, la composition de l'urne change après le premier tirage, ce qui modifie les probabilités pour le second. Les tirages sont dépendants." },
+  { statement: "La probabilité totale donne $P(B) = P(B|A) \\cdot P(A) + P(B|\\bar{A}) \\cdot P(\\bar{A})$.", answer: true, explanation: "C'est la formule des probabilités totales (avec une partition $\\{A, \\bar{A}\\}$). Elle permet de calculer $P(B)$ en décomposant selon si A est réalisé ou non." },
+  { statement: "Si $P(A) = 0$ alors A et B sont toujours indépendants pour tout événement B.", answer: true, explanation: "Si $P(A) = 0$, alors $P(A \\cap B) = 0$ (car $A \\cap B \\subseteq A$). Et $P(A) \\times P(B) = 0 \\times P(B) = 0$. L'égalité est vérifiée pour tout B." }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let questions, idx, score, answered;
+
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, {
+      delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError: false
+    });
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS); idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotalTxt').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+    document.getElementById('qNum').textContent = 'Affirmation ' + (idx + 1) + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[idx];
+    document.getElementById('statementText').innerHTML = q.statement;
+    rMath(document.getElementById('statementText'));
+    document.getElementById('btnVrai').className = 'vf-btn vrai';
+    document.getElementById('btnFaux').className = 'vf-btn faux';
+    document.getElementById('btnVrai').disabled = false;
+    document.getElementById('btnFaux').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+  }
+
+  function answer(isVrai) {
+    if (answered) return;
+    answered = true;
+    const q = questions[idx];
+    const correct = (isVrai === q.answer);
+    document.getElementById('btnVrai').disabled = true;
+    document.getElementById('btnFaux').disabled = true;
+    const vBtn = document.getElementById('btnVrai');
+    const fBtn = document.getElementById('btnFaux');
+    if (q.answer) vBtn.className = 'vf-btn vrai answer-correct';
+    else fBtn.className = 'vf-btn faux answer-correct';
+    if (!correct) {
+      if (isVrai) vBtn.classList.add('selected-wrong');
+      else fBtn.classList.add('selected-wrong');
+    }
+    const fb = document.getElementById('feedback');
+    document.getElementById('feedbackTitle').textContent = correct ? '✅ Bonne réponse !' : '❌ ' + (q.answer ? 'C\'était VRAI' : 'C\'était FAUX');
+    document.getElementById('feedbackText').innerHTML = q.explanation;
+    fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+    rMath(fb);
+    if (correct) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji = '🏆'; stars = '⭐⭐⭐'; msg = 'Parfait !'; sub = 'Tu maîtrises la notion d\'indépendance !'; }
+    else if (pct >= .75) { emoji = '🎉'; stars = '⭐⭐⭐'; msg = 'Très bien !'; sub = 'Tu distingues bien les événements indépendants.'; }
+    else if (pct >= .5) { emoji = '👍'; stars = '⭐⭐'; msg = 'Bien !'; sub = 'Quelques cas à revoir sur l\'indépendance et la dépendance.'; }
+    else { emoji = '📚'; stars = '⭐'; msg = 'À réviser'; sub = 'Revois la définition et les propriétés de l\'indépendance !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; }
+
+  return { start, answer, next, restart };
 })();
 </script>
 </body>

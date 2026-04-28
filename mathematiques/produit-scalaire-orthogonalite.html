@@ -3,42 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Produit scalaire et orthogonalité : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="vrai-faux">
+  <title>Produit scalaire et orthogonalité — Vrai/Faux — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
-    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
-    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    :root {
+      --subject: #0891b2; --subject-dark: #0e7490; --subject-light: #e0f2fe;
+      --bg: #f0f9ff;
+      --success: #059669; --success-light: #d1fae5;
+      --error: #dc2626; --error-light: #fee2e2;
+      --card: #ffffff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .top-bar { width: 100%; background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4); color: white; padding: 1.25rem 1rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .top-bar::after { content: ''; position: absolute; bottom: -20px; left: -5%; width: 110%; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0; }
+    .subject-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.2); border-radius: 100px; padding: 0.25rem 0.8rem; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .top-bar h1 { font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 900; }
+    .container { width: 100%; max-width: 680px; padding: 2rem 1rem 3rem; flex: 1; }
+    .progress-wrap { margin-bottom: 1.5rem; background: var(--card); border-radius: 100px; padding: 0.75rem 1.25rem; box-shadow: 0 2px 12px rgba(8,145,178,0.08); display: flex; align-items: center; gap: 1rem; }
+    .progress-track { flex: 1; height: 8px; background: var(--subject-light); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--subject); border-radius: 100px; transition: width 0.4s ease; }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 1rem; }
+    .intro-title { font-size: 1.4rem; font-weight: 900; text-align: center; margin-bottom: 0.75rem; }
+    .intro-desc { color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-start { width: 100%; padding: 1rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+    .btn-start:hover { background: var(--subject-dark); }
+    .q-num { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; }
+    .statement-box { background: var(--subject-light); border-left: 4px solid var(--subject); border-radius: 12px; padding: 1.25rem 1.5rem; font-size: 1.05rem; font-weight: 700; line-height: 1.7; margin-bottom: 1.5rem; }
+    .vf-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .vf-btn { border: 3px solid transparent; border-radius: 14px; padding: 1.1rem; font-family: inherit; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .vf-btn.vrai { background: var(--success-light); color: var(--success); border-color: #6ee7b7; }
+    .vf-btn.faux { background: var(--error-light); color: var(--error); border-color: #fca5a5; }
+    .vf-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .vf-btn:disabled { cursor: default; transform: none; }
+    .vf-btn.selected-correct { box-shadow: 0 0 0 4px rgba(5,150,105,0.3); }
+    .vf-btn.selected-wrong { opacity: 0.5; }
+    .vf-btn.answer-correct { border-color: var(--success); background: var(--success-light); }
+    .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 12px; display: none; }
+    .feedback.show { display: block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform:none; } }
+    .feedback.correct-fb { background: var(--success-light); border-left: 4px solid var(--success); }
+    .feedback.wrong-fb { background: var(--error-light); border-left: 4px solid var(--error); }
+    .feedback-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .feedback.correct-fb .feedback-title { color: var(--success); }
+    .feedback.wrong-fb .feedback-title { color: var(--error); }
+    .feedback-body { font-size: 0.85rem; line-height: 1.6; }
+    .btn-next { margin-top: 1.25rem; width: 100%; padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; display: none; }
+    .btn-next.show { display: block; animation: fadeIn .3s ease; }
+    .btn-next:hover { background: var(--subject-dark); }
+    .results { text-align: center; }
+    .results-emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+    .score-circle { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--subject) 0%, var(--subject) var(--pct), var(--subject-light) var(--pct)); margin: 1rem auto; position: relative; }
+    .score-circle::before { content: ''; position: absolute; width: 95px; height: 95px; background: white; border-radius: 50%; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-num { font-size: 1.8rem; font-weight: 900; color: var(--subject); display: block; }
+    .score-total-lbl { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+    .results-msg { font-size: 1.2rem; font-weight: 800; margin: 0.75rem 0 0.5rem; }
+    .results-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .stars { font-size: 2rem; letter-spacing: 0.25rem; margin-bottom: 0.5rem; }
+    .btn-retry { padding: 0.9rem; background: var(--subject); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; width: 100%; }
+    .screen { display: none; }
+    .screen.active { display: block; }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -48,56 +81,186 @@
   <h1>Produit scalaire et orthogonalité</h1>
 </div>
 <div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 10</span>
+  </div>
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">⊥</div>
-    <div class="intro-title">QCM — Produit scalaire et orthogonalité</div>
-    <div class="intro-desc">Le critère d'orthogonalité via le produit scalaire, le théorème de Pythagore et ses applications géométriques.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Vrai ou Faux — Orthogonalité</div>
+    <div class="intro-desc">Lis chaque affirmation sur les vecteurs et le produit scalaire. Décide si elle est <strong>vraie</strong> ou <strong>fausse</strong>.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Affirmation 1 / 10</div>
+    <div class="statement-box" id="statementText"></div>
+    <div class="vf-buttons">
+      <button class="vf-btn vrai" id="btnVrai" onclick="game.answer(true)">✅ VRAI</button>
+      <button class="vf-btn faux" id="btnFaux" onclick="game.answer(false)">❌ FAUX</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <div class="feedback-body" id="feedbackText"></div>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Affirmation suivante →</button>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">10</span>
+          <span class="score-total-lbl" id="scoreTotalLbl">/ 10</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont orthogonaux si et seulement si :",choices:["$\\|\\vec{u}\\| = \\|\\vec{v}\\|$","$\\vec{u} \\cdot \\vec{v} = 0$","$\\vec{u} \\cdot \\vec{v} = 1$","$\\|\\vec{u}+\\vec{v}\\| = 0$"],ans:1,expl:"La définition : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. En coordonnées : $(x_1,y_1)\\perp(x_2,y_2) \\Leftrightarrow x_1x_2+y_1y_2 = 0$."},
-  {q:"$\\vec{u} = (3, -2)$ et $\\vec{v} = (2, 3)$. Ces vecteurs sont :",choices:["Colinéaires","Orthogonaux","De même norme","Opposés"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = 3 \\times 2 + (-2) \\times 3 = 6 - 6 = 0 \\Rightarrow \\vec{u} \\perp \\vec{v}$. Les vecteurs perpendiculaires $(x,y)$ et $(-y,x)$ ont toujours un produit scalaire nul."},
-  {q:"Le théorème de Pythagore affirme que dans un triangle ABC rectangle en A :",choices:["$AB^2 + AC^2 = BC^2$","$AB + AC = BC$","$AB \\cdot AC = BC^2$","$BC^2 - AB^2 = AC$"],ans:0,expl:"ABC rectangle en A $\\Leftrightarrow AB^2 + AC^2 = BC^2 \\Leftrightarrow \\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$. C'est une conséquence directe du produit scalaire : $\\|\\overrightarrow{BC}\\|^2 = \\|\\overrightarrow{BA}+\\overrightarrow{AC}\\|^2 = \\|\\overrightarrow{BA}\\|^2 + \\|\\overrightarrow{AC}\\|^2$."},
-  {q:"Dans un triangle ABC, $BC^2 = AB^2 + AC^2 - 2 \\cdot \\overrightarrow{AB} \\cdot \\overrightarrow{AC}$. Si $BC^2 = AB^2 + AC^2$, alors :",choices:["$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 1$","Le triangle est isocèle","$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$ donc le triangle est rectangle en A","$BC = AB$"],ans:2,expl:"Si $BC^2 = AB^2 + AC^2$, alors $2 \\cdot \\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$, soit $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 0$. Cela signifie que $\\overrightarrow{AB} \\perp \\overrightarrow{AC}$, donc le triangle est rectangle en A."},
-  {q:"Le vecteur $(4, -3)$ est orthogonal à :",choices:["$(4, 3)$","$(3, 4)$","$(-4, 3)$","$(2, -3)$"],ans:1,expl:"$(4,-3) \\cdot (3,4) = 4 \\times 3 + (-3) \\times 4 = 12 - 12 = 0$. Pour trouver un vecteur orthogonal à $(a,b)$, on peut prendre $(-b,a)$ ou $(b,-a)$."},
-  {q:"La hauteur d'un triangle issue de A est perpendiculaire à :",choices:["AB","La médiane","BC","L'axe Ox"],ans:2,expl:"La hauteur issue de A est la droite passant par A et perpendiculaire au côté opposé BC. $\\overrightarrow{AH} \\cdot \\overrightarrow{BC} = 0$ où H est le pied de la hauteur."},
-  {q:"Dans un losange ABCD, les diagonales AC et BD sont :",choices:["Égales","Parallèles","Perpendiculaires","De longueur double"],ans:2,expl:"Dans un losange, les diagonales sont perpendiculaires entre elles (elles se coupent à angle droit). On montre cela grâce au produit scalaire : $\\overrightarrow{AC} \\cdot \\overrightarrow{BD} = 0$."},
-  {q:"Si $\\vec{u} = (1, 0)$ et $\\vec{v} = (0, 1)$, alors $\\vec{u} \\cdot \\vec{v} = $ ?",choices:["$1$","$0$","$-1$","$\\sqrt{2}$"],ans:1,expl:"$\\vec{u} \\cdot \\vec{v} = 1 \\times 0 + 0 \\times 1 = 0$. Ce sont les vecteurs de la base canonique, perpendiculaires entre eux. Ils forment un angle de 90°, et $\\cos 90° = 0$."},
+const QUESTIONS = [
+  {
+    statement: '$\\vec{u}(2, 3)$ et $\\vec{v}(3, -2)$ sont orthogonaux.',
+    answer: true,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 2 \\times 3 + 3 \\times (-2) = 6 - 6 = 0$ donc $\\vec{u} \\perp \\vec{v}$. ✓'
+  },
+  {
+    statement: '$\\vec{u}(1, 1)$ et $\\vec{v}(1, -1)$ sont colinéaires.',
+    answer: false,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 1 \\times 1 + 1 \\times (-1) = 0$ : ils sont orthogonaux, pas colinéaires. Deux vecteurs colinéaires vérifient $x_1 y_2 - x_2 y_1 = 0$, ici $1 \\times(-1) - 1 \\times 1 = -2 \\neq 0$.'
+  },
+  {
+    statement: 'Si $\\vec{u} \\cdot \\vec{v} = 0$ alors $\\vec{u} = \\vec{0}$ ou $\\vec{v} = \\vec{0}$.',
+    answer: false,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 0$ signifie que les vecteurs sont orthogonaux (ou l\'un d\'eux est nul). Par exemple $\\vec{u}(1,0)$ et $\\vec{v}(0,1)$ : $1\\times0+0\\times1=0$ mais aucun n\'est nul.'
+  },
+  {
+    statement: 'Si $\\vec{AB} \\cdot \\vec{AC} = 0$ alors le triangle $ABC$ est rectangle en $A$.',
+    answer: true,
+    explanation: '$\\vec{AB} \\cdot \\vec{AC} = 0 \\Leftrightarrow \\vec{AB} \\perp \\vec{AC}$, ce qui signifie que l\'angle en $A$ est droit, donc le triangle est rectangle en $A$. ✓'
+  },
+  {
+    statement: '$\\vec{u}(4, -3)$ et $\\vec{v}(3, 4)$ sont orthogonaux.',
+    answer: true,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 4 \\times 3 + (-3) \\times 4 = 12 - 12 = 0$. ✓ En général $(a, b) \\perp (-b, a)$.'
+  },
+  {
+    statement: 'Le produit scalaire est commutatif : $\\vec{u} \\cdot \\vec{v} = \\vec{v} \\cdot \\vec{u}$.',
+    answer: true,
+    explanation: 'Oui, $\\vec{u} \\cdot \\vec{v} = x_u x_v + y_u y_v = x_v x_u + y_v y_u = \\vec{v} \\cdot \\vec{u}$. ✓'
+  },
+  {
+    statement: 'Si $|\\vec{u}| = 5$ et $|\\vec{v}| = 3$, alors $\\vec{u} \\cdot \\vec{v}$ est nécessairement égal à $15$.',
+    answer: false,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = |\\vec{u}||\\vec{v}|\\cos\\theta = 15\\cos\\theta$. Cette valeur dépend de l\'angle $\\theta$ entre les vecteurs. Elle vaut $15$ uniquement si $\\theta = 0$ (vecteurs de même direction).'
+  },
+  {
+    statement: '$\\vec{u}(2, 1)$ et $\\vec{v}(4, 2)$ sont orthogonaux.',
+    answer: false,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 2 \\times 4 + 1 \\times 2 = 8 + 2 = 10 \\neq 0$. Ces vecteurs sont en fait colinéaires ($(4,2) = 2(2,1)$), donc non orthogonaux.'
+  },
+  {
+    statement: 'Dans un losange, les deux diagonales sont perpendiculaires.',
+    answer: true,
+    explanation: 'Dans un losange $ABCD$, on montre que $\\overrightarrow{AC} \\cdot \\overrightarrow{BD} = 0$ en utilisant les propriétés du losange (tous les côtés sont égaux). Les diagonales sont donc perpendiculaires. ✓'
+  },
+  {
+    statement: 'Si $\\vec{u}(1, 2)$ et $\\vec{v}(-2, 1)$, alors $\\vec{u} \\cdot \\vec{v} = 0$.',
+    answer: true,
+    explanation: '$\\vec{u} \\cdot \\vec{v} = 1 \\times (-2) + 2 \\times 1 = -2 + 2 = 0$. Les vecteurs sont bien orthogonaux. ✓'
+  }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let questions, idx, score, answered;
+
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false });
+  }
+  function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+  function show(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  function start() {
+    questions = shuffle(QUESTIONS); idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotalLbl').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+    document.getElementById('qNum').textContent = 'Affirmation ' + (idx + 1) + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[idx];
+    document.getElementById('statementText').innerHTML = q.statement;
+    rMath(document.getElementById('statementText'));
+    document.getElementById('btnVrai').className = 'vf-btn vrai';
+    document.getElementById('btnFaux').className = 'vf-btn faux';
+    document.getElementById('btnVrai').disabled = false;
+    document.getElementById('btnFaux').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+  }
+
+  function answer(isVrai) {
+    if (answered) return;
+    answered = true;
+    const q = questions[idx];
+    const correct = (isVrai === q.answer);
+    document.getElementById('btnVrai').disabled = true;
+    document.getElementById('btnFaux').disabled = true;
+    const vBtn = document.getElementById('btnVrai');
+    const fBtn = document.getElementById('btnFaux');
+    if (q.answer) vBtn.className = 'vf-btn vrai answer-correct'; else fBtn.className = 'vf-btn faux answer-correct';
+    if (!correct) { if (isVrai) vBtn.classList.add('selected-wrong'); else fBtn.classList.add('selected-wrong'); }
+    document.getElementById('feedbackTitle').textContent = correct ? '✅ Bonne réponse !' : '❌ ' + (q.answer ? 'C\'était VRAI' : 'C\'était FAUX');
+    document.getElementById('feedbackText').innerHTML = q.explanation;
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+    rMath(fb);
+    if (correct) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1)    { emoji='🏆'; stars='⭐⭐⭐'; msg='Parfait !'; sub='Tu maîtrises l\'orthogonalité et le produit scalaire !'; }
+    else if (pct>=.7) { emoji='🎉'; stars='⭐⭐⭐'; msg='Très bien !'; sub='Tu comprends bien les critères d\'orthogonalité.'; }
+    else if (pct>=.5) { emoji='👍'; stars='⭐⭐'; msg='Bien !'; sub='Quelques notions à revoir sur le produit scalaire.'; }
+    else              { emoji='📚'; stars='⭐'; msg='À réviser'; sub='Relis ta leçon sur le produit scalaire et l\'orthogonalité.'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; }
+
+  return { start, answer, next, restart };
 })();
 </script>
 </body>

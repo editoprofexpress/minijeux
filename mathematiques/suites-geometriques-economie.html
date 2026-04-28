@@ -3,41 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Suites géométriques en économie : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="calcul">
+  <title>Suites géométriques en économie — Calcul — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
+    .container{width:100%;max-width:620px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .problem-box{background:var(--subject-light);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;font-size:.95rem;font-weight:700;line-height:1.9}
+    .question-ask{font-size:1rem;font-weight:800;margin-bottom:1rem;line-height:1.5}
     .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
     .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
     .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
     .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
     .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.7;transition:max-height .35s ease,padding .35s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}
+    .win-emoji{font-size:4rem;margin-bottom:.5rem}
+    .win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}
+    .win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}
+    .score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
     .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
@@ -50,23 +62,25 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">💰</div>
-    <div class="intro-title">QCM — Suites géométriques en économie</div>
-    <div class="intro-desc">Appliquer les suites géométriques aux problèmes économiques : intérêts composés, emprunts, placements, inflation.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Calcul — Suites géométriques</div>
+    <div class="intro-desc">Calcule $C_n = C_0 \times (1+t)^n$ pour des situations d'intérêts composés, de dépréciation et de croissance économique.</div>
+    <div class="rule-box">📝 <strong>10 problèmes</strong> — 4 propositions calculées, une seule est exacte.<br>
+      Formule clé : $C_n = C_0 \times q^n$ où $q = 1 + t$ (croissance) ou $q = 1 - t$ (dépréciation).</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Problème 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
+    <div class="problem-box" id="problemBox"></div>
+    <div class="question-ask" id="questionAsk"></div>
     <div class="choices" id="choices"></div>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Problème suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Exercice terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,67 +91,147 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
+const PROBLEMS = [
   {
-    q:"Un capital $C_0$ est placé à un taux annuel $t$. Quelle formule donne le capital $C_n$ après $n$ années avec intérêts composés ?",
-    choices:["$C_n = C_0 + n \\cdot t$","$C_n = C_0 \\cdot (1 + t)^n$","$C_n = C_0 \\cdot n \\cdot t$","$C_n = C_0 + C_0 \\cdot t^n$"],
-    ans:1,
-    expl:"Avec les intérêts composés, chaque année le capital est multiplié par $(1+t)$. Après $n$ années : $C_n = C_0 \\cdot (1+t)^n$. La suite $(C_n)$ est géométrique de raison $q = 1+t$."
+    prob: "On place $C_0 = 1\\,000$ € à un taux annuel de $5\\%$ avec intérêts composés.",
+    ask: "Quel est le capital $C_3$ après 3 ans ? (Arrondi au centime.)",
+    choices: ["$1\\,150$ €","$1\\,157{,}63$ €","$1\\,155{,}00$ €","$1\\,276{,}28$ €"],
+    ans: 1,
+    expl: "$C_3 = 1000 \\times (1{,}05)^3 = 1000 \\times 1{,}157625 \\approx 1\\,157{,}63$ €."
   },
   {
-    q:"On place $C_0 = 1000$ € à un taux annuel de $5\\%$. Quel est le capital $C_5$ après $5$ ans (intérêts composés) ?",
-    choices:["$1250$ €","$1276{,}28$ €","$1050$ €","$1500$ €"],
-    ans:1,
-    expl:"$C_5 = 1000 \\times (1{,}05)^5 = 1000 \\times 1{,}27628... \\approx 1276{,}28$ €. On applique la formule $C_n = C_0 \\cdot (1+t)^n$ avec $n=5$ et $t=0{,}05$."
+    prob: "Une voiture vaut $20\\,000$ € neuve et se déprécie de $15\\%$ par an.",
+    ask: "Quelle est sa valeur $C_2$ après 2 ans ?",
+    choices: ["$17\\,000$ €","$14\\,450$ €","$14\\,000$ €","$16\\,900$ €"],
+    ans: 1,
+    expl: "$C_2 = 20\\,000 \\times (0{,}85)^2 = 20\\,000 \\times 0{,}7225 = 14\\,450$ €."
   },
   {
-    q:"Un placement double en $n$ ans à taux annuel $t$ avec intérêts composés. Quelle relation doit vérifier $n$ ?",
-    choices:["$n = 2t$","$(1+t)^n = 2$","$n \\cdot t = 2$","$n = \\dfrac{2}{t}$"],
-    ans:1,
-    expl:"On cherche $n$ tel que $C_n = 2C_0$, soit $C_0 (1+t)^n = 2C_0$, donc $(1+t)^n = 2$. On résout en utilisant le logarithme : $n = \\dfrac{\\ln 2}{\\ln(1+t)}$."
+    prob: "Un investissement de $5\\,000$ € croît de $3\\%$ par an.",
+    ask: "Quelle est sa valeur après 10 ans ? (Arrondi à l'euro.)",
+    choices: ["$6\\,500$ €","$6\\,500$ €","$6\\,719$ €","$5\\,150$ €"],
+    ans: 2,
+    expl: "$C_{10} = 5000 \\times (1{,}03)^{10} = 5000 \\times 1{,}34392 \\approx 6\\,719$ €."
   },
   {
-    q:"Une voiture vaut $20\\,000$ € neuve et se déprécie de $15\\%$ par an. Quelle est sa valeur $C_n$ après $n$ années ?",
-    choices:["$C_n = 20\\,000 - 0{,}15n$","$C_n = 20\\,000 \\times (0{,}85)^n$","$C_n = 20\\,000 \\times (1{,}15)^n$","$C_n = 20\\,000 \\times (0{,}15)^n$"],
-    ans:1,
-    expl:"Une dépréciation de $15\\%$ par an signifie que la valeur est multipliée par $(1 - 0{,}15) = 0{,}85$ chaque année. Donc $C_n = 20\\,000 \\times (0{,}85)^n$."
+    prob: "L'inflation est de $2\\%$ par an. Un article coûte $50$ € aujourd'hui.",
+    ask: "Quel sera son prix dans 3 ans ? (Arrondi au centime.)",
+    choices: ["$53{,}00$ €","$53{,}06$ €","$56{,}12$ €","$50{,}06$ €"],
+    ans: 1,
+    expl: "$P_3 = 50 \\times (1{,}02)^3 = 50 \\times 1{,}061208 \\approx 53{,}06$ €."
   },
   {
-    q:"Alice place $500$ € à $4\\%$ par an (intérêts simples). Bob place $500$ € à $4\\%$ par an (intérêts composés). Après plusieurs années, qui a le plus de capital ?",
-    choices:["Alice, car ses intérêts sont plus simples à calculer","Bob, car les intérêts composés génèrent des intérêts sur les intérêts","Ils ont toujours le même capital","Alice après 1 an, puis Bob à long terme"],
-    ans:1,
-    expl:"Les intérêts composés sont plus avantageux à long terme : les intérêts s'ajoutent au capital et produisent eux-mêmes des intérêts. Après 1 an ils sont égaux, mais au-delà Bob dépasse Alice."
+    prob: "Un capital $C_0 = 2\\,000$ € est placé à $4\\%$ par an (intérêts composés).",
+    ask: "Quel est le capital $C_5$ ? (Arrondi au centime.)",
+    choices: ["$2\\,400$ €","$2\\,432{,}65$ €","$2\\,433{,}31$ €","$2\\,500$ €"],
+    ans: 2,
+    expl: "$C_5 = 2000 \\times (1{,}04)^5 = 2000 \\times 1{,}21665 \\approx 2\\,433{,}31$ €."
   },
   {
-    q:"L'inflation est de $2\\%$ par an. Un article coûte $50$ € aujourd'hui. Quel sera son prix dans $3$ ans ?",
-    choices:["$53$ €","$53{,}06$ €","$56$ €","$50{,}06$ €"],
-    ans:1,
-    expl:"$P_3 = 50 \\times (1{,}02)^3 = 50 \\times 1{,}061208 \\approx 53{,}06$ €. L'inflation suit un modèle exponentiel avec raison $q = 1{,}02$."
+    prob: "Un ordinateur vaut $800$ € et perd $20\\%$ de sa valeur chaque année.",
+    ask: "Quelle est sa valeur après 4 ans ? (Arrondi à l'euro.)",
+    choices: ["$480$ €","$327$ €","$400$ €","$512$ €"],
+    ans: 1,
+    expl: "$C_4 = 800 \\times (0{,}8)^4 = 800 \\times 0{,}4096 = 327{,}68 \\approx 327$ €."
   },
   {
-    q:"Pour rembourser un emprunt, on verse chaque année une annuité fixe $a$. Les capitaux restant dus forment une suite géométrique. Quelle est la raison de cette suite ?",
-    choices:["$q = 1 - t$ où $t$ est le taux d'intérêt","$q = 1 + t$ où $t$ est le taux d'intérêt","$q = t$","$q = a$"],
-    ans:1,
-    expl:"Chaque année, le capital restant est multiplié par $(1+t)$ (intérêts) puis on retire l'annuité $a$. La suite des capitaux restant dus est géométrique de raison $q = 1+t$ (avant soustraction de l'annuité)."
+    prob: "Un placement double en $n$ années à $7\\%$ par an. La condition est $(1{,}07)^n = 2$.<br>Sachant que $(1{,}07)^{10} \\approx 1{,}967$ et $(1{,}07)^{11} \\approx 2{,}105$.",
+    ask: "Pour quel $n$ le capital est-il pour la première fois au moins double ?",
+    choices: ["$n = 9$","$n = 10$","$n = 11$","$n = 14$"],
+    ans: 2,
+    expl: "$(1{,}07)^{10} \\approx 1{,}967 < 2$ et $(1{,}07)^{11} \\approx 2{,}105 \\geq 2$. Donc $n = 11$ est la première année où le capital double."
   },
   {
-    q:"On investit $2000$ € avec une croissance annuelle de $3\\%$. Quelle est la valeur de l'investissement après $10$ ans ?",
-    choices:["$2600$ €","$2687{,}83$ €","$2060$ €","$2030$ €"],
-    ans:1,
-    expl:"$C_{10} = 2000 \\times (1{,}03)^{10} = 2000 \\times 1{,}34392... \\approx 2687{,}83$ €. La raison est $q = 1{,}03$, et on applique $C_n = C_0 \\cdot q^n$."
+    prob: "$C_0 = 3\\,000$ €, taux annuel $t = 6\\%$ (intérêts composés).",
+    ask: "Quel est le capital $C_4$ ? (Arrondi à l'euro.)",
+    choices: ["$3\\,720$ €","$3\\,787$ €","$3\\,600$ €","$3\\,980$ €"],
+    ans: 1,
+    expl: "$C_4 = 3000 \\times (1{,}06)^4 = 3000 \\times 1{,}26248 \\approx 3\\,787$ €."
+  },
+  {
+    prob: "Un bien immobilier vaut $150\\,000$ € et prend $2{,}5\\%$ de valeur par an.",
+    ask: "Quelle sera sa valeur après 5 ans ? (Arrondi à l'euro.)",
+    choices: ["$168\\,750$ €","$169\\,640$ €","$170\\,000$ €","$187\\,500$ €"],
+    ans: 1,
+    expl: "$C_5 = 150\\,000 \\times (1{,}025)^5 = 150\\,000 \\times 1{,}13141 \\approx 169\\,641 \\approx 169\\,640$ €."
+  },
+  {
+    prob: "Un capital $C_0 = 10\\,000$ € est placé à $3\\%$ par an. On veut savoir à partir de quel rang $n$ ce capital dépasse $11\\,000$ €.<br>$(1{,}03)^3 \\approx 1{,}0927$ et $(1{,}03)^4 \\approx 1{,}1255$.",
+    ask: "À partir de quel $n$ a-t-on $C_n > 11\\,000$ € ?",
+    choices: ["$n = 2$","$n = 3$","$n = 4$","$n = 5$"],
+    ans: 2,
+    expl: "$C_3 = 10\\,000 \\times 1{,}0927 = 10\\,927 < 11\\,000$. $C_4 = 10\\,000 \\times 1{,}1255 = 11\\,255 > 11\\,000$. Donc à partir de $n = 4$."
   }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const TOTAL = PROBLEMS.length;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[], idx=0, score=0;
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const p = PROBLEMS[order[idx]];
+    document.getElementById('qLabel').textContent = `Problème ${idx+1} / ${TOTAL}`;
+    document.getElementById('progFill').style.width = `${idx/TOTAL*100}%`;
+    document.getElementById('problemBox').innerHTML = p.prob;
+    document.getElementById('questionAsk').innerHTML = p.ask;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').style.display = 'none';
+    const ch = document.getElementById('choices');
+    ch.innerHTML = '';
+    ['A','B','C','D'].forEach((l,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice';
+      btn.innerHTML = `<span class="choice-letter">${l}</span>${p.choices[i]}`;
+      btn.onclick = () => answer(i);
+      ch.appendChild(btn);
+    });
+    rm(document.getElementById('problemBox'));
+    rm(document.getElementById('questionAsk'));
+    rm(ch);
+  }
+
+  function answer(i) {
+    const p = PROBLEMS[order[idx]];
+    document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+    const btns = document.querySelectorAll('.choice');
+    btns[p.ans].classList.add('correct');
+    if (i !== p.ans) btns[i].classList.add('wrong'); else score++;
+    const fb = document.getElementById('feedback');
+    fb.innerHTML = p.expl;
+    fb.className = 'feedback ' + (i === p.ans ? 'show-ok' : 'show-ko');
+    document.getElementById('btnNext').style.display = 'block';
+    rm(fb);
+  }
+
+  function next() {
+    idx++;
+    if (idx >= TOTAL) showWin(); else loadQ();
+  }
+
+  function showWin() {
+    document.getElementById('progFill').style.width = '100%';
+    const pct = Math.round(score/TOTAL*100);
+    document.getElementById('winScore').textContent = `${score} / ${TOTAL}`;
+    document.getElementById('winPct').textContent = `${pct} %`;
+    const e = pct>=90?'🏆':pct>=60?'😊':'💪';
+    const s = pct>=90?'Excellent ! Tu maîtrises les suites géométriques en économie !':pct>=60?'Bon travail ! Revois les formules d\'intérêts composés.':'Continue à t\'entraîner !';
+    document.getElementById('winEmoji').textContent = e;
+    document.getElementById('winSub').textContent = s;
+    show('screenWin');
+  }
+
+  function start() {
+    order = shuffle([...Array(TOTAL).keys()]);
+    idx = 0; score = 0;
+    loadQ();
+    show('screenGame');
+  }
+
+  return { start, next };
 })();
 </script>
 </body>
