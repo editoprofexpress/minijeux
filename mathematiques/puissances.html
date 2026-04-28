@@ -3,38 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Puissances et notation scientifique : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="trous">
+  <title>Maths – Puissances : règles à compléter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
     .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
     .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .sentence{font-size:1rem;font-weight:700;line-height:2.4;background:var(--subject-light);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+    .blank-group{margin-bottom:1rem}
+    .blank-label{font-size:.82rem;font-weight:800;color:var(--muted);margin-bottom:.4rem}
+    .inline-choices{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ichoice{padding:.4rem .9rem;border:2px solid var(--border);border-radius:8px;background:#f8fafc;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:border-color .15s,background .15s}
+    .ichoice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.selected{border-color:var(--subject);background:var(--subject-light)}
+    .ichoice.correct{border-color:var(--success);background:var(--success-light);color:#065f46}
+    .ichoice.wrong{border-color:var(--error);background:var(--error-light);color:#991b1b}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .4s ease,padding .3s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
     .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .btn-validate{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}.btn-validate:disabled{background:var(--border);cursor:default}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -50,23 +58,28 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">⬆️</div>
-    <div class="intro-title">QCM — Puissances et notation scientifique</div>
-    <div class="intro-desc">Maîtrise les règles de calcul sur les puissances entières et la notation scientifique.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Complète les règles sur les puissances</div>
+    <div class="intro-desc">Applique les propriétés des puissances en remplissant les exposants ou expressions manquants.</div>
+    <div class="rule-box">
+      <strong>Règles fondamentales</strong> (pour $a \neq 0$) :<br>
+      $a^m \times a^n = a^{m+n}$ · $\dfrac{a^m}{a^n} = a^{m-n}$ · $(a^m)^n = a^{m \times n}$<br>
+      $a^0 = 1$ · $a^{-n} = \dfrac{1}{a^n}$
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Exercice 1 / 10</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="sentence" id="sentence"></div>
+    <div id="blanksArea"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()" disabled>Vérifier</button>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Exercice suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,27 +90,179 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Simplifier $a^3 \\times a^5$ :",choices:["$a^{15}$","$a^{8}$","$a^{2}$","$2a^{8}$"],ans:1,expl:"Règle du produit : $a^m \\times a^n = a^{m+n}$. Donc $a^3 \\times a^5 = a^{3+5} = a^8$."},
-  {q:"Simplifier $\\dfrac{x^7}{x^3}$ :",choices:["$x^{4}$","$x^{10}$","$x^{21}$","$x^{-4}$"],ans:0,expl:"Règle du quotient : $\\dfrac{a^m}{a^n} = a^{m-n}$. Donc $\\dfrac{x^7}{x^3} = x^{7-3} = x^4$."},
-  {q:"Simplifier $(y^3)^4$ :",choices:["$y^{7}$","$y^{1}$","$y^{12}$","$4y^{3}$"],ans:2,expl:"Règle de la puissance d'une puissance : $(a^m)^n = a^{m \\times n}$. Donc $(y^3)^4 = y^{3 \\times 4} = y^{12}$."},
-  {q:"Que vaut $7^0$ ?",choices:["$0$","$7$","$1$","Indéfini"],ans:2,expl:"Par convention, tout réel non nul élevé à la puissance $0$ vaut $1$ : $a^0 = 1$ (pour $a \\neq 0$). Donc $7^0 = 1$."},
-  {q:"Que vaut $5^{-2}$ ?",choices:["$-25$","$-10$","$\\dfrac{1}{25}$","$\\dfrac{1}{10}$"],ans:2,expl:"La puissance négative correspond à l'inverse : $a^{-n} = \\dfrac{1}{a^n}$. Donc $5^{-2} = \\dfrac{1}{5^2} = \\dfrac{1}{25}$."},
-  {q:"Parmi les suivants, lequel est en notation scientifique correcte ?",choices:["$35{,}2 \\times 10^3$","$0{,}7 \\times 10^5$","$3{,}52 \\times 10^4$","$12 \\times 10^{-2}$"],ans:2,expl:"La notation scientifique $a \\times 10^n$ exige $1 \\leq |a| < 10$. Seul $3{,}52 \\times 10^4$ respecte cette condition."},
-  {q:"Calculer $(2 \\times 10^3) \\times (4 \\times 10^5)$ en notation scientifique :",choices:["$8 \\times 10^8$","$8 \\times 10^{15}$","$6 \\times 10^8$","$8 \\times 10^2$"],ans:0,expl:"On regroupe : $(2 \\times 4) \\times (10^3 \\times 10^5) = 8 \\times 10^{3+5} = 8 \\times 10^8$."},
-  {q:"Calculer $2^3 \\times 2^{-5}$ :",choices:["$2^{-15}$","$2^{-2}$","$2^{8}$","$2^{2}$"],ans:1,expl:"$2^3 \\times 2^{-5} = 2^{3+(-5)} = 2^{-2} = \\dfrac{1}{4}$."},
+const QS = [
+  {
+    sentence: 'Règle du produit : $a^3 \\times a^5 = a^{\\text{[B1]}}$<br>Car $3 + 5 = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'exposant résultat', choices:['$15$','$2$','$8$','$35$'], ans:2},
+      {label:'calcul', choices:['$15$','$2$','$8$','$35$'], ans:2},
+    ],
+    expl:'$a^m \\times a^n = a^{m+n}$. Ici $3+5=8$, donc $a^3 \\times a^5 = a^8$.'
+  },
+  {
+    sentence: 'Règle du quotient : $\\dfrac{x^7}{x^3} = x^{\\text{[B1]}}$<br>Car $7 - 3 = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'exposant résultat', choices:['$-4$','$4$','$10$','$21$'], ans:1},
+      {label:'calcul', choices:['$21$','$10$','$-4$','$4$'], ans:3},
+    ],
+    expl:'$\\frac{a^m}{a^n}=a^{m-n}$. Ici $7-3=4$, donc $x^7/x^3=x^4$.'
+  },
+  {
+    sentence: 'Règle de la puissance d\'une puissance : $(y^3)^4 = y^{\\text{[B1]}}$<br>Car $3 \\times 4 = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'exposant résultat', choices:['$7$','$1$','$12$','$34$'], ans:2},
+      {label:'calcul', choices:['$34$','$7$','$1$','$12$'], ans:3},
+    ],
+    expl:'$(a^m)^n = a^{m \\times n}$. Ici $3 \\times 4 = 12$, donc $(y^3)^4=y^{12}$.'
+  },
+  {
+    sentence: 'Puissance nulle : pour tout $a \\neq 0$, $a^0 = $ <strong>[B1]</strong>.<br>Donc $7^0 = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'valeur', choices:['$0$','$a$','$1$','indéfini'], ans:2},
+      {label:'valeur numérique', choices:['$0$','$7$','indéfini','$1$'], ans:3},
+    ],
+    expl:'Par convention $a^0 = 1$ pour tout $a \\neq 0$. Donc $7^0 = 1$.'
+  },
+  {
+    sentence: 'Puissance négative : $a^{-n} = $ <strong>[B1]</strong>.<br>Donc $5^{-2} = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'définition', choices:['$-a^n$','$\\frac{1}{a^n}$','$a^n$','$\\frac{-1}{a^n}$'], ans:1},
+      {label:'valeur numérique', choices:['$-25$','$-10$','$\\frac{1}{10}$','$\\frac{1}{25}$'], ans:3},
+    ],
+    expl:'$a^{-n}=\\frac{1}{a^n}$. Donc $5^{-2}=\\frac{1}{25}$.'
+  },
+  {
+    sentence: 'Calcul : $2^3 \\times 2^{-5} = 2^{\\text{[B1]}}$<br>Car $3 + (-5) = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'exposant résultat', choices:['$-15$','$-2$','$8$','$2$'], ans:1},
+      {label:'calcul', choices:['$8$','$2$','$-15$','$-2$'], ans:3},
+    ],
+    expl:'$2^3 \\times 2^{-5} = 2^{3+(-5)} = 2^{-2} = \\frac{1}{4}$.'
+  },
+  {
+    sentence: 'Notation scientifique : parmi les expressions suivantes, laquelle est correcte ?<br>Rappel : $a \\times 10^n$ avec <strong>[B1]</strong>.',
+    blanks: [
+      {label:'condition sur $a$', choices:['$0 < a < 1$','$a > 10$','$1 \\leq a < 10$','$a > 1$'], ans:2},
+    ],
+    expl:'La notation scientifique exige $1 \\leq |a| < 10$. Ex. : $3{,}52 \\times 10^4$ est correct, mais $35{,}2 \\times 10^3$ ne l\'est pas.'
+  },
+  {
+    sentence: 'Produit en notation scientifique :<br>$(2 \\times 10^3) \\times (4 \\times 10^5) = $ <strong>[B1]</strong> $\\times 10^{\\text{[B2]}}$.',
+    blanks: [
+      {label:'coefficient', choices:['$6$','$2$','$8$','$10$'], ans:2},
+      {label:'exposant', choices:['$2$','$15$','$8$','$-2$'], ans:2},
+    ],
+    expl:'$(2 \\times 4) \\times 10^{3+5} = 8 \\times 10^8$.'
+  },
+  {
+    sentence: 'Simplifier $\\dfrac{a^{10}}{a^4} = a^{\\text{[B1]}}$. Puis $(a^6)^{\\frac{1}{2}} = a^{\\text{[B2]}}$.',
+    blanks: [
+      {label:'premier exposant', choices:['$40$','$-6$','$14$','$6$'], ans:3},
+      {label:'deuxième exposant', choices:['$12$','$6$','$3$','$\\frac{1}{2}$'], ans:2},
+    ],
+    expl:'$\\frac{a^{10}}{a^4}=a^{10-4}=a^6$. $(a^6)^{1/2}=a^{6 \\times 1/2}=a^3$.'
+  },
+  {
+    sentence: 'Pour $a \\neq 0$ : $\\dfrac{1}{a^{-3}} = $ <strong>[B1]</strong>.<br>Et $(ab)^2 = $ <strong>[B2]</strong>.',
+    blanks: [
+      {label:'simplification', choices:['$-a^3$','$a^{-3}$','$a^3$','$\\frac{1}{a^3}$'], ans:2},
+      {label:'développement', choices:['$a^2 + b^2$','$2ab$','$ab^2$','$a^2b^2$'], ans:3},
+    ],
+    expl:'$\\frac{1}{a^{-3}}=a^3$. $(ab)^2 = a^2b^2$ (règle du produit).'
+  },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0,selected=[];
   const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
   const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+  function loadQ() {
+    const q = QS[order[idx]];
+    selected = new Array(q.blanks.length).fill(null);
+    document.getElementById('qLabel').textContent = `Exercice ${idx+1} / ${QS.length}`;
+    document.getElementById('progFill').style.width = `${idx/QS.length*100}%`;
+    let sent = q.sentence;
+    for(let i=0;i<q.blanks.length;i++){
+      sent = sent.replace(`[B${i+1}]`, `<span id="bslot${i}" style="display:inline-block;min-width:3rem;border-bottom:2px solid var(--subject);color:var(--subject);font-weight:900;text-align:center;padding:0 .3rem">?</span>`);
+    }
+    document.getElementById('sentence').innerHTML = sent;
+    const area = document.getElementById('blanksArea');
+    area.innerHTML = '';
+    q.blanks.forEach((b,bi)=>{
+      const g = document.createElement('div');
+      g.className='blank-group';
+      g.innerHTML = `<div class="blank-label">Choix pour ${b.label} :</div>`;
+      const row = document.createElement('div');
+      row.className='inline-choices';
+      b.choices.forEach((c,ci)=>{
+        const btn = document.createElement('button');
+        btn.className='ichoice';
+        btn.innerHTML = c;
+        btn.dataset.bi = bi;
+        btn.dataset.ci = ci;
+        btn.onclick = () => pickChoice(bi,ci,btn,c);
+        row.appendChild(btn);
+      });
+      g.appendChild(row);
+      area.appendChild(g);
+    });
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('btnNext').style.display='none';
+    document.getElementById('btnValidate').disabled=true;
+    document.getElementById('btnValidate').style.display='block';
+    rm(document.getElementById('sentence'));
+    rm(document.getElementById('blanksArea'));
+    show('screenGame');
+  }
+
+  function pickChoice(bi, ci, btn, text) {
+    document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected[bi] = ci;
+    const slot = document.getElementById(`bslot${bi}`);
+    if(slot){slot.innerHTML=text;rm(slot);}
+    if(selected.every(v=>v!==null)) document.getElementById('btnValidate').disabled=false;
+  }
+
+  function validate() {
+    const q = QS[order[idx]];
+    let allCorrect = true;
+    q.blanks.forEach((b,bi)=>{
+      const correct = selected[bi]===b.ans;
+      if(!correct) allCorrect=false;
+      document.querySelectorAll(`.ichoice[data-bi="${bi}"]`).forEach(btn=>{
+        btn.disabled=true;
+        if(parseInt(btn.dataset.ci)===b.ans) btn.classList.add('correct');
+        else if(parseInt(btn.dataset.ci)===selected[bi]) btn.classList.add('wrong');
+      });
+    });
+    if(allCorrect) score++;
+    const fb = document.getElementById('feedback');
+    fb.innerHTML=(allCorrect?'✅ <strong>Parfait !</strong> ':'❌ <strong>Pas tout à fait.</strong> ')+q.expl;
+    fb.className='feedback '+(allCorrect?'show-ok':'show-ko');
+    rm(fb);
+    document.getElementById('btnValidate').style.display='none';
+    document.getElementById('btnNext').style.display='block';
+  }
+
+  function next(){idx++;idx>=QS.length?showWin():loadQ();}
+
+  function showWin(){
+    document.getElementById('progFill').style.width='100%';
+    const pct=Math.round(score/QS.length*100);
+    document.getElementById('winScore').textContent=`${score} / ${QS.length}`;
+    document.getElementById('winPct').textContent=`${pct} %`;
+    const e=pct>=80?'🏆':pct>=60?'😊':'💪';
+    const s=pct>=80?'Excellent ! Tu maîtrises les puissances.':pct>=60?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';
+    document.getElementById('winEmoji').textContent=e;
+    document.getElementById('winSub').textContent=s;
+    show('screenWin');
+  }
+
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();}
+  return{start,validate,next};
 })();
 </script>
 </body>

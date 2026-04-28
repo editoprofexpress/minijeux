@@ -3,42 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Fonction du second degré : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="vrai-faux">
+  <title>Fonction du second degré — Vrai ou Faux — Minijeux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--radius:18px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    .card{background:white;border-radius:var(--radius);padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
+    .progress-wrap{margin-bottom:1.5rem;background:white;border-radius:100px;padding:.75rem 1.25rem;box-shadow:0 2px 12px rgba(8,145,178,.08);display:flex;align-items:center;gap:1rem}
+    .progress-track{flex:1;height:8px;background:var(--subject-light);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .4s ease}
+    .progress-text{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+    .q-num{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.75rem}
+    .statement-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:12px;padding:1.25rem 1.5rem;font-size:1.05rem;font-weight:700;line-height:1.6;margin-bottom:1.5rem}
+    .vf-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .vf-btn{border:3px solid transparent;border-radius:14px;padding:1.1rem;font-family:inherit;font-size:1.1rem;font-weight:900;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .vf-btn.vrai{background:#d1fae5;color:#059669;border-color:#6ee7b7}
+    .vf-btn.faux{background:#fee2e2;color:#dc2626;border-color:#fca5a5}
+    .vf-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+    .vf-btn:disabled{cursor:default;transform:none}
+    .vf-btn.selected-correct{box-shadow:0 0 0 4px rgba(5,150,105,.3)}
+    .vf-btn.selected-wrong{opacity:.5}
+    .vf-btn.answer-correct{border-color:#059669;background:#d1fae5}
+    .feedback{margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;display:none}
+    .feedback.show{display:block;animation:fadeIn .25s ease}
+    .feedback.correct-fb{background:var(--success-light);border-left:4px solid var(--success)}
+    .feedback.wrong-fb{background:var(--error-light);border-left:4px solid var(--error)}
+    .feedback-title{font-weight:800;font-size:.95rem;margin-bottom:.3rem}
+    .feedback.correct-fb .feedback-title{color:var(--success)}
+    .feedback.wrong-fb .feedback-title{color:var(--error)}
+    .feedback p{font-size:.85rem;line-height:1.6}
+    .btn-next{margin-top:1.25rem;width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next.show{display:block;animation:fadeIn .3s ease}
+    .btn-next:hover{background:var(--subject-dark)}
+    .results{text-align:center}
+    .results-emoji{font-size:4rem;margin-bottom:.5rem}
+    .score-circle{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--subject) 0%,var(--subject) var(--pct),var(--subject-light) var(--pct));margin:1rem auto;position:relative}
+    .score-circle::before{content:'';position:absolute;width:95px;height:95px;background:white;border-radius:50%}
+    .score-inner{position:relative;z-index:1;text-align:center}
+    .score-num{font-size:1.8rem;font-weight:900;color:var(--subject);display:block}
+    .score-total-txt{font-size:.8rem;color:var(--muted);font-weight:700}
+    .results-msg{font-size:1.2rem;font-weight:800;margin:.75rem 0 .5rem}
+    .results-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+    .stars{font-size:2rem;letter-spacing:.25rem;margin-bottom:.5rem}
+    .btn-retry{padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;width:100%}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -48,28 +72,42 @@
   <h1>Fonction du second degré</h1>
 </div>
 <div class="container">
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progressText">0 / 10</span>
+  </div>
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">📈</div>
-    <div class="intro-title">QCM — Fonction du second degré</div>
-    <div class="intro-desc">Teste tes connaissances sur les propriétés fondamentales des fonctions polynômes du second degré et de leurs paraboles.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-emoji">🪄</div>
+    <div class="intro-title">Vrai ou Faux — Second degré</div>
+    <div class="intro-desc">Lis chaque affirmation sur les fonctions polynômes du second degré et décide si elle est <strong>vraie</strong> ou <strong>fausse</strong>.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  <div class="card screen" id="screenQuestion">
+    <div class="q-num" id="qNum">Affirmation 1 / 10</div>
+    <div class="statement-box" id="statementText"></div>
+    <div class="vf-buttons">
+      <button class="vf-btn vrai" id="btnVrai" onclick="game.answer(true)">✅ VRAI</button>
+      <button class="vf-btn faux" id="btnFaux" onclick="game.answer(false)">❌ FAUX</button>
+    </div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <p id="feedbackText"></p>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Affirmation suivante →</button>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">10</span>
+          <span class="score-total-txt" id="scoreTotalTxt">/ 10</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Excellent !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.restart()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
@@ -77,27 +115,120 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"La forme générale d'une fonction du second degré est :",choices:["$f(x) = ax + b$","$f(x) = ax^2 + bx + c$ avec $a \\neq 0$","$f(x) = ax^2 + bx + c$ avec $a$ quelconque","$f(x) = ax^3 + bx + c$"],ans:1,expl:"Une fonction du second degré s'écrit $f(x) = ax^2 + bx + c$ avec $a \\neq 0$ (si $a = 0$, ce serait une fonction affine ou constante)."},
-  {q:"La parabole représentant $f(x) = -2x^2 + 3x - 1$ est :",choices:["Tournée vers le haut (convexe)","Tournée vers le bas (concave)","Une droite","Un cercle"],ans:1,expl:"Quand $a < 0$ (ici $a = -2$), la parabole est tournée vers le bas. Quand $a > 0$, elle est tournée vers le haut."},
-  {q:"L'axe de symétrie de la parabole d'une fonction $f(x) = ax^2 + bx + c$ est la droite :",choices:["$x = \\dfrac{b}{2a}$","$x = -\\dfrac{b}{2a}$","$x = \\dfrac{c}{a}$","$y = -\\dfrac{b}{2a}$"],ans:1,expl:"L'axe de symétrie est la droite verticale d'équation $x = -\\dfrac{b}{2a}$. Elle passe par le sommet de la parabole."},
-  {q:"Si $a > 0$, la fonction $f(x) = ax^2 + bx + c$ admet :",choices:["Un maximum en son sommet","Un minimum en son sommet","Ni maximum ni minimum","Un point d'inflexion uniquement"],ans:1,expl:"Si $a > 0$, la parabole est ouverte vers le haut : $f$ admet un minimum au sommet. Si $a < 0$, elle admet un maximum."},
-  {q:"La valeur $f(0)$ pour $f(x) = 3x^2 - 4x + 7$ est :",choices:["$3$","$-4$","$7$","$6$"],ans:2,expl:"$f(0) = 3 \\times 0^2 - 4 \\times 0 + 7 = 7$. C'est simplement le coefficient $c$, qui représente l'ordonnée à l'origine."},
-  {q:"Pour $f(x) = 2x^2 - 8x + 6$, l'abscisse du sommet de la parabole est :",choices:["$x = 2$","$x = -2$","$x = 4$","$x = -4$"],ans:0,expl:"$\\alpha = -\\dfrac{b}{2a} = -\\dfrac{-8}{2 \\times 2} = \\dfrac{8}{4} = 2$. Le sommet a donc pour abscisse $x = 2$."},
-  {q:"La représentation graphique d'une fonction du second degré peut couper l'axe des abscisses en :",choices:["Exactement 2 points","Au plus 2 points (0, 1 ou 2 points)","Exactement 1 point","3 points ou plus"],ans:1,expl:"Selon le signe du discriminant $\\Delta$, la parabole peut ne pas couper l'axe ($\\Delta < 0$), être tangente ($\\Delta = 0$) ou le couper en 2 points ($\\Delta > 0$)."},
-  {q:"Pour $f(x) = x^2 - 2x - 3$, quel est le coefficient $b$ ?",choices:["$1$","$-2$","$-3$","$2$"],ans:1,expl:"Dans $f(x) = ax^2 + bx + c$, on lit $b = -2$ (coefficient de $x$), $a = 1$ et $c = -3$."},
+const QUESTIONS = [
+  { statement: "Pour $f(x) = -2x^2 + 3x - 1$, la parabole est tournée vers le bas.", answer: true, explanation: "Le coefficient de $x^2$ est $a = -2 < 0$. Quand $a < 0$, la parabole est tournée vers le bas (concave)." },
+  { statement: "L'axe de symétrie de $f(x) = x^2 - 6x + 5$ est la droite $x = 3$.", answer: true, explanation: "$\\alpha = -\\frac{b}{2a} = -\\frac{-6}{2 \\times 1} = 3$. L'axe de symétrie est bien $x = 3$." },
+  { statement: "Si $\\Delta > 0$, la parabole coupe l'axe des abscisses en deux points distincts.", answer: true, explanation: "$\\Delta > 0$ signifie qu'il y a deux racines réelles distinctes $x_1$ et $x_2$. La parabole coupe l'axe des $x$ en deux points." },
+  { statement: "Pour $f(x) = x^2 + 4$, le discriminant est positif.", answer: false, explanation: "$a=1, b=0, c=4$. $\\Delta = 0^2 - 4 \\times 1 \\times 4 = -16 < 0$. Le discriminant est négatif, la parabole ne coupe pas l'axe des abscisses." },
+  { statement: "Le sommet de $f(x) = 2x^2 - 8x + 3$ est le point de coordonnées $(2\\,;\\,-5)$.", answer: true, explanation: "$\\alpha = -\\frac{-8}{2 \\times 2} = 2$. $f(2) = 2(4) - 8(2) + 3 = 8 - 16 + 3 = -5$. Le sommet est bien $(2\\,;\\,-5)$." },
+  { statement: "Pour $a > 0$, la fonction $f(x) = ax^2 + bx + c$ admet un minimum en son sommet.", answer: true, explanation: "Si $a > 0$, la parabole est ouverte vers le haut. La valeur minimale de $f$ est atteinte au sommet de la parabole." },
+  { statement: "La fonction $f(x) = 3x^2 - 12x + 12 = 3(x-2)^2$ possède deux racines distinctes.", answer: false, explanation: "$\\Delta = (-12)^2 - 4 \\times 3 \\times 12 = 144 - 144 = 0$. Il y a une racine double $x = 2$. La parabole est tangente à l'axe des abscisses." },
+  { statement: "Pour $f(x) = x^2 - 5x + 6$, les racines sont $x_1 = 2$ et $x_2 = 3$.", answer: true, explanation: "$\\Delta = 25 - 24 = 1$. $x_1 = \\frac{5-1}{2} = 2$ et $x_2 = \\frac{5+1}{2} = 3$. On peut vérifier : $(2-2)(2-3)=0$ et $(3-2)(3-3)=0$." },
+  { statement: "La valeur de $f(0)$ pour $f(x) = 5x^2 - 3x + 7$ est $-3$.", answer: false, explanation: "$f(0) = 5(0)^2 - 3(0) + 7 = 7$. C'est le coefficient $c$ qui donne l'ordonnée à l'origine, donc $f(0) = 7$." },
+  { statement: "La parabole de $f(x) = x^2 - 4x + 4 = (x-2)^2$ est tangente à l'axe des abscisses.", answer: true, explanation: "$\\Delta = 0$, racine double $x = 2$. La parabole touche l'axe des $x$ en un seul point $(2\\,;\\,0)$ sans le traverser : elle est tangente." }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let questions, idx, score, answered;
+
+  function rMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, {
+      delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError: false
+    });
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function start() {
+    questions = shuffle(QUESTIONS); idx = 0; score = 0;
+    document.getElementById('progressWrap').style.display = 'flex';
+    document.getElementById('scoreTotalTxt').textContent = '/ ' + questions.length;
+    showQuestion();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (idx / questions.length * 100) + '%';
+    document.getElementById('progressText').textContent = idx + ' / ' + questions.length;
+    document.getElementById('qNum').textContent = 'Affirmation ' + (idx + 1) + ' / ' + questions.length;
+  }
+
+  function showQuestion() {
+    answered = false;
+    updateProgress();
+    const q = questions[idx];
+    document.getElementById('statementText').innerHTML = q.statement;
+    rMath(document.getElementById('statementText'));
+    document.getElementById('btnVrai').className = 'vf-btn vrai';
+    document.getElementById('btnFaux').className = 'vf-btn faux';
+    document.getElementById('btnVrai').disabled = false;
+    document.getElementById('btnFaux').disabled = false;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').className = 'btn-next';
+    show('screenQuestion');
+  }
+
+  function answer(isVrai) {
+    if (answered) return;
+    answered = true;
+    const q = questions[idx];
+    const correct = (isVrai === q.answer);
+    document.getElementById('btnVrai').disabled = true;
+    document.getElementById('btnFaux').disabled = true;
+    const vBtn = document.getElementById('btnVrai');
+    const fBtn = document.getElementById('btnFaux');
+    if (q.answer) vBtn.className = 'vf-btn vrai answer-correct';
+    else fBtn.className = 'vf-btn faux answer-correct';
+    if (!correct) {
+      if (isVrai) vBtn.classList.add('selected-wrong');
+      else fBtn.classList.add('selected-wrong');
+    }
+    const fb = document.getElementById('feedback');
+    document.getElementById('feedbackTitle').textContent = correct ? '✅ Bonne réponse !' : '❌ ' + (q.answer ? 'C\'était VRAI' : 'C\'était FAUX');
+    document.getElementById('feedbackText').innerHTML = q.explanation;
+    fb.className = 'feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+    rMath(fb);
+    if (correct) score++;
+    document.getElementById('btnNext').className = 'btn-next show';
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) showResults(); else showQuestion();
+  }
+
+  function showResults() {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = questions.length + ' / ' + questions.length;
+    const pct = score / questions.length;
+    let emoji, msg, sub, stars;
+    if (pct === 1) { emoji = '🏆'; stars = '⭐⭐⭐'; msg = 'Parfait !'; sub = 'Tu maîtrises les fonctions du second degré !'; }
+    else if (pct >= .75) { emoji = '🎉'; stars = '⭐⭐⭐'; msg = 'Très bien !'; sub = 'Tu connais bien les paraboles.'; }
+    else if (pct >= .5) { emoji = '👍'; stars = '⭐⭐'; msg = 'Bien !'; sub = 'Quelques propriétés à consolider sur le second degré.'; }
+    else { emoji = '📚'; stars = '⭐'; msg = 'À réviser'; sub = 'Revois les propriétés des paraboles : sommet, discriminant, racines !'; }
+    document.getElementById('resultsEmoji').textContent = emoji;
+    document.getElementById('resultsStars').textContent = stars;
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('scoreCircle').style.setProperty('--pct', Math.round(pct * 360) + 'deg');
+    document.getElementById('resultsMsg').textContent = msg;
+    document.getElementById('resultsSub').textContent = sub;
+    show('screenResults');
+  }
+
+  function restart() { show('screenIntro'); document.getElementById('progressWrap').style.display = 'none'; }
+
+  return { start, answer, next, restart };
 })();
 </script>
 </body>

@@ -3,38 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Équation cartésienne d'une droite : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="trous">
+  <title>Maths – Équation cartésienne d'une droite : compléter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.1rem,3.5vw,1.7rem);font-weight:900}
+    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem;flex:1}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
-    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.25rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:.88rem;line-height:1.8}
+    .rule-box strong{color:var(--subject-dark)}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}
+    .btn-start:hover{background:var(--subject-dark)}
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .exercise-box{background:var(--subject-light);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:.75rem;font-size:1rem;line-height:2.4;font-weight:600}
+    .gap-btn{display:inline-flex;align-items:center;justify-content:center;min-width:60px;padding:.2rem .6rem;margin:0 .15rem;border:2px dashed var(--subject);border-radius:8px;background:white;color:var(--subject);font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .15s;vertical-align:middle}
+    .gap-btn.selected{background:var(--subject);color:white;border-style:solid}
+    .gap-btn.correct{background:var(--success-light);color:var(--success);border-color:var(--success);border-style:solid}
+    .gap-btn.wrong{background:var(--error-light);color:var(--error);border-color:var(--error);border-style:solid}
+    .choices-row{display:flex;flex-wrap:wrap;gap:.5rem;margin:.75rem 0}
+    .opt-btn{padding:.45rem .9rem;border:2px solid var(--border);border-radius:10px;background:#f8fafc;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .15s}
+    .opt-btn:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .opt-btn.picked{border-color:var(--subject);background:var(--subject-light)}
+    .opt-btn:disabled{opacity:.5;cursor:default}
+    .hint{font-size:.8rem;color:var(--muted);margin-bottom:.5rem;font-style:italic}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .35s ease,padding .35s ease}
+    .feedback.show-ok{max-height:300px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:300px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}
+    .btn-next:hover{background:var(--subject-dark)}
+    .btn-validate{width:100%;padding:.85rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.75rem}
+    .btn-validate:disabled{background:var(--border);cursor:default}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
     .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
@@ -50,23 +64,29 @@
 <div class="container">
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">📐</div>
-    <div class="intro-title">QCM — Équation cartésienne d'une droite</div>
-    <div class="intro-desc">L'équation cartésienne d'une droite est de la forme $ax + by + c = 0$. Maîtrise le passage entre les différentes formes et la lecture des paramètres.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Complète l'équation de la droite</div>
+    <div class="intro-desc">À partir de deux points ou d'une pente, complète les étapes de calcul de l'équation cartésienne.</div>
+    <div class="rule-box">
+      <strong>Pente :</strong> $m = \dfrac{y_B - y_A}{x_B - x_A}$<br>
+      <strong>Forme point-pente :</strong> $y - y_A = m(x - x_A)$<br>
+      <strong>Forme générale :</strong> $ax + by + c = 0$
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
   <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="q-label" id="qLabel">Exercice 1 / 8</div>
     <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
+    <div class="exercise-box" id="exerciseBox"></div>
+    <div class="hint" id="hintText"></div>
+    <div class="choices-row" id="choicesRow"></div>
+    <button class="btn-validate" id="btnValidate" onclick="game.validate()" disabled>Vérifier</button>
     <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Exercice suivant →</button>
   </div>
   <div class="card screen" id="screenWin">
     <div class="win-screen">
       <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
+      <div class="win-title">Terminé !</div>
       <div class="win-sub" id="winSub"></div>
       <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
       <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
@@ -77,27 +97,153 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"L'équation générale d'une droite dans le plan est :",choices:["$y = mx + p$","$ax + by + c = 0$ ($a, b$ non tous nuls)","$x^2 + y^2 = r^2$","$ax + by = 0$"],ans:1,expl:"L'équation cartésienne générale est $ax+by+c=0$ avec $(a,b) \\neq (0,0)$. Elle représente toutes les droites, y compris les verticales ($x=k$) qui ne peuvent pas s'écrire $y=mx+p$."},
-  {q:"La droite d'équation $2x - y + 3 = 0$ a pour pente :",choices:["$-1$","$2$","$3$","$-2$"],ans:1,expl:"$2x-y+3=0 \\Leftrightarrow y = 2x+3$. La pente est le coefficient de $x$ dans la forme $y=mx+p$, soit $m=2$."},
-  {q:"L'équation de la droite passant par $A(2, 1)$ et $B(4, 5)$ est :",choices:["$y = x + 3$","$y = 2x - 3$","$y = 3x - 2$","$y = 2x + 1$"],ans:1,expl:"Pente : $m = \\dfrac{5-1}{4-2} = \\dfrac{4}{2} = 2$. Équation : $y - 1 = 2(x - 2) \\Leftrightarrow y = 2x-3$. Vérification : $y(2)=1$ ✓, $y(4)=5$ ✓."},
-  {q:"La droite d'équation $3x + 4y - 12 = 0$ passe par :",choices:["$(4, 0)$","$(0, 3)$","$(3, 4)$","$(12, 0)$"],ans:0,expl:"En $(4,0)$ : $3 \\times 4 + 4 \\times 0 - 12 = 12-12 = 0$. ✓ Le point $(4,0)$ est bien sur la droite. C'est l'intersection avec l'axe $Ox$."},
-  {q:"Dans $ax+by+c=0$, le vecteur normal à la droite est :",choices:["$(b, a)$","$\\vec{n} = (a, b)$","$(-b, a)$","$(c, a)$"],ans:1,expl:"Le vecteur $\\vec{n} = (a,b)$ est normal à la droite $ax+by+c=0$. C'est une propriété fondamentale : le vecteur formé des coefficients de $x$ et $y$ est perpendiculaire à la droite."},
-  {q:"Quelle est l'équation de la droite verticale passant par $x = 3$ ?",choices:["$y = 3$","$x = 3$","$3x = 0$","$x + y = 3$"],ans:1,expl:"La droite verticale passant par $x=3$ a pour équation $x=3$, ou encore $x-3=0$. Cette droite n'a pas de pente (ou pente infinie)."},
-  {q:"La droite de pente $m$ passant par $A(x_0, y_0)$ a pour équation :",choices:["$y = mx_0 + y_0$","$y - y_0 = m(x - x_0)$","$y = m(x - x_0)$","$mx - y = x_0 y_0$"],ans:1,expl:"L'équation de la droite de pente $m$ passant par $(x_0, y_0)$ est $y - y_0 = m(x - x_0)$. C'est la forme point-pente, très pratique pour trouver une équation rapidement."},
-  {q:"La droite $2x + 3y - 6 = 0$ coupe l'axe $Oy$ en :",choices:["$(0, 2)$","$(0, 3)$","$(0, -2)$","$(3, 0)$"],ans:0,expl:"Sur $Oy$, $x=0$ : $2 \\times 0+3y-6=0 \\Leftrightarrow y=2$. L'ordonnée à l'origine est $2$, soit le point $(0,2)$."},
+const EXERCISES = [
+  {
+    statement: 'Droite passant par $A(2,1)$ et $B(4,5)$. Pente : $m = \\dfrac{5-1}{4-2} =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$2$'}],
+    options: ['$2$','$\\frac{1}{2}$','$4$','$-2$'],
+    hint: '$\\frac{5-1}{4-2} = \\frac{4}{2}$.',
+    expl: '$m = \\frac{5-1}{4-2} = \\frac{4}{2} = 2$. Ensuite : $y - 1 = 2(x-2) \\Rightarrow y = 2x - 3$.'
+  },
+  {
+    statement: 'Droite $y = 2x - 3$ passant par $A(2,1)$ et $B(4,5)$. Ordonnée à l\'origine $p =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$-3$'}],
+    options: ['$-3$','$3$','$2$','$1$'],
+    hint: 'Quand $x=0$, $y = 2(0) - 3 = -3$.',
+    expl: '$y = 2x - 3$ : quand $x=0$, $y = -3$. L\'ordonnée à l\'origine est $-3$.'
+  },
+  {
+    statement: 'La droite $2x - y + 3 = 0$. En la mettant sous la forme $y = mx + p$, la pente est $m =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$2$'}],
+    options: ['$2$','$-2$','$3$','$-1$'],
+    hint: '$2x - y + 3 = 0 \\Rightarrow y = 2x + 3$, donc $m = 2$.',
+    expl: '$2x - y + 3 = 0 \\Leftrightarrow y = 2x + 3$. La pente est le coefficient de $x$, soit $m = 2$.'
+  },
+  {
+    statement: 'Droite passant par $A(0, 3)$ avec pente $m = -2$. Son équation est $y =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$-2x + 3$'}],
+    options: ['$-2x + 3$','$2x + 3$','$-2x - 3$','$3x - 2$'],
+    hint: '$y - 3 = -2(x - 0)$, donc $y = -2x + 3$.',
+    expl: '$y - y_A = m(x - x_A) \Rightarrow y - 3 = -2(x-0) \Rightarrow y = -2x + 3$.'
+  },
+  {
+    statement: 'La droite $3x + 4y - 12 = 0$ coupe l\'axe des $x$ en ($x_0$, 0). $x_0 =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$4$'}],
+    options: ['$4$','$3$','$12$','$-4$'],
+    hint: 'Poser $y = 0$ : $3x - 12 = 0$.',
+    expl: 'Sur l\'axe $Ox$, $y=0$ : $3x + 0 - 12 = 0 \Rightarrow x = 4$. La droite coupe l\'axe en $(4, 0)$.'
+  },
+  {
+    statement: 'Droite passant par $C(1,2)$ et $D(3,2)$. Pente $m =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$0$'}],
+    options: ['$0$','$1$','$2$','indéfinie'],
+    hint: '$m = \\frac{2-2}{3-1} = \\frac{0}{2}$.',
+    expl: '$m = \\frac{2-2}{3-1} = 0$. Pente nulle : la droite est horizontale. Son équation est $y = 2$.'
+  },
+  {
+    statement: 'La droite verticale passant par $x = -3$ a pour équation <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$x = -3$'}],
+    options: ['$x = -3$','$y = -3$','$x + 3 = 0$','$-3x = 0$'],
+    hint: 'Une droite verticale a une équation de la forme $x = k$.',
+    expl: 'La droite verticale passant par $x = -3$ a pour équation $x = -3$ (ou $x + 3 = 0$). Elle n\'admet pas de pente.'
+  },
+  {
+    statement: 'Vecteur normal à la droite $5x - 3y + 1 = 0$ : $\\vec{n} =$ <span id="gap_b0" class="gap-btn">___</span>',
+    blanks: [{id:'b0', answer:'$(5, -3)$'}],
+    options: ['$(5, -3)$','$(-3, 5)$','$(3, 5)$','$(1, 5)$'],
+    hint: 'Le vecteur normal d\'une droite $ax+by+c=0$ est $\\vec{n} = (a, b)$.',
+    expl: 'Pour $ax+by+c=0$, le vecteur normal est $\\vec{n} = (a,b)$. Ici $a=5$, $b=-3$, donc $\\vec{n} = (5,-3)$.'
+  }
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  let order = [], idx = 0, score = 0, selected = {};
+
+  function renderMath(el) {
+    if (window.renderMathInElement) renderMathInElement(el, {
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false
+    });
+  }
+  function shuffle(a) {
+    const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b;
+  }
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function loadExercise() {
+    const ex = EXERCISES[order[idx]];
+    selected = {};
+    document.getElementById('qLabel').textContent = `Exercice ${idx+1} / ${EXERCISES.length}`;
+    document.getElementById('progFill').style.width = `${idx/EXERCISES.length*100}%`;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('btnNext').style.display = 'none';
+    document.getElementById('exerciseBox').innerHTML = ex.statement;
+    document.getElementById('hintText').textContent = '💡 ' + ex.hint;
+    const optRow = document.getElementById('choicesRow');
+    optRow.innerHTML = '';
+    shuffle([...ex.options]).forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn'; btn.innerHTML = opt; btn.dataset.val = opt;
+      btn.onclick = () => selectOption(opt, btn); optRow.appendChild(btn);
+    });
+    document.getElementById('btnValidate').disabled = true;
+    renderMath(document.getElementById('exerciseBox'));
+    renderMath(document.getElementById('hintText'));
+    renderMath(optRow);
+    show('screenGame');
+  }
+
+  function selectOption(val, btn) {
+    const ex = EXERCISES[order[idx]];
+    const blankId = ex.blanks[0].id;
+    selected[blankId] = val;
+    const gapEl = document.getElementById('gap_' + blankId);
+    if (gapEl) { gapEl.innerHTML = val; gapEl.classList.add('selected'); renderMath(gapEl); }
+    document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('picked'));
+    btn.classList.add('picked');
+    document.getElementById('btnValidate').disabled = false;
+  }
+
+  function validate() {
+    const ex = EXERCISES[order[idx]];
+    let allCorrect = true;
+    ex.blanks.forEach(b => {
+      const gapEl = document.getElementById('gap_' + b.id);
+      const correct = (selected[b.id] || '') === b.answer;
+      if (!correct) allCorrect = false;
+      if (gapEl) gapEl.classList.add(correct ? 'correct' : 'wrong');
+    });
+    if (allCorrect) score++;
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    document.getElementById('btnValidate').disabled = true;
+    const fb = document.getElementById('feedback');
+    fb.innerHTML = (allCorrect ? '✅ ' : '❌ ') + ex.expl;
+    fb.className = 'feedback ' + (allCorrect ? 'show-ok' : 'show-ko');
+    document.getElementById('btnNext').style.display = 'block';
+    renderMath(fb);
+  }
+
+  function next() { idx++; if (idx >= EXERCISES.length) showWin(); else loadExercise(); }
+
+  function showWin() {
+    document.getElementById('progFill').style.width='100%';
+    const pct = Math.round(score/EXERCISES.length*100);
+    document.getElementById('winScore').textContent = `${score} / ${EXERCISES.length}`;
+    document.getElementById('winPct').textContent = `${pct} %`;
+    const e = pct>=87?'🏆':pct>=62?'😊':'💪';
+    const s = pct>=87?'Excellent ! Tu maîtrises les équations de droite.':pct>=62?'Bien ! Revois les cas ratés.':'Relis les formules pente et point-pente, puis réessaie !';
+    document.getElementById('winEmoji').textContent = e;
+    document.getElementById('winSub').textContent = s;
+    show('screenWin');
+  }
+
+  function start() {
+    order = shuffle([...Array(EXERCISES.length).keys()]); idx = 0; score = 0; loadExercise();
+  }
+
+  return { start, validate, next };
 })();
 </script>
 </body>
