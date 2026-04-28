@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths – Analyser l'information chiffrée : QCM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
+    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .data-table{width:100%;border-collapse:collapse;margin:.75rem 0 1rem;font-size:.88rem;border-radius:8px;overflow:hidden}
+    .data-table th{background:var(--subject-light);color:var(--subject-dark);padding:.5rem .75rem;text-align:center;font-weight:800}
+    .data-table td{padding:.45rem .75rem;text-align:center;border-bottom:1px solid var(--border)}
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table tr:nth-child(even) td{background:#f8fafc}
+    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
+    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
+    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📐 Mathématiques</div>
+  <h1>Analyser l'information chiffrée</h1>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔍</div>
+    <div class="intro-title">QCM — Analyser l'information chiffrée</div>
+    <div class="intro-desc">Lire et interpréter des tableaux, graphiques et données statistiques. Identifier tendances, anomalies et conclusions correctes.</div>
+    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Quiz terminé !</div>
+      <div class="win-sub" id="winSub"></div>
+      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>
+const QS=[
+  {
+    q:"Le tableau suivant donne les ventes (en unités) d'un magasin :<table class='data-table'><thead><tr><th>Mois</th><th>Jan</th><th>Fév</th><th>Mar</th><th>Avr</th></tr></thead><tbody><tr><td>Ventes</td><td>120</td><td>135</td><td>150</td><td>142</td></tr></tbody></table>Quelle est la valeur des ventes en mars ?",
+    choices:["135","142","120","150"],
+    ans:3,
+    expl:"On lit directement dans le tableau : la colonne « Mar » indique 150 unités."
+  },
+  {
+    q:"Les ventes d'un produit sont passées de 200 à 250 unités d'une année à l'autre. Quel est le taux d'évolution ?",
+    choices:["$+20\\%$","$+25\\%$","$+50\\%$","$+10\\%$"],
+    ans:1,
+    expl:"Taux d'évolution $= \\dfrac{250 - 200}{200} \\times 100 = \\dfrac{50}{200} \\times 100 = 25\\%$."
+  },
+  {
+    q:"Un graphique montre les températures moyennes mensuelles de janvier à décembre. La courbe monte régulièrement de janvier à juillet, puis redescend jusqu'en décembre. Quelle tendance observe-t-on ?",
+    choices:["Une tendance constante tout au long de l'année","Une variation saisonnière avec un pic en juillet","Une baisse continue des températures","Une augmentation brusque en décembre"],
+    ans:1,
+    expl:"La courbe suit un schéma saisonnier classique dans l'hémisphère nord : les températures augmentent au printemps, atteignent un maximum en été (juillet), puis diminuent en automne et hiver."
+  },
+  {
+    q:"Un tableau de fréquences donne : valeur 10 avec fréquence 2, valeur 20 avec fréquence 3, valeur 30 avec fréquence 5. Quelle est la moyenne ?",
+    choices:["$20$","$23$","$22$","$25$"],
+    ans:2,
+    expl:"Effectif total : $2 + 3 + 5 = 10$. Moyenne $= \\dfrac{10 \\times 2 + 20 \\times 3 + 30 \\times 5}{10} = \\dfrac{20 + 60 + 150}{10} = \\dfrac{230}{10} = 23$."
+  },
+  {
+    q:"Le prix d'un article a subi un taux d'évolution de $-15\\%$. Si le prix initial était de 80 €, quel est le nouveau prix ?",
+    choices:["$65$ €","$72$ €","$68$ €","$75$ €"],
+    ans:2,
+    expl:"Coefficient multiplicateur : $1 + (-0{,}15) = 0{,}85$. Nouveau prix : $80 \\times 0{,}85 = 68$ €."
+  },
+  {
+    q:"Un tableau montre que la part de marché d'une entreprise était de 30 % en 2020 et de 30 % en 2023. Un analyste affirme que l'entreprise a progressé car elle vend plus d'unités. Cette affirmation est-elle correcte ?",
+    choices:["Oui, car elle vend plus d'unités","Non, sa part de marché n'a pas changé donc elle n'a pas progressé relativement au marché","Non, car sa part de marché a baissé","Oui, car 30 % est un bon résultat"],
+    ans:1,
+    expl:"Une part de marché stable signifie que l'entreprise a progressé au même rythme que le marché global. Elle vend peut-être plus en volume, mais sa position relative est inchangée. L'affirmation est trop simpliste : progresser en volume ne signifie pas progresser en parts de marché."
+  },
+  {
+    q:"Un graphique circulaire (camembert) montre la répartition de 400 élèves : 25 % pratiquent le sport, 40 % les arts, 35 % la musique. Combien d'élèves pratiquent les arts ?",
+    choices:["100","160","140","80"],
+    ans:1,
+    expl:"$40\\%$ de $400 = 0{,}40 \\times 400 = 160$ élèves pratiquent les arts."
+  },
+  {
+    q:"On compare deux classes : classe A (25 élèves) avec une moyenne de 12/20 et un écart-type de 3, et classe B (25 élèves) avec une moyenne de 12/20 et un écart-type de 1. Quelle affirmation est correcte ?",
+    choices:["La classe A est plus homogène que la classe B","Les deux classes ont exactement les mêmes performances","La classe B est plus homogène que la classe A","On ne peut pas comparer ces deux classes"],
+    ans:2,
+    expl:"Un écart-type plus faible indique des notes plus regroupées autour de la moyenne. La classe B (écart-type 1) est donc plus homogène que la classe A (écart-type 3), même si leurs moyennes sont identiques."
+  }
+];
+const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
+  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
+  function next(){idx++;idx>=QS.length?showWin():loadQ()}
+  return{start,next};
+})();
+</script>
+</body>
+</html>
