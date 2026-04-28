@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths – Croissance et fonctions exponentielles : QCM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
+    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
+    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
+    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📐 Mathématiques</div>
+  <h1>Croissance et fonctions exponentielles</h1>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🚀</div>
+    <div class="intro-title">QCM — Croissance et fonctions exponentielles</div>
+    <div class="intro-desc">Comprendre la croissance exponentielle $f(x) = a \cdot e^{kx}$ ou $f(x) = a \cdot b^x$. Propriétés et comportements caractéristiques.</div>
+    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Quiz terminé !</div>
+      <div class="win-sub" id="winSub"></div>
+      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer>if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});</script>
+<script>
+const QS=[
+  {
+    q:"À long terme, une croissance exponentielle comparée à une croissance polynomiale (par exemple $x^{10}$) est :",
+    choices:[
+      "Plus lente, car l'exposant est fixe",
+      "Identique pour les grandes valeurs",
+      "Plus rapide : $b^x$ dépasse tout polynôme quand $x \\to +\\infty$ (pour $b > 1$)",
+      "Plus lente pour les petites valeurs et plus rapide pour les grandes"
+    ],
+    ans:2,
+    expl:"Pour $b > 1$, la fonction $b^x$ croît plus vite que tout polynôme $x^n$ quand $x \\to +\\infty$. C'est une propriété fondamentale de la croissance exponentielle."
+  },
+  {
+    q:"La fonction $f(x) = 2^x$ est-elle croissante ou décroissante ?",
+    choices:[
+      "Décroissante, car $2 > 1$",
+      "Croissante, car la base $2 > 1$",
+      "Ni croissante ni décroissante",
+      "Décroissante pour $x < 0$, croissante pour $x > 0$"
+    ],
+    ans:1,
+    expl:"Pour $f(x) = b^x$, si la base $b > 1$, alors $f$ est strictement croissante sur $\\mathbb{R}$ : plus $x$ augmente, plus $f(x)$ augmente."
+  },
+  {
+    q:"La fonction $f(x) = (0{,}5)^x$ est-elle croissante ou décroissante ?",
+    choices:[
+      "Croissante, car $(0{,}5)^x$ est toujours positif",
+      "Décroissante, car la base $0{,}5$ est comprise entre 0 et 1",
+      "Croissante pour $x > 0$, décroissante pour $x < 0$",
+      "Constante"
+    ],
+    ans:1,
+    expl:"Pour $f(x) = b^x$, si $0 < b < 1$, la fonction est strictement décroissante. Ici $b = 0{,}5 \\in ]0;1[$, donc $f$ est décroissante."
+  },
+  {
+    q:"Soit $f(x) = a \\cdot b^x$. Que vaut $f(0)$ ?",
+    choices:[
+      "$b$",
+      "$0$",
+      "$a \\cdot b$",
+      "$a$"
+    ],
+    ans:3,
+    expl:"$f(0) = a \\cdot b^0 = a \\cdot 1 = a$. Le paramètre $a$ est donc la valeur initiale de la fonction (valeur en $x=0$)."
+  },
+  {
+    q:"On considère $f(x) = 2^x$. Que vaut $f(n+1)$ en fonction de $f(n)$ ?",
+    choices:[
+      "$f(n+1) = f(n) + 2$",
+      "$f(n+1) = 2 \\cdot f(n)$",
+      "$f(n+1) = f(n)^2$",
+      "$f(n+1) = f(n) + n$"
+    ],
+    ans:1,
+    expl:"$f(n+1) = 2^{n+1} = 2 \\times 2^n = 2 \\times f(n)$. Doubler $n$ ne double pas la valeur : c'est avancer d'un pas qui la multiplie par 2. La croissance exponentielle n'est pas additive."
+  },
+  {
+    q:"Soit $f(x) = 1000 \\times (1{,}1)^x$. Quelle est la valeur de $f(3)$ ?",
+    choices:[
+      "$1300$",
+      "$3300$",
+      "$1{,}331$",
+      "$1331$"
+    ],
+    ans:3,
+    expl:"$f(3) = 1000 \\times (1{,}1)^3 = 1000 \\times 1{,}331 = 1331$."
+  },
+  {
+    q:"On observe le tableau :<br>$x$ : 0 — 1 — 2 — 3<br>$f(x)$ : 4 — 12 — 36 — 108<br>Quelle est la nature de cette croissance ?",
+    choices:[
+      "Linéaire, car les valeurs augmentent",
+      "Arithmétique, car la raison est $+8$",
+      "Exponentielle, car on multiplie par 3 à chaque étape",
+      "Quadratique, car les valeurs triplent"
+    ],
+    ans:2,
+    expl:"Entre deux termes consécutifs, on multiplie toujours par $3$ : $12/4 = 36/12 = 108/36 = 3$. C'est une croissance exponentielle de base 3 : $f(x) = 4 \\times 3^x$."
+  },
+  {
+    q:"Une population double tous les 10 ans. Si la population initiale est $P_0$, au bout de combien d'années aura-t-elle triplé ?",
+    choices:[
+      "$20$ ans",
+      "$15$ ans",
+      "Entre $15$ et $20$ ans : environ $15{,}8$ ans",
+      "$30$ ans"
+    ],
+    ans:2,
+    expl:"On cherche $t$ tel que $P_0 \\times 2^{t/10} = 3P_0$, soit $2^{t/10} = 3$. Alors $\\frac{t}{10} = \\log_2(3) \\approx 1{,}585$, donc $t \\approx 15{,}8$ ans. Le temps de doublement et le temps de triplement ne sont pas dans un rapport simple."
+  }
+];
+const game=(()=>{
+  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let order=[],idx=0,score=0;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
+  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
+  function next(){idx++;idx>=QS.length?showWin():loadQ()}
+  return{start,next};
+})();
+</script>
+</body>
+</html>
