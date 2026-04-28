@@ -3,42 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths Spé – Forme factorisée et signe : QCM</title>
+  <meta name="niveau" content="premiere">
+  <meta name="matiere" content="Mathématiques">
+  <meta name="type" content="tri">
+  <title>Maths – Forme factorisée et signe : trier par catégorie</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--bg:#f0f9ff;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--radius:18px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
-    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
-    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .subject-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900}
+    .container{width:100%;max-width:720px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
-    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
-    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .card{background:white;border-radius:var(--radius);padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}
+    .intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}
+    .intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.9}
     .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
-    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
-    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
-    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
-    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
-    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
-    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
-    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
-    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
-    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
-    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
-    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
-    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
-    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    /* progress */
+    .progress-wrap{background:white;border-radius:100px;padding:.75rem 1.25rem;box-shadow:0 2px 10px rgba(0,0,0,.06);display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+    .progress-track{flex:1;height:8px;background:var(--subject-light);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:100px;transition:width .4s ease}
+    .progress-text{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+    /* score row */
+    .score-row{display:flex;justify-content:center;gap:1rem;margin-bottom:1rem}
+    .score-pill{background:white;border-radius:100px;padding:.45rem 1rem;font-weight:800;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    /* expression display */
+    .expr-box{background:var(--subject-light);border-radius:12px;padding:1rem 1.5rem;font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:1.25rem;color:var(--subject-dark)}
+    /* pool */
+    .pool-wrap{background:#f8fafc;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:1rem}
+    .pool-title{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .pool-cards{display:flex;flex-wrap:wrap;gap:.6rem;min-height:44px}
+    /* zones */
+    .zones-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem}
+    @media(max-width:560px){.zones-grid{grid-template-columns:1fr}}
+    .drop-zone{background:white;border-radius:14px;border:3px dashed var(--border);padding:.75rem;min-height:100px;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:border-color .2s,background .2s;cursor:pointer}
+    .drop-zone:hover{border-color:var(--subject);background:var(--subject-light)}
+    .zone-header{text-align:center;padding:.5rem;border-radius:10px;margin-bottom:.5rem;font-weight:900;font-size:.88rem}
+    .zone-pos .zone-header{background:#d1fae5;color:#065f46}
+    .zone-zero .zone-header{background:#fef9c3;color:#713f12}
+    .zone-neg .zone-header{background:#fee2e2;color:#991b1b}
+    .zone-cards{display:flex;flex-wrap:wrap;gap:.4rem;min-height:40px}
+    /* item cards */
+    .item-card{background:var(--subject-light);border:2.5px solid var(--subject);border-radius:10px;padding:.45rem .9rem;font-weight:800;font-size:.88rem;cursor:pointer;transition:all .15s;user-select:none}
+    .item-card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(8,145,178,.2)}
+    .item-card.selected{background:var(--subject);color:white;border-color:var(--subject);transform:scale(1.05)}
+    .item-card.placed-correct{background:var(--success-light);border-color:var(--success);color:var(--success);cursor:default}
+    .item-card.placed-correct:hover{transform:none;box-shadow:none}
+    .item-card.placed-wrong{background:var(--error-light);border-color:var(--error);color:var(--error)}
+    .item-card.shake{animation:shake .4s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+    /* toast */
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1e293b;color:white;border-radius:100px;padding:.75rem 1.5rem;font-weight:700;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;z-index:100}
+    .toast.show{opacity:1}
+    /* results */
+    .results{text-align:center}
+    .results-emoji{font-size:4rem;margin-bottom:.5rem}
+    .score-circle{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--subject) 0%,var(--subject) var(--pct),var(--subject-light) var(--pct));margin:1rem auto;position:relative}
+    .score-circle::before{content:'';position:absolute;width:95px;height:95px;background:white;border-radius:50%}
+    .score-inner{position:relative;z-index:1;text-align:center}
+    .score-num{font-size:1.8rem;font-weight:900;color:var(--subject);display:block}
+    .score-total{font-size:.8rem;color:var(--muted);font-weight:700}
+    .results-msg{font-size:1.2rem;font-weight:800;margin:.75rem 0 .5rem}
+    .results-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+    .stars{font-size:2rem;letter-spacing:.25rem;margin-bottom:.5rem}
+    .btn-retry{width:100%;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+    .ex-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+    .ex-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+    .btn-check{padding:.65rem 1.5rem;background:var(--subject);color:white;border:none;border-radius:10px;font-family:inherit;font-size:.9rem;font-weight:800;cursor:pointer}
+    .btn-check:disabled{background:var(--border);cursor:default}
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
@@ -48,56 +87,305 @@
   <h1>Forme factorisée et signe</h1>
 </div>
 <div class="container">
+
+  <!-- INTRO -->
   <div class="card screen active" id="screenIntro">
     <div class="intro-emoji">±</div>
-    <div class="intro-title">QCM — Forme factorisée et signe</div>
-    <div class="intro-desc">Apprends à factoriser un trinôme et à dresser son tableau de signe pour résoudre des inéquations du second degré.</div>
-    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <div class="intro-title">Trier par signe</div>
+    <div class="intro-desc">Pour chaque expression factorisée, classe les valeurs et intervalles dans la bonne catégorie de signe. Clique sur un élément, puis sur une zone.</div>
+    <div class="rule-box">
+      <strong>Règle des signes :</strong><br>
+      $(+)(+) = +$ · $(-)(-)= +$ · $(+)(-) = -$ · $(-)(+) = -$<br><br>
+      <strong>Racines :</strong> si $ax - b = 0$ alors $x = b/a$ → l'expression <strong>s'annule</strong>.<br>
+      <strong>Entre les racines</strong> $x_1 < x_2$ avec $a>0$ : expression <strong>négative</strong>.<br>
+      <strong>En dehors</strong> des racines avec $a>0$ : expression <strong>positive</strong>.
+    </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
-  <div class="card screen" id="screenGame">
-    <div class="q-label" id="qLabel">Question 1 / 8</div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+
+  <!-- GAME -->
+  <div class="screen" id="screenGame">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0 / 8</span>
+    </div>
+    <div class="score-row">
+      <div class="score-pill">✅ <span id="scoreCorrect">0</span> corrects</div>
+      <div class="score-pill">❌ <span id="scoreWrong">0</span> erreurs</div>
+    </div>
+    <div class="ex-nav">
+      <span class="ex-label" id="exLabel">Exercice 1 / 8</span>
+      <button class="btn-check" id="btnCheck" onclick="game.checkAll()" disabled>Vérifier tout</button>
+    </div>
+    <div class="expr-box" id="exprBox"></div>
+    <div class="pool-wrap">
+      <div class="pool-title">Éléments à trier — clique un élément, puis une zone</div>
+      <div class="pool-cards" id="pool"></div>
+    </div>
+    <div class="zones-grid">
+      <div class="drop-zone zone-pos" onclick="game.placeInZone('pos')">
+        <div class="zone-header">Expression &gt; 0</div>
+        <div class="zone-cards" id="zonePos"></div>
+      </div>
+      <div class="drop-zone zone-zero" onclick="game.placeInZone('zero')">
+        <div class="zone-header">Expression = 0</div>
+        <div class="zone-cards" id="zoneZero"></div>
+      </div>
+      <div class="drop-zone zone-neg" onclick="game.placeInZone('neg')">
+        <div class="zone-header">Expression &lt; 0</div>
+        <div class="zone-cards" id="zoneNeg"></div>
+      </div>
+    </div>
   </div>
-  <div class="card screen" id="screenWin">
-    <div class="win-screen">
-      <div class="win-emoji" id="winEmoji">🏆</div>
-      <div class="win-title">Quiz terminé !</div>
-      <div class="win-sub" id="winSub"></div>
-      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
-      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+
+  <!-- RESULTS -->
+  <div class="card screen" id="screenResults">
+    <div class="results">
+      <div class="results-emoji" id="resultsEmoji">🎉</div>
+      <div class="stars" id="resultsStars">⭐⭐⭐</div>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <span class="score-num" id="scoreNum">—</span>
+          <span class="score-total" id="scoreTotal">/ —</span>
+        </div>
+      </div>
+      <div class="results-msg" id="resultsMsg">Bravo !</div>
+      <div class="results-sub" id="resultsSub"></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Rejouer</button>
     </div>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>window.addEventListener('load',function(){if(window.renderMathInElement)renderMathInElement(document.getElementById('screenIntro'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});});</script>
 <script>
-const QS=[
-  {q:"Quand $\\Delta > 0$ avec racines $x_1$ et $x_2$, la forme factorisée de $ax^2 + bx + c$ est :",choices:["$a(x - x_1)(x - x_2)$","$(x - x_1)(x - x_2)$","$a(x + x_1)(x + x_2)$","$a(x - x_1)^2$"],ans:0,expl:"Quand $\\Delta > 0$, avec deux racines $x_1$ et $x_2$, on peut écrire $f(x) = a(x - x_1)(x - x_2)$. Le coefficient $a$ est indispensable !"},
-  {q:"Quand $\\Delta = 0$ avec racine double $x_0$, la forme factorisée est :",choices:["$a(x - x_0)$","$a(x - x_0)^2$","$(x - x_0)^2$","$a(x + x_0)^2$"],ans:1,expl:"Quand $\\Delta = 0$, $f(x) = a(x - x_0)^2$. C'est un carré parfait, multiplié par $a$."},
-  {q:"La règle de signe pour $f(x) = a(x - x_1)(x - x_2)$ avec $x_1 < x_2$ et $a > 0$ est :",choices:["$f(x) > 0$ entre $x_1$ et $x_2$","$f(x) < 0$ entre $x_1$ et $x_2$","$f(x) > 0$ partout","$f(x)$ a le signe de $b$"],ans:1,expl:"Si $a > 0$ : $f < 0$ entre les racines, $f > 0$ en dehors. Si $a < 0$ : c'est l'inverse."},
-  {q:"Pour $f(x) = (x - 1)(x - 3)$, quel est le signe de $f$ sur $]1 ; 3[$ ?",choices:["$f(x) > 0$","$f(x) < 0$","$f(x) = 0$","Impossible à déterminer"],ans:1,expl:"$a = 1 > 0$ : $f < 0$ entre les racines. Pour $x \\in ]1 ; 3[$, $(x-1) > 0$ et $(x-3) < 0$, donc $f < 0$. ✓"},
-  {q:"Pour $f(x) = -(x - 1)(x - 3)$, quel est le signe de $f$ sur $]1 ; 3[$ ?",choices:["$f(x) > 0$","$f(x) < 0$","$f(x) = 0$","Variable"],ans:0,expl:"$a = -1 < 0$ : $f > 0$ entre les racines. La parabole est retournée : $f > 0$ pour $x \\in ]1 ; 3[$."},
-  {q:"Pour résoudre $x^2 - 4 \\leq 0$ (racines $-2$ et $2$) :",choices:["$x \\in [-2 ; 2]$","$x \\in ]-\\infty ; -2] \\cup [2 ; +\\infty[$","$x \\in ]-2 ; 2[$","$x \\in ]-\\infty ; -2[$"],ans:0,expl:"$f(x) = x^2-4 = (x-2)(x+2)$, $a = 1 > 0$. $f \\leq 0$ entre les racines. Solution : $x \\in [-2 ; 2]$."},
-  {q:"Pour $f(x) = -x^2 + 2x - 1 = -(x - 1)^2$, le signe de $f$ est :",choices:["$f(x) \\leq 0$ pour tout $x$ réel","$f(x) \\geq 0$ pour tout $x$ réel","$f(x) > 0$ pour $x \\neq 1$","Variable selon $x$"],ans:0,expl:"$-(x-1)^2 \\leq 0$ car $(x-1)^2 \\geq 0$. $f$ est toujours négatif ou nul (nul uniquement en $x = 1$)."},
-  {q:"Résoudre $2x^2 - 3x + 1 > 0$ sachant $x_1 = \\dfrac{1}{2}$ et $x_2 = 1$ :",choices:["$x \\in ]\\dfrac{1}{2} ; 1[$","$x \\in ]-\\infty ; \\dfrac{1}{2}[ \\cup ]1 ; +\\infty[$","$x \\in [\\dfrac{1}{2} ; 1]$","$x \\in \\mathbb{R}$"],ans:1,expl:"$a = 2 > 0$ : $f > 0$ en dehors des racines. Solution : $x < \\dfrac{1}{2}$ ou $x > 1$, soit $x \\in ]-\\infty ; \\dfrac{1}{2}[ \\cup ]1 ; +\\infty[$."},
+// items: array of {text, zone:'pos'|'zero'|'neg'}
+const EXERCISES = [
+  {
+    expr: '$(2x - 4)(x + 1)$ — racines : $x = 2$ et $x = -1$',
+    items: [
+      {text:'$x = -2$',   zone:'pos'},   // (-4-4)(-2+1)=(-8)(-1)=+8 > 0
+      {text:'$x = -1$',   zone:'zero'},
+      {text:'$x = 0$',    zone:'neg'},   // (0-4)(0+1)=(-4)(1)=-4 < 0
+      {text:'$x = 2$',    zone:'zero'},
+      {text:'$x = 3$',    zone:'pos'},   // (6-4)(3+1)=(2)(4)=8 > 0
+      {text:'intervalle $(-1,\\, 2)$', zone:'neg'},
+    ]
+  },
+  {
+    expr: '$(x - 3)(x + 2)$ — racines : $x = 3$ et $x = -2$',
+    items: [
+      {text:'$x = -3$',   zone:'pos'},   // (-6)(-1)=6>0
+      {text:'$x = -2$',   zone:'zero'},
+      {text:'$x = 0$',    zone:'neg'},   // (-3)(2)=-6<0
+      {text:'$x = 3$',    zone:'zero'},
+      {text:'$x = 5$',    zone:'pos'},   // (2)(7)=14>0
+      {text:'intervalle $(-2,\\, 3)$', zone:'neg'},
+    ]
+  },
+  {
+    expr: '$-(x - 1)(x + 3)$ — racines : $x = 1$ et $x = -3$',
+    items: [
+      {text:'$x = -4$',   zone:'neg'},   // -(−5)(−1)=-(5)<0
+      {text:'$x = -3$',   zone:'zero'},
+      {text:'$x = 0$',    zone:'pos'},   // -(−1)(3)=-(-3)=3>0
+      {text:'$x = 1$',    zone:'zero'},
+      {text:'$x = 2$',    zone:'neg'},   // -(1)(5)=-5<0
+      {text:'intervalle $(-3,\\, 1)$', zone:'pos'},
+    ]
+  },
+  {
+    expr: '$(3x - 6)(x - 1)$ — racines : $x = 2$ et $x = 1$',
+    items: [
+      {text:'$x = 0$',    zone:'pos'},   // (-6)(-1)=6>0
+      {text:'$x = 1$',    zone:'zero'},
+      {text:'$x = 1.5$',  zone:'neg'},   // (4.5-6)(0.5)=(-1.5)(0.5)<0
+      {text:'$x = 2$',    zone:'zero'},
+      {text:'$x = 3$',    zone:'pos'},   // (9-6)(2)=(3)(2)>0
+      {text:'intervalle $(1,\\, 2)$', zone:'neg'},
+    ]
+  },
+  {
+    expr: '$(x+4)(x+4) = (x+4)^2$ — racine double : $x = -4$',
+    items: [
+      {text:'$x = -5$',   zone:'pos'},   // (-1)^2=1>0
+      {text:'$x = -4$',   zone:'zero'},
+      {text:'$x = 0$',    zone:'pos'},   // (4)^2=16>0
+      {text:'$x = 2$',    zone:'pos'},
+      {text:'tout $x \\neq -4$', zone:'pos'},
+      {text:'$x = -4$ seulement', zone:'zero'},
+    ]
+  },
+  {
+    expr: '$(x - 5)(2 - x)$ — racines : $x = 5$ et $x = 2$',
+    items: [
+      {text:'$x = 1$',    zone:'neg'},   // (-4)(1)=-4<0
+      {text:'$x = 2$',    zone:'zero'},
+      {text:'$x = 3$',    zone:'pos'},   // (-2)(-1)=2>0
+      {text:'$x = 5$',    zone:'zero'},
+      {text:'$x = 6$',    zone:'neg'},   // (1)(-4)=-4<0
+      {text:'intervalle $(2,\\, 5)$', zone:'pos'},
+    ]
+  },
+  {
+    expr: '$x(x - 4)$ — racines : $x = 0$ et $x = 4$',
+    items: [
+      {text:'$x = -1$',   zone:'pos'},   // (-1)(-5)=5>0
+      {text:'$x = 0$',    zone:'zero'},
+      {text:'$x = 2$',    zone:'neg'},   // (2)(-2)=-4<0
+      {text:'$x = 4$',    zone:'zero'},
+      {text:'$x = 5$',    zone:'pos'},   // (5)(1)=5>0
+      {text:'intervalle $(0,\\, 4)$', zone:'neg'},
+    ]
+  },
+  {
+    expr: '$-(2x+2)(x-3)$ — racines : $x = -1$ et $x = 3$',
+    items: [
+      {text:'$x = -2$',   zone:'neg'},   // -(2(-2)+2)((-2)-3)=-(-2)(-5)=-(10)<0
+      {text:'$x = -1$',   zone:'zero'},
+      {text:'$x = 1$',    zone:'pos'},   // -(2+2)(1-3)=-(4)(-2)=8>0
+      {text:'$x = 3$',    zone:'zero'},
+      {text:'$x = 4$',    zone:'neg'},   // -(8+2)(1)=-(10)<0
+      {text:'intervalle $(-1,\\, 3)$', zone:'pos'},
+    ]
+  },
 ];
-const game=(()=>{
-  function renderMath(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
-  let order=[],idx=0,score=0;
-  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
-  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)});renderMath(document.getElementById('question'));renderMath(document.getElementById('choices'));}
-  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block';renderMath(document.getElementById('feedback'));}
-  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
-  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
-  function next(){idx++;idx>=QS.length?showWin():loadQ()}
-  return{start,next};
+
+const game = (() => {
+  function rm(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});}
+  let exOrder=[],exIdx=0,selected=null;
+  let totalCorrect=0,totalWrong=0,totalPlaced=0,totalItems=0;
+  // per-exercise state
+  let itemStates=[]; // {text, zone, placedZone, el}
+
+  function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
+  function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+  function showToast(msg,dur=1500){
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),dur);
+  }
+
+  function updateProgress(){
+    const pct=(exIdx/EXERCISES.length)*100;
+    document.getElementById('progressFill').style.width=pct+'%';
+    document.getElementById('progressText').textContent=exIdx+' / '+EXERCISES.length;
+    document.getElementById('scoreCorrect').textContent=totalCorrect;
+    document.getElementById('scoreWrong').textContent=totalWrong;
+    document.getElementById('exLabel').textContent=`Exercice ${exIdx+1} / ${EXERCISES.length}`;
+  }
+
+  function start(){
+    exOrder=shuffle([...Array(EXERCISES.length).keys()]);
+    exIdx=0; totalCorrect=0; totalWrong=0; totalPlaced=0; totalItems=0;
+    EXERCISES.forEach(e=>totalItems+=e.items.length);
+    loadExercise();
+    show('screenGame');
+  }
+
+  function loadExercise(){
+    const ex=EXERCISES[exOrder[exIdx]];
+    selected=null;
+    itemStates=ex.items.map(item=>({...item, placedZone:null, el:null}));
+    // clear zones
+    document.getElementById('pool').innerHTML='';
+    document.getElementById('zonePos').innerHTML='';
+    document.getElementById('zoneZero').innerHTML='';
+    document.getElementById('zoneNeg').innerHTML='';
+    // expression
+    document.getElementById('exprBox').innerHTML=ex.expr;
+    updateProgress();
+    document.getElementById('btnCheck').disabled=true;
+    // populate pool
+    const pool=document.getElementById('pool');
+    shuffle([...Array(itemStates.length).keys()]).forEach(i=>{
+      const item=itemStates[i];
+      const el=document.createElement('div');
+      el.className='item-card';
+      el.id='item-'+i;
+      el.innerHTML=item.text;
+      el.dataset.idx=i;
+      el.addEventListener('click',()=>selectCard(el,i));
+      item.el=el;
+      pool.appendChild(el);
+    });
+    rm(document.getElementById('exprBox'));
+    rm(document.getElementById('pool'));
+  }
+
+  function selectCard(el,idx){
+    if(el.classList.contains('placed-correct')) return;
+    if(selected){selected.classList.remove('selected');}
+    if(selected===el){selected=null;return;}
+    selected=el; el.classList.add('selected');
+  }
+
+  function placeInZone(zone){
+    if(!selected){showToast('Sélectionnez d\'abord un élément !');return;}
+    const idx=parseInt(selected.dataset.idx);
+    const item=itemStates[idx];
+    const isCorrect=item.zone===zone;
+    if(isCorrect){
+      totalCorrect++;
+      item.placedZone=zone;
+      selected.classList.remove('selected');
+      selected.classList.add('placed-correct');
+      const zoneEl=document.getElementById(zone==='pos'?'zonePos':zone==='zero'?'zoneZero':'zoneNeg');
+      zoneEl.appendChild(selected);
+      rm(selected);
+      selected=null;
+      updateProgress();
+      // check if all placed for this exercise
+      const allPlaced=itemStates.every(s=>s.placedZone!==null);
+      if(allPlaced){
+        document.getElementById('btnCheck').disabled=false;
+      }
+    } else {
+      totalWrong++;
+      selected.classList.add('shake','placed-wrong');
+      const el=selected;
+      selected=null;
+      setTimeout(()=>{el.classList.remove('selected','shake','placed-wrong');updateProgress();},500);
+      // hint
+      const zoneNames={'pos':'> 0','zero':'= 0','neg':'< 0'};
+      showToast(`❌ Cette valeur va dans : Expression ${zoneNames[item.zone]}`,2200);
+    }
+  }
+
+  function checkAll(){
+    // Move to next exercise
+    exIdx++;
+    if(exIdx>=EXERCISES.length){
+      showResults();
+    } else {
+      loadExercise();
+    }
+  }
+
+  function showResults(){
+    document.getElementById('progressFill').style.width='100%';
+    document.getElementById('progressText').textContent=EXERCISES.length+' / '+EXERCISES.length;
+    const pct=totalCorrect/(totalCorrect+totalWrong);
+    let emoji,msg,sub,stars;
+    if(pct>=.9){emoji='🏆';stars='⭐⭐⭐';msg='Excellent !';sub='Tu maîtrises parfaitement le tableau de signes !';}
+    else if(pct>=.7){emoji='🎉';stars='⭐⭐⭐';msg='Très bien !';sub='Quelques erreurs, mais c\'est bien maîtrisé.';}
+    else if(pct>=.5){emoji='👍';stars='⭐⭐';msg='Bien !';sub='Relis la règle des signes et réessaie.';}
+    else{emoji='📚';stars='⭐';msg='À réviser';sub='Travaille le tableau de signes d\'une expression factorisée !';}
+    document.getElementById('resultsEmoji').textContent=emoji;
+    document.getElementById('resultsStars').textContent=stars;
+    document.getElementById('scoreNum').textContent=totalCorrect;
+    document.getElementById('scoreTotal').textContent='/ '+(totalCorrect+totalWrong);
+    document.getElementById('scoreCircle').style.setProperty('--pct',Math.round(pct*360)+'deg');
+    document.getElementById('resultsMsg').textContent=msg;
+    document.getElementById('resultsSub').textContent=sub;
+    show('screenResults');
+  }
+
+  return{start,placeInZone,checkAll};
 })();
 </script>
 </body>
