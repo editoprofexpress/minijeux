@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maths Spé – Dérivée d'une fonction composée : QCM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--subject:#0891b2;--subject-dark:#0e7490;--subject-light:#e0f2fe;--subject-mid:#7dd3fc;--success:#059669;--success-light:#d1fae5;--error:#dc2626;--error-light:#fee2e2;--bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+    .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
+    .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
+    .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{background:white;border-radius:18px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+    .intro-emoji{font-size:3rem;text-align:center;margin-bottom:.75rem}.intro-title{font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:.75rem}.intro-desc{color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+    .rule-box{background:var(--subject-light);border-left:4px solid var(--subject);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.8}
+    .btn-start{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1.1rem;font-weight:800;cursor:pointer}.btn-start:hover{background:var(--subject-dark)}
+    .q-label{font-size:.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+    .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+    .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
+    .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+    .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+    .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
+    .choice-letter{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--subject-light);color:var(--subject);font-size:.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
+    .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
+    .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
+    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
+    .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
+    .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+    .score-num{font-size:2rem;font-weight:900;color:var(--subject)}.score-pct{font-size:.8rem;font-weight:700;color:var(--muted)}
+    .btn-retry{width:100%;padding:1rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer}
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="subject-badge">📐 Maths Spé · 1ère</div>
+  <h1>Dérivée d'une fonction composée</h1>
+  <p>(f∘g)'(x) = g'(x) × f'(g(x)) — règle de la chaîne</p>
+</div>
+<div class="container">
+  <div class="card screen active" id="screenIntro">
+    <div class="intro-emoji">🔗</div>
+    <div class="intro-title">QCM — Dérivée composée</div>
+    <div class="intro-desc">La règle de la chaîne permet de dériver les fonctions composées comme e^(x²), ln(2x+1) ou (3x−1)⁵. Maîtrise-la !</div>
+    <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
+    <button class="btn-start" onclick="game.start()">Commencer ▶</button>
+  </div>
+  <div class="card screen" id="screenGame">
+    <div class="q-label" id="qLabel">Question 1 / 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="game.next()">Question suivante →</button>
+  </div>
+  <div class="card screen" id="screenWin">
+    <div class="win-screen">
+      <div class="win-emoji" id="winEmoji">🏆</div>
+      <div class="win-title">Quiz terminé !</div>
+      <div class="win-sub" id="winSub"></div>
+      <div class="score-circle"><span class="score-num" id="winScore">—</span><span class="score-pct" id="winPct">—</span></div>
+      <button class="btn-retry" onclick="game.start()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+<script>
+const QS=[
+  {q:"Si h(x) = f(g(x)), la règle de la chaîne donne h'(x) = ?",choices:["f'(x) × g'(x)","g'(x) × f'(g(x))","f'(g(x))","g'(f(x)) × f'(x)"],ans:1,expl:"Règle de la chaîne : h'(x) = g'(x) × f'(g(x)). On dérive la fonction extérieure évaluée en g(x), multiplié par la dérivée de g."},
+  {q:"Pour h(x) = (2x + 1)³, h'(x) = ?",choices:["3(2x+1)²","6(2x+1)²","2·3(2x+1)","3(2x+1)² + 2"],ans:1,expl:"g(x) = 2x+1, g'(x) = 2 ; f(u) = u³, f'(u) = 3u². h'(x) = 2 × 3(2x+1)² = 6(2x+1)²."},
+  {q:"Pour h(x) = e^(x²), h'(x) = ?",choices:["e^(x²)","2x·e^(x²)","x²·e^(x²)","2e^(x²)"],ans:1,expl:"g(x) = x², g'(x) = 2x ; f(u) = eᵘ, f'(u) = eᵘ. h'(x) = 2x × e^(x²)."},
+  {q:"Pour h(x) = ln(2x + 3) (2x+3 > 0), h'(x) = ?",choices:["1/(2x+3)","2/(2x+3)","2·ln(2x+3)","1/(2·ln(2x+3))"],ans:1,expl:"g(x) = 2x+3, g'(x) = 2 ; f(u) = ln u, f'(u) = 1/u. h'(x) = 2 × 1/(2x+3) = 2/(2x+3)."},
+  {q:"Pour h(x) = sin(3x), h'(x) = ?",choices:["cos(3x)","3cos(3x)","−3sin(3x)","3sin(3x)"],ans:1,expl:"g(x) = 3x, g'(x) = 3 ; f(u) = sin u, f'(u) = cos u. h'(x) = 3 × cos(3x) = 3cos(3x)."},
+  {q:"Pour h(x) = √(x² + 1), h'(x) = ?",choices:["1/(2√(x²+1))","x/√(x²+1)","2x·√(x²+1)","x/(2(x²+1))"],ans:1,expl:"g(x) = x²+1, g'(x) = 2x ; f(u) = √u, f'(u) = 1/(2√u). h'(x) = 2x × 1/(2√(x²+1)) = x/√(x²+1)."},
+  {q:"Pour h(x) = (x² + 1)⁵, h'(x) = ?",choices:["5(x²+1)⁴","10x(x²+1)⁴","2x·5(x²+1)⁴ + (x²+1)⁵","5x(x²+1)⁴"],ans:1,expl:"g(x) = x²+1, g'(x) = 2x ; f(u) = u⁵, f'(u) = 5u⁴. h'(x) = 2x × 5(x²+1)⁴ = 10x(x²+1)⁴."},
+  {q:"Pour h(x) = e^(−x), h'(x) = ?",choices:["e^(−x)","−e^(−x)","−x·e^(−x)","e^(−x−1)"],ans:1,expl:"g(x) = −x, g'(x) = −1 ; f(u) = eᵘ, f'(u) = eᵘ. h'(x) = −1 × e^(−x) = −e^(−x)."},
+];
+const game=(()=>{
+  let order=[],idx=0,score=0;
+  const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+  const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+  function loadQ(){const q=QS[order[idx]];document.getElementById('qLabel').textContent=`Question ${idx+1} / ${QS.length}`;document.getElementById('progFill').style.width=`${idx/QS.length*100}%`;document.getElementById('question').innerHTML=q.q;document.getElementById('feedback').className='feedback';document.getElementById('btnNext').style.display='none';const ch=document.getElementById('choices');ch.innerHTML='';['A','B','C','D'].forEach((l,i)=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="choice-letter">${l}</span>${q.choices[i]}`;btn.onclick=()=>answer(i);ch.appendChild(btn)})}
+  function answer(i){const q=QS[order[idx]];document.querySelectorAll('.choice').forEach(b=>b.disabled=true);const btns=document.querySelectorAll('.choice');btns[q.ans].classList.add('correct');if(i!==q.ans)btns[i].classList.add('wrong');else score++;const fb=document.getElementById('feedback');fb.innerHTML=q.expl;fb.className='feedback '+(i===q.ans?'show-ok':'show-ko');document.getElementById('btnNext').style.display='block'}
+  function showWin(){document.getElementById('progFill').style.width='100%';const pct=Math.round(score/QS.length*100);document.getElementById('winScore').textContent=`${score} / ${QS.length}`;document.getElementById('winPct').textContent=`${pct} %`;const e=pct>=88?'🏆':pct>=63?'😊':'💪';const s=pct>=88?'Excellent ! Tu maîtrises ce chapitre.':pct>=63?'Bon travail ! Revois les erreurs.':'Continue de t\'entraîner !';document.getElementById('winEmoji').textContent=e;document.getElementById('winSub').textContent=s;show('screenWin')}
+  function start(){order=shuffle([...Array(QS.length).keys()]);idx=0;score=0;loadQ();show('screenGame')}
+  function next(){idx++;idx>=QS.length?showWin():loadQ()}
+  return{start,next};
+})();
+</script>
+</body>
+</html>
