@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Pourcentages, proportions et évolutions : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -13,7 +13,7 @@
     .top-bar{width:100%;background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:white;padding:1.25rem 1rem 3.5rem;text-align:center;position:relative;overflow:hidden}
     .top-bar::after{content:'';position:absolute;bottom:-20px;left:-5%;width:110%;height:40px;background:var(--bg);border-radius:50% 50% 0 0}
     .subject-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}.top-bar p{font-size:.9rem;opacity:.85}
+    .top-bar h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;margin-bottom:.3rem}
     .container{width:100%;max-width:680px;padding:2rem 1rem 3rem}
     .screen{display:none}.screen.active{display:block;animation:fadeIn .3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -32,8 +32,8 @@
     .choice.correct{border-color:var(--success);background:var(--success-light)}.choice.correct .choice-letter{background:var(--success);color:white}
     .choice.wrong{border-color:var(--error);background:var(--error-light)}.choice.wrong .choice-letter{background:var(--error);color:white}
     .feedback{border-radius:10px;padding:0;max-height:0;overflow:hidden;font-size:.88rem;line-height:1.6;transition:max-height .3s ease,padding .3s ease}
-    .feedback.show-ok{max-height:200px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
-    .feedback.show-ko{max-height:200px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
+    .feedback.show-ok{max-height:220px;padding:.75rem 1rem;background:var(--success-light);color:#065f46}
+    .feedback.show-ko{max-height:220px;padding:.75rem 1rem;background:var(--error-light);color:#991b1b}
     .btn-next{width:100%;margin-top:1rem;padding:.9rem;background:var(--subject);color:white;border:none;border-radius:12px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:none}.btn-next:hover{background:var(--subject-dark)}
     .win-screen{text-align:center}.win-emoji{font-size:4rem;margin-bottom:.5rem}.win-title{font-size:1.6rem;font-weight:900;margin-bottom:.5rem}.win-sub{color:var(--muted);margin-bottom:1.5rem}
     .score-circle{width:110px;height:110px;border-radius:50%;background:var(--subject-light);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Pourcentages, proportions et évolutions</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">💹</div>
+    <div class="intro-title">QCM — Pourcentages, proportions et évolutions</div>
+    <div class="intro-desc">Calculer des pourcentages, des taux d'évolution, des évolutions successives et des taux réciproques.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -79,52 +79,52 @@
 <script>
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
-  },
-  {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
-    ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
-    ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
+    q:"Calculer $15\\%$ de $200$.",
+    choices:["$15$","$20$","$30$","$35$"],
     ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
+    expl:"$15\\%$ de $200 = \\frac{15}{100} \\times 200 = 0{,}15 \\times 200 = 30$."
   },
   {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
-  },
-  {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
-    ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
-  },
-  {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
-  },
-  {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{2\\}$","$\\mathbb{R} \\setminus \\{-2\\}$","$[2\\,;\\,+\\infty[$"],
+    q:"Un article coûtait $80\\,€$. Son prix est passé à $96\\,€$. Quel est le taux d'évolution ?",
+    choices:["$16\\%$","$20\\%$","$-20\\%$","$83\\%$"],
     ans:1,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    expl:"Le taux d'évolution est $t = \\frac{V_f - V_i}{V_i} = \\frac{96-80}{80} = \\frac{16}{80} = 0{,}2$, soit $+20\\%$."
+  },
+  {
+    q:"Une augmentation de $15\\%$ correspond à quel coefficient multiplicateur ?",
+    choices:["$0{,}85$","$15$","$1{,}15$","$1{,}015$"],
+    ans:2,
+    expl:"Le coefficient multiplicateur pour une augmentation de $t\\%$ est $CM = 1 + \\frac{t}{100} = 1 + 0{,}15 = 1{,}15$. Multiplier par $1{,}15$ revient à augmenter de $15\\%$."
+  },
+  {
+    q:"Un prix augmente de $20\\%$ puis diminue de $20\\%$. Quel est le résultat par rapport au prix initial ?",
+    choices:["Le prix est identique","Le prix a baissé de $4\\%$","Le prix a baissé de $40\\%$","Le prix a augmenté de $4\\%$"],
+    ans:1,
+    expl:"$CM = 1{,}20 \\times 0{,}80 = 0{,}96$. Le prix final est $96\\%$ du prix initial, soit une baisse de $4\\%$. On ne peut pas simplement additionner les taux !"
+  },
+  {
+    q:"Un prix augmente de $10\\%$ puis de $5\\%$. Quel est le taux d'évolution global ?",
+    choices:["$15\\%$","$15{,}5\\%$","$14{,}5\\%$","$10{,}5\\%$"],
+    ans:1,
+    expl:"$CM_{\\text{global}} = 1{,}10 \\times 1{,}05 = 1{,}155$. Le taux global est $t = 1{,}155 - 1 = 0{,}155 = 15{,}5\\%$. On multiplie les coefficients, on n'additionne pas les taux."
+  },
+  {
+    q:"Le prix d'un article a augmenté de $25\\%$. Quel taux réciproque (de diminution) permet de retrouver le prix initial ?",
+    choices:["$-25\\%$","$-20\\%$","$-30\\%$","$-15\\%$"],
+    ans:1,
+    expl:"Le coefficient multiplicateur est $1{,}25$. Pour revenir au prix initial, on divise par $1{,}25$ : $CM_{\\text{réc}} = \\frac{1}{1{,}25} = 0{,}8$, soit une diminution de $20\\%$. On ne prend pas le même taux en sens inverse !"
+  },
+  {
+    q:"Dans une classe de $30$ élèves, $18$ sont des filles. Quelle est la proportion de filles ?",
+    choices:["$18\\%$","$60\\%$","$40\\%$","$30\\%$"],
+    ans:1,
+    expl:"La proportion de filles est $\\frac{18}{30} = 0{,}6 = 60\\%$."
+  },
+  {
+    q:"$30\\%$ des élèves d'une école pratiquent un sport. Parmi eux, $40\\%$ font de la natation. Quelle proportion de tous les élèves fait de la natation ?",
+    choices:["$70\\%$","$10\\%$","$12\\%$","$40\\%$"],
+    ans:2,
+    expl:"$40\\%$ de $30\\% = 0{,}40 \\times 0{,}30 = 0{,}12 = 12\\%$. C'est le pourcentage de pourcentage : on multiplie les proportions."
   }
 ];
 const game=(()=>{

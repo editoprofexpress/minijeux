@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Analyser l'information chiffrée : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -25,6 +25,11 @@
     .progress-bar{height:6px;background:var(--subject-light);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
     .progress-fill{height:100%;background:var(--subject);border-radius:3px;transition:width .4s ease}
     .question{font-size:1.05rem;font-weight:800;line-height:1.5;margin-bottom:1.25rem}
+    .data-table{width:100%;border-collapse:collapse;margin:.75rem 0 1rem;font-size:.88rem;border-radius:8px;overflow:hidden}
+    .data-table th{background:var(--subject-light);color:var(--subject-dark);padding:.5rem .75rem;text-align:center;font-weight:800}
+    .data-table td{padding:.45rem .75rem;text-align:center;border-bottom:1px solid var(--border)}
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table tr:nth-child(even) td{background:#f8fafc}
     .choices{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
     .choice{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;background:#f8fafc;border:2px solid var(--border);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
     .choice:hover:not(:disabled){border-color:var(--subject);background:var(--subject-light)}
@@ -45,13 +50,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Analyser l'information chiffrée</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">🔍</div>
+    <div class="intro-title">QCM — Analyser l'information chiffrée</div>
+    <div class="intro-desc">Lire et interpréter des tableaux, graphiques et données statistiques. Identifier tendances, anomalies et conclusions correctes.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -79,52 +84,52 @@
 <script>
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
+    q:"Le tableau suivant donne les ventes (en unités) d'un magasin :<table class='data-table'><thead><tr><th>Mois</th><th>Jan</th><th>Fév</th><th>Mar</th><th>Avr</th></tr></thead><tbody><tr><td>Ventes</td><td>120</td><td>135</td><td>150</td><td>142</td></tr></tbody></table>Quelle est la valeur des ventes en mars ?",
+    choices:["135","142","120","150"],
+    ans:3,
+    expl:"On lit directement dans le tableau : la colonne « Mar » indique 150 unités."
   },
   {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
+    q:"Les ventes d'un produit sont passées de 200 à 250 unités d'une année à l'autre. Quel est le taux d'évolution ?",
+    choices:["$+20\\%$","$+25\\%$","$+50\\%$","$+10\\%$"],
     ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
+    expl:"Taux d'évolution $= \\dfrac{250 - 200}{200} \\times 100 = \\dfrac{50}{200} \\times 100 = 25\\%$."
   },
   {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
+    q:"Un graphique montre les températures moyennes mensuelles de janvier à décembre. La courbe monte régulièrement de janvier à juillet, puis redescend jusqu'en décembre. Quelle tendance observe-t-on ?",
+    choices:["Une tendance constante tout au long de l'année","Une variation saisonnière avec un pic en juillet","Une baisse continue des températures","Une augmentation brusque en décembre"],
     ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
+    expl:"La courbe suit un schéma saisonnier classique dans l'hémisphère nord : les températures augmentent au printemps, atteignent un maximum en été (juillet), puis diminuent en automne et hiver."
   },
   {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
+    q:"Un tableau de fréquences donne : valeur 10 avec fréquence 2, valeur 20 avec fréquence 3, valeur 30 avec fréquence 5. Quelle est la moyenne ?",
+    choices:["$20$","$23$","$22$","$25$"],
     ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
+    expl:"Effectif total : $2 + 3 + 5 = 10$. Moyenne $= \\dfrac{10 \\times 2 + 20 \\times 3 + 30 \\times 5}{10} = \\dfrac{20 + 60 + 150}{10} = \\dfrac{230}{10} = 23$."
   },
   {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
+    q:"Le prix d'un article a subi un taux d'évolution de $-15\\%$. Si le prix initial était de 80 €, quel est le nouveau prix ?",
+    choices:["$65$ €","$72$ €","$68$ €","$75$ €"],
+    ans:2,
+    expl:"Coefficient multiplicateur : $1 + (-0{,}15) = 0{,}85$. Nouveau prix : $80 \\times 0{,}85 = 68$ €."
   },
   {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
-    ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
-  },
-  {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
-  },
-  {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{2\\}$","$\\mathbb{R} \\setminus \\{-2\\}$","$[2\\,;\\,+\\infty[$"],
+    q:"Un tableau montre que la part de marché d'une entreprise était de 30 % en 2020 et de 30 % en 2023. Un analyste affirme que l'entreprise a progressé car elle vend plus d'unités. Cette affirmation est-elle correcte ?",
+    choices:["Oui, car elle vend plus d'unités","Non, sa part de marché n'a pas changé donc elle n'a pas progressé relativement au marché","Non, car sa part de marché a baissé","Oui, car 30 % est un bon résultat"],
     ans:1,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    expl:"Une part de marché stable signifie que l'entreprise a progressé au même rythme que le marché global. Elle vend peut-être plus en volume, mais sa position relative est inchangée. L'affirmation est trop simpliste : progresser en volume ne signifie pas progresser en parts de marché."
+  },
+  {
+    q:"Un graphique circulaire (camembert) montre la répartition de 400 élèves : 25 % pratiquent le sport, 40 % les arts, 35 % la musique. Combien d'élèves pratiquent les arts ?",
+    choices:["100","160","140","80"],
+    ans:1,
+    expl:"$40\\%$ de $400 = 0{,}40 \\times 400 = 160$ élèves pratiquent les arts."
+  },
+  {
+    q:"On compare deux classes : classe A (25 élèves) avec une moyenne de 12/20 et un écart-type de 3, et classe B (25 élèves) avec une moyenne de 12/20 et un écart-type de 1. Quelle affirmation est correcte ?",
+    choices:["La classe A est plus homogène que la classe B","Les deux classes ont exactement les mêmes performances","La classe B est plus homogène que la classe A","On ne peut pas comparer ces deux classes"],
+    ans:2,
+    expl:"Un écart-type plus faible indique des notes plus regroupées autour de la moyenne. La classe B (écart-type 1) est donc plus homogène que la classe A (écart-type 3), même si leurs moyennes sont identiques."
   }
 ];
 const game=(()=>{

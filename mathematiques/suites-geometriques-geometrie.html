@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maths – Images et antécédents : QCM</title>
+  <title>Maths – Suites géométriques en géométrie : QCM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -45,13 +45,13 @@
 <body>
 <div class="top-bar">
   <div class="subject-badge">📐 Mathématiques</div>
-  <h1>Images et antécédents</h1>
+  <h1>Suites géométriques en géométrie</h1>
 </div>
 <div class="container">
   <div class="card screen active" id="screenIntro">
-    <div class="intro-emoji">🔁</div>
-    <div class="intro-title">QCM — Images et antécédents</div>
-    <div class="intro-desc">Calculer une image par une fonction, trouver les antécédents d'un nombre, lire graphiquement.</div>
+    <div class="intro-emoji">📐</div>
+    <div class="intro-title">QCM — Suites géométriques en géométrie</div>
+    <div class="intro-desc">Appliquer les suites géométriques à des problèmes géométriques : homothéties successives, fractales, pertes de surface.</div>
     <div class="rule-box">📝 <strong>8 questions</strong> à choix multiple — une seule bonne réponse.<br>Une explication te sera donnée après chaque réponse.</div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
   </div>
@@ -79,52 +79,52 @@
 <script>
 const QS=[
   {
-    q:"Soit $f(x) = 3x - 1$. Quelle est l'image de $x = 2$ par $f$ ?",
-    choices:["$f(2) = 5$","$f(2) = 4$","$f(2) = 7$","$f(2) = 1$"],
-    ans:0,
-    expl:"$f(2) = 3 \\times 2 - 1 = 6 - 1 = 5$. L'image de $2$ par $f$ est $5$."
-  },
-  {
-    q:"Soit $f(x) = 3x - 1$. Quel est l'antécédent de $y = 5$ par $f$ ?",
-    choices:["$x = 3$","$x = 2$","$x = 4$","$x = 6$"],
+    q:"Un carré de côté $16$ cm est réduit de moitié à chaque étape. La suite des côtés est $u_n = 16 \\cdot (0{,}5)^n$. Quelle est la valeur de $u_3$ ?",
+    choices:["$4$ cm","$2$ cm","$8$ cm","$1$ cm"],
     ans:1,
-    expl:"On résout $f(x) = 5$ : $3x - 1 = 5 \\Rightarrow 3x = 6 \\Rightarrow x = 2$. L'antécédent de $5$ est $2$."
+    expl:"$u_3 = 16 \\times (0{,}5)^3 = 16 \\times \\dfrac{1}{8} = 2$ cm. On applique la formule $u_n = u_0 \\cdot q^n$ avec $q = 0{,}5$ et $n = 3$."
   },
   {
-    q:"Sur le graphe d'une fonction, lire l'image de $x = 3$ signifie :",
-    choices:["Lire l'abscisse du point d'ordonnée 3","Lire l'ordonnée du point d'abscisse 3","Trouver $x$ tel que $f(x) = 3$","Calculer la pente en $x = 3$"],
-    ans:1,
-    expl:"L'image de $a$ par $f$ est $f(a)$ : sur le graphe, on repère le point d'abscisse $a$ et on lit son ordonnée $f(a)$."
-  },
-  {
-    q:"Sur le graphe d'une fonction, trouver un antécédent de $y = 4$ signifie :",
-    choices:["Lire l'ordonnée du point d'abscisse 4","Calculer $f(4)$","Lire l'abscisse d'un point d'ordonnée 4","Trouver la valeur maximale de $f$"],
+    q:"Dans le triangle de Sierpiński, à chaque étape on enlève le triangle central. L'aire totale restante à l'étape $n$ vaut $A_n = A_0 \\cdot \\left(\\dfrac{3}{4}\\right)^n$. Quelle est la raison de cette suite géométrique ?",
+    choices:["$q = \\dfrac{1}{4}$","$q = \\dfrac{1}{3}$","$q = \\dfrac{3}{4}$","$q = \\dfrac{4}{3}$"],
     ans:2,
-    expl:"Un antécédent de $4$ par $f$ est un $x$ tel que $f(x) = 4$ : on repère les points de la courbe qui ont l'ordonnée $4$ et on lit leurs abscisses."
+    expl:"À chaque étape, on conserve $\\dfrac{3}{4}$ de l'aire précédente (on enlève $\\dfrac{1}{4}$). La raison est donc $q = \\dfrac{3}{4}$."
   },
   {
-    q:"Soit $g(x) = x^2 - 4$. Que vaut $g(-3)$ ?",
-    choices:["$-13$","$13$","$-5$","$5$"],
-    ans:3,
-    expl:"$g(-3) = (-3)^2 - 4 = 9 - 4 = 5$."
-  },
-  {
-    q:"Soit $f(x) = 2x + 6$. Quel est l'antécédent de $0$ par $f$ ?",
-    choices:["$x = -3$","$x = 6$","$x = 3$","$x = -6$"],
-    ans:0,
-    expl:"On résout $f(x) = 0$ : $2x + 6 = 0 \\Rightarrow 2x = -6 \\Rightarrow x = -3$. L'antécédent de $0$ (la racine de $f$) est $-3$."
-  },
-  {
-    q:"Une fonction $f$ peut-elle avoir plusieurs antécédents pour un même nombre ?",
-    choices:["Non, jamais","Non, une fonction est toujours bijective","Oui, mais seulement pour $y = 0$","Oui, si $f$ n'est pas injective (ex. fonction du 2nd degré)"],
-    ans:3,
-    expl:"Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$. Ainsi $4$ a deux antécédents : $2$ et $-2$. Une fonction peut associer plusieurs antécédents à la même image."
-  },
-  {
-    q:"Soit $h(x) = \\dfrac{1}{x - 2}$. Quel est l'ensemble de définition de $h$ ?",
-    choices:["$\\mathbb{R}$","$\\mathbb{R} \\setminus \\{2\\}$","$\\mathbb{R} \\setminus \\{-2\\}$","$[2\\,;\\,+\\infty[$"],
+    q:"Une suite de segments a pour longueurs $\\ell_0 = 9$, $\\ell_1 = 6$, $\\ell_2 = 4$, ... en progression géométrique. Quelle est la longueur totale de la somme infinie de ces segments ?",
+    choices:["$\\infty$","$27$","$18$","$21$"],
     ans:1,
-    expl:"$h(x)$ est définie pour tout $x$ sauf quand le dénominateur est nul : $x - 2 \\neq 0 \\Rightarrow x \\neq 2$. L'ensemble de définition est $\\mathbb{R} \\setminus \\{2\\}$."
+    expl:"La raison est $q = \\dfrac{6}{9} = \\dfrac{2}{3}$. Comme $|q| < 1$, la somme converge : $S = \\dfrac{\\ell_0}{1-q} = \\dfrac{9}{1 - \\frac{2}{3}} = \\dfrac{9}{\\frac{1}{3}} = 27$."
+  },
+  {
+    q:"Une homothétie de rapport $k = \\dfrac{1}{2}$ est appliquée successivement à un segment de longueur $10$ cm. Quelle est la raison de la suite des longueurs obtenues ?",
+    choices:["$q = 2$","$q = 10$","$q = \\dfrac{1}{2}$","$q = \\dfrac{1}{10}$"],
+    ans:2,
+    expl:"À chaque application de l'homothétie, la longueur est multipliée par le rapport $k = \\dfrac{1}{2}$. La suite des longueurs est géométrique de raison $q = \\dfrac{1}{2}$."
+  },
+  {
+    q:"Un polygone régulier a un périmètre initial de $P_0 = 40$ cm. Après chaque réduction de rapport $\\dfrac{3}{4}$, quel est le périmètre $P_2$ après 2 réductions ?",
+    choices:["$30$ cm","$22{,}5$ cm","$20$ cm","$26{,}25$ cm"},
+    ans:1,
+    expl:"$P_2 = 40 \\times \\left(\\dfrac{3}{4}\\right)^2 = 40 \\times \\dfrac{9}{16} = 22{,}5$ cm."
+  },
+  {
+    q:"Des carrés emboîtés ont des aires $A_0 = 64$, $A_1 = 32$, $A_2 = 16$, ... Quelle est la somme totale de toutes les aires (somme infinie) ?",
+    choices:["$96$","$128$","$64$","$192$"],
+    ans:1,
+    expl:"La raison est $q = \\dfrac{1}{2}$. La somme infinie est $S = \\dfrac{A_0}{1-q} = \\dfrac{64}{1 - \\frac{1}{2}} = \\dfrac{64}{\\frac{1}{2}} = 128$."
+  },
+  {
+    q:"Une suite géométrique $(u_n)$ a une raison $q = 0{,}3$. Vers quelle valeur tend $u_n$ quand $n \\to +\\infty$ ?",
+    choices:["$+\\infty$","$0{,}3$","$1$","$0$"],
+    ans:3,
+    expl:"Comme $|q| = 0{,}3 < 1$, la suite géométrique $(u_n) = u_0 \\cdot q^n$ tend vers $0$ quand $n \\to +\\infty$ (quelle que soit la valeur de $u_0 \\neq 0$)."
+  },
+  {
+    q:"La suite géométrique $v_n = 5 \\cdot \\left(\\dfrac{2}{3}\\right)^n$ est-elle convergente, et si oui vers quelle limite ?",
+    choices:["Non convergente, car $v_n$ augmente","Convergente vers $5$","Convergente vers $0$","Convergente vers $\\dfrac{2}{3}$"],
+    ans:2,
+    expl:"Comme $\\left|\\dfrac{2}{3}\\right| < 1$, la suite converge. $\\left(\\dfrac{2}{3}\\right)^n \\to 0$ donc $v_n = 5 \\cdot \\left(\\dfrac{2}{3}\\right)^n \\to 0$."
   }
 ];
 const game=(()=>{
