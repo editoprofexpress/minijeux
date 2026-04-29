@@ -71,7 +71,7 @@
     <div class="intro-desc">20 opérations de calcul mental adaptées au niveau Première : puissances, racines, pourcentages, fractions. Le chrono tourne !</div>
     <div class="rule-box">
       ⚡ <strong>20 exercices</strong> — tape le résultat et valide rapidement.<br>
-      Pour les fractions, entre la valeur décimale ou l'entier demandé.<br>
+      Pour les fractions, entre sous la forme <strong>numérateur/dénominateur</strong> (ex : 5/6) ou valeur décimale arrondie.<br>
       Le temps total est affiché en fin de session.
     </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
@@ -126,7 +126,7 @@ const PROBLEMS = [
   {q:"$\\dfrac{1}{0{,}25} = ?$", ans:"4", expl:"$\\frac{1}{0{,}25}=\\frac{1}{1/4}=4$."},
   {q:"$7^2 - 4\\times3\\times1 = ?$", ans:"37", expl:"$49 - 12 = 37$."},
   {q:"$\\sqrt{0{,}49} = ?$", ans:"0.7", expl:"$0{,}7^2=0{,}49$ donc $\\sqrt{0{,}49}=0{,}7$."},
-  {q:"$\\dfrac{2}{3}+\\dfrac{1}{6} = ?$ (écrire le résultat sous la forme d'une fraction : numérateur/dénominateur)", ans:"5/6", expl:"$\\frac{4}{6}+\\frac{1}{6}=\\frac{5}{6}$."},
+  {q:"$\\dfrac{2}{3}+\\dfrac{1}{6} = ?$ (fraction irréductible : numérateur/dénominateur)", ans:["5/6","0.833","0.8333","0.84"], expl:"$\\frac{4}{6}+\\frac{1}{6}=\\frac{5}{6}\\approx0{,}833$."},
   {q:"$40\\%$ de $250 = ?$", ans:"100", expl:"$0{,}4\\times250=100$."},
   {q:"$(-3)^4 = ?$", ans:"81", expl:"$(-3)^4 = 3^4 = 81$ (exposant pair)."},
   {q:"$(-2)^5 = ?$", ans:"-32", expl:"$(-2)^5 = -2^5 = -32$ (exposant impair)."},
