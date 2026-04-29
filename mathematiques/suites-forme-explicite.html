@@ -153,9 +153,9 @@ const game = (() => {
   }
 
   function checkAnswer(raw, expected){
-    const s = raw.trim().replace(/\s/g,'');
+    const s = raw.trim().replace(/\s/g,'').replace(',','.');
     if(typeof expected === 'number'){
-      return parseFloat(s) === expected || s === String(expected);
+      return Math.abs(parseFloat(s) - expected) < 0.01 || s === String(expected);
     }
     // string answer (fraction like "5/8")
     const expStr = String(expected).replace(/\s/g,'');
@@ -164,7 +164,7 @@ const game = (() => {
     try {
       const ev = Function('"use strict";return ('+s+')')();
       const ex = Function('"use strict";return ('+expStr+')')();
-      return Math.abs(ev - ex) < 1e-9;
+      return Math.abs(ev - ex) < 0.01;
     } catch(e){ return false; }
   }
 

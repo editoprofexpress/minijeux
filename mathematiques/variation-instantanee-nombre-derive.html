@@ -184,9 +184,9 @@ const game = (() => {
   function check() {
     const q = QS[order[idx]];
     const inp = document.getElementById('answerInput');
-    const val = parseFloat(inp.value);
+    const val = parseFloat(inp.value.replace(',', '.'));
     if(isNaN(val)) { inp.focus(); return; }
-    const tol = q.tol || 1e-9;
+    const tol = q.tol !== undefined ? q.tol : 0.01;
     const correct = Math.abs(val - q.ans) <= tol;
     inp.disabled = true;
     document.getElementById('btnOk').disabled = true;
