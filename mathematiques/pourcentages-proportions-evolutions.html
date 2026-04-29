@@ -182,8 +182,7 @@ const game = (() => {
     const p=PROBLEMS[order[idx]];
     const expected=parseFloat(String(p.ans).replace(',','.'));
     const given=parseFloat(raw);
-    // Allow tolerance of 0.1 for decimal answers
-    const ok=!isNaN(given)&&Math.abs(given-expected)<0.11;
+    const ok=!isNaN(given)&&Math.abs(given-expected)<0.01;
     if(ok)score++;
     inp.className='answer-input '+(ok?'correct':'wrong');
     inp.disabled=true;
