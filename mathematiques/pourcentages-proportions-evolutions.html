@@ -67,7 +67,7 @@
     <div class="intro-desc">Applique un taux, calcule un taux d'évolution, enchaîne des évolutions successives, retrouve le taux réciproque.</div>
     <div class="rule-box">
       🧮 <strong>10 exercices</strong> — tape le résultat numérique.<br>
-      Selon la question : entre un pourcentage (ex: <code>20</code> pour $20\%$) ou un coefficient multiplicateur (ex: <code>1.15</code>).<br>
+      Selon la question : entre un pourcentage entier ou décimal, ou un coefficient multiplicateur.<br>
       La consigne précise toujours le format attendu.
     </div>
     <button class="btn-start" onclick="game.start()">Commencer ▶</button>
@@ -104,43 +104,43 @@
 // hint: short format reminder shown under problem. ans: exact numeric value (number or string).
 const PROBLEMS = [
   {q:"Calculer $15\\%$ de $200$. (Entrer le résultat en euros)",
-   hint:"Format : entier ou décimal (ex: 30)",
+   hint:"Format : nombre (entier ou décimal)",
    ans:"30",
    expl:"$15\\%\\times200=0{,}15\\times200=30$."},
-  {q:"Un article passe de $80\\,€$ à $96\\,€$. Quel est le taux d'évolution ? (Entrer le pourcentage, ex: 20 pour $+20\\%$)",
-   hint:"Format : pourcentage (ex: 20)",
+  {q:"Un article passe de $80\\,€$ à $96\\,€$. Quel est le taux d'évolution ? (Entrer le pourcentage entier)",
+   hint:"Format : pourcentage entier (ex: 35 pour +35 %)",
    ans:"20",
    expl:"$t=\\dfrac{96-80}{80}=\\dfrac{16}{80}=0{,}2$, soit $+20\\%$."},
   {q:"Une augmentation de $15\\%$ correspond à quel coefficient multiplicateur ?",
-   hint:"Format : décimal (ex: 1.15)",
+   hint:"Format : décimal séparé par un point (ex: 1.08)",
    ans:"1.15",
    expl:"$CM = 1 + \\dfrac{15}{100} = 1{,}15$."},
   {q:"Une diminution de $30\\%$ correspond à quel coefficient multiplicateur ?",
-   hint:"Format : décimal (ex: 0.70)",
+   hint:"Format : décimal séparé par un point (ex: 0.85)",
    ans:"0.7",
    expl:"$CM = 1 - 0{,}30 = 0{,}70$."},
-  {q:"Un prix augmente de $20\\%$ puis diminue de $20\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage, ex: -4 pour $-4\\%$)",
-   hint:"Format : pourcentage (ex: -4)",
+  {q:"Un prix augmente de $20\\%$ puis diminue de $20\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage, négatif si baisse)",
+   hint:"Format : pourcentage entier (ex: -15 pour −15 %)",
    ans:"-4",
    expl:"$CM = 1{,}20\\times0{,}80 = 0{,}96$. Taux global : $0{,}96-1=-0{,}04$, soit $-4\\%$."},
-  {q:"Un prix augmente de $10\\%$ puis de $5\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage, ex: 15.5 pour $+15{,}5\\%$)",
-   hint:"Format : pourcentage décimal (ex: 15.5)",
+  {q:"Un prix augmente de $10\\%$ puis de $5\\%$. Quel est le taux d'évolution global ? (Entrer le pourcentage avec une décimale si besoin)",
+   hint:"Format : pourcentage décimal (ex: 8.5 pour +8,5 %)",
    ans:"15.5",
    expl:"$CM = 1{,}10\\times1{,}05=1{,}155$. Taux : $15{,}5\\%$."},
-  {q:"Le prix d'un article a augmenté de $25\\%$. Quel taux de diminution permet de retrouver le prix initial ? (Entrer le pourcentage de baisse, ex: 20 pour $-20\\%$)",
-   hint:"Format : pourcentage (ex: 20)",
+  {q:"Le prix d'un article a augmenté de $25\\%$. Quel taux de diminution permet de retrouver le prix initial ? (Entrer le pourcentage de baisse, sans le signe moins)",
+   hint:"Format : pourcentage entier (ex: 35 pour −35 %)",
    ans:"20",
    expl:"$CM=1{,}25$. Taux réciproque : $1-\\dfrac{1}{1{,}25}=1-0{,}8=0{,}2$, soit $-20\\%$."},
-  {q:"Dans une classe de $30$ élèves, $18$ sont des filles. Quelle est la proportion de filles ? (Entrer le pourcentage, ex: 60)",
-   hint:"Format : pourcentage (ex: 60)",
+  {q:"Dans une classe de $30$ élèves, $18$ sont des filles. Quelle est la proportion de filles ? (Entrer le pourcentage)",
+   hint:"Format : pourcentage entier (ex: 35)",
    ans:"60",
    expl:"$\\dfrac{18}{30}=0{,}6=60\\%$."},
-  {q:"$30\\%$ des élèves pratiquent un sport. Parmi eux, $40\\%$ font de la natation. Quelle proportion de tous les élèves fait de la natation ? (Entrer le pourcentage, ex: 12)",
-   hint:"Format : pourcentage (ex: 12)",
+  {q:"$30\\%$ des élèves pratiquent un sport. Parmi eux, $40\\%$ font de la natation. Quelle proportion de tous les élèves fait de la natation ? (Entrer le pourcentage)",
+   hint:"Format : pourcentage entier (ex: 8)",
    ans:"12",
    expl:"$40\\%\\times30\\%=0{,}4\\times0{,}3=0{,}12=12\\%$."},
   {q:"Un capital de $500\\,€$ est placé à $4\\%$ par an. Quel est le capital après 2 ans ? (Montant en euros, arrondi à l'entier)",
-   hint:"Format : entier (ex: 540)",
+   hint:"Format : décimal avec point (ex: 625.50)",
    ans:"540.8",
    expl:"$CM = 1{,}04^2 = 1{,}0816$. Capital : $500\\times1{,}0816 = 540{,}80\\,€$. Entier arrondi : $541\\,€$ — la réponse exacte est $540{,}80$."},
 ];
